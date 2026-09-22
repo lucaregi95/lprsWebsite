@@ -1,20 +1,20 @@
 <?php
 
 class Post{
-    private $id;
+    private $id_post;
     private $contenu;
     private $date;
     private $heure;
 
     /**
-     * @param $id
+     * @param $id_post
      * @param $contenu
      * @param $date
      * @param $heure
      */
-    public function __construct($id, $contenu, $date, $heure)
+    public function __construct($id_post, $contenu, $date, $heure)
     {
-        $this->id = $id;
+        $this->id_post = $id_post;
         $this->contenu = $contenu;
         $this->date = $date;
         $this->heure = $heure;
@@ -23,17 +23,17 @@ class Post{
     /**
      * @return mixed
      */
-    public function getId()
+    public function getIdPost()
     {
-        return $this->id;
+        return $this->id_post;
     }
 
     /**
-     * @param mixed $id
+     * @param mixed $id_post
      */
-    public function setId($id)
+    public function setId($id_post)
     {
-        $this->id = $id;
+        $this->id = $id_post;
     }
 
     /**
