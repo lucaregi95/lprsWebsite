@@ -8,7 +8,7 @@ class EvenementRepository{
         $this->connexionBdd = (new Bdd())->getConnexionBdd();
     }
 
-    public function getEvenements($id_evenement){
+    public function getEvenement($id_evenement){
         $sql = "SELECT * FROM evenement WHERE id_evenement = :id_evenement ";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_evenement', $id_evenement);
@@ -19,7 +19,7 @@ class EvenementRepository{
 
     }
 
-    public function getAllEvenement(){
+    public function getAllEvenements(){
         $sql = "SELECT * FROM evenement";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
