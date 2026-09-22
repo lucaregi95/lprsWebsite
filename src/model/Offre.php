@@ -19,7 +19,7 @@ class Offre{
      * @param $type_offre
      * @param $etat
      */
-    public function __construct($id_offre, $titre, $description, $mission, $salaire, $type_offre, $etat)
+    public function __construct($id_offre, $titre, $description, $mission, $salaire, $type_offre, $etat, $ref_entreprise)
     {
         $this->id_offre = $id_offre;
         $this->titre = $titre;
@@ -28,6 +28,7 @@ class Offre{
         $this->salaire = $salaire;
         $this->type_offre = $type_offre;
         $this->etat = $etat;
+        $this->ref_entreprise = $ref_entreprise;
     }
 
     /**
@@ -140,6 +141,22 @@ class Offre{
     public function setEtat($etat)
     {
         $this->etat = $etat;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRefEntreprise()
+    {
+        return $this->ref_entreprise;
+    }
+
+    /**
+     * @param mixed $ref_entreprise
+     */
+    public function setRefEntreprise($ref_entreprise)
+    {
+        $this->ref_entreprise = $ref_entreprise;
     }
 
 
