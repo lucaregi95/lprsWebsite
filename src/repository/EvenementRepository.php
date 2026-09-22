@@ -14,7 +14,7 @@ class EvenementRepository{
         $req->bindValue(':id_evenement', $id_evenement);
         $req->execute();
         $result = $req->fetch();
-        $evenement = new Evenement($result['id_evenement'],$result['titre'],$result['description'],$result['lieu'],$result['element_requis'],$result['nbr_places']);
+        $evenement = new Evenement($result['id_evenement'],$result['titre'],$result['description'],$result['lieu'],$result['nbr_places']);
         return $evenement;
 
     }
@@ -34,13 +34,12 @@ class EvenementRepository{
     }
 
     public function ajouterEvenement(Evenement $id_evenement){
-        $sql = "INSERT INTO evenement (titre,description,lieu,element_requis,nbr_places) VALUES (:id_evenement,:titre,:description,:lieu,:element_requis,:nbr_places)";
+        $sql = "INSERT INTO evenement (titre,description,lieu,nbr_places) VALUES (:titre,:description,:lieu,:nbr_places)";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_evenement', $id_evenement->getIdEvenement());
         $req->bindValue(':titre', $id_evenement->getTitre());
         $req->bindValue(':description', $id_evenement->getDescription());
         $req->bindValue(':lieu', $id_evenement->getLieu());
-        $req->bindValue(':element_requis', $id_evenement->getElementRequis());
         $req->bindValue(':nbr_places', $id_evenement->getNbrPlaces());
         $req -> execute();
     }
@@ -53,13 +52,12 @@ class EvenementRepository{
     }
 
     public function modifierEvenement(Evenement $evenement){
-        $sql = "UPDATE evenement SET titre=:titre,description=:description,lieu=:lieu,element_requis=:element_requis,nbr_places=:nbr_places WHERE id_evenement=:id_evenement";
+        $sql = "UPDATE evenement SET titre=:titre,description=:description,lieu=:lieu,nbr_places=:nbr_places WHERE id_evenement=:id_evenement";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_evenement', $evenement->getIdEvenement());
         $req->bindValue(':titre', $evenement->getTitre());
         $req->bindValue(':description', $evenement->getDescription());
         $req->bindValue(':lieu', $evenement->getLieu());
-        $req->bindValue(':element_requis', $evenement->getElementRequis());
         $req->bindValue(':nbr_places', $evenement->getNbrPlaces());
         $req -> execute();
     }

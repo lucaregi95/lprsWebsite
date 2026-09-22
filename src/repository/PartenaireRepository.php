@@ -7,10 +7,10 @@ class PartenaireRepository{
         $this->connexionbdd = (new Bdd())->getConnexionBdd();
     }
 
-    public function getPartenaire($id_partenaire){
-        $sql = "SELECT * FROM partenaire WHERE id_partenaire = :id_partenaire";
+    public function getPartenaire($ref_utilisateur){
+        $sql = "SELECT * FROM partenaire WHERE ref_utilisateur = :ref_utilisateur";
         $req = $this->connexionbdd->prepare($sql);
-        $req->bindValue(':id_partenaire', $id_partenaire);
+        $req->bindValue(':ref_utisateur', $ref_utilisateur);
         $req->execute();
         $result = $req->fetch();
         $partenaire = new Partenaire($result["ref_utilisateur"],$result["poste_occupe"], $result["motif_inscription"], $result["ref_entreprise"]);
@@ -41,7 +41,7 @@ class PartenaireRepository{
     }
 
     public function modifierOffre(Partenaire $partenaire){
-        $sql="UPDATE partenaire SET ref_utilisateur = :ref_utilisateur, poste_occupe = :poste_occupe, motif_inscription = :motif_inscription, ref_entreprise = :ref_entreprise WHERE id_partenaire = :id_partenaire";
+        $sql="UPDATE partenaire SET ref_utilisateur = :ref_utilisateur, poste_occupe = :poste_occupe, motif_inscription = :motif_inscription, ref_entreprise = :ref_entreprise WHERE ref_utilisateur = :ref_utisateur";
         $req = $this->connexionbdd->prepare($sql);
         $req->bindValue(':ref_utilisateur', $partenaire-> getRefPartenaire());
         $req->bindValue(':poste_occupe', $partenaire-> getPosteOccupe());

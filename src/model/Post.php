@@ -1,23 +1,24 @@
 <?php
 
+
 class Post{
     private $id_post;
     private $contenu;
-    private $date;
-    private $heure;
+    private $datetime;
+    private $ref_utilisateur;
 
     /**
      * @param $id_post
      * @param $contenu
-     * @param $date
-     * @param $heure
+     * @param $datetime
+     * @param $ref_utilisateur
      */
-    public function __construct($id_post, $contenu, $date, $heure)
+    public function __construct($id_post, $contenu, $datetime, $ref_utilisateur)
     {
         $this->id_post = $id_post;
         $this->contenu = $contenu;
-        $this->date = $date;
-        $this->heure = $heure;
+        $this->datetime = $datetime;
+        $this->ref_utilisateur = $ref_utilisateur;
     }
 
     /**
@@ -55,33 +56,33 @@ class Post{
     /**
      * @return mixed
      */
-    public function getDate()
+    public function getDateTime()
     {
-        return $this->date;
+        return $this->datetime;
     }
 
     /**
-     * @param mixed $date
+     * @param mixed $dateTime
      */
-    public function setDate($date)
+    public function setDateTime($datetime)
     {
-        $this->date = $date;
+        $this->datetime = $datetime;
     }
 
     /**
      * @return mixed
      */
-    public function getHeure()
+    public function getRefUtilisateur()
     {
-        return $this->heure;
+        return $this->ref_utilisateur;
     }
 
     /**
-     * @param mixed $heure
+     * @param mixed $ref_utilisateur
      */
-    public function setHeure($heure)
+    public function setRefUtilisateur($ref_utilisateur)
     {
-        $this->heure = $heure;
+        $this->ref_utilisateur = $ref_utilisateur;
     }
 
 
