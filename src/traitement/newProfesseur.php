@@ -2,20 +2,15 @@
 require_once '../bdd/bdd.php';
 require_once '../model/Professeur.php';
 
-if(isset($_POST['specialite']) && isset($_POST['ref_professeur'])) {
+
+if(isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST['specialite'])){
     $id_utilisateur = (isset($_POST['id_utilisateur'])) ? $_POST['id_utilisateur'] : null;
-    $description = (isset($_POST['$description'])) ? $_POST['$description'] : null;
-    $missions = (isset($_POST['missions'])) ? $_POST['missions'] : null;
-    $salaire = (isset($_POST['salaire'])) ? $_POST['salaire'] : null;
-    $type_offre = (isset($_POST['type_offre'])) ? $_POST['type_offre'] : null;
-    $etat = (isset($_POST['etat'])) ? $_POST['etat'] : null;
-    $ref_professeur = (isset($_POST['ref_professeur']));
-    $specialite = (isset($_POST['specialite']));
-    $titre = (isset($_POST['titre'])) ? $_POST['titre'] : null;
+    $date_inscription = (isset($_POST['date_inscription'])) ? $_POST['date_inscription'] : null;
+    $statut_validation = (isset($_POST['statut_validation'])) ? $_POST['statut_validation'] : null;
 
 
 
-$professeur = new Professeur($id_utilisateur,$titre,$description, $missions, $salaire, $type_offre, $etat,$ref_professeur,$specialite);
+$professeur = new Professeur($id_utilisateur,$_POST["nom"],$_POST["prenom"],$_POST["email"], $_POST["mdp"],$date_inscription,$statut_validation,$_POST["specialite"]);
 }
 
 

@@ -1,5 +1,5 @@
 <?php
-class Utilisateur{
+abstract class Utilisateur{
     protected $id_utilisateur;
     protected $nom;
     protected $prenom;
