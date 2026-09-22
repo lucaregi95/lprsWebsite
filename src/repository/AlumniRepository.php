@@ -7,10 +7,10 @@ class AlumniRepository{
         $this->connexionbdd = (new Bdd())->getConnexionBdd();
     }
 
-    public function getAlumni($id_alumni){
-        $sql = "SELECT * FROM alumni WHERE id_alumni = :id_alumni";
+    public function getAlumni($ref_utisateur){
+        $sql = "SELECT * FROM alumni WHERE ref_utilisateur = :ref_utisateur";
         $req = $this->connexionbdd->prepare($sql);
-        $req->bindValue(':id_alumni', $id_alumni);
+        $req->bindValue(':ref_utisateur', $ref_utisateur);
         $req->execute();
         $result = $req->fetch();
         $alumni = new Alumni($result["ref_utilisateur"],$result["cv"],$result['poste_occupe'],$result['ref_promotion'], $result["ref_entreprise"]);
