@@ -13,8 +13,6 @@ class UtilisateurRepository{
         $req->bindValue(':id_utilisateur', $id_utilisateur);
         $req->execute();
         $result = $req->fetch();
-        $utilisateur = new Utilisateur($result["id_utilisateur]"],$result["nom"],$result['prenom'],$result['mail'],$result['mdp'],$result['date_inscription'],$result['statut_validation']);
-        return $utilisateur;
     }
 
     public function getUtilisateurs(){
@@ -23,8 +21,6 @@ class UtilisateurRepository{
         $req->execute();
         $result = $req->fetchAll();
         $tabUtilisateur = array();
-        foreach ($result as $results) {
-            $tabUtilisateur[] = new Utilisateur ($results["id_utilisateur"],$results["nom"],$results['prenom'],$results['mail'],$results['mdp'],$results['date_inscription'],$results['statut_validation']);}
         return $tabUtilisateur;
         }
 

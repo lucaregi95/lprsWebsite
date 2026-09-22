@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-<<<<<<< HEAD
-    <data-source source="LOCAL" name="lprs@localhost" uuid="fd62eafc-7697-4709-8b92-4f571a6b06a6">
-=======
-    <data-source source="LOCAL" name="lprs@localhost" uuid="27fdb680-5305-46e2-944e-2f07e70f281e">
->>>>>>> 958e620aee349eed90eb5c56ae6c851f83e90ea5
-      <driver-ref>mysql.8</driver-ref>
+    <data-source source="LOCAL" name="lprs@localhost" uuid="19028178-9c80-499f-b7d7-8c1f342aab10">
+      <driver-ref>mysql_aurora.aws_wrapper</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/lprs</jdbc-url>
+      <jdbc-driver>software.amazon.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:aws-wrapper:mysql://localhost:3306/lprs</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
