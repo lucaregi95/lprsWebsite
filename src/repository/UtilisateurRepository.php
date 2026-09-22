@@ -12,21 +12,17 @@ class UtilisateurRepository{
         $req = $this->connexionbdd->prepare($sql);
         $req->bindValue(':id_utilisateur', $id_utilisateur);
         $req->execute();
-        $result = $req->fetch();
-        $utilisateur = new Utilisateur($result["id_utilisateur]"],$result["nom"],$result['prenom'],$result['email'],$result['mdp'],$result['date_inscription'],$result['statut_validation']);
-        return $utilisateur;
+        $result = $req->fetch();;
     }
 
-    public function getUtilisateurs(){
+    public function getUtilisateurs()
+    {
         $sql = "SELECT * FROM utilisateur";
         $req = $this->connexionbdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
         $tabUtilisateur = array();
-        foreach ($result as $results) {
-            $tabUtilisateur[] = new Utilisateur ($results["id_utilisateur"],$results["nom"],$results['prenom'],$results['email'],$results['mdp'],$results['date_inscription'],$results['statut_validation']);}
-        return $tabUtilisateur;
-        }
+    }
 
 
         public function ajoutUtilisateur(Utilisateur $utilisateur){
