@@ -1,6 +1,6 @@
 <?php
 
-class reponseRepository{
+class ReponseRepository{
 
     private $connexionBdd;
     public function __construct()
