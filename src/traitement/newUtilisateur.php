@@ -18,4 +18,4 @@ $mdp= $_POST['mdp'];
 $utilisateur = new Utilisateur($id_utilisateur, $_POST['nom'], $_POST['prenom'], $_POST['mail'], $mdp,$date_inscription, $statut_validation);
 
 
-}
+}   
