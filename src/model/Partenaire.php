@@ -5,17 +5,20 @@ class Partenaire extends Utilisateur{
     private $ref_partenaire;
     private $poste_occupe;
     private $motif_inscription;
+    private $ref_entreprise;
 
     /**
      * @param $ref_partenaire
      * @param $poste_occupe
      * @param $motif_inscription
+     * @param $ref_entreprise
      */
-    public function __construct($id_utilisateur,$titre,$description,$missions,$salaire,$type_offre,$etat, $ref_partenaire, $poste_occupe, $motif_inscription){
-        parent::__construct($id_utilisateur,$titre,$description,$missions,$salaire,$type_offre,$etat);
+    public function __construct($id_utilisateur,$titre,$description,$mission,$salaire,$type_offre,$etat, $ref_partenaire, $poste_occupe, $motif_inscription, $ref_entreprise){
+        parent::__construct($id_utilisateur,$titre,$description,$mission,$salaire,$type_offre,$etat);
         $this->ref_partenaire = $ref_partenaire;
         $this->poste_occupe = $poste_occupe;
         $this->motif_inscription = $motif_inscription;
+        $this->ref_entreprise = $ref_entreprise;
     }
 
     /**
@@ -64,6 +67,22 @@ class Partenaire extends Utilisateur{
     public function setMotifInscription($motif_inscription)
     {
         $this->motif_inscription = $motif_inscription;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRefEntreprise()
+    {
+        return $this->ref_entreprise;
+    }
+
+    /**
+     * @param mixed $ref_entreprise
+     */
+    public function setRefEntreprise($ref_entreprise)
+    {
+        $this->ref_entreprise = $ref_entreprise;
     }
 
 
