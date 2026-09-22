@@ -22,11 +22,11 @@ class EntrepriseRepository{
         $req = $this->connexionbdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
-        $entreprises = array();
+        $tabEntreprise = array();
         foreach ($result as $results) {
             $tabEntreprise[] = new Entreprise($results["id_entreprise]"],$results["adresse"],$results['nom_entreprise'],$results['site_web']);
         }
-        return $entreprises;
+        return $tabEntreprise;
     }
 
 
@@ -34,7 +34,7 @@ class EntrepriseRepository{
         $sql="INSERT INTO entreprise VALUES (:id_entreprise,:adresse,:nom_entreprise,:site_web)";
         $req = $this->connexionbdd->prepare($sql);
         $req->bindValue(':id_entreprise', $entreprise-> getidEntreprise());;
-        $req->bindValue(":addressse",$entreprise-> getAdresse());
+        $req->bindValue(":adresse",$entreprise-> getAdresse());
         $req->bindValue(":nom_entreprise",$entreprise-> getNomEntreprise());
         $req->bindValue(":site_web",$entreprise-> getSiteWeb());
         $req->execute();
