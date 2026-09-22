@@ -7,7 +7,7 @@ class UtilisateurRepository{
         $this->connexionbdd = (new Bdd())->getConnexionBdd();
     }
 
-    public function getUtilisateurs($id_utilisateur){
+    public function getUtilisateur($id_utilisateur){
         $sql = "SELECT * FROM utilisateur WHERE id_utilisateur = :id_utilisateur";
         $req = $this->connexionbdd->prepare($sql);
         $req->bindValue(':id_utilisateur', $id_utilisateur);
@@ -17,15 +17,15 @@ class UtilisateurRepository{
         return $utilisateur;
     }
 
-    public function getUtilisateur(){
+    public function getUtilisateurs(){
         $sql = "SELECT * FROM utilisateur";
         $req = $this->connexionbdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
-        $utilisateurs = array();
+        $tabUtilisateur = array();
         foreach ($result as $results) {
-            $tabUtilisateur[] = newUtilisateur($results["id_utilisateur]"],$results["nom"],$results['prenom'],$results['mail'],$results['mdp'],$results['date_inscription'],$results['statut_validation']);}
-        return $utilisateurs;
+            $tabUtilisateur[] = new Utilisateur ($results["id_utilisateur"],$results["nom"],$results['prenom'],$results['mail'],$results['mdp'],$results['date_inscription'],$results['statut_validation']);}
+        return $tabUtilisateur;
         }
 
 
