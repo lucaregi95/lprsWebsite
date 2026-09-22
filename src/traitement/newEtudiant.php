@@ -4,11 +4,13 @@ require_once "../bdd/bdd.php";
 require_once "../model/Etudiant.php";
 
 
-if (isset($_POST['cv']) && isset($_POST['ref_formation']) && isset($_POST['ref_promotion'])) {
-    $ref_utilisateur = (isset($_POST['id_evenement'])) ? $_POST['id_evenement'] : null;
+if(isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST['cv']) && isset($_POST['ref_formation']) && isset($_POST['ref_promotion'])) {
+    $id_etudiant  = (isset($_POST['id_evenement'])) ? $_POST['id_evenement'] : null;
+    $date_inscription = (isset($_POST['date_inscription'])) ? $_POST['date_inscription'] : null;
+    $statut_validation = (isset($_POST['statut_validation'])) ? $_POST['statut_validation'] : null;
 
 
-    $etudiant = new Etudiant($ref_utilisateur, $_POST['cv'], $_POST['ref_formation'], $_POST['ref_promotion']);
+    $etudiant = new Etudiant($id_etudiant, $_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['mdp'],$date_inscription,$statut_validation,$_POST['cv'], $_POST['ref_formation'], $_POST['ref_promotion']);
 }
 
 

@@ -2,7 +2,6 @@
 
 class Etudiant extends Utilisateur{
 
-    private $ref_utilisateur;
     private $cv;
     private $ref_formation;
     private $ref_promotion;
@@ -12,9 +11,9 @@ class Etudiant extends Utilisateur{
      * @param $ref_utilisateur
      * @param $cv
      */
-    public function __construct($id_utilisateur,$nom,$prenom,$mail,$mdp,$date_inscription,$statut_validation, $ref_utilisateur, $cv,$ref_formation,$ref_promotion){
+    public function __construct($id_utilisateur,$nom,$prenom,$mail,$mdp,$date_inscription,$statut_validation, $cv,$ref_formation,$ref_promotion){
         parent::__construct($id_utilisateur,$nom,$prenom,$mail,$mdp,$date_inscription,$statut_validation);
-        $this->ref_utilisateur = $ref_utilisateur;
+
         $this->cv = $cv;
         $this->ref_formation = $ref_formation;
         $this->ref_promotion = $ref_promotion;
