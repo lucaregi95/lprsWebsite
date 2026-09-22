@@ -127,6 +127,15 @@ public function __construct($id_utilisateur,$nom,$prenom,$mail,$mdp,$date_inscri
     }
 
     /**
+     * @return mixed
+     */
+    public function getMail()
+    {
+        return $this->mail;
+    }
+
+
+    /**
      * @param mixed $statut_validation
      */
     public function setStatutValidation($statut_validation)
