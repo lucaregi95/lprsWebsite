@@ -22,11 +22,11 @@ class FormationRepository{
         $req = $this->connexionbdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
-        $formations = array();
+        $tabFormation = array();
         foreach ($result as $results) {
             $tabFormation[] = new Formation($results["id_formation]"],$results["nom_formation"]);
         }
-        return $formations;
+        return $tabFormation;
     }
 
 
