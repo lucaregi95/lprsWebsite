@@ -36,7 +36,7 @@ class EvenementRepository{
     public function ajouterEvenement(Evenement $id_evenement){
         $sql = "INSERT INTO evenement (titre,description,lieu,element_requis,nbr_places) VALUES (:id_evenement,:titre,:description,:lieu,:element_requis,:nbr_places)";
         $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':id_evenement', $id_evenement->getIdEvenement())
+        $req->bindValue(':id_evenement', $id_evenement->getIdEvenement());
         $req->bindValue(':titre', $id_evenement->getTitre());
         $req->bindValue(':description', $id_evenement->getDescription());
         $req->bindValue(':lieu', $id_evenement->getLieu());
