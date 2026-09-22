@@ -2,33 +2,38 @@
 
 class Etudiant extends Utilisateur{
 
-    private $ref_etudiant;
+    private $ref_utilisateur;
     private $cv;
+    private $ref_formation;
+    private $ref_promotion;
+
 
     /**
-     * @param $ref_etudiant
+     * @param $ref_utilisateur
      * @param $cv
      */
-    public function __construct($id_utilisateur,$titre,$description,$missions,$salaire,$type_offre,$etat, $ref_etudiant, $cv){
-        parent::__construct($id_utilisateur,$titre,$description,$missions,$salaire,$type_offre,$etat);
-        $this->ref_etudiant = $ref_etudiant;
+    public function __construct($id_utilisateur,$nom,$prenom,$mail,$mdp,$date_inscription,$statut_validation, $ref_utilisateur, $cv,$ref_formation,$ref_promotion){
+        parent::__construct($id_utilisateur,$nom,$prenom,$mail,$mdp,$date_inscription,$statut_validation);
+        $this->ref_utilisateur = $ref_utilisateur;
         $this->cv = $cv;
+        $this->ref_formation = $ref_formation;
+        $this->ref_promotion = $ref_promotion;
     }
 
     /**
      * @return mixed
      */
-    public function getRefEtudiant()
+    public function getRefUtilisateur()
     {
-        return $this->ref_etudiant;
+        return $this->ref_utilisateur;
     }
 
     /**
-     * @param mixed $ref_etudiant
+     * @param mixed $ref_utilisateur
      */
-    public function setRefEtudiant($ref_etudiant)
+    public function setRefUtilisateur($ref_utilisateur)
     {
-        $this->ref_etudiant = $ref_etudiant;
+        $this->ref_utilisateur = $ref_utilisateur;
     }
 
     /**
@@ -45,6 +50,38 @@ class Etudiant extends Utilisateur{
     public function setCv($cv)
     {
         $this->cv = $cv;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRefFormation()
+    {
+        return $this->ref_formation;
+    }
+
+    /**
+     * @param mixed $ref_formation
+     */
+    public function setRefFormation($ref_formation)
+    {
+        $this->ref_formation = $ref_formation;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRefPromotion()
+    {
+        return $this->ref_promotion;
+    }
+
+    /**
+     * @param mixed $ref_promotion
+     */
+    public function setRefPromotion($ref_promotion)
+    {
+        $this->ref_promotion = $ref_promotion;
     }
 
 
