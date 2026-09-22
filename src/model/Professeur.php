@@ -2,35 +2,23 @@
 
 class Professeur extends Utilisateur{
 
-    private $ref_professeur;
 
     private $specialite;
 
     /**
-     * @param $ref_professeur
+     * @param $id_utilisateur
+     * @param $nom
+     * @param $prenom
+     * @param $email
+     * @param $mdp
+     * @param $date_inscription
+     * @param $statut_validation
      * @param $specialite
      */
-    public function __construct($id_utilisateur,$titre,$description,$missions,$salaire,$type_offre,$etat,$ref_professeur, $specialite){
-        parent::__construct($id_utilisateur,$titre,$description,$missions,$salaire,$type_offre,$etat);
-
-        $this->ref_professeur = $ref_professeur;
+    public function __construct($id_utilisateur, $nom, $prenom, $email, $mdp, $date_inscription, $statut_validation, $specialite)
+    {
+        parent::__construct($id_utilisateur, $nom, $prenom, $email, $mdp, $date_inscription, $statut_validation);
         $this->specialite = $specialite;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRefProfesseur()
-    {
-        return $this->ref_professeur;
-    }
-
-    /**
-     * @param mixed $ref_professeur
-     */
-    public function setIdProfesseur($ref_professeur)
-    {
-        $this->ref_professeur = $ref_professeur;
     }
 
     /**
@@ -48,6 +36,8 @@ class Professeur extends Utilisateur{
     {
         $this->specialite = $specialite;
     }
+
+
 
 
 
