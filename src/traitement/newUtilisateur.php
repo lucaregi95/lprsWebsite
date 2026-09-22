@@ -15,7 +15,6 @@ $mdp= $_POST['mdp'];
 
         // comme le fichier sert a la fois pour l'ajout ET la modif, ca evite de re hasher un mdp deja hasher
     }
-$utilisateur = new Utilisateur($id_utilisateur, $_POST['nom'], $_POST['prenom'], $_POST['mail'], $mdp,$date_inscription, $statut_validation);
 
 
 }   
