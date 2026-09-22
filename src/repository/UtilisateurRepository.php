@@ -52,10 +52,14 @@ class UtilisateurRepository{
         $req->bindValue(':statut_validation',$utilisateur-> getStatutValidation());
         $req->bindValue(':id_utilisateur',$utilisateur-> getIdUtilisateur());
         $req->execute();
-
         }
 
-
+    public function supprimerUtilisateur($id_utilisateur){
+        $sql="DELETE FROM utilisateur WHERE id_utilisateur = :id_utilisateur";
+        $req = $this->connexionbdd->prepare($sql);
+        $req->bindValue(':id_utilisateur', $id_utilisateur);
+        $req->execute();
+    }
 
 
 
