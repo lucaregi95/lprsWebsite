@@ -25,10 +25,11 @@ class PartenaireRepository
         $result = $req->fetchAll();
         $partenaires = array();
         foreach ($result as $results) {
-            $partenaires[] = new Partenaire($result["id_utilisateur"],$result["nom"],$result['prenom'], $result["email"],$result["mdp"],$result["date_inscription"],$result["statut_validation"],$result["ref_utilisateur"],$result["poste_occupe"],$result["motif_inscription"],$result["ref_entreprise"]);
+            $partenaires[] = new Partenaire($results["id_utilisateur"],$results["nom"],$results['prenom'], $results["email"],$results["mdp"],$results["date_inscription"],$result["statut_validation"],$results["ref_utilisateur"],$results["poste_occupe"],$results["motif_inscription"],$results["ref_entreprise"]);
         }
         return $partenaires;
     }
+
 
 
     public function ajoutPartenaire(Partenaire $partenaire){
