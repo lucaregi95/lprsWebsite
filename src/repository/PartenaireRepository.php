@@ -7,27 +7,20 @@ class PartenaireRepository{
         $this->connexionbdd = (new Bdd())->getConnexionBdd();
     }
 
-    public function getPartenaire($id_partenaire){
-        $sql = "SELECT * FROM partenaire WHERE id_partenaire = :id_partenaire";
-        $req = $this->connexionbdd->prepare($sql);
-        $req->bindValue(':id_partenaire', $id_partenaire);
-        $req->execute();
-        $result = $req->fetch();
-        $partenaire = new Partenaire($result["ref_utilisateur"],$result["poste_occupe"], $result["motif_inscription"], $result["ref_entreprise"]);
-        return $partenaire;
+    public function getPartenaire($ref_utilisateur){
+        $sql = "SELECT u.* , p. ref_professeur FROM utilisateur u INNER JOIN  professeur p ON id_utilisateur = ref_utilisateur";
+        $reqProfesseur = $this->connexionbdd->prepare($sql);
+        $reqProfesseur->execute();
+        $professeur = $reqProfesseur->fetchAll();
+        return $professeur;
     }
 
-    public function getPartenaires(){ // a verifier pluriel ou pas dans tous les fichies
-        $sql = "SELECT * FROM partenaire";
-        $req = $this->connexionbdd->prepare($sql);
-        $req->execute();
-        $result = $req->fetchAll();
-        $tabPartenaire = array();
-        foreach ($result as $results) {
-            $tabPartenaire[] = new Partenaire($results["ref_utilisateur]"],$results["poste_occupe"], $result["motif_inscription"], $result["ref_entreprise"]);
-        }
-        return $tabPartenaire;
+    public function getProfesseurs() {
+        $sql = "SELECT u.*, p.* FROM utilisateur u INNER JOIN professeur p ON u.id_utilisateur = p.ref_utilisateur";
+        $req = $this->connexionbdd->query($sql);
+        return $req->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
 
     public function ajoutOffre(Partenaire $partenaire){

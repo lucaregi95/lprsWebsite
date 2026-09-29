@@ -6,7 +6,7 @@ private $connexionBdd;
         $this->connexionbdd = (new Bdd())->getConnexionBdd();
     }
 
-    public function getProfesseur($ref_professeur){
+    public function getProfesseur($ref_utilisateur){
         $sql = "SELECT u.* , p. ref_professeur FROM utilisateur u INNER JOIN  professeur p ON id_utilisateur = ref_utilisateur";
         $reqProfesseur = $this->connexionbdd->prepare($sql);
         $reqProfesseur->execute();
