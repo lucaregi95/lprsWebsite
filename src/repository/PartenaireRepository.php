@@ -31,6 +31,7 @@ class PartenaireRepository
     }
 
 
+
     public function ajoutPartenaire(Partenaire $partenaire){
         $utilisateurRepository = new UtilisateurRepository();
         $lastId=$utilisateurRepository->ajoutUtilisateur($partenaire);
