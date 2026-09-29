@@ -2,20 +2,20 @@
 
 class Partenaire extends Utilisateur{
 
-    private $ref_partenaire;
+    private $ref_utilisateur;
     private $poste_occupe;
     private $motif_inscription;
     private $ref_entreprise;
 
     /**
-     * @param $ref_partenaire
+     * @param $ref_utilisateur
      * @param $poste_occupe
      * @param $motif_inscription
      * @param $ref_entreprise
      */
-    public function __construct($id_utilisateur,$titre,$description,$mission,$salaire,$type_offre,$etat, $ref_partenaire, $poste_occupe, $motif_inscription, $ref_entreprise){
-        parent::__construct($id_utilisateur,$titre,$description,$mission,$salaire,$type_offre,$etat);
-        $this->ref_partenaire = $ref_partenaire;
+    public function __construct($id_utilisateur, $nom, $prenom, $email, $mdp, $date_inscription, $statut_validation, $ref_utilisateur, $poste_occupe, $motif_inscription, $ref_entreprise){
+        parent::__construct($id_utilisateur,$nom,$prenom,$email,$mdp,$date_inscription,$statut_validation);
+        $this->ref_utilisateur = $ref_utilisateur;
         $this->poste_occupe = $poste_occupe;
         $this->motif_inscription = $motif_inscription;
         $this->ref_entreprise = $ref_entreprise;
@@ -24,18 +24,19 @@ class Partenaire extends Utilisateur{
     /**
      * @return mixed
      */
-    public function getRefPartenaire()
+    public function getRefUtilisateur()
     {
-        return $this->ref_partenaire;
+        return $this->ref_utilisateur;
     }
 
     /**
-     * @param mixed $ref_partenaire
+     * @param mixed $ref_utilisateur
      */
-    public function setRefPartenaire($ref_partenaire)
+    public function setRefUtilisateur($ref_utilisateur)
     {
-        $this->ref_partenaire = $ref_partenaire;
+        $this->ref_utilisateur = $ref_utilisateur;
     }
+
 
     /**
      * @return mixed
