@@ -38,6 +38,9 @@ class ProfesseurFormationRepository{
     public function modifierProfesseurFormations(ProfesseurFormationRepository $professeurFormation){
         $sql = "UPDATE professeurformation SET ref_professeur = :ref_professeur, ref_formation = :ref_formation WHERE id_pF = :id_pF";
         $req = $this->connexionbdd->prepare($sql);
+        $req->bindValue('id_pF', $professeurFormation->getIdProfesseurFormation());
+        $req->bindValue('ref_professeur',$professeurFormation->getRefProfesseur());
+        $req->execute();
     }
 
 }

@@ -1,15 +1,15 @@
 <?php
 class PartenaireRepository{
 
-    private $connexionbdd;
+    private $connexionBdd;
 
     public function __construct(){
-        $this->connexionbdd = (new Bdd())->getConnexionBdd();
+        $this->connexionBdd = (new Bdd())->getConnexionBdd();
     }
 
     public function getPartenaire($id_partenaire){
         $sql = "SELECT * FROM partenaire WHERE id_partenaire = :id_partenaire";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_partenaire', $id_partenaire);
         $req->execute();
         $result = $req->fetch();
@@ -19,7 +19,7 @@ class PartenaireRepository{
 
     public function getPartenaires(){ // a verifier pluriel ou pas dans tous les fichies
         $sql = "SELECT * FROM partenaire";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
         $tabPartenaire = array();
@@ -32,7 +32,7 @@ class PartenaireRepository{
 
     public function ajoutOffre(Partenaire $partenaire){
         $sql="INSERT INTO partenaire VALUES (:ref_utilisateur,:poste_occupe, :motif_inscription, :ref_entreprise)";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':ref_utilisateur', $partenaire-> getRefPartenaire());;
         $req->bindValue(":poste_occupe",$partenaire-> getPosteOccupe());
         $req->bindValue(":motif_inscription",$partenaire-> getMotifInscription());
@@ -42,7 +42,7 @@ class PartenaireRepository{
 
     public function modifierOffre(Partenaire $partenaire){
         $sql="UPDATE partenaire SET ref_utilisateur = :ref_utilisateur, poste_occupe = :poste_occupe, motif_inscription = :motif_inscription, ref_entreprise = :ref_entreprise WHERE id_partenaire = :id_partenaire";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':ref_utilisateur', $partenaire-> getRefPartenaire());
         $req->bindValue(':poste_occupe', $partenaire-> getPosteOccupe());
         $req->bindValue(':motif_inscription', $partenaire-> getMotifInscription());

@@ -4,12 +4,12 @@ class PostRepository{
 
     private $connexionBdd;
     public function __construct(){
-        $this->connexionbdd = (new Bdd())->getConnexionBdd();
+        $this->connexionBdd = (new Bdd())->getConnexionBdd();
     }
 
     public function getPost($id_post){
         $sql = "SELECT * FROM post WHERE id_post = : id_post";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_post', $id_post);
         $req->execute();
         $result = $req->fetch();
@@ -20,7 +20,7 @@ class PostRepository{
 
     public function getAllPosts(){
         $sql = "SELECT * FROM post";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
         $tabPost = array();
@@ -33,7 +33,7 @@ class PostRepository{
 
     public function ajouterPost(Post $id_post){
         $sql = "INSERT INTO post(id_post,contenu,date,heure) VALUES(:id_post,:contenu,:date,:heure)";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_post',$id_post->getIdPost());
         $req->bindValue(':contenu',$id_post->getContenu());
         $req->bindValue(':date',$id_post->getDate());
@@ -44,14 +44,14 @@ class PostRepository{
 
     public function supprimerPost($id_post){
         $sql = "DELETE FROM post WHERE id_post = :id_post";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_post',$id_post);
         $req->execute();
     }
 
     public function modifierPost(Post $post){
         $sql = "UPDATE post SET contenu=:contenu, date=:date, heure=:heure WHERE id_post=:id_post";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':contenu',$post->getContenu());
         $req->bindValue(':date',$post->getDate());
         $req->bindValue(':heure',$post->getHeure());

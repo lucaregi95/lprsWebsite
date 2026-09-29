@@ -1,15 +1,15 @@
 <?php
 class PromotionRepository{
 
-    private $connexionbdd;
+    private $connexionBdd;
 
     public function __construct(){
-        $this->connexionbdd = (new Bdd())->getConnexionBdd();
+        $this->connexionBdd = (new Bdd())->getConnexionBdd();
     }
 
     public function getPromotion($id_promotion){
         $sql = "SELECT * FROM promotion WHERE id_promotion = :id_promotion";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_promotion', $id_promotion);
         $req->execute();
         $result = $req->fetch();
@@ -19,7 +19,7 @@ class PromotionRepository{
 
     public function getPromotions(){ // a verifier pluriel ou pas dans tous les fichies
         $sql = "SELECT * FROM promotion";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
         $promotion = array();
@@ -32,7 +32,7 @@ class PromotionRepository{
 
     public function ajoutPromotion(Promotion $promotion){
         $sql="INSERT INTO promotion VALUES (:id_promotion,:annee)";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_promotion', $promotion-> getIdPromotion());;
         $req->bindValue(":annee",$promotion-> getAnnee());
         $req->execute();
@@ -40,7 +40,7 @@ class PromotionRepository{
 
     public function modifierPromotion(Promotion $promotion){
         $sql="UPDATE promotion SET annee = :annee WHERE id_promotion = :id_promotion";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':annee', $promotion-> getannee());
         $req->bindValue(':id_promotion', $promotion-> getIdPromotion());
         $req->execute();

@@ -44,8 +44,6 @@ class EtudiantRepository
         $req->bindValue(":ref_formation",$etudiant-> getRefFormation());
         $req->bindValue(":ref_promotion",$etudiant-> getRefPromotion());
         $req->execute();
-        $etudiant->setIdUtilisateur($lastId);
-        return $etudiant;
     }
 
     public function modifierEtudiant(Etudiant $etudiant){
