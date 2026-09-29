@@ -4,7 +4,7 @@ abstract class Utilisateur{
     protected $nom;
     protected $prenom;
 
-    protected $mail;
+    protected $email;
     protected $mdp;
 
 protected $date_inscription;
@@ -12,11 +12,11 @@ protected $date_inscription;
 protected $statut_validation;
 
 
-public function __construct($id_utilisateur,$nom,$prenom,$mail,$mdp,$date_inscription,$statut_validation){
+public function __construct($id_utilisateur,$nom,$prenom,$email,$mdp,$date_inscription,$statut_validation){
     $this->id_utilisateur = $id_utilisateur;
     $this->nom = $nom;
     $this->prenom = $prenom;
-    $this->mail = $mail;
+    $this->email = $email;
     $this->mdp = $mdp;
     $this->date_inscription = $date_inscription;
     $this->statut_validation = $statut_validation;

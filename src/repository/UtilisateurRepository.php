@@ -1,15 +1,15 @@
 <?php
 class UtilisateurRepository{
 
-    private $connexionBdd;
+    private $connexionbdd;
 
     public function __construct(){
-        $this->connexionBdd = (new Bdd())->getConnexionBdd();
+        $this->connexionbdd = (new Bdd())->getConnexionBdd();
     }
 
     public function getUtilisateur($id_utilisateur){
         $sql = "SELECT * FROM utilisateur WHERE id_utilisateur = :id_utilisateur";
-        $req = $this->connexionBdd->prepare($sql);
+        $req = $this->connexionbdd->prepare($sql);
         $req->bindValue(':id_utilisateur', $id_utilisateur);
         $req->execute();
         $result = $req->fetch();
@@ -17,7 +17,7 @@ class UtilisateurRepository{
 
     public function getUtilisateurs(){
         $sql = "SELECT * FROM utilisateur";
-        $req = $this->connexionBdd->prepare($sql);
+        $req = $this->connexionbdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
         $tabUtilisateur = array();
@@ -26,32 +26,34 @@ class UtilisateurRepository{
 
 
         public function ajoutUtilisateur(Utilisateur $utilisateur){
-        $sql="INSERT INTO utilisateur VALUES (:id_utilisateur,:nom,:prenom,:mail,:mdp,:statut_validation)";
-        $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':id_utilisateur', $utilisateur-> getIdUtilisateur());;
+        $sql="INSERT INTO utilisateur VALUES (:nom,:prenom,:email,:mdp,:statut_validation)";
+        $req = $this->connexionbdd->prepare($sql);
         $req->bindValue(":nom",$utilisateur-> getNom());
         $req->bindValue(":prenom",$utilisateur-> getPrenom());
-        $req->bindValue(":mail",$utilisateur-> getEmail());
+        $req->bindValue(":email",$utilisateur-> getEmail());
         $req->bindValue(":mdp",$utilisateur-> getMdp());
         $req->bindValue(":statut_validation",$utilisateur-> getStatutValidation());
         $req->execute();
+        return (int) $this->connexionbdd->lastInsertId();
         }
 
         public function modifierUtilisateur(Utilisateur $utilisateur){
-        $sql="UPDATE utilisateur SET nom = :nom, prenom =:prenom, mail=:mail, mdp=:mdp, statut_validation=:statut_validation WHERE id_utilisateur = :id_utilisateur";
-        $req = $this->connexionBdd->prepare($sql);
+        $sql="UPDATE utilisateur SET nom = :nom, prenom =:prenom, email=:email, mdp=:mdp, statut_validation=:statut_validation WHERE id_utilisateur = :id_utilisateur";
+        $req = $this->connexionbdd->prepare($sql);
         $req->bindValue(':id_utilisateur', $utilisateur-> getIdUtilisateur());
         $req->bindValue(':nom',$utilisateur-> getNom());
         $req->bindValue(':prenom',$utilisateur-> getPrenom());
-        $req->bindValue(':mail',$utilisateur-> getEmail());
+        $req->bindValue(':email',$utilisateur-> getEmail());
         $req->bindValue(':mdp',$utilisateur-> getMdp());
         $req->bindValue(':statut_validation',$utilisateur-> getStatutValidation());
+        $req->bindValue(':id_utilisateur',$utilisateur-> getIdUtilisateur());
         $req->execute();
+
         }
 
     public function supprimerUtilisateur($id_utilisateur){
         $sql="DELETE FROM utilisateur WHERE id_utilisateur = :id_utilisateur";
-        $req = $this->connexionBdd->prepare($sql);
+        $req = $this->connexionbdd->prepare($sql);
         $req->bindValue(':id_utilisateur', $id_utilisateur);
         $req->execute();
     }

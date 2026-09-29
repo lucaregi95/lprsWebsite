@@ -1,62 +1,61 @@
 <?php
+require_once "UtilisateurRepository.php";
+class EtudiantRepository
+{
+    private $connexionbdd;
 
-class EtudiantRepository{
-
-    private $connexionBdd;
-    public function __construct()
-    {
-        $this->connexionBdd = (new Bdd())->getConnexionBdd();
+    public function __construct(){
+        $this->connexionbdd = (new Bdd())->getConnexionBdd();
     }
 
-    public function getEtudiant($ref_utilisateur){
-        $sql = "SELECT * FROM etudiant WHERE ref_utilisateur = :ref_utilisateur";
-        $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':ref_utilisateur', $ref_utilisateur);
+    public function getEtudiant($id_etudiant){
+        $sql = "SELECT u.*, e.* FROM utilisateur u INNER JOIN etudiant e ON u.id = e.ref_utilisateur WHERE e.ref_utilisateur = :ref_utilisateur";
+        $req = $this->connexionbdd->prepare($sql);
+        $req->bindValue(':ref_utilisateur', $id_etudiant);
         $req->execute();
         $result = $req->fetch();
-        $etudiant = new Etudiant($result['ref_utilisateur'],$result['cv'],$result['ref_formation'],$result['ref_promotion']);
+        $etudiant = new Etudiant($result["id_utilisateur"],$result["nom"],$result['prenom'], $result["email"],$result["mdp"],$result["date_inscription"],$result["statut_validation"],$result["ref_utilisateur"],$result["cv"],$result["ref_formation"],$result["ref_promotion"]);
         return $etudiant;
     }
 
-    public function getAllEtudiants(){
-        $sql = "SELECT * FROM etudiant";
-        $req = $this->connexionBdd->prepare($sql);
+    public function getEtudiants(){
+        $sql = "SELECT u.*, e.* FROM utilisateur u INNER JOIN etudiant e ON u.id = e.ref_utilisateur";
+        $req = $this->connexionbdd->prepare($sql);
         $req->execute();
-        $results = $req->fetchAll();
-        $tabEtudiants = array();
-        foreach ($results as $result) {
-            $tabEtudiants[] = new Etudiant($result['ref_utilisateur'],$result['cv'],$result['ref_formation'],$result['ref_promotion']);
+        $result = $req->fetchAll();
+        $etudiants = array();
+        foreach ($result as $results) {
+            $etudiants[] = new Etudiant($results["id_utilisateur"],$results["nom"],$results['prenom'], $results["email"],$results["mdp"],$results["date_inscription"],$results["statut_validation"],$results["ref_utilisateur"],$results["cv"],$results["ref_formation"],$results["ref_promotion"]);
         }
-        return $tabEtudiants;
-
+        return $etudiants;
     }
 
-    public function ajouterEtudiant(Etudiant $ref_utilisateur){
-        $sql = "INSERT INTO etudiant (ref_utilisateur,cv,ref_formation,ref_promotion) Values (:ref_utilisateur, :cv, :ref_formation, :ref_promotion)";
-        $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':ref_utilisateur', $ref_utilisateur);
-        $req->bindValue(':cv', $_POST['cv']);
-        $req->bindValue(':ref_formation', $_POST['ref_formation']);
-        $req->bindValue(':ref_promotion', $_POST['ref_promotion']);
-        $req->execute();
-    }
 
-    public function supprimerEtudiant($ref_utilisateur){
-        $sql = "DELETE FROM etudiant WHERE ref_utilisateur = :ref_utilisateur";
-        $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':ref_utilisateur', $ref_utilisateur);
+    public function ajoutEtudiant(Etudiant $etudiant){
+        $utilisateurRepository = new UtilisateurRepository();
+        $lastId=$utilisateurRepository->ajoutUtilisateur($etudiant);
+        if($lastId==0){
+            return null;
+        }
+        $sql="INSERT INTO etudiant VALUES (:ref_utilisateur, :cv, :ref_formation, :ref_promotion)";
+        $req = $this->connexionbdd->prepare($sql);
+        $req->bindValue(':ref_utilisateur', $lastId);
+        $req->bindValue(':cv', $etudiant-> getCV());
+        $req->bindValue(":ref_formation",$etudiant-> getRefFormation());
+        $req->bindValue(":ref_promotion",$etudiant-> getRefPromotion());
         $req->execute();
     }
 
     public function modifierEtudiant(Etudiant $etudiant){
-        $sql ="UPDATE etudiant SET cv=:cv , ref_formation=:ref_formation, ref_promotion=:ref_promotion WHERE ref_utilisateur=:ref_utilisateur";
-        $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':ref_utilisateur', $etudiant->getRefUtilisateur());
-        $req->bindValue(':cv', $etudiant->getCv());
-        $req->bindValue(':ref_formation', $etudiant->getRefFormation());
-        $req->bindValue(':ref_promotion', $etudiant->getRefPromotion());
-        $req-> execute();
+        $utilisateurRepository = new UtilisateurRepository();
+        $utilisateurRepository->modifierUtilisateur($etudiant);
+        $sql="UPDATE etudiant SET cv = :cv, ref_formation=:ref_formation, ref_promotion=:ref_promotion WHERE ref_utilisateur = :ref_utilisateur";
+        $req = $this->connexionbdd->prepare($sql);
+        $req->bindValue(':cv', $etudiant-> getCV());
+        $req->bindValue(':ref_promotion',$etudiant-> getRefPromotion());
+        $req->bindValue(':ref_formation',$etudiant-> getRefFormation());
+        $req->bindValue(':ref_utilisateur',$etudiant-> getRefUtilisateur());
+        $req->execute();
+
     }
-
-
 }
