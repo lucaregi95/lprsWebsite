@@ -46,7 +46,6 @@ class UtilisateurRepository{
         $req->bindValue(':mail',$utilisateur-> getEmail());
         $req->bindValue(':mdp',$utilisateur-> getMdp());
         $req->bindValue(':statut_validation',$utilisateur-> getStatutValidation());
-        $req->bindValue(':id_utilisateur',$utilisateur-> getIdUtilisateur());
         $req->execute();
         }
 
