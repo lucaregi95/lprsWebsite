@@ -6,25 +6,19 @@ private $connexionBdd;
         $this->connexionbdd = (new Bdd())->getConnexionBdd();
     }
 
-    public function getProfesseur($ref_utilisateur){
-        $sql = "SELECT * FROM professeur WHERE ref_utilisateur = :ref_utilisateur";
-        $req = $this->connexionbdd->prepare($sql);
-        $req->bindValue(':ref_utilisateur', $ref_utilisateur);
-        $req->execute();
-        $result = $req->fetch();
-        $ref_utilisateur =  new Professeur($result['ref_utilisateur'], $result['specialite']);
+    public function getProfesseur($ref_professeur){
+        $sql = "SELECT u.* , p. ref_professeur FROM utilisateur u INNER JOIN  professeur p ON id_utilisateur = ref_utilisateur";
+        $reqProfesseur = $this->connexionbdd->prepare($sql);
+        $reqProfesseur->execute();
+        $professeur = $reqProfesseur->fetchAll();
+        return $professeur;
     }
 
-    public function getProfesseurs(){
-        $sql = "SELECT * FROM professeur";
-        $req = $this->connexionbdd->prepare($sql);
-        $req->execute();
-        $result = $req->fetchAll();
-        $professeurs = array();
-        foreach($result as $professeur){
-            $tabProfesseur[]= new Professeur(($result['ref_utilisateur']), $result['specialite']);}
-        return $professeurs;
-        }
+    public function getProfesseurs() {
+        $sql = "SELECT u.*, p.* FROM utilisateur u INNER JOIN professeur p ON u.id_utilisateur = p.ref_utilisateur";
+        $req = $this->connexionbdd->query($sql);
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 
     public function ajoutProfesseur(Professeur $professeur){
