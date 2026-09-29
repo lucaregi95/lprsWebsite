@@ -1,5 +1,5 @@
 <?php
-require_once "../bdd/bdd.php";
+require_once "../bdd/Bdd.php";
 require_once "../model/Utilisateur.php";
 
 if(isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mdp'])){
@@ -15,6 +15,7 @@ $mdp= $_POST['mdp'];
 
         // comme le fichier sert a la fois pour l'ajout ET la modif, ca evite de re hasher un mdp deja hasher
     }
+$utilisateur = new Utilisateur($id_utilisateur, $_POST['nom'], $_POST['prenom'], $_POST['mail'], $mdp,$date_inscription, $statut_validation);
 
 
 }   

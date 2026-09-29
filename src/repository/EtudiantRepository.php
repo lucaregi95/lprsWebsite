@@ -22,11 +22,10 @@ class EtudiantRepository{
         $sql = "SELECT * FROM etudiant";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
-        $result = $req->fetchAll();
+        $results = $req->fetchAll();
         $tabEtudiants = array();
-        foreach ($result as $row) {
-            $etudiant = new Etudiant($result['ref_utilisateur'],$result['cv'],$result['ref_formation'],$result['ref_promotion']);
-        $tabEtudiants[] = $etudiant;
+        foreach ($results as $result) {
+            $tabEtudiants[] = new Etudiant($result['ref_utilisateur'],$result['cv'],$result['ref_formation'],$result['ref_promotion']);
         }
         return $tabEtudiants;
 

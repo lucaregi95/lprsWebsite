@@ -4,24 +4,24 @@ class Reponse{
 
     private $id_reponse;
     private $contenu;
-    private $datetime_reponse;
-    private $ref_utilisateur;
-    private $ref_post;
+    private $date_reponse;
+    private $ref_inscrit;
+    private $ref_sujet;
 
     /**
      * @param $id_reponse
      * @param $contenu
-     * @param $datetime_reponse
-     * @param $ref_utilisateur
-     * @param $ref_post
+     * @param $date_reponse
+     * @param $ref_inscrit
+     * @param $ref_sujet
      */
-    public function __construct($id_reponse, $contenu, $datetime_reponse, $ref_utilisateur, $ref_post)
+    public function __construct($id_reponse, $contenu, $date_reponse, $ref_inscrit, $ref_sujet)
     {
         $this->id_reponse = $id_reponse;
         $this->contenu = $contenu;
-        $this->datetime_reponse = $datetime_reponse;
-        $this->ref_utilisateur = $ref_utilisateur;
-        $this->ref_post = $ref_post;
+        $this->date_reponse = $date_reponse;
+        $this->ref_inscrit = $ref_inscrit;
+        $this->ref_sujet = $ref_sujet;
     }
 
     /**
@@ -59,50 +59,51 @@ class Reponse{
     /**
      * @return mixed
      */
-    public function getDatetimeReponse()
+    public function getDateReponse()
     {
-        return $this->datetime_reponse;
+        return $this->date_reponse;
     }
 
     /**
-     * @param mixed $datetime_reponse
+     * @param mixed $date_reponse
      */
-    public function setDatetimeReponse($datetime_reponse)
+    public function setDateReponse($date_reponse)
     {
-        $this->datetime_reponse = $datetime_reponse;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRefUtilisateur()
-    {
-        return $this->ref_utilisateur;
-    }
-
-    /**
-     * @param mixed $ref_utilisateur
-     */
-    public function setRefUtilisateur($ref_utilisateur)
-    {
-        $this->ref_utilisateur = $ref_utilisateur;
+        $this->date_reponse = $date_reponse;
     }
 
     /**
      * @return mixed
      */
-    public function getRefPost()
+    public function getRefInscrit()
     {
-        return $this->ref_post;
+        return $this->ref_inscrit;
     }
 
     /**
-     * @param mixed $ref_post
+     * @param mixed $ref_inscrit
      */
-    public function setRefPost($ref_post)
+    public function setRefInscrit($ref_inscrit)
     {
-        $this->ref_post = $ref_post;
+        $this->ref_inscrit = $ref_inscrit;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getRefSujet()
+    {
+        return $this->ref_sujet;
+    }
+
+    /**
+     * @param mixed $ref_sujet
+     */
+    public function setRefSujet($ref_sujet)
+    {
+        $this->ref_sujet = $ref_sujet;
+    }
+
 
 
 
