@@ -15,7 +15,7 @@ class PartenaireRepository{
         return $professeur;
     }
 
-    public function getProfesseurs() {
+    public function getParenaire() {
         $sql = "SELECT u.*, p.* FROM utilisateur u INNER JOIN professeur p ON u.id_utilisateur = p.ref_utilisateur";
         $req = $this->connexionBdd->query($sql);
         return $req->fetchAll(PDO::FETCH_ASSOC);

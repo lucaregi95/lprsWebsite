@@ -1,4 +1,6 @@
 <?php
+
+require_once "UtilisateurRepository.php";
 class ProfesseurRepository{
 private $connexionBdd;
 
@@ -7,7 +9,7 @@ private $connexionBdd;
     }
 
     public function getProfesseur($ref_utilisateur){
-        $sql = "SELECT u.* , p. ref_professeur FROM utilisateur u INNER JOIN  professeur p ON id_utilisateur = ref_utilisateur";
+        $sql = "SELECT u.* , p. ref_professeur FROM utilisateur u INNER JOIN  professeur p ON u.id = p.ref_utilisateur WHERE e.ref_utilisateur = :ref_utilisateur";
         $req = $this->connexionbdd->prepare($sql);
         $req->bindValue('ref_utilisateur', $ref_utilisateur);
         $req->execute();

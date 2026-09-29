@@ -1,4 +1,5 @@
 <?php
+require_once "UtilisateurRepository.php";
 class AlumniRepository{
 
     private $connexionBdd;
@@ -7,38 +8,45 @@ class AlumniRepository{
         $this->connexionBdd = (new Bdd())->getConnexionBdd();
     }
 
-    public function getAlumni($ref_utisateur){
-        $sql = "SELECT * FROM alumni WHERE ref_utilisateur = :ref_utisateur";
+    public function getAlumni($id_alumni)
+    {
+        $sql = "SELECT u.* ,a.* FROM utilisateur u INNER JOIN alumni e ON u.id = a.ref_utilisateur WHERE e.ref_utilisateur = :ref_utilisateur ";
         $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':ref_utisateur', $ref_utisateur);
+        $req->bindValue(':ref_utilisateur', $id_alumni);
         $req->execute();
         $result = $req->fetch();
-        $alumni = new Alumni($result["ref_utilisateur"],$result["cv"],$result['poste_occupe'],$result['ref_promotion'], $result["ref_entreprise"]);
+        $alumni = new Alumni($result["id_utilisateur"], $result["nom"], $result["prenom"], $result["email"], $result["mdp"], $result["date_inscription"], $result["statut_validation"], $result["ref_utilisateur"], $result["cv"], $result["poste_occupe"], $result["ref_promotion"], $result["ref_entreprise"]);
         return $alumni;
     }
 
-    public function getAlumnis(){
-        $sql = "SELECT * FROM alumni";
+    public function getAlumnis()
+    {
+        $sql = "SELECT u.*, e.* FROM utilisateur u INNER JOIN alumni a ON u.id = a.ref_utilisateur";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
         $alumnis = array();
         foreach ($result as $results) {
-            $tabAlumni[] = new Alumni($result["ref_utilisateur"],$result["cv"],$result['poste_occupe'],$result['ref_promotion'], $result["ref_entreprise"]);
+            $alumnis[] = new Alumni($result["id_utilisateur"], $result["nom"], $result["prenom"], $result["email"], $result["mdp"], $result["date_inscription"], $result["statut_validation"], $result["ref_utilisateur"], $result["cv"], $result["poste_occupe"], $result["ref_promotion"], $result["ref_entreprise"]);
         }
         return $alumnis;
     }
 
 
     public function ajoutAlumni(Alumni $alumni){
+        $utilisateurRepository = new UtilisateurRepository();
+        $lastId=$utilisateurRepository->ajoutUtilisateur($alumni);
+        if($lastId==0){
+            return null;
+        }
         $sql="INSERT INTO alumni VALUES (:ref_utilisateur,:cv,:poste_occupe,:ref_promotion, :ref_entreprise)";
         $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':id_entreprise', $alumni-> getRefUtilisateur());;
-        $req->bindValue(":addressse",$alumni-> getCV());
-        $req->bindValue(":poste_occupe",$alumni-> getPosteOccupe());
-        $req->bindValue(":ref_promotion",$alumni-> getRefPromotion());
-        $req->bindValue("ref_entreprise", $alumni->getRefEntrprise());
+        $req->bindValue(':ref_utilisateur', $lastId);
+        $req->bindValue('poste_occupe', $alumni-> getPosteOccupe());
+        $req->bindValue('ref_promotion' , $alumni-> getRefPromotion());
+        $req->bindValue('ref_entrprise' , $alumni-> getRefEntreprise());
         $req->execute();
+
     }
 
     public function modifierAlumni(Alumni $alumni){
