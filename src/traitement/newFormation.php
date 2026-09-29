@@ -1,7 +1,7 @@
 <?php
 
 
-require_once "../bdd/bdd.php";
+require_once "../bdd/Bdd.php";
 require_once "../model/Formation.php";
 
 if(isset($_POST['nom_formation'])){

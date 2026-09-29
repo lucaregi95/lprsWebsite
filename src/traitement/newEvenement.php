@@ -1,6 +1,6 @@
 <?php
 
-require_once "../bdd/bdd.php";
+require_once "../bdd/Bdd.php";
 require_once "../model/Evenement.php";
 
 

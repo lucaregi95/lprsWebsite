@@ -1,5 +1,5 @@
 <?php
-require_once "../bdd/bdd.php";
+require_once "../bdd/Bdd.php";
 require_once "../model/Utilisateur.php";
 
 if(isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mdp'])){

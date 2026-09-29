@@ -26,15 +26,15 @@ class UtilisateurRepository{
 
 
         public function ajoutUtilisateur(Utilisateur $utilisateur){
-        $sql="INSERT INTO utilisateur VALUES (:id_utilisateur,:nom,:prenom,:mail,:mdp,:statut_validation)";
+        $sql="INSERT INTO utilisateur VALUES (:nom,:prenom,:mail,:mdp,:statut_validation)";
         $req = $this->connexionbdd->prepare($sql);
-        $req->bindValue(':id_utilisateur', $utilisateur-> getIdUtilisateur());;
         $req->bindValue(":nom",$utilisateur-> getNom());
         $req->bindValue(":prenom",$utilisateur-> getPrenom());
         $req->bindValue(":mail",$utilisateur-> getEmail());
         $req->bindValue(":mdp",$utilisateur-> getMdp());
         $req->bindValue(":statut_validation",$utilisateur-> getStatutValidation());
         $req->execute();
+        return (int) $this->connexionbdd->lastInsertId();
         }
 
         public function modifierUtilisateur(Utilisateur $utilisateur){
@@ -48,6 +48,7 @@ class UtilisateurRepository{
         $req->bindValue(':statut_validation',$utilisateur-> getStatutValidation());
         $req->bindValue(':id_utilisateur',$utilisateur-> getIdUtilisateur());
         $req->execute();
+
         }
 
     public function supprimerUtilisateur($id_utilisateur){

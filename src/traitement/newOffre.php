@@ -1,6 +1,6 @@
 <?php
 
-require_once "../bdd/bdd.php";
+require_once "../bdd/Bdd.php";
 require_once "../model/Offre.php";
 
 if(isset($_POST['titre']) && isset($_POST['description']) && isset($_POST['mission'])&& isset($_POST['salaire']) && isset($_POST['type_offre']) && isset($_POST['etat']) && isset($_POST['ref_entreprise'])){
