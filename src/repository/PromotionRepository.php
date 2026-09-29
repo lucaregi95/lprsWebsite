@@ -17,14 +17,14 @@ class PromotionRepository{
         return $promotion;
     }
 
-    public function getPromotions(){ // a verifier pluriel ou pas dans tous les fichies
+    public function getAllPromotion(){
         $sql = "SELECT * FROM promotion";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
-        $result = $req->fetchAll();
-        $promotion = array();
-        foreach ($result as $results) {
-            $tabPromotion[] = new Promotion($results["id_promotion]"],$results["annee"]);
+        $results = $req->fetchAll();
+        $tabPromotion = array();
+        foreach ($results as $result) {
+            $tabPromotion[] = new Promotion($result["id_promotion]"],$result["annee"]);
         }
         return $tabPromotion;
     }

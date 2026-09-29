@@ -19,7 +19,7 @@ class AlumniRepository{
         return $alumni;
     }
 
-    public function getAlumnis()
+    public function getAllAlumni()
     {
         $sql = "SELECT u.*, e.* FROM utilisateur u INNER JOIN alumni a ON u.id = a.ref_utilisateur";
         $req = $this->connexionBdd->prepare($sql);
@@ -29,7 +29,7 @@ class AlumniRepository{
         foreach ($result as $results) {
             $alumnis[] = new Alumni($result["id_utilisateur"], $result["nom"], $result["prenom"], $result["email"], $result["mdp"], $result["date_inscription"], $result["statut_validation"], $result["ref_utilisateur"], $result["cv"], $result["poste_occupe"], $result["ref_promotion"], $result["ref_entreprise"]);
         }
-        return $alumnis;
+        return $tabAlumni;
     }
 
 

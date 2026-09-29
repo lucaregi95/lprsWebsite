@@ -15,7 +15,7 @@ class UtilisateurRepository{
         $result = $req->fetch();
     }
 
-    public function getUtilisateurs(){
+    public function getAllUtilisateur(){
         $sql = "SELECT * FROM utilisateur";
         $req = $this->connexionbdd->prepare($sql);
         $req->execute();
@@ -26,11 +26,11 @@ class UtilisateurRepository{
 
 
         public function ajoutUtilisateur(Utilisateur $utilisateur){
-        $sql="INSERT INTO utilisateur VALUES (:nom,:prenom,:mail,:mdp,:statut_validation)";
+        $sql="INSERT INTO utilisateur VALUES (:nom,:prenom,:email,:mdp,:statut_validation)";
         $req = $this->connexionbdd->prepare($sql);
         $req->bindValue(":nom",$utilisateur-> getNom());
         $req->bindValue(":prenom",$utilisateur-> getPrenom());
-        $req->bindValue(":mail",$utilisateur-> getEmail());
+        $req->bindValue(":email",$utilisateur-> getEmail());
         $req->bindValue(":mdp",$utilisateur-> getMdp());
         $req->bindValue(":statut_validation",$utilisateur-> getStatutValidation());
         $req->execute();
@@ -38,12 +38,12 @@ class UtilisateurRepository{
         }
 
         public function modifierUtilisateur(Utilisateur $utilisateur){
-        $sql="UPDATE utilisateur SET nom = :nom, prenom =:prenom, mail=:mail, mdp=:mdp, statut_validation=:statut_validation WHERE id_utilisateur = :id_utilisateur";
+        $sql="UPDATE utilisateur SET nom = :nom, prenom =:prenom, email=:email, mdp=:mdp, statut_validation=:statut_validation WHERE id_utilisateur = :id_utilisateur";
         $req = $this->connexionbdd->prepare($sql);
         $req->bindValue(':id_utilisateur', $utilisateur-> getIdUtilisateur());
         $req->bindValue(':nom',$utilisateur-> getNom());
         $req->bindValue(':prenom',$utilisateur-> getPrenom());
-        $req->bindValue(':mail',$utilisateur-> getEmail());
+        $req->bindValue(':email',$utilisateur-> getEmail());
         $req->bindValue(':mdp',$utilisateur-> getMdp());
         $req->bindValue(':statut_validation',$utilisateur-> getStatutValidation());
         $req->bindValue(':id_utilisateur',$utilisateur-> getIdUtilisateur());

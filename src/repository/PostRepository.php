@@ -18,15 +18,14 @@ class PostRepository{
 
     }
 
-    public function getAllPosts(){
+    public function getAllPost(){
         $sql = "SELECT * FROM post";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
-        $result = $req->fetchAll();
+        $results = $req->fetchAll();
         $tabPost = array();
-        foreach($result as $post){
-            $post = new Post($result["id_post"],$result["contenu"],$result["date"],$result["heure"]);
-            $tabPost[] = $post;
+        foreach($results as $result){
+            $tabPost[] = new Post($result["id_post"],$result["contenu"],$result["date"],$result["heure"]);
         }
         return $tabPost;
     }
