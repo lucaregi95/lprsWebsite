@@ -9,7 +9,7 @@
         protected $ref_entreprise;
 
 
-            public function __construct($ref_utilisateur, $cv, $poste_occupe, $id_utilisateur, $nom, $prenom, $mail, $mdp, $date_inscription, $statut_validation, $ref_promotion, $ref_entreprise)
+            public function __construct($id_utilisateur, $nom, $prenom, $mail, $mdp, $date_inscription, $statut_validation, $ref_utilisateur, $cv, $poste_occupe, $ref_promotion, $ref_entreprise)
             {
                 parent::__construct($id_utilisateur, $nom, $prenom, $mail, $mdp, $date_inscription, $statut_validation);
                 $this->ref_utilisateur = $ref_utilisateur;
@@ -17,7 +17,7 @@
                 $this->poste_occupe = $poste_occupe;
                 $this->ref_promotion = $ref_promotion;
                 $this->ref_entreprise = $ref_entreprise;
-                $this->ref_utilisateur = $ref_utilisateur;
+                
             }
 
             /**
