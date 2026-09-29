@@ -1,15 +1,15 @@
 <?php
 class AlumniRepository{
 
-    private $connexionbdd;
+    private $connexionBdd;
 
     public function __construct(){
-        $this->connexionbdd = (new Bdd())->getConnexionBdd();
+        $this->connexionBdd = (new Bdd())->getConnexionBdd();
     }
 
     public function getAlumni($ref_utisateur){
         $sql = "SELECT * FROM alumni WHERE ref_utilisateur = :ref_utisateur";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':ref_utisateur', $ref_utisateur);
         $req->execute();
         $result = $req->fetch();
@@ -19,7 +19,7 @@ class AlumniRepository{
 
     public function getAlumnis(){
         $sql = "SELECT * FROM alumni";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
         $alumnis = array();
@@ -32,7 +32,7 @@ class AlumniRepository{
 
     public function ajoutAlumni(Alumni $alumni){
         $sql="INSERT INTO alumni VALUES (:ref_utilisateur,:cv,:poste_occupe,:ref_promotion, :ref_entreprise)";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_entreprise', $alumni-> getRefUtilisateur());;
         $req->bindValue(":addressse",$alumni-> getCV());
         $req->bindValue(":poste_occupe",$alumni-> getPosteOccupe());
@@ -43,7 +43,7 @@ class AlumniRepository{
 
     public function modifierAlumni(Alumni $alumni){
         $sql="UPDATE alumni SET cv = :cv, poste_occupe =:poste_occupe, ref_promotion=:ref_promotion, ref_entreprise=:ref_entreprise WHERE ref_utilisateur = :ref_utilisateur";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':cv', $alumni-> getCV());
         $req->bindValue(':poste_occupe',$alumni-> getPosteOccupe());
         $req->bindValue(':ref_promotion',$alumni-> getRefPromotion());

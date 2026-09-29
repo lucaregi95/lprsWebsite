@@ -1,15 +1,15 @@
 <?php
 class UtilisateurRepository{
 
-    private $connexionbdd;
+    private $connexionBdd;
 
     public function __construct(){
-        $this->connexionbdd = (new Bdd())->getConnexionBdd();
+        $this->connexionBdd = (new Bdd())->getConnexionBdd();
     }
 
     public function getUtilisateur($id_utilisateur){
         $sql = "SELECT * FROM utilisateur WHERE id_utilisateur = :id_utilisateur";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_utilisateur', $id_utilisateur);
         $req->execute();
         $result = $req->fetch();;
@@ -18,7 +18,7 @@ class UtilisateurRepository{
     public function getUtilisateurs()
     {
         $sql = "SELECT * FROM utilisateur";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
         $tabUtilisateur = array();
@@ -27,7 +27,7 @@ class UtilisateurRepository{
 
         public function ajoutUtilisateur(Utilisateur $utilisateur){
         $sql="INSERT INTO utilisateur VALUES (:id_utilisateur,:nom,:prenom,:email,:mdp, :date_inscription, :statut_validation)";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_utilisateur', $utilisateur-> getIdUtilisateur());;
         $req->bindValue(":nom",$utilisateur-> getNom());
         $req->bindValue(":prenom",$utilisateur-> getPrenom());
@@ -40,7 +40,7 @@ class UtilisateurRepository{
 
         public function modifierUtilisateur(Utilisateur $utilisateur){
         $sql="UPDATE utilisateur SET nom = :nom, prenom =:prenom, email=:email, mdp=:mdp, date_inscription=:date_inscription, statut_validation=:statut_validation WHERE id_utilisateur = :id_utilisateur";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_utilisateur', $utilisateur-> getIdUtilisateur());
         $req->bindValue(':nom',$utilisateur-> getNom());
         $req->bindValue(':prenom',$utilisateur-> getPrenom());
@@ -54,7 +54,7 @@ class UtilisateurRepository{
 
     public function supprimerUtilisateur($id_utilisateur){
         $sql="DELETE FROM utilisateur WHERE id_utilisateur = :id_utilisateur";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_utilisateur', $id_utilisateur);
         $req->execute();
     }

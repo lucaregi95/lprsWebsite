@@ -1,15 +1,15 @@
 <?php
 class OffreRepository{
 
-    private $connexionbdd;
+    private $connexionBdd;
 
     public function __construct(){
-        $this->connexionbdd = (new Bdd())->getConnexionBdd();
+        $this->connexionBdd = (new Bdd())->getConnexionBdd();
     }
 
     public function getOffre($id_offre){
         $sql = "SELECT * FROM offre WHERE id_offre = :id_offre";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_offre', $id_offre);
         $req->execute();
         $result = $req->fetch();
@@ -19,7 +19,7 @@ class OffreRepository{
 
     public function getOffres(){ // a verifier pluriel ou pas dans tous les fichies
         $sql = "SELECT * FROM offre";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
         $tabOffre = array();
@@ -32,7 +32,7 @@ class OffreRepository{
 
     public function ajoutOffre(Offre $offre){
         $sql="INSERT INTO offre VALUES (:id_offre,:titre, :description, :mission, :salaire, :type_offre, :etat, :ref_entreprise)";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_offre', $offre-> getIdOffre());;
         $req->bindValue(":titre",$offre-> getTitre());
         $req->bindValue(":description",$offre-> getDescription());
@@ -46,7 +46,7 @@ class OffreRepository{
 
     public function modifierOffre(Offre $offre){
         $sql="UPDATE offre SET titre = :titre, description = :description, mission = :mission, salaire = :salaire, type_offre = :type_offre, etat = :etat, ref_entreprise = :ref_entreprise WHERE id_offre = :id_offre";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':titre', $offre-> getTitre());
         $req->bindValue(':description', $offre-> getDescription());
         $req->bindValue(':mission', $offre-> getMission());
