@@ -1,15 +1,15 @@
 <?php
 class PartenaireRepository{
 
-    private $connexionbdd;
+    private $connexionBdd;
 
     public function __construct(){
-        $this->connexionbdd = (new Bdd())->getConnexionBdd();
+        $this->connexionBdd = (new Bdd())->getConnexionBdd();
     }
 
     public function getPartenaire($ref_utilisateur){
         $sql = "SELECT u.* , p. ref_professeur FROM utilisateur u INNER JOIN  professeur p ON id_utilisateur = ref_utilisateur";
-        $reqProfesseur = $this->connexionbdd->prepare($sql);
+        $reqProfesseur = $this->connexionBdd->prepare($sql);
         $reqProfesseur->execute();
         $professeur = $reqProfesseur->fetchAll();
         return $professeur;
@@ -17,7 +17,7 @@ class PartenaireRepository{
 
     public function getProfesseurs() {
         $sql = "SELECT u.*, p.* FROM utilisateur u INNER JOIN professeur p ON u.id_utilisateur = p.ref_utilisateur";
-        $req = $this->connexionbdd->query($sql);
+        $req = $this->connexionBdd->query($sql);
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -25,7 +25,7 @@ class PartenaireRepository{
 
     public function ajoutOffre(Partenaire $partenaire){
         $sql="INSERT INTO partenaire VALUES (:ref_utilisateur,:poste_occupe, :motif_inscription, :ref_entreprise)";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':ref_utilisateur', $partenaire-> getRefPartenaire());;
         $req->bindValue(":poste_occupe",$partenaire-> getPosteOccupe());
         $req->bindValue(":motif_inscription",$partenaire-> getMotifInscription());
@@ -35,7 +35,7 @@ class PartenaireRepository{
 
     public function modifierOffre(Partenaire $partenaire){
         $sql="UPDATE partenaire SET ref_utilisateur = :ref_utilisateur, poste_occupe = :poste_occupe, motif_inscription = :motif_inscription, ref_entreprise = :ref_entreprise WHERE id_partenaire = :id_partenaire";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':ref_utilisateur', $partenaire-> getRefPartenaire());
         $req->bindValue(':poste_occupe', $partenaire-> getPosteOccupe());
         $req->bindValue(':motif_inscription', $partenaire-> getMotifInscription());

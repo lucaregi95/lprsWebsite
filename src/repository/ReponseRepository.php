@@ -23,12 +23,10 @@ class ReponseRepository{
         $sql = "SELECT * FROM reponse";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
-        $result = $req->fetchAll();
+        $results = $req->fetchAll();
         $tabReponse = array();
-        foreach($result as $row){
-            $reponse = new Reponse($result['$id_reponse'],$result['contenu'],$result['date_reponse'],$result['ref_inscrit'],$result['ref_sujet']);
-
-            $tabReponse[] = $reponse;
+        foreach($results as $result){
+            $tabReponse[] = new Reponse($result['$id_reponse'],$result['contenu'],$result['date_reponse'],$result['ref_inscrit'],$result['ref_sujet']);
         }
         return $tabReponse;
     }

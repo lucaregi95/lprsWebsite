@@ -1,15 +1,15 @@
 <?php
 class EntrepriseRepository{
 
-    private $connexionbdd;
+    private $connexionBdd;
 
     public function __construct(){
-        $this->connexionbdd = (new Bdd())->getConnexionBdd();
+        $this->connexionBdd = (new Bdd())->getConnexionBdd();
     }
 
     public function getEntreprise($id_entreprise){
         $sql = "SELECT * FROM entreprise WHERE id_entreprise = :id_entreprise";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_entreprise', $id_entreprise);
         $req->execute();
         $result = $req->fetch();
@@ -19,7 +19,7 @@ class EntrepriseRepository{
 
     public function getEntreprises(){
         $sql = "SELECT * FROM entreprise";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
         $entreprises = array();
@@ -32,7 +32,7 @@ class EntrepriseRepository{
 
     public function ajoutEntreprise(Entreprise $entreprise){
         $sql="INSERT INTO entreprise VALUES (:id_entreprise,:addresse,:nom_entreprise,:site_web)";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_entreprise', $entreprise-> getidEntreprise());;
         $req->bindValue(":addressse",$entreprise-> getAdresse());
         $req->bindValue(":nom_entreprise",$entreprise-> getNomEntreprise());
@@ -42,7 +42,7 @@ class EntrepriseRepository{
 
     public function modifierEntreprise(Entreprise $entreprise){
         $sql="UPDATE entreprise SET addresse = :addresse, nom_entreprise =:nom_entreprise, site_web=:site_web WHERE id_entreprise = :id_entreprise";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':addresse', $entreprise-> getAdresse());
         $req->bindValue(':nom_entreprise',$entreprise-> getNomEntreprise());
         $req->bindValue(':site_web',$entreprise-> getSiteWeb());
