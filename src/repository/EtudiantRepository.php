@@ -18,16 +18,16 @@ class EtudiantRepository
         return $etudiant;
     }
 
-    public function getEtudiants(){
+    public function getAllEtudiant(){
         $sql = "SELECT u.*, e.* FROM utilisateur u INNER JOIN etudiant e ON u.id = e.ref_utilisateur";
         $req = $this->connexionbdd->prepare($sql);
         $req->execute();
-        $result = $req->fetchAll();
-        $etudiants = array();
-        foreach ($result as $results) {
-            $etudiants[] = new Etudiant($results["id_utilisateur"],$results["nom"],$results['prenom'], $results["email"],$results["mdp"],$results["date_inscription"],$results["statut_validation"],$results["ref_utilisateur"],$results["cv"],$results["ref_formation"],$results["ref_promotion"]);
+        $results = $req->fetchAll();
+        $tabEtudiant = array();
+        foreach ($results as $result) {
+            $tabEtudiant[] = new Etudiant($result["id_utilisateur"],$result["nom"],$result['prenom'], $result["email"],$result["mdp"],$result["date_inscription"],$result["statut_validation"],$result["ref_utilisateur"],$result["cv"],$result["ref_formation"],$result["ref_promotion"]);
         }
-        return $etudiants;
+        return $tabEtudiant;
     }
 
 

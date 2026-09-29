@@ -15,7 +15,7 @@ class UtilisateurRepository{
         $result = $req->fetch();
     }
 
-    public function getUtilisateurs(){
+    public function getAllUtilisateur(){
         $sql = "SELECT * FROM utilisateur";
         $req = $this->connexionbdd->prepare($sql);
         $req->execute();

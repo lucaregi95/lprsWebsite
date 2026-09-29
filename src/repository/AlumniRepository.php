@@ -13,20 +13,20 @@ class AlumniRepository{
         $req->bindValue(':ref_utisateur', $ref_utisateur);
         $req->execute();
         $result = $req->fetch();
-        $alumni = new Alumni($result["ref_utilisateur"],$result["cv"],$result['poste_occupe'],$result['ref_promotion'], $result["ref_entreprise"]);
+        $alumni = new Alumni($result["ref_utilisateur"],$result["cv"],$result['poste_occupe'], $result["id_utilisateur"], $result["nom"], $result["prenom"], $result["mail"],$result["mdp"], $result["date_inscription"], $result["statut_validation"]);
         return $alumni;
     }
 
-    public function getAlumnis(){
+    public function getAllAlumni(){
         $sql = "SELECT * FROM alumni";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
-        $result = $req->fetchAll();
-        $alumnis = array();
-        foreach ($result as $results) {
-            $tabAlumni[] = new Alumni($result["ref_utilisateur"],$result["cv"],$result['poste_occupe'],$result['ref_promotion'], $result["ref_entreprise"]);
+        $results = $req->fetchAll();
+        $tabAlumni = array();
+        foreach ($results as $result) {
+            $tabAlumni[] = new Alumni($result["ref_utilisateur"],$result["cv"],$result['poste_occupe'], $result["id_utilisateur"], $result["nom"], $result["prenom"], $result["mail"],$result["mdp"], $result["date_inscription"], $result["statut_validation"]);
         }
-        return $alumnis;
+        return $tabAlumni;
     }
 
 

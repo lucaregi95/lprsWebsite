@@ -8,7 +8,7 @@ class ProfesseurFormationRepository{
     }
 
 
-    public function getProfesseursFormation($id_pF){
+    public function getProfesseurFormation($id_pF){
         $sql = "SELECT * FROM professeurformation WHERE id_pF = ?";
         $req = $this->connexionbdd->prepare($sql);
         $req->bindValue('id_pF', $id_pF);
@@ -16,12 +16,15 @@ class ProfesseurFormationRepository{
         $resultat = $req->fetch();
     }
 
-    public function getProfesseursFormations(){
+    public function getAllProfesseurFormation(){
         $sql = "SELECT * FROM professeurformation";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->execute();
-        $resultat = $req->fetchAll();
+        $results = $req->fetchAll();
         $tabProfesseurFormation = array();
+        foreach($results as $result){
+            $tabProfesseurFormation[] = new ProfesseurFormation($result["id_post"],$result["contenu"],$result["date"],$result["heure"]);
+        }
         return $tabProfesseurFormation;
     }
 

@@ -17,16 +17,16 @@ class EntrepriseRepository{
         return $entreprise;
     }
 
-    public function getEntreprises(){
+    public function getAllEntreprise(){
         $sql = "SELECT * FROM entreprise";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
-        $result = $req->fetchAll();
-        $entreprises = array();
-        foreach ($result as $results) {
-            $tabEntreprise[] = new Entreprise($results["id_entreprise]"],$results["addresse"],$results['nom_entreprise'],$results['site_web']);
+        $results = $req->fetchAll();
+        $tabEntreprise = array();
+        foreach ($results as $result) {
+            $tabEntreprise[] = new Entreprise($result["id_entreprise]"],$result["addresse"],$result['nom_entreprise'],$result['site_web']);
         }
-        return $entreprises;
+        return $tabEntreprise;
     }
 
 
@@ -41,9 +41,9 @@ class EntrepriseRepository{
     }
 
     public function modifierEntreprise(Entreprise $entreprise){
-        $sql="UPDATE entreprise SET addresse = :addresse, nom_entreprise =:nom_entreprise, site_web=:site_web WHERE id_entreprise = :id_entreprise";
+        $sql="UPDATE entreprise SET adresse = :adresse, nom_entreprise =:nom_entreprise, site_web=:site_web WHERE id_entreprise = :id_entreprise";
         $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':addresse', $entreprise-> getAdresse());
+        $req->bindValue(':adresse', $entreprise-> getAdresse());
         $req->bindValue(':nom_entreprise',$entreprise-> getNomEntreprise());
         $req->bindValue(':site_web',$entreprise-> getSiteWeb());
         $req->bindValue(':id_entreprise',$entreprise-> getidEntreprise());
