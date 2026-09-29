@@ -5,7 +5,7 @@
         protected $cv;
 
         protected $poste_occupe;
-    public function __construct($ref_utilisateur,$cv, $poste_occupe ,$id_utilisateur,$nom, $prenom, $mail, $mdp, $date_inscription, $statut_validation) {
+    public function __construct($id_utilisateur,$nom, $prenom, $mail, $mdp, $date_inscription, $statut_validation,$ref_utilisateur,$cv, $poste_occupe) {
         parent::__construct($id_utilisateur,$nom, $prenom, $mail, $mdp, $date_inscription, $statut_validation);
     $this->ref_utilisateur = $ref_utilisateur;
     $this->cv = $cv;
