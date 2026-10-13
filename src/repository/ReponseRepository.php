@@ -14,7 +14,7 @@ class ReponseRepository{
         $req->bindValue(':id_reponse', $id_reponse);
         $req->execute();
         $result = $req->fetch();
-        $reponse = new Reponse($result['id_reponse'],$result['contenu'],$result['date_reponse'],$result['ref_inscrit'],$result['ref_sujet']);
+        $reponse = new Reponse($result['id_reponse'],$result['contenu'],$result['datetime_reponse'],$result['ref_post'],$result['ref_post']);
         return $reponse;
 
     }
@@ -26,7 +26,7 @@ class ReponseRepository{
         $results = $req->fetchAll();
         $tabReponse = array();
         foreach($results as $result){
-            $tabReponse[] = new Reponse($result['$id_reponse'],$result['contenu'],$result['date_reponse'],$result['ref_inscrit'],$result['ref_sujet']);
+            $tabReponse[] = new Reponse($result['$id_reponse'],$result['contenu'],$result['datetime_reponse'],$result['ref_post'],$result['ref_utilisateur']);
         }
         return $tabReponse;
     }
@@ -36,9 +36,9 @@ class ReponseRepository{
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':$id_reponse', $id_reponse->getIdReponse());
         $req->bindValue(':contenu', $id_reponse->getContenu());
-        $req->bindValue(':date_reponse', $id_reponse->getDateReponse());
-        $req->bindValue(':ref_inscrit', $id_reponse->getRefInscrit());
-        $req->bindValue(':ref_sujet', $id_reponse->getRefSujet());
+        $req->bindValue(':datetime_reponse', $id_reponse->getDatetimeReponse());
+        $req->bindValue(':ref_post', $id_reponse->getRefPost());
+        $req->bindValue(':ref_utilisateur', $id_reponse->getRefUtilisateur());
         $req -> execute();
     }
 
@@ -50,13 +50,11 @@ class ReponseRepository{
     }
 
     public function modifierReponse(Reponse $reponse){
-        $sql = "UPDATE reponse SET contenu=:contenu,date_reponse=:date_reponse,ref_inscrit=:ref_inscrit,ref_sujet=:ref_sujet WHERE id_reponse=:id_reponse";
+        $sql = "UPDATE reponse SET contenu=:contenu,datetime_reponse=:datetime_reponse WHERE id_reponse=:id_reponse";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':$id_reponse', $reponse->getIdReponse());
         $req->bindValue(':contenu', $reponse->getContenu());
-        $req->bindValue(':date_reponse', $reponse->getDateReponse());
-        $req->bindValue(':ref_inscrit', $reponse->getRefInscrit());
-        $req->bindValue(':ref_sujet', $reponse->getRefSujet());
+        $req->bindValue(':date_reponse', $reponse->getDatetimeReponse());
         $req -> execute();
     }
 
