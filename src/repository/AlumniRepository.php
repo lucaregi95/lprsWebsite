@@ -15,6 +15,14 @@ class AlumniRepository{
         $req->bindValue(':ref_utilisateur', $id_alumni);
         $req->execute();
         $result = $req->fetch();
+<<<<<<< HEAD
+        $alumni = new Alumni($result["ref_utilisateur"],$result["cv"],$result['poste_occupe'],$result['ref_promotion'], $result["ref_entreprise"]);
+        return $alumni;
+    }
+
+    public function getAlumnis(){
+        $sql = "SELECT * FROM alumni";
+=======
         $alumni = new Alumni($result["id_utilisateur"], $result["nom"], $result["prenom"], $result["email"], $result["mdp"], $result["date_inscription"], $result["statut_validation"], $result["ref_utilisateur"], $result["cv"], $result["poste_occupe"], $result["ref_promotion"], $result["ref_entreprise"]);
         return $alumni;
     }
@@ -22,14 +30,19 @@ class AlumniRepository{
     public function getAllAlumni()
     {
         $sql = "SELECT u.*, e.* FROM utilisateur u INNER JOIN alumni a ON u.id = a.ref_utilisateur";
+>>>>>>> 4b2281df352efce08e9aef58ba84174d3b25fad8
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
         $alumnis = array();
         foreach ($result as $results) {
+<<<<<<< HEAD
+            $tabAlumni[] = new Alumni($result["ref_utilisateur"],$result["cv"],$result['poste_occupe'],$result['ref_promotion'], $result["ref_entreprise"]);
+=======
             $alumnis[] = new Alumni($result["id_utilisateur"], $result["nom"], $result["prenom"], $result["email"], $result["mdp"], $result["date_inscription"], $result["statut_validation"], $result["ref_utilisateur"], $result["cv"], $result["poste_occupe"], $result["ref_promotion"], $result["ref_entreprise"]);
+>>>>>>> 4b2281df352efce08e9aef58ba84174d3b25fad8
         }
-        return $tabAlumni;
+        return $alumnis;
     }
 
 

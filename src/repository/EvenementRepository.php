@@ -19,14 +19,16 @@ class EvenementRepository{
 
     }
 
-    public function getAllEvenement(){
+    public function getAllEvenements(){
         $sql = "SELECT * FROM evenement";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
-        $results = $req->fetchAll();
+        $result = $req->fetchAll();
         $tabEvenement = array();
-        foreach($results as $result){
-            $tabEvenement[] = new Evenement($result['id_evenement'],$result['titre'],$result['description'],$result['lieu'],$result['element_requis'],$result['nbr_places']);
+        foreach($result as $row){
+            $evenement = new Evenement($result['id_evenement'],$result['titre'],$result['description'],$result['lieu'],$result['element_requis'],$result['nbr_places']);
+
+        $tabEvenement[] = $evenement;
         }
         return $tabEvenement;
     }

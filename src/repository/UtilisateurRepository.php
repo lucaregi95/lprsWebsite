@@ -15,6 +15,7 @@ class UtilisateurRepository{
         $result = $req->fetch();
     }
 
+
     public function getUtilisateurParEmailEtMDP($email, $mdp){
         $sql = "SELECT * FROM utilisateur WHERE email = :email AND mdp = :mdp";
         $req = $this->connexionbdd->prepare($sql);
@@ -24,7 +25,16 @@ class UtilisateurRepository{
         $result = $req->fetch();
     }
 
-    public function getAllUtilisateur(){
+    public function getAllUtilisateurs(){
+        $sql = "SELECT * FROM utilisateur";
+        $req = $this->connexionbdd->prepare($sql);
+        $req->execute();
+        $result = $req->fetchAll();
+        $tabUtilisateur = array();
+        return $tabUtilisateur;
+    }
+
+    public function getUtilisateurs(){
         $sql = "SELECT * FROM utilisateur";
         $req = $this->connexionbdd->prepare($sql);
         $req->execute();

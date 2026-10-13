@@ -17,14 +17,14 @@ class FormationRepository{
         return $formation;
     }
 
-    public function getAllFormation(){
+    public function getFormations(){ // a verifier pluriel ou pas dans tous les fichies
         $sql = "SELECT * FROM formation";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
-        $results = $req->fetchAll();
+        $result = $req->fetchAll();
         $tabFormation = array();
-        foreach ($results as $result) {
-            $tabFormation[] = new Formation($result["id_formation]"],$result["nom_formation"]);
+        foreach ($result as $results) {
+            $tabFormation[] = new Formation($results["id_formation]"],$results["nom_formation"]);
         }
         return $tabFormation;
     }

@@ -1,5 +1,5 @@
 <?php
-require_once '../bdd/Bdd.php';
+require_once '../../bdd/Bdd.php';
 require_once '../model/Alumni.php';
 
 if(isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST['date_inscription']) && isset($_POST['statut_validation']) && isset($_POST['ref_promotion']) ) {
