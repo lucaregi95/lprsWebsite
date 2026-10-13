@@ -15,7 +15,6 @@
                 $this->poste_occupe = $poste_occupe;
                 $this->ref_promotion = $ref_promotion;
                 $this->ref_entreprise = $ref_entreprise;
-
             }
 
             /**
