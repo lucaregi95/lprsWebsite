@@ -1,13 +1,37 @@
 <?php
 
-class ProfesseurFormation{
+class ProfesseurFormation
+{
 
+    protected $id_pF;
     protected $ref_professeur;
-    protected  $ref_formation;
+    protected $ref_formation;
 
-    public function __construct($ref_formation,$ref_professeur){
-        $this->ref_formation = $ref_formation;
+    /**
+     * @param $id_pF
+     * @param $ref_professeur
+     * @param $ref_formation
+     */
+    public function __construct($id_pF, $ref_professeur, $ref_formation)
+    {
+        $this->id_pF = $id_pF;
         $this->ref_professeur = $ref_professeur;
+        $this->ref_formation = $ref_formation;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdPf(){
+        return $this->id_pF;
+    }
+
+    /**
+     * @param mixed $id_pF
+     */
+    public function setIdPF($id_pF)
+    {
+        $this->id_pF = $id_pF;
     }
 
     /**
@@ -41,8 +65,6 @@ class ProfesseurFormation{
     {
         $this->ref_formation = $ref_formation;
     }
-
-    
 
 }
 
