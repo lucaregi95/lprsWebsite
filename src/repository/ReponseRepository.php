@@ -19,7 +19,7 @@ class ReponseRepository{
 
     }
 
-    public function getAllReponse(){
+    public function getAllReponses(){
         $sql = "SELECT * FROM reponse";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();

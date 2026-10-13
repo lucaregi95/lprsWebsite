@@ -17,14 +17,14 @@ class OffreRepository{
         return $offre;
     }
 
-    public function getAllOffre(){
+    public function getOffres(){ // a verifier pluriel ou pas dans tous les fichies
         $sql = "SELECT * FROM offre";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
-        $results = $req->fetchAll();
+        $result = $req->fetchAll();
         $tabOffre = array();
-        foreach ($results as $result) {
-            $tabOffre[] = new Offre($result["id_offre]"],$result["tirre"], $result["description"], $result["mission"], $result["salaire"], $result["type_offre"], $result["etat"], $result["ref_entreprise"]);
+        foreach ($result as $results) {
+            $tabOffre[] = new Offre($results["id_offre]"],$results["tirre"], $result["description"], $result["mission"], $result["salaire"], $result["type_offre"], $result["etat"], $result["ref_entreprise"]);
         }
         return $tabOffre;
     }
