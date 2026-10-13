@@ -8,7 +8,7 @@ class PartenaireRepository{
     }
 
     public function getPartenaire($id_partenaire){
-        $sql = "SELECT * FROM partenaire WHERE id_partenaire = :id_partenaire";
+        $sql = "SELECT * FROM partenaire WHERE ref_utilisateur = :id_partenaire";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_partenaire', $id_partenaire);
         $req->execute();
@@ -29,16 +29,6 @@ class PartenaireRepository{
         return $tabPartenaire;
     }
 
-
-<<<<<<< HEAD
-    public function ajoutOffre(Partenaire $partenaire){
-        $sql="INSERT INTO partenaire VALUES (:ref_utilisateur,:poste_occupe, :motif_inscription, :ref_entreprise)";
-        $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':ref_utilisateur', $partenaire-> getRefPartenaire());;
-        $req->bindValue(":poste_occupe",$partenaire-> getPosteOccupe());
-        $req->bindValue(":motif_inscription",$partenaire-> getMotifInscription());
-=======
-
     public function ajoutPartenaire(Partenaire $partenaire){
         $utilisateurRepository = new UtilisateurRepository();
         $lastId=$utilisateurRepository->ajoutUtilisateur($partenaire);
@@ -50,13 +40,12 @@ class PartenaireRepository{
         $req->bindValue(':ref_utilisateur', $lastId);
         $req->bindValue(':poste_occupe', $partenaire-> getPosteOccupe());
         $req->bindValue(":motif_inscription",$partenaire-> getmotifInscription());
->>>>>>> 4b2281df352efce08e9aef58ba84174d3b25fad8
         $req->bindValue(":ref_entreprise",$partenaire-> getRefEntreprise());
         $req->execute();
     }
 
     public function modifierOffre(Partenaire $partenaire){
-        $sql="UPDATE partenaire SET ref_utilisateur = :ref_utilisateur, poste_occupe = :poste_occupe, motif_inscription = :motif_inscription, ref_entreprise = :ref_entreprise WHERE id_partenaire = :id_partenaire";
+        $sql="UPDATE partenaire SET ref_utilisateur = :ref_utilisateur, poste_occupe = :poste_occupe, motif_inscription = :motif_inscription, ref_entreprise = :ref_entreprise WHERE ref_utilisateur = :id_partenaire";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':ref_utilisateur', $partenaire-> getRefPartenaire());
         $req->bindValue(':poste_occupe', $partenaire-> getPosteOccupe());
