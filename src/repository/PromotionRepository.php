@@ -22,7 +22,7 @@ class PromotionRepository{
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
-        $promotion = array();
+        $tabPromotion = array();
         foreach ($result as $results) {
             $tabPromotion[] = new Promotion($results["id_promotion]"],$results["annee"]);
         }
@@ -41,7 +41,7 @@ class PromotionRepository{
     public function modifierPromotion(Promotion $promotion){
         $sql="UPDATE promotion SET annee = :annee WHERE id_promotion = :id_promotion";
         $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':annee', $promotion-> getannee());
+        $req->bindValue(':annee', $promotion->getannee());
         $req->bindValue(':id_promotion', $promotion-> getIdPromotion());
         $req->execute();
 
