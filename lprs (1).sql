@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 22 sep. 2026 à 08:11
+-- Généré le : mar. 13 oct. 2026 à 08:20
 -- Version du serveur : 9.1.0
 -- Version de PHP : 8.3.14
 
@@ -179,8 +179,10 @@ DROP TABLE IF EXISTS `post`;
 CREATE TABLE IF NOT EXISTS `post` (
   `id_post` int NOT NULL AUTO_INCREMENT,
   `contenu` longtext NOT NULL,
-  `datetime` datetime NOT NULL,
+  `date_sujet` datetime NOT NULL,
   `ref_utilisateur` int NOT NULL,
+  `categorie_sujet` text NOT NULL,
+  `titre` text NOT NULL,
   PRIMARY KEY (`id_post`),
   KEY `fk_postUtilisateur` (`ref_utilisateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -243,6 +245,23 @@ CREATE TABLE IF NOT EXISTS `reponse` (
   PRIMARY KEY (`id_reponse`),
   KEY `fk_reponsePost` (`ref_post`),
   KEY `fk_utilisateurPost` (`ref_utilisateur`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `signalement`
+--
+
+DROP TABLE IF EXISTS `signalement`;
+CREATE TABLE IF NOT EXISTS `signalement` (
+  `id_signalement` int NOT NULL AUTO_INCREMENT,
+  `date` datetime NOT NULL,
+  `ref_signalant` int NOT NULL,
+  `ref_signale` int NOT NULL,
+  `titre` text NOT NULL,
+  `contenu` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`id_signalement`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
