@@ -27,44 +27,89 @@ if(isset($_GET['page'])){
 }
 $inscription="Pas de compte ? Inscrivez-vous";
 ?>
+?>
 <!DOCTYPE html>
-
-<html lang=fr>
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Connexion</title>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width,initial-scale=1" name="viewport"/>
+    <title>
+        Campus - Connexion
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+    <link href="style.css" rel="stylesheet"/>
 </head>
+<body class="body_connexion">
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="brand" href="accueil.php">
+            <img class="logo" src="img/logo.png">
+        </a>
+        <button class="navbar-toggler" data-bs-target="#m" data-bs-toggle="collapse">
+          <span class="navbar-toggler-icon">
+          </span>
+        </button>
+        <div class="collapse navbar-collapse" id="m">
+            <ul class="navbar-nav ms-4 me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="accueil.php">
+                        Accueil
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="evenement.php">
+                        Évènement
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="offre.php">
+                        Offre
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="forum.php">
+                        Forum
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<main class="container mt-5">
+    <div class="auth-wrapper">
+        <div class="auth">
+            <div class="p-4 p-lg-4">
+                <div class="auth-form">
+                    <h4 class="fw-bold text-center">Connexion</h4>
+                    <p class="muted small-t text-center">Renseigne tes informations.</p>
 
-<body>
-<div ontainer mt-3 mb-3">
-<div>
-    <h1>Connectez-vous à votre compte LPRS</h1>
-</div>
+                    <form method="POST" action="connexion2.php">
+                        <label for="email">Adresse e-mail :</label><br>
+                        <input type="email" id="email" name="email" value="<?=$email?>" autocomplete="off" required><br><br>
 
-<div>
-    <div>
-        <div>
-            <form method="POST" action="connexion2.php">
-                <label for="email">Adresse e-mail :</label><br>
-                <input type="email" id="email" name="email" value="<?=$email?>" autocomplete="off" required><br><br>
+                        <label for="mdp">Mot de Passe :</label><br>
+                        <input type="password" id="mdp" name="mdp" autocomplete="off" required><br>
 
-                <label for="mdp">Mot de Passe :</label><br>
-                <input type="password" id="mdp" name="mdp" autocomplete="off" required><br>
+                        <?php if (isset($page)) {?>
+                            <input type="hidden" value="<?=$page?>" name="page">
+                        <?php } ?>
+                        <h6><?=$erreur?></h6>
 
-                <?php if (isset($page)) {?>
-                    <input type="hidden" value="<?=$page?>" name="page">
-                <?php } ?>
-                <h6><?=$erreur?></h6>
+                        <button type="submit">Connectez-vous !</button><br><br>
+                    </form>
 
-                <button type="submit">Connectez-vous !</button><br><br>
-            </form>
-            <div>
-                <a href="inscription.php"><?=$inscription?></a>
+                    <p class="small-t text-center mt-3 mb-0">
+                        Pas encore de compte ?
+                    <div>
+                        <a href="inscription.php"><?=$inscription?></a>
+                    </div>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
-</div>
-</div>
+</main>
 <footer>
     <div>
         <div>
@@ -78,6 +123,7 @@ $inscription="Pas de compte ? Inscrivez-vous";
         <p>© 2026 — Luca Regi, Nassim Kharfouche, Prosper Fajnzyn, William Lemaire — Tous droits réservés</p>
     </div>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
 </body>
 </html>
-
