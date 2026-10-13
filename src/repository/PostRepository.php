@@ -32,11 +32,11 @@ class PostRepository{
     }
 
     public function ajouterPost(Post $id_post){
-        $sql = "INSERT INTO post(id_post,contenu,date_sujet,titre,ref_utilisateur,categorie_sujet) VALUES(:id_post,:contenu,:date_sujet,:titre,:ref_utilisateur,:categorie_sujet)";
+        $sql = "INSERT INTO post(id_post,contenu,date_post,titre,ref_utilisateur,categorie_post) VALUES(:id_post,:contenu,:date_post,:titre,:ref_utilisateur,:categorie_post)";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_post',$id_post->getIdPost());
         $req->bindValue(':contenu',$id_post->getContenu());
-        $req->bindValue(':date_sujet',$id_post->getDateSujet());
+        $req->bindValue(':date_Post',$id_post->getDatePost());
         $req->execute();
 
     }
@@ -49,10 +49,10 @@ class PostRepository{
     }
 
     public function modifierPost(Post $post){
-        $sql = "UPDATE post SET contenu=:contenu, date=:date_sujet, titre=:titre,categorie_sujet=:categorie_sujet, WHERE id_post=:id_post";
+        $sql = "UPDATE post SET contenu=:contenu, date=:date_post, titre=:titre,categorie_post=:categorie_post, WHERE id_post=:id_post";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':contenu',$post->getContenu());
-        $req->bindValue(':dateusujet',$post->getDateSujet());
+        $req->bindValue(':datePost',$post->getDatePost());
         $req->bindValue(':id_post',$post->getIdPost());
         $req->execute();
 

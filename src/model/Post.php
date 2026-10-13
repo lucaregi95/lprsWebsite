@@ -3,10 +3,10 @@
 class Post{
     private $id_post;
     private $contenu;
-    private $date_sujet;
+    private $date_post;
     private $titre;
     private $ref_utilisateur;
-    private $categorie_sujet;
+    private $categorie_post;
 
     /**
      * @param $id_post
@@ -61,7 +61,7 @@ class Post{
     /**
      * @return mixed
      */
-    public function getDateSujet()
+    public function getDatePost()
     {
         return $this->date_sujet;
     }
@@ -69,7 +69,7 @@ class Post{
     /**
      * @param mixed $date_sujet
      */
-    public function setDateSujet($date_sujet)
+    public function setDatePost($date_sujet)
     {
         $this->date_sujet = $date_sujet;
     }
