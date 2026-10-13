@@ -228,16 +228,28 @@
                         <label class="form-label small-t">
                             Formation enseignée
                         </label>
-                        <select class="form-select form-select-sm">
-                            <option>
-                                BUT Informatique
-                            </option>
-                            <option>
-                                Master MIAGE
-                            </option>
-                            <option>
-                                Licence Droit
-                            </option>
+                        <select class="form-control" id="classe" name="ref_classe" required>
+
+
+                            <optgroup label="Lycée Professionnel">
+                                <option value="1">Troisième Prépa Pro</option>
+                                <option value="2">Bac Pro TRPM</option>
+                                <option value="3">Bac Pro MSPC</option>
+                                <option value="4">Bac Pro CIEL</option>
+                                <option value="5">Formation SST</option>
+                            </optgroup>
+
+                            <optgroup label="Lycée Technologique">
+                                <option value="6">Bac STI2D</option>
+                            </optgroup>
+
+                            <optgroup label="Enseignement supérieur et UFA">
+                                <option value="7">BTS CPRP</option>
+                                <option value="8">BTS SIO – Option SISR</option>
+                                <option value="9">BTS SIO – Option SLAM</option>
+                                <option value="10">BTS MS</option>
+                                <option value="11">CQPM</option>
+                            </optgroup>
                         </select>
                     </div>
                 </div>

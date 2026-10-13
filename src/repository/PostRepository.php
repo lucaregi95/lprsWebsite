@@ -32,11 +32,14 @@ class PostRepository{
     }
 
     public function ajouterPost(Post $id_post){
-        $sql = "INSERT INTO post(id_post,contenu,date_post,titre,ref_utilisateur,categorie_post) VALUES(:id_post,:contenu,:date_post,:titre,:ref_utilisateur,:categorie_post)";
+        $sql = "INSERT INTO post(id_post,contenu,date_post,titre,ref_utilisateur,categorie_post) VALUES(:id_post,:contenu,:date_post,:titre,:categorie_post,:ref_utilisateur)";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_post',$id_post->getIdPost());
         $req->bindValue(':contenu',$id_post->getContenu());
         $req->bindValue(':date_Post',$id_post->getDatePost());
+        $req->bindValue(':titre',$id_post->getTitre());
+        $req->bindValue(':categorie_post',$id_post->getCategoriePost());
+        $req->bindValue(':ref_utilisateur',$id_post->getRefUtilisateur());
         $req->execute();
 
     }

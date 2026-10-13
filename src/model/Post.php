@@ -11,19 +11,19 @@ class Post{
     /**
      * @param $id_post
      * @param $contenu
-     * @param $date_sujet
+     * @param $date_post
      * @param $titre
+     * @param $categorie_post
      * @param $ref_utilisateur
-     * @param $categorie_sujet
-     */
-    public function __construct($id_post, $contenu, $date_sujet, $titre, $ref_utilisateur, $categorie_sujet)
+ */
+    public function __construct($id_post, $contenu, $date_post, $titre, $categorie_post, $ref_utilisateur)
     {
         $this->id_post = $id_post;
         $this->contenu = $contenu;
-        $this->date_sujet = $date_sujet;
+        $this->date_post = $date_post;
         $this->titre = $titre;
+        $this->categorie_post = $categorie_post;
         $this->ref_utilisateur = $ref_utilisateur;
-        $this->categorie_sujet = $categorie_sujet;
     }
 
     /**
@@ -63,15 +63,15 @@ class Post{
      */
     public function getDatePost()
     {
-        return $this->date_sujet;
+        return $this->date_post;
     }
 
     /**
-     * @param mixed $date_sujet
+     * @param mixed $date_post
      */
-    public function setDatePost($date_sujet)
+    public function setDatePost($date_post)
     {
-        $this->date_sujet = $date_sujet;
+        $this->date_post = $date_post;
     }
 
     /**
@@ -109,17 +109,17 @@ class Post{
     /**
      * @return mixed
      */
-    public function getCategorieSujet()
+    public function getCategoriePost()
     {
-        return $this->categorie_sujet;
+        return $this->categorie_post;
     }
 
     /**
-     * @param mixed $categorie_sujet
+     * @param mixed $categorie_post
      */
-    public function setCategorieSujet($categorie_sujet)
+    public function setCategoriePost($categorie_post)
     {
-        $this->categorie_sujet = $categorie_sujet;
+        $this->categorie_post = $categorie_post;
     }
 
 
