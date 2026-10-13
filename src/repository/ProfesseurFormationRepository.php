@@ -1,5 +1,6 @@
 <?php
-
+require_once "../../bdd/Bdd.php";
+require_once "../model/ProfesseurFormation.php";
 class ProfesseurFormationRepository{
     private $connexionBdd;
 
