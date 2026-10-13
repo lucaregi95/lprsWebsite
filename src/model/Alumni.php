@@ -5,80 +5,7 @@
         protected $cv;
 
         protected $poste_occupe;
-<<<<<<< HEAD
-    public function __construct($ref_alumni,$cv, $poste_occupe ,$id_utilisateur,$nom, $prenom, $mail, $mdp, $date_inscription, $statut_validation) {
-        parent::__construct($id_utilisateur,$nom, $prenom, $mail, $mdp, $date_inscription, $statut_validation);
-    $this->ref_alumni = $ref_alumni;
-    $this->cv = $cv;
-    $this->poste_occupe = $poste_occupe;}
-=======
-        protected $ref_promotion;
-        protected $ref_entreprise;
->>>>>>> 4b2281df352efce08e9aef58ba84174d3b25fad8
 
-        /**
-         * @return mixed
-         */
-        public function getRefPromotion()
-        {
-            return $this->ref_promotion;
-        }
-
-        /**
-         * @param mixed $ref_promotion
-         */
-        public function setRefPromotion($ref_promotion)
-        {
-            $this->ref_promotion = $ref_promotion;
-        }
-
-        /**
-         * @return mixed
-         */
-        public function getRefEntreprise()
-        {
-            return $this->ref_entreprise;
-        }
-
-        /**
-         * @param mixed $ref_entreprise
-         */
-        public function setRefEntreprise($ref_entreprise)
-        {
-            $this->ref_entreprise = $ref_entreprise;
-        }
-
-        /**
-         * @return mixed
-         */
-        public function getCV()
-        {
-            return $this->cv;
-        }
-
-        /**
-         * @param mixed $cv
-         */
-        public function setCV($cv)
-        {
-            $this->cv = $cv;
-        }
-
-        /**
-         * @return mixed
-         */
-        public function getPosteOccupe()
-        {
-            return $this->poste_occupe;
-        }
-
-        /**
-         * @param mixed $poste_occupe
-         */
-        public function setPosteOccupe($poste_occupe)
-        {
-            $this->poste_occupe = $poste_occupe;
-        }
 
 
             public function __construct($id_utilisateur, $nom, $prenom, $mail, $mdp, $date_inscription, $statut_validation, $ref_utilisateur, $cv, $poste_occupe, $ref_promotion, $ref_entreprise)
@@ -88,7 +15,6 @@
                 $this->poste_occupe = $poste_occupe;
                 $this->ref_promotion = $ref_promotion;
                 $this->ref_entreprise = $ref_entreprise;
-
             }
 
             /**

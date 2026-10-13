@@ -1,24 +1,17 @@
 <?php
-require_once '../bdd/Bdd.php';
+require_once '../../bdd/Bdd.php';
 require_once '../model/Professeur.php';
 
-if(isset($_POST['specialite']) && isset($_POST['ref_professeur'])) {
+if(isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST['date_inscription']) && isset($_POST['statut_validation']) && isset($_POST['ref_promotion']) ) {
     $id_utilisateur = (isset($_POST['id_utilisateur'])) ? $_POST['id_utilisateur'] : null;
-    $description = (isset($_POST['$description'])) ? $_POST['$description'] : null;
-    $missions = (isset($_POST['missions'])) ? $_POST['missions'] : null;
-    $salaire = (isset($_POST['salaire'])) ? $_POST['salaire'] : null;
-    $type_offre = (isset($_POST['type_offre'])) ? $_POST['type_offre'] : null;
-    $etat = (isset($_POST['etat'])) ? $_POST['etat'] : null;
-    $ref_utilisateur = (isset($_POST['ref_utilisateur']));
-    $specialite = (isset($_POST['specialite']));
-    $titre = (isset($_POST['titre'])) ? $_POST['titre'] : null;
+    $ref_utilisateur = (isset($_POST['ref_utilisateur'])) ? $_POST['ref_utilisateur'] : null;
+    $specialite = (isset($_POST['specialite'])) ? $_POST['specialite'] : null;
+    $mdp= $_POST['mdp'];
+    if (substr($mdp, 0, 4) != '$2y$') {//compare les 4 caracteres a partir du caractere 0
+        $mdp = password_hash($mdp, PASSWORD_DEFAULT);
 
+        // comme le fichier sert a la fois pour l'ajout ET la modif, ca evite de re hasher un mdp deja hasher
+    }
 
-
-$professeur = new Professeur($id_utilisateur,$description, $missions, $salaire, $type_offre, $etat,$ref_utilisateur,$specialite);
+    $professeur = new Professeur($id_utilisateur,$_POST['nom'],$_POST['prenom'], $_POST['email'], $mdp, $_POST["date_inscription"], $_POST["statut_validation"],$ref_utilisateur,$specialite);
 }
-
-
-
-
-?>
