@@ -25,7 +25,7 @@ class ProfesseurFormationRepository{
         $req->execute();
         $resultat = $req->fetchAll();
         $tabProfesseurFormation = array();
-        foreach($results as $result) {
+        foreach($resultat as $results) {
             $tabProfesseurFormation[] = new ProfesseurFormation($results['id_pF'], $results['ref_professeur'], $results['ref_formation']);
         }
             return $tabProfesseurFormation;

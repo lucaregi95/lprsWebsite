@@ -34,7 +34,7 @@ class UtilisateurRepository{
         return $tabUtilisateur;
     }
 
-    public function getUtilisateurs(){
+    public function getAllUtilisateurs(){
         $sql = "SELECT * FROM utilisateur";
         $req = $this->connexionbdd->prepare($sql);
         $req->execute();
