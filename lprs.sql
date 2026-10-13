@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 13 oct. 2026 à 08:20
+-- Généré le : mar. 13 oct. 2026 à 09:39
 -- Version du serveur : 9.1.0
 -- Version de PHP : 8.3.14
 
@@ -179,10 +179,10 @@ DROP TABLE IF EXISTS `post`;
 CREATE TABLE IF NOT EXISTS `post` (
   `id_post` int NOT NULL AUTO_INCREMENT,
   `contenu` longtext NOT NULL,
-  `date_sujet` datetime NOT NULL,
+  `date_post` datetime NOT NULL,
   `ref_utilisateur` int NOT NULL,
-  `categorie_sujet` text NOT NULL,
-  `titre` text NOT NULL,
+  `categorie_post` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `titre` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id_post`),
   KEY `fk_postUtilisateur` (`ref_utilisateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -261,7 +261,9 @@ CREATE TABLE IF NOT EXISTS `signalement` (
   `ref_signale` int NOT NULL,
   `titre` text NOT NULL,
   `contenu` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`id_signalement`)
+  PRIMARY KEY (`id_signalement`),
+  KEY `fk_utilisateurSignalant` (`ref_signalant`),
+  KEY `fk_utilisateurSignale` (`ref_signale`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -306,20 +308,20 @@ ALTER TABLE `etudiant`
 -- Contraintes pour la table `offre`
 --
 ALTER TABLE `offre`
-  ADD CONSTRAINT `fk_entrepriseOffre` FOREIGN KEY (`ref_entreprise`) REFERENCES `entreprise` (`id_entreprise`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `fk_entrepriseOffre` FOREIGN KEY (`ref_entreprise`) REFERENCES `entreprise` (`id_entreprise`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `offreutilisateur`
 --
 ALTER TABLE `offreutilisateur`
-  ADD CONSTRAINT `fk_offreOffreUtilisateur` FOREIGN KEY (`ref_offre`) REFERENCES `offre` (`id_offre`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `fk_utilisateurOffreUtilisateur` FOREIGN KEY (`ref_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `fk_offreOffreUtilisateur` FOREIGN KEY (`ref_offre`) REFERENCES `offre` (`id_offre`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_utilisateurOffreUtilisateur` FOREIGN KEY (`ref_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `partenaire`
 --
 ALTER TABLE `partenaire`
-  ADD CONSTRAINT `fk_entreprisePartenaire` FOREIGN KEY (`ref_entreprise`) REFERENCES `entreprise` (`id_entreprise`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `fk_entreprisePartenaire` FOREIGN KEY (`ref_entreprise`) REFERENCES `entreprise` (`id_entreprise`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_utilisateurPartenaire` FOREIGN KEY (`ref_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -354,6 +356,13 @@ ALTER TABLE `professeurformation`
 ALTER TABLE `reponse`
   ADD CONSTRAINT `fk_reponsePost` FOREIGN KEY (`ref_post`) REFERENCES `post` (`id_post`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `fk_utilisateurPost` FOREIGN KEY (`ref_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `signalement`
+--
+ALTER TABLE `signalement`
+  ADD CONSTRAINT `fk_utilisateurSignalant` FOREIGN KEY (`ref_signalant`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_utilisateurSignale` FOREIGN KEY (`ref_signale`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
