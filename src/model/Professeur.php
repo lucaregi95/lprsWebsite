@@ -39,6 +39,10 @@ class Professeur extends Utilisateur{
         $this->specialite = $specialite;
     }
 
+    public function getRefProfesseur(){
+        return $this->ref_utilisateur;
+    }
+
 
 
 
