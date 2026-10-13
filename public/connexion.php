@@ -1,4 +1,33 @@
-<?php?>
+<?php
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+$bdd = null;
+require_once('bdd/bdd.php');
+
+$nom=null;
+$prenom=null;
+$email=null;
+if(isset($_POST['email'])){
+    $email=$_POST['email'];
+}
+$erreur=null;
+$inscription=null;
+if(isset($_GET['erreur'])){
+    if ($_GET['erreur']=='unknown'){
+        $erreur="Identifiants inexistants ou incorrects";
+    }
+
+}
+
+if(isset($_GET['page'])){
+    $page=$_GET['page'];
+
+}
+$inscription="Pas de compte ? Inscrivez-vous";
+?>
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -55,128 +84,32 @@
                     <h4 class="fw-bold text-center">Connexion</h4>
                     <p class="muted small-t text-center">Renseigne tes informations.</p>
 
-                    <form>
-                        <div class="mb-3">
-                            <label class="form-label small-t">Adresse e-mail</label>
-                            <input class="form-control form-control-sm" type="email" value=""/>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label small-t">Mot de passe</label>
-                            <input class="form-control form-control-sm" type="password" value=""/>
-                        </div>
-                        <div class="d-flex justify-content-between mb-3 small-t">
-                        <span class="form-check">
-                            <input class="form-check-input" type="checkbox"/>
-                            Se souvenir de moi
-                        </span>
-                            <a href="#">Mot de passe oublié ?</a>
-                        </div>
-                        <button class="btn btn-primary w-100" type="button">Se connecter</button>
+                    <form method="POST" action="connexion2.php">
+                        <label for="email">Adresse e-mail :</label><br>
+                        <input type="email" id="email" name="email" value="<?=$email?>" autocomplete="off" required><br><br>
+
+                        <label for="mdp">Mot de Passe :</label><br>
+                        <input type="password" id="mdp" name="mdp" autocomplete="off" required><br>
+
+                        <?php if (isset($page)) {?>
+                            <input type="hidden" value="<?=$page?>" name="page">
+                        <?php } ?>
+                        <h6><?=$erreur?></h6>
+
+                        <button type="submit">Connectez-vous !</button><br><br>
                     </form>
 
                     <p class="small-t text-center mt-3 mb-0">
                         Pas encore de compte ?
-                        <a href="inscription.php">Créer un compte maintenant</a>
+                    <div>
+                        <a href="inscription.php"><?=$inscription?></a>
+                    </div>
                     </p>
                 </div>
             </div>
         </div>
     </div>
 </main>
-<footer>
-    <div class="container d-flex flex-wrap justify-content-between">
-        <b class="text-dark">
-            LPRS
-        </b>
-        <div>
-            <a href="#">
-                Aide
-            </a>
-            <a href="#">
-                Règles de la communauté
-            </a>
-            <a href="#">
-                Mentions légales
-            </a>
-            <a href="#">
-                Confidentialité
-            </a>
-        </div>
-    </div>
-    <div class="container mt-2">
-        © 2026 LPRS. Tous droits réservés.
-    </div>
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-</script>
-</body>
-</html>
-
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-$bdd = null;
-require_once('bdd/bdd.php');
-
-$nom=null;
-$prenom=null;
-$email=null;
-if(isset($_POST['email'])){
-    $email=$_POST['email'];
-}
-$erreur=null;
-$inscription=null;
-if(isset($_GET['erreur'])){
-    if ($_GET['erreur']=='unknown'){
-        $erreur="Identifiants inexistants ou incorrects";
-    }
-
-}
-
-if(isset($_GET['page'])){
-    $page=$_GET['page'];
-
-}
-$inscription="Pas de compte ? Inscrivez-vous";
-?>
-<!DOCTYPE html>
-
-<html lang=fr>
-<head>
-    <meta charset="UTF-8">
-    <title>Connexion</title>
-</head>
-
-<body>
-<div ontainer mt-3 mb-3">
-<div>
-    <h1>Connectez-vous à votre compte LPRS</h1>
-</div>
-
-<div>
-    <div>
-        <div>
-            <form method="POST" action="connexion2.php">
-                <label for="email">Adresse e-mail :</label><br>
-                <input type="email" id="email" name="email" value="<?=$email?>" autocomplete="off" required><br><br>
-
-                <label for="mdp">Mot de Passe :</label><br>
-                <input type="password" id="mdp" name="mdp" autocomplete="off" required><br>
-
-                <?php if (isset($page)) {?>
-                    <input type="hidden" value="<?=$page?>" name="page">
-                <?php } ?>
-                <h6><?=$erreur?></h6>
-
-                <button type="submit">Connectez-vous !</button><br><br>
-            </form>
-            <div>
-                <a href="inscription.php"><?=$inscription?></a>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
 <footer>
     <div>
         <div>
@@ -190,6 +123,7 @@ $inscription="Pas de compte ? Inscrivez-vous";
         <p>© 2026 — Luca Regi, Nassim Kharfouche, Prosper Fajnzyn, William Lemaire — Tous droits réservés</p>
     </div>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
 </body>
 </html>
-
