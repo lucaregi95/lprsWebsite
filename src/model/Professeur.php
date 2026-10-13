@@ -14,11 +14,13 @@ class Professeur extends Utilisateur{
      * @param $date_inscription
      * @param $statut_validation
      * @param $specialite
+     * @param $ref_utilisateur
      */
-    public function __construct($id_utilisateur, $nom, $prenom, $email, $mdp, $date_inscription, $statut_validation, $specialite)
+    public function __construct($id_utilisateur, $nom, $prenom, $email, $mdp, $date_inscription, $statut_validation, $specialite,$ref_utilisateur)
     {
         parent::__construct($id_utilisateur, $nom, $prenom, $email, $mdp, $date_inscription, $statut_validation);
         $this->specialite = $specialite;
+        $this->ref_utilisateur = $ref_utilisateur;
     }
 
     /**

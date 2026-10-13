@@ -30,12 +30,27 @@ class PartenaireRepository{
     }
 
 
+<<<<<<< HEAD
     public function ajoutOffre(Partenaire $partenaire){
         $sql="INSERT INTO partenaire VALUES (:ref_utilisateur,:poste_occupe, :motif_inscription, :ref_entreprise)";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':ref_utilisateur', $partenaire-> getRefPartenaire());;
         $req->bindValue(":poste_occupe",$partenaire-> getPosteOccupe());
         $req->bindValue(":motif_inscription",$partenaire-> getMotifInscription());
+=======
+
+    public function ajoutPartenaire(Partenaire $partenaire){
+        $utilisateurRepository = new UtilisateurRepository();
+        $lastId=$utilisateurRepository->ajoutUtilisateur($partenaire);
+        if($lastId==0){
+            return null;
+        }
+        $sql="INSERT INTO partenaire VALUES (:ref_utilisateur, :poste_occupe, :motif_inscription, :ref_entreprise)";
+        $req = $this->connexionbdd->prepare($sql);
+        $req->bindValue(':ref_utilisateur', $lastId);
+        $req->bindValue(':poste_occupe', $partenaire-> getPosteOccupe());
+        $req->bindValue(":motif_inscription",$partenaire-> getmotifInscription());
+>>>>>>> 4b2281df352efce08e9aef58ba84174d3b25fad8
         $req->bindValue(":ref_entreprise",$partenaire-> getRefEntreprise());
         $req->execute();
     }

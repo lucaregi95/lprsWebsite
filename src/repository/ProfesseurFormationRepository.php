@@ -43,4 +43,11 @@ class ProfesseurFormationRepository{
         $req->execute();
     }
 
+    public function supprimerProfesseurFormation($id_pF){
+        $sql = "DELETE FROM professeurformation WHERE id_pF = ?";
+        $req = $this->connexionbdd->prepare($sql);
+        $req->bindValue('id_pF', $id_pF);
+        $req->execute();
+    }
+
 }
