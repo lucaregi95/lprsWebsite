@@ -15,6 +15,15 @@ class UtilisateurRepository{
         $result = $req->fetch();
     }
 
+    public function getUtilisateurParEmailEtMDP($email, $mdp){
+        $sql = "SELECT * FROM utilisateur WHERE email = :email AND mdp = :mdp";
+        $req = $this->connexionbdd->prepare($sql);
+        $req->bindValue(':email', $email);
+        $req->bindValue(':mdp', $mdp);
+        $req->execute();
+        $result = $req->fetch();
+    }
+
     public function getAllUtilisateur(){
         $sql = "SELECT * FROM utilisateur";
         $req = $this->connexionbdd->prepare($sql);
@@ -22,10 +31,10 @@ class UtilisateurRepository{
         $result = $req->fetchAll();
         $tabUtilisateur = array();
         return $tabUtilisateur;
-        }
+    }
 
 
-        public function ajoutUtilisateur(Utilisateur $utilisateur){
+    public function ajoutUtilisateur(Utilisateur $utilisateur){
         $sql="INSERT INTO utilisateur VALUES (:nom,:prenom,:email,:mdp,:statut_validation)";
         $req = $this->connexionbdd->prepare($sql);
         $req->bindValue(":nom",$utilisateur-> getNom());
@@ -35,9 +44,9 @@ class UtilisateurRepository{
         $req->bindValue(":statut_validation",$utilisateur-> getStatutValidation());
         $req->execute();
         return (int) $this->connexionbdd->lastInsertId();
-        }
+    }
 
-        public function modifierUtilisateur(Utilisateur $utilisateur){
+    public function modifierUtilisateur(Utilisateur $utilisateur){
         $sql="UPDATE utilisateur SET nom = :nom, prenom =:prenom, email=:email, mdp=:mdp, statut_validation=:statut_validation WHERE id_utilisateur = :id_utilisateur";
         $req = $this->connexionbdd->prepare($sql);
         $req->bindValue(':id_utilisateur', $utilisateur-> getIdUtilisateur());
@@ -49,7 +58,7 @@ class UtilisateurRepository{
         $req->bindValue(':id_utilisateur',$utilisateur-> getIdUtilisateur());
         $req->execute();
 
-        }
+    }
 
     public function supprimerUtilisateur($id_utilisateur){
         $sql="DELETE FROM utilisateur WHERE id_utilisateur = :id_utilisateur";
@@ -57,13 +66,4 @@ class UtilisateurRepository{
         $req->bindValue(':id_utilisateur', $id_utilisateur);
         $req->execute();
     }
-
-
-
-
-
-
-
-
-
 }
