@@ -24,17 +24,7 @@ class UtilisateurRepository{
         $req->execute();
         $result = $req->fetch();
     }
-
-    public function getAllUtilisateurs(){
-        $sql = "SELECT * FROM utilisateur";
-        $req = $this->connexionbdd->prepare($sql);
-        $req->execute();
-        $result = $req->fetchAll();
-        $tabUtilisateur = array();
-        return $tabUtilisateur;
-    }
-
-    public function getAllUtilisateurs(){
+    public function getUtilisateurs(){
         $sql = "SELECT * FROM utilisateur";
         $req = $this->connexionbdd->prepare($sql);
         $req->execute();
