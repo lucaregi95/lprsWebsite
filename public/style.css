@@ -1,14 +1,22 @@
 :root{
-    --b: #193efd;
-    --b2:#3b55e6;
-    --c:#eef1ff;
-    --l:#e3e7fa;
-    --t:#1c2340;
-    --m: #ffffff;
+    --b: #193efd;      /* bleu principal */
+    --b2:#3b55e6;      /* bleu survol */
+    --c: #eef1ff;      /* fond lavande clair (hero, bandeaux, lignes) */
+    --soft:#f6f8ff;    /* fond très clair (panneaux latéraux) */
+    --l: #e3e7fa;      /* bordures */
+    --t: #1c2340;      /* texte principal */
+    --m: #5d6685;      /* texte secondaire */
 }
+
 .logo{
     height: 75px;
     width: 75px;
+    object-fit:contain;
+}
+
+.logo-profil{
+    height: 125px;
+    width: 125px;
 }
 
 body{
@@ -21,7 +29,7 @@ body{
 .navbar{
     border-bottom:1px solid var(--l);
     padding:.6rem 0;
-    background-color: white;
+    background-color: #fff;
 }
 
 .brand{
@@ -47,7 +55,7 @@ body{
 }
 
 .nav-link{
-    color:var(--b)!important;
+    color:var(--m)!important;
     font-size:.85rem;
 }
 
@@ -60,7 +68,6 @@ body{
 .nav-link.active{
     color:var(--b)!important;
     font-weight:600;
-    border-bottom:2px solid var(--b);
 }
 
 .btn-primary{
@@ -70,6 +77,7 @@ body{
 }
 .btn-primary:hover{
     background:var(--b2);
+    border-color:var(--b2);
 }
 
 .btn-outline-primary{
@@ -80,6 +88,7 @@ body{
 .btn-outline-primary:hover{
     background:var(--b);
     border-color:var(--b);
+    color:#fff;
 }
 
 .avatar{
@@ -102,24 +111,26 @@ body{
     font-size:1.3rem;
 }
 
-.hero{
-    background: #3e36fa;
-    background: linear-gradient(159deg, rgba(63, 52, 253, 0.9) 5%, rgba(168, 168, 255, 1) 81%, rgba(255, 250, 250, 1) 100%);
-    padding:1.6rem 0 2.2rem;
-    color: white;
+.avatar.soft{
+    background:#fff;
+    color:var(--m);
+    border:1px solid var(--l);
 }
 
-
+.hero{
+    background: var(--c);
+    border-bottom:1px solid var(--l);
+    padding:1.6rem 0 2.2rem;
+    color: var(--t);
+}
 
 .eyebrow{
     font-size:.68rem;
     letter-spacing:.08em;
     text-transform:uppercase;
-    color:var(--m);
+    color:var(--b);
     font-weight:600;
 }
-
-
 
 .hero h1{
     font-size:1.9rem;
@@ -136,6 +147,7 @@ body{
     border-radius:10px;
     background:#fff;
     padding:1rem;
+    width:100%;
 }
 
 .box h6{
@@ -150,6 +162,16 @@ body{
     padding:.1rem .6rem;
     font-size:.7rem;
     font-weight:600;
+    display:inline-block;
+}
+
+.chip{
+    background:#fff;
+    color:var(--m);
+    border:1px solid var(--l);
+    border-radius:4px;
+    padding:.05rem .5rem;
+    font-size:.68rem;
     display:inline-block;
 }
 
@@ -175,11 +197,17 @@ body{
 .row-i{
     border:1px solid var(--l);
     border-radius:10px;
+    background:#fff;
     padding:.8rem 1rem;
     display:flex;
     gap:.8rem;
     align-items:center;
     margin-bottom:.7rem;
+}
+
+.row-i.forum{
+    background:var(--c);
+    border-color:var(--c);
 }
 
 .logo-sq{
@@ -215,7 +243,7 @@ body{
 }
 .small-t{
     font-size:.78rem;
-    color: #1c2340;
+    color: var(--m);
 }
 
 .page-link{
@@ -246,21 +274,95 @@ body{
     color:#fff;
 }
 
+/* ===== Éléments de la page d'accueil ===== */
+.side-box{
+    background:var(--soft);
+    border:1px solid var(--l);
+    padding:1rem;
+    margin-bottom:1rem;
+}
+.side-box .side-link{
+    display:flex;
+    align-items:center;
+    gap:.5rem;
+    color:var(--t);
+    text-decoration:none;
+    font-size:.8rem;
+    padding:.25rem 0;
+}
+.side-box .side-link span.n{
+    margin-left:auto;
+    color:var(--b);
+    font-weight:600;
+}
+
+.banner{
+    border:1px solid #b8c6ff;
+    background:var(--c);
+    padding:.8rem 1rem;
+    display:flex;
+    align-items:center;
+    gap:.8rem;
+    color:var(--t);
+    text-decoration:none;
+}
+.banner i{ color:var(--b); }
+.banner .go{ margin-left:auto; }
+
+.section-title{
+    font-size:1.05rem;
+    font-weight:700;
+    margin:0;
+}
+.link-more{
+    color:var(--b);
+    font-size:.78rem;
+    text-decoration:none;
+}
+.link-more:hover{
+    color:var(--b2);
+    text-decoration:underline;
+}
+
+.date-tag{
+    background:var(--c);
+    color:var(--b);
+    border:1px solid #b8c6ff;
+    border-radius:3px;
+    padding:.1rem .5rem;
+    font-size:.65rem;
+    font-weight:600;
+    display:inline-block;
+}
+
+.stat{
+    border:1px solid var(--l);
+    background:#fff;
+    border-radius:10px;
+    padding:.8rem 1rem;
+    text-align:center;
+}
+.stat b{
+    display:block;
+    font-size:1.4rem;
+    color:var(--b);
+}
+
 .body_connexion{
-    background-color: rgba(0, 52, 255, 0.1);
+    background-color: var(--c);
 }
 
 .auth-wrapper{
-    min-height: 100vh;          /* hauteur de la page */
+    min-height: 100vh;
     display: flex;
-    align-items: center;        /* centre verticalement */
-    justify-content: center;    /* centre horizontalement */
+    align-items: center;
+    justify-content: center;
     padding: 1rem;
 }
 
 .auth{
     width: 100%;
-    max-width: 550px;           /* ta largeur de 700px */
+    max-width: 550px;
     border: 1px solid var(--l);
     border-radius: 12px;
     overflow: hidden;
@@ -268,10 +370,9 @@ body{
 }
 
 .auth-form{
-    max-width: 400px;           /* formulaire centré dans la carte */
+    max-width: 400px;
     margin: 0 auto;
 }
-
 
 .ill{
     background:#fff;
@@ -286,20 +387,23 @@ body{
 
 footer{
     border-top:1px solid var(--l);
-    margin-top:3rem;
     padding:1rem 0;
     font-size:.75rem;
-    color:var(--t);
-    background-color: white;
-
+    color:var(--m);
+    background-color: #fff;
+}
+footer .foot-brand{
+    color:var(--b);
+    font-size:.95rem;
 }
 footer a{
-    color:var(--t);
+    color:var(--m);
     text-decoration:none;
     margin-left:1rem;
 }
 
 footer a:hover{
+    color:var(--b);
     font-weight: bold;
 }
 
@@ -326,25 +430,27 @@ table.f td,table.f th{
 .profil-layout {
     display: flex;
     min-height: 100vh;
-    background: #fafbff;
+    background: var(--soft);
 }
 
 .profil-sidebar {
     width: 240px;
     flex: none;
-    background: #4a6cff;
+    background: var(--b);
+    background: linear-gradient(159deg, #193efd 5%, #5b78ff 100%);
     padding: 1.5rem 0;
 }
 
 .profil-logo {
     background: #fff;
-    color: var(--b);
-    font-weight: 700;
-    font-size: 1.5rem;
-    text-align: center;
+    width: 125px;
+    height: 125px;
+    margin: 0 auto 3rem;
     padding: 1rem;
-    margin: 0 1.5rem 3rem;
     border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .profil-sidebar a {
@@ -417,4 +523,12 @@ table.f td,table.f th{
     .profil-sidebar {
         width: 100%;
     }
+}
+
+.mdp-champ {
+    -webkit-text-security: disc;
+}
+
+.mdp-bloc:has(#voir-mdp:checked) .mdp-champ {
+    -webkit-text-security: none;
 }

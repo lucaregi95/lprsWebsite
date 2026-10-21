@@ -56,7 +56,7 @@
         <div class="profil-box">
             <form>
                 <div class="col-lg-9">
-                    <div class="box mb-4">
+                    <div class="box_profil mb-4">
                         <h6>
                             Informations personnelles
                         </h6>
