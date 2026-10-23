@@ -532,3 +532,57 @@ table.f td,table.f th{
 .mdp-bloc:has(#voir-mdp:checked) .mdp-champ {
     -webkit-text-security: none;
 }
+
+.form-event {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease;
+}
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+.form-event:focus {
+    border-color: #0051ba;
+    box-shadow: 0 0 0 0.2rem rgba(0, 81, 186, 0.15);
+    outline: none;
+}
+textarea.form-event {
+    resize: vertical;
+    min-height: 100px;
+}
+.form-event::placeholder {
+    color: #a0a0a0;
+}
+
+.modal-header {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    padding: 1rem 1rem;
+    border-bottom: 1px solid black;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    font-family: Inter,system-ui,sans-serif;
+}
+
+.modal-content {
+    color: #000000;
+    pointer-events: auto;
+}
+
+.modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 1rem;
+}
+
+.mb-3 {
+    margin-bottom: 1rem !important;
+}

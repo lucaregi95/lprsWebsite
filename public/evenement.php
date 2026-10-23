@@ -1,4 +1,12 @@
-<?php?>
+<?php
+
+
+
+
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -70,12 +78,49 @@
                 Retrouve tous les évènements de LPRS.
             </p>
         </div>
-        <a class="btn btn-primary" href="#">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
             + Proposer un évènement
-        </a>
+        </button>
     </div>
 </header>
 <main class="container mt-4">
+    <div class="modal fade" id="addModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="eyebrow">Ajouter un évènement</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="POST">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nom de l'évènement</label>
+                            <input type="text" class="form-event" name="nom_evenement" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="description">Description</label>
+                            <textarea class="form-event" id="description" name="description" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Lieu</label>
+                            <input type="text" class="form-event" name="lieu" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nombre de Place</label>
+                            <input type="number" class="form-event" name="nbr_places" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Ajouter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
     <div class="row g-4">
         <aside class="col-lg-3">
             <div class="box mb-3">
