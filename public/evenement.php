@@ -1,9 +1,10 @@
 <?php
 
+require_once "../bdd/bdd.php";
+require_once "../src/model/Evenement.php";
+require_once "../src/repository/EvenementRepository.php";
 
-
-
-
+$evenements = (new EvenementRepository())->getAllEvenements();
 
 
 ?>
@@ -91,11 +92,11 @@
                     <div class="eyebrow">Ajouter un évènement</div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form method="POST">
+                <form method="POST" action="../src/traitement/newEvenement.php">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Nom de l'évènement</label>
-                            <input type="text" class="form-event" name="nom_evenement" required>
+                            <input type="text" class="form-event" name="titre" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="description">Description</label>
@@ -169,180 +170,35 @@
                 Évènements à venir
             </h5>
             <div class="row g-3">
-                <div class="col-md-6">
-                    <div class="box ev h-100">
-                        <div class="d-flex gap-3">
-                            <div class="logo-sq">
-                                <i class="bi bi-calendar-event">
-                                </i>
-                            </div>
-                            <div class="flex-grow-1">
-                    <span class="tag">
-                      12 places restantes
-                    </span>
-                                <h6 class="mt-1 mb-1">
-                                    Café des nouveaux arrivants
-                                </h6>
-                                <div class="muted small-t">
-                                    <i class="bi bi-geo-alt">
-                                    </i>
-                                    Salle B12, campus principal · 40 places
+                <?php if (empty($evenements)): ?>
+                    <p class="muted">Aucun évènement pour le moment.</p>
+                <?php endif; ?>
+                <?php foreach ($evenements as $evenement): ?>
+                    <?php $complet = ((int)$evenement->getNbrPlaces() <= 0); ?>
+                    <div class="col-md-6">
+                        <div class="box ev h-100">
+                            <div class="d-flex gap-3">
+                                <div class="logo-sq">
+                                    <i class="bi bi-calendar-event"></i>
                                 </div>
-                                <p class="muted small-t my-2">
-                                    Une rencontre conviviale pour accueillir les nouveaux étudiants.
-                                </p>
-                                <a class="btn btn-primary btn-sm mt-2" href="#">
-                                    S'inscrire
-                                </a>
+                                <div class="flex-grow-1">
+                                    <?php if ($complet): ?>
+                                        <span class="tag" style="background:#fde8e8;color:#c0392b">Complet</span>
+                                    <?php else: ?>
+                                        <span class="tag"><?= $evenement->getNbrPlaces() ?> places</span>
+                                    <?php endif; ?>
+                                    <h6 class="mt-1 mb-1"><?= ($evenement->getTitre()) ?></h6>
+                                    <div class="muted small-t">
+                                        <i class="bi bi-geo-alt"></i>
+                                        <?= ($evenement->getLieu()) ?> · <?= $evenement->getNbrPlaces() ?> places
+                                    </div>
+                                    <p class="muted small-t my-2"><?= ($evenement->getDescription()) ?></p>
+                                    <a class="btn btn-primary btn-sm mt-2 <?= $complet ? 'disabled' : '' ?>" href="#">S'inscrire</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="box ev h-100">
-                        <div class="d-flex gap-3">
-                            <div class="logo-sq">
-                                <i class="bi bi-calendar-event">
-                                </i>
-                            </div>
-                            <div class="flex-grow-1">
-                    <span class="tag">
-                      25 places restantes
-                    </span>
-                                <h6 class="mt-1 mb-1">
-                                    Dîner spécial des promotions
-                                </h6>
-                                <div class="muted small-t">
-                                    <i class="bi bi-geo-alt">
-                                    </i>
-                                    Restaurant universitaire · 60 places
-                                </div>
-                                <p class="muted small-t my-2">
-                                    Retrouvailles entre étudiants, alumni et professeurs.
-                                </p>
-                                <a class="btn btn-primary btn-sm mt-2" href="#">
-                                    S'inscrire
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="box ev h-100">
-                        <div class="d-flex gap-3">
-                            <div class="logo-sq">
-                                <i class="bi bi-calendar-event">
-                                </i>
-                            </div>
-                            <div class="flex-grow-1">
-                    <span class="tag">
-                      48 places restantes
-                    </span>
-                                <h6 class="mt-1 mb-1">
-                                    Meeting entreprises partenaires
-                                </h6>
-                                <div class="muted small-t">
-                                    <i class="bi bi-geo-alt">
-                                    </i>
-                                    Amphi A · 120 places
-                                </div>
-                                <p class="muted small-t my-2">
-                                    Présentation des entreprises partenaires et des offres.
-                                </p>
-                                <a class="btn btn-primary btn-sm mt-2" href="#">
-                                    S'inscrire
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="box ev h-100">
-                        <div class="d-flex gap-3">
-                            <div class="logo-sq">
-                                <i class="bi bi-calendar-event">
-                                </i>
-                            </div>
-                            <div class="flex-grow-1">
-                    <span class="tag" style="background:#fde8e8;color:#c0392b">
-                      Complet
-                    </span>
-                                <h6 class="mt-1 mb-1">
-                                    Soirée ciné &amp; débat
-                                </h6>
-                                <div class="muted small-t">
-                                    <i class="bi bi-geo-alt">
-                                    </i>
-                                    Salle polyvalente · 80 places
-                                </div>
-                                <p class="muted small-t my-2">
-                                    Projection suivie d'un débat animé par des étudiants.
-                                </p>
-                                <a class="btn btn-primary btn-sm mt-2 disabled" href="#">
-                                    S'inscrire
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="box ev h-100">
-                        <div class="d-flex gap-3">
-                            <div class="logo-sq">
-                                <i class="bi bi-calendar-event">
-                                </i>
-                            </div>
-                            <div class="flex-grow-1">
-                    <span class="tag">
-                      90 places restantes
-                    </span>
-                                <h6 class="mt-1 mb-1">
-                                    Conférence cybersécurité
-                                </h6>
-                                <div class="muted small-t">
-                                    <i class="bi bi-geo-alt">
-                                    </i>
-                                    Amphi C · 150 places
-                                </div>
-                                <p class="muted small-t my-2">
-                                    Intervention d'un alumni sur les métiers de la cybersécurité.
-                                </p>
-                                <a class="btn btn-primary btn-sm mt-2" href="#">
-                                    S'inscrire
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="box ev h-100">
-                        <div class="d-flex gap-3">
-                            <div class="logo-sq">
-                                <i class="bi bi-calendar-event">
-                                </i>
-                            </div>
-                            <div class="flex-grow-1">
-                    <span class="tag">
-                      18 places restantes
-                    </span>
-                                <h6 class="mt-1 mb-1">
-                                    Échange linguistique
-                                </h6>
-                                <div class="muted small-t">
-                                    <i class="bi bi-geo-alt">
-                                    </i>
-                                    Cafétéria · 30 places
-                                </div>
-                                <p class="muted small-t my-2">
-                                    Pratique des langues dans une ambiance décontractée.
-                                </p>
-                                <a class="btn btn-primary btn-sm mt-2" href="#">
-                                    S'inscrire
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
 
         </div>

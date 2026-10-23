@@ -5,7 +5,6 @@ class Evenement{
     private $titre;
     private $description;
     private $lieu;
-    private $element_requis;
     private $nbr_places;
 
     /**
@@ -13,16 +12,14 @@ class Evenement{
      * @param $titre
      * @param $description
      * @param $lieu
-     * @param $element_requis
      * @param $nbr_places
      */
-    public function __construct($id_evenement, $titre, $description, $lieu, $element_requis, $nbr_places)
+    public function __construct($id_evenement, $titre, $description, $lieu, $nbr_places)
     {
         $this->id_evenement = $id_evenement;
         $this->titre = $titre;
         $this->description = $description;
         $this->lieu = $lieu;
-        $this->element_requis = $element_requis;
         $this->nbr_places = $nbr_places;
     }
 
@@ -90,21 +87,6 @@ class Evenement{
         $this->lieu = $lieu;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getElementRequis()
-    {
-        return $this->element_requis;
-    }
-
-    /**
-     * @param mixed $element_requis
-     */
-    public function setElementRequis($element_requis)
-    {
-        $this->element_requis = $element_requis;
-    }
 
     /**
      * @return mixed
