@@ -32,6 +32,19 @@ class EvenementRepository{
         return $tabEvenement;
     }
 
+    public function getEvenementsByUtilisateur($id_utilisateur){
+        $sql = "SELECT e.* FROM evenement e INNER JOIN participe p ON p.ref_evenement = e.id_evenement WHERE p.ref_utilisateur = :id_utilisateur";
+        $req = $this->connexionBdd->prepare($sql);
+        $req->bindValue(':id_utilisateur', $id_utilisateur);
+        $req->execute();
+        $result = $req->fetchAll();
+        $tabEvenement = array();
+        foreach($result as $results){
+            $tabEvenement[] = new Evenement($results['id_evenement'],$results['titre'],$results['description'],$results['lieu'],$results['nbr_places']);
+        }
+        return $tabEvenement;
+    }
+
     public function ajouterEvenement(Evenement $evenement){
         $sql = "INSERT INTO evenement (titre,description,lieu,nbr_places) VALUES (:titre,:description,:lieu,:nbr_places)";
         $req = $this->connexionBdd->prepare($sql);
@@ -59,6 +72,17 @@ class EvenementRepository{
         $req->bindValue(':lieu', $evenement->getLieu());
         $req->bindValue(':nbr_places', $evenement->getNbrPlaces());
         $req -> execute();
+    }
+
+    public function getNbInscritsParEvenement(){
+        $sql = "SELECT ref_evenement, COUNT(*) AS nb FROM participe WHERE est_orga = 0 GROUP BY ref_evenement";
+        $req = $this->connexionBdd->prepare($sql);
+        $req->execute();
+        $tab = array();
+        foreach($req->fetchAll() as $row){
+            $tab[$row['ref_evenement']] = (int)$row['nb'];
+        }
+        return $tab;
     }
 
 

@@ -525,12 +525,23 @@ table.f td,table.f th{
     }
 }
 
-.mdp-champ {
+/* Mot de passe masqué par défaut */
+.champ-mdp {
     -webkit-text-security: disc;
 }
 
-.mdp-bloc:has(#voir-mdp:checked) .mdp-champ {
+/* Icône : œil ouvert par défaut, barré quand le mot de passe est visible */
+.mdp-bloc .bi-eye-slash {
+    display: none;
+}
+#voir-mdp:checked ~ .input-group .champ-mdp {
     -webkit-text-security: none;
+}
+#voir-mdp:checked ~ .input-group .bi-eye {
+    display: none;
+}
+#voir-mdp:checked ~ .input-group .bi-eye-slash {
+    display: inline-block;
 }
 
 .form-event {

@@ -1,4 +1,12 @@
-<?php?>
+<?php
+//session_start();
+require_once "../bdd/bdd.php";
+require_once "../src/model/Evenement.php";
+require_once "../src/repository/EvenementRepository.php";
+
+//$idUtilisateur = $_SESSION['id_utilisateur'];
+//$mesEvenements = (new EvenementRepository())->getEvenementsByUtilisateur($idUtilisateur);
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -83,11 +91,13 @@
 
                                 <div class="mb-3 mdp-bloc">
                                     <label class="form-label small-t" for="mdp">Mot de passe</label>
-                                    <input class="form-control form-control-sm mdp-champ" type="text" id="mdp" autocomplete="off" value="jsp"/>
-
-                                    <div class="form-check small-t mt-1">
-                                        <input class="form-check-input" type="checkbox" id="voir-mdp"/>
-                                        <label class="form-check-label" for="voir-mdp">Afficher le mot de passe</label>
+                                    <input type="checkbox" id="voir-mdp" class="d-none"/>
+                                    <div class="input-group input-group-sm">
+                                        <input class="form-control form-control-sm champ-mdp" type="text" id="mdp" autocomplete="off" value="jsp"/>
+                                        <label for="voir-mdp" class="btn btn-outline-secondary">
+                                            <i class="bi bi-eye"></i>
+                                            <i class="bi bi-eye-slash"></i>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -161,19 +171,19 @@
                     </div>
             </form>
         </div>
-
         <div class="profil-events">
-            <div class="ev-card">
-                Évènement 1
-            </div>
-            <div class="ev-card">
-                Évènement 2
-            </div>
-            <div class="ev-card">
-                Évènement 3
-            </div>
+            <?php if (empty($mesEvenements)): ?>
+                <div class="ev-card">Tu n'es inscrit à aucun évènement.</div>
+            <?php endif; ?>
+            <?php foreach ($mesEvenements as $evenement): ?>
+                <div class="ev-card">
+                    <b><?= htmlspecialchars($evenement->getTitre()) ?></b><br>
+                    <small class="muted">
+                        <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($evenement->getLieu()) ?>
+                    </small>
+                </div>
+            <?php endforeach; ?>
         </div>
-
     </div>
 </div>
 </main>

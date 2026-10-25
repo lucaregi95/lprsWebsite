@@ -4,7 +4,9 @@ require_once "../bdd/bdd.php";
 require_once "../src/model/Evenement.php";
 require_once "../src/repository/EvenementRepository.php";
 
-$evenements = (new EvenementRepository())->getAllEvenements();
+$eventRepository = new EvenementRepository();
+$evenements = $eventRepository->getAllEvenements();
+$inscrits = $eventRepository->getNbInscritsParEvenement();
 
 
 ?>
@@ -173,8 +175,12 @@ $evenements = (new EvenementRepository())->getAllEvenements();
                 <?php if (empty($evenements)): ?>
                     <p class="muted">Aucun évènement pour le moment.</p>
                 <?php endif; ?>
-                <?php foreach ($evenements as $evenement): ?>
-                    <?php $complet = ((int)$evenement->getNbrPlaces() <= 0); ?>
+                <?php foreach ($evenements as $id => $evenement): ?>
+                    <?php
+                    $restantes = max(0, (int)$evenement->getNbrPlaces() - ($inscrits[$evenement->getIdEvenement()] ?? 0));
+                    $complet = ($restantes <= 0);
+                    ?>
+
                     <div class="col-md-6">
                         <div class="box ev h-100">
                             <div class="d-flex gap-3">
@@ -185,15 +191,47 @@ $evenements = (new EvenementRepository())->getAllEvenements();
                                     <?php if ($complet): ?>
                                         <span class="tag" style="background:#fde8e8;color:#c0392b">Complet</span>
                                     <?php else: ?>
-                                        <span class="tag"><?= $evenement->getNbrPlaces() ?> places</span>
+                                        <span class="tag"><?= $restantes ?> place<?= $restantes > 1 ? 's' : '' ?> restante<?= $restantes > 1 ? 's' : '' ?></span>
                                     <?php endif; ?>
-                                    <h6 class="mt-1 mb-1"><?= ($evenement->getTitre()) ?></h6>
+                                    <h6 class="mt-1 mb-1"><?= htmlspecialchars($evenement->getTitre()) ?></h6>
                                     <div class="muted small-t">
                                         <i class="bi bi-geo-alt"></i>
-                                        <?= ($evenement->getLieu()) ?> · <?= $evenement->getNbrPlaces() ?> places
+                                        <?= $evenement->getLieu() ?> · <?= $evenement->getNbrPlaces() ?> places aux total
                                     </div>
-                                    <p class="muted small-t my-2"><?= ($evenement->getDescription()) ?></p>
+                                    <p class="muted small-t my-2"><?= $evenement->getDescription() ?></p>
                                     <a class="btn btn-primary btn-sm mt-2 <?= $complet ? 'disabled' : '' ?>" href="#">S'inscrire</a>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
+                                            data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
+                                        Aperçu
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="preview<?= $id ?>" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <div class="eyebrow">Aperçu de l'évènement</div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5 class="mb-3"><?= htmlspecialchars($evenement->getTitre()) ?></h5>
+                                    <div class="mb-3">
+                                        <div class="form-label">Lieu</div>
+                                        <div><?= htmlspecialchars($evenement->getLieu()) ?></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-label">Places</div>
+                                        <div><?= $complet ? 'Complet' : $restantes . ' / ' . (int)$evenement->getNbrPlaces() . ' places restantes' ?></div>                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-label">Description</div>
+                                        <p class="mb-0"><?= nl2br(htmlspecialchars($evenement->getDescription())) ?></p>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                    <a href="#" class="btn btn-primary <?= $complet ? 'disabled' : '' ?>">S'inscrire</a>
                                 </div>
                             </div>
                         </div>
