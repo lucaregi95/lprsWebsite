@@ -13,6 +13,9 @@ class UtilisateurRepository{
         $req->bindValue(':id_utilisateur', $id_utilisateur);
         $req->execute();
         $result = $req->fetch();
+        // $utilisateur = new Utilisateur($result["id_utilisateur"], $result["nom"], $result["prenom"], $result["email"], $result["mdp"], $result["date_inscription"], $result["statut_validation"])
+        //return $utilisateur;
+        return $result;
     }
 
 
@@ -24,26 +27,31 @@ class UtilisateurRepository{
         $req->execute();
         $result = $req->fetch();
     }
-    public function getUtilisateurs(){
+    public function getAllUtilisateurs() {
         $sql = "SELECT * FROM utilisateur";
         $req = $this->connexionbdd->prepare($sql);
         $req->execute();
-        $result = $req->fetchAll();
+        $results = $req->fetchAll();
         $tabUtilisateur = array();
+        foreach ($results as $result) {
+        //    $tabUtilisateur[] = new Utilisateur($result["id_utilisateur"],$result["nom"],$result["prenom"],$result["email"], $result["mdp"],$result["date_inscription"],$result["statut_validation"]);
+        }
         return $tabUtilisateur;
     }
 
 
     public function ajoutUtilisateur(Utilisateur $utilisateur){
-        $sql="INSERT INTO utilisateur VALUES (:nom,:prenom,:email,:mdp,:statut_validation)";
+        $sql="INSERT INTO utilisateur VALUES (:id_utilisateur,:nom,:prenom,:email,:mdp,:date_inscription,:statut_validation)";
         $req = $this->connexionbdd->prepare($sql);
+        $req->bindValue(":id_utilisateur", $utilisateur->getIdUtilisateur());
         $req->bindValue(":nom",$utilisateur-> getNom());
         $req->bindValue(":prenom",$utilisateur-> getPrenom());
         $req->bindValue(":email",$utilisateur-> getEmail());
         $req->bindValue(":mdp",$utilisateur-> getMdp());
+        $req->bindValue(":date_inscription",$utilisateur-> getDateInscription());
         $req->bindValue(":statut_validation",$utilisateur-> getStatutValidation());
         $req->execute();
-        return (int) $this->connexionbdd->lastInsertId();
+        return (int) $this->connexionbdd->lastInsertId(); //reelement necessaire ?
     }
 
     public function modifierUtilisateur(Utilisateur $utilisateur){
