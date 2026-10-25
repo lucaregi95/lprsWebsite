@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 $bdd = null;
-require_once('bdd/bdd.php');
+require_once (__DIR__ . '/../bdd/bdd.php');
 
 $nom=null;
 $prenom=null;
@@ -25,7 +25,7 @@ if(isset($_GET['page'])){
     $page=$_GET['page'];
 
 }
-$inscription="Pas de compte ? Inscrivez-vous";
+
 ?>
 ?>
 <!DOCTYPE html>
@@ -96,13 +96,13 @@ $inscription="Pas de compte ? Inscrivez-vous";
                         <?php } ?>
                         <h6><?=$erreur?></h6>
 
-                        <button type="submit">Connectez-vous !</button><br><br>
+                        <button type="submit">Connectez-vous !</button><br>
                     </form>
 
                     <p class="small-t text-center mt-3 mb-0">
-                        Pas encore de compte ?
                     <div>
-                        <a href="inscription.php"><?=$inscription?></a>
+                        <a href="inscription.php">Pas de compte ? Inscrivez vous ! </a><br>
+                        <a href="mdp_oublie">Mot de passe oublié ?</a>
                     </div>
                     </p>
                 </div>
