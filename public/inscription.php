@@ -130,32 +130,39 @@ $formations = $repFormation -> getFormations();
                         <label class="form-label small-t">
                             Formation
                         </label>
-                        <select class="form-select form-select-sm" name="ref_formation" id="ref_formation">
-                            <?php foreach ($formations as $formation) {?>
-                                <option value="<?=$formation->getIdFormation()?>">
-                                    <?=$formation->getNomFormation()?>
-                                </option>
-                            <?php }?>
+                        <select class="form-select form-select-sm">
+                            <option>
+                                BUT Informatique
+                            </option>
+                            <option>
+                                Master MIAGE
+                            </option>
+                            <option>
+                                Licence Droit
+                            </option>
                         </select>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label small-t">
                             Promotion
                         </label>
-                        <select class="form-select form-select-sm" name="ref_promotion" id="ref_promotion">
-                            <?php foreach ($promotions as $promotion) {?>
-                                <option value="<?=$promotion->getIdPromotion()?>">
-                                    <?=$promotion->getAnnee()?>
-                                </option>
-                            <?php }?>
-
+                        <select class="form-select form-select-sm">
+                            <option>
+                                2027
+                            </option>
+                            <option>
+                                2026
+                            </option>
+                            <option>
+                                2025
+                            </option>
                         </select>
                     </div>
                     <div class="col-12">
                         <label class="form-label small-t">
                             CV
                         </label>
-                        <input class="form-control form-control-sm" type="file" name="cv_etudiant" id="cv_etudiant"/>
+                        <input class="form-control form-control-sm" type="file"/>
                     </div>
                 </div>
                 <div class="type-grp row g-3 mb-3" data-type="alumni" hidden="">
@@ -169,13 +176,16 @@ $formations = $repFormation -> getFormations();
                         <label class="form-label small-t">
                             Promotion
                         </label>
-                        <select class="form-select form-select-sm" name="ref_promotion" id="ref_promotion">
-                            <?php foreach ($promotions as $promotion) {?>
-                                <option value="<?=$promotion->getIdPromotion()?>">
-                                    <?=$promotion->getAnnee()?>
-                                </option>
-                            <?php }?>
-
+                        <select class="form-select form-select-sm" id="ref_promotion" name="ref_promotion">
+                            <option value="1">
+                                TEST
+                            </option>
+                            <option>
+                                2026
+                            </option>
+                            <option>
+                                2025
+                            </option>
                         </select>
                     </div>
                     <div class="col-md-6">
@@ -183,11 +193,15 @@ $formations = $repFormation -> getFormations();
                             Entreprise
                         </label>
                         <select class="form-select form-select-sm" name="ref_entreprise" id="ref_entreprise">
-                            <?php foreach ($entreprises as $entreprise) {?>
-                                <option value="<?=$entreprise->getidEntreprise()?>">
-                                    <?=$entreprise->getNomEntreprise()?>
-                                </option>
-                            <?php }?>
+                            <option value="1">
+                                TEST
+                            </option>
+                            <option>
+                                Studio Nord
+                            </option>
+                            <option>
+                                DataCorp
+                            </option>
                         </select>
                     </div>
                     <div class="col-12">
@@ -202,25 +216,29 @@ $formations = $repFormation -> getFormations();
                         <label class="form-label small-t">
                             Poste occupé
                         </label>
-                        <input class="form-control form-control-sm" type="text" value="" name="poste_occupe" id="poste_occupe"/>
+                        <input class="form-control form-control-sm" type="text" value=""/>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label small-t">
                             Entreprise
                         </label>
-                        <select class="form-select form-select-sm" id="ref_entreprise" name="ref_entreprise">
-                            <?php foreach ($entreprises as $entreprise) {?>
-                                <option value="<?=$entreprise->getidEntreprise()?>">
-                                    <?=$entreprise->getNomEntreprise()?>
-                                </option>
-                            <?php }?>
+                        <select class="form-select form-select-sm">
+                            <option>
+                                Agence Lumière
+                            </option>
+                            <option>
+                                Studio Nord
+                            </option>
+                            <option>
+                                DataCorp
+                            </option>
                         </select>
                     </div>
                     <div class="col-12">
                         <label class="form-label small-t">
                             Motif d'inscription
                         </label>
-                        <input class="form-control form-control-sm" type="text" value="" name="motif_inscription" id="motif_inscription"/>
+                        <input class="form-control form-control-sm" type="text" value=""/>
                     </div>
                 </div>
                 <div class="type-grp row g-3 mb-3" data-type="professeur" hidden="">
