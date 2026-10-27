@@ -40,7 +40,7 @@ class EvenementRepository{
         $result = $req->fetchAll();
         $tabEvenement = array();
         foreach($result as $results){
-            $tabEvenement[] = new Evenement($results['id_evenement'],$results['titre'],$results['description'],$results['lieu'],$results['nbr_places']);
+            $tabEvenement[] = new Evenement($results['id_evenement'],$results['titre'],$results['description'],$results['lieu'],$results['nbr_places'],$results['lat'],$results['lng']);
         }
         return $tabEvenement;
     }
@@ -66,13 +66,15 @@ class EvenementRepository{
     }
 
     public function modifierEvenement(Evenement $evenement){
-        $sql = "UPDATE evenement SET titre=:titre,description=:description,lieu=:lieu,nbr_places=:nbr_places WHERE id_evenement=:id_evenement";
+        $sql = "UPDATE evenement SET titre=:titre,description=:description,lieu=:lieu,nbr_places=:nbr_places,lat=:lat,lng=:lng WHERE id_evenement=:id_evenement";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_evenement', $evenement->getIdEvenement());
         $req->bindValue(':titre', $evenement->getTitre());
         $req->bindValue(':description', $evenement->getDescription());
         $req->bindValue(':lieu', $evenement->getLieu());
         $req->bindValue(':nbr_places', $evenement->getNbrPlaces());
+        $req->bindValue(':lat', $evenement->getLat());
+        $req->bindValue(':lng', $evenement->getLng());
         $req -> execute();
     }
 
