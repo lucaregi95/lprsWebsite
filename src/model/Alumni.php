@@ -1,4 +1,6 @@
 <?php
+
+    require_once __DIR__ . "/../../src/model/Utilisateur.php";
     class Alumni extends Utilisateur{
 
         protected $ref_alumni;
