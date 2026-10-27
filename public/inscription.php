@@ -1,4 +1,15 @@
-<?php?>
+<?php
+
+
+
+
+
+
+
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -57,36 +68,36 @@
                     <h4 class="fw-bold text-center">Inscription</h4>
                     <p class="muted small-t text-center">Renseigne tes informations.</p>
 
-                    <form>
+                    <form method="POST" action="inscription2.php">
                 <div class="mb-3">
                     <label class="form-label small-t">
                         Prénom
                     </label>
-                    <input class="form-control form-control-sm" type="text" value=""/>
+                    <input class="form-control form-control-sm" type="text" value="" name="prenom" id="prenom"/>
                 </div>
                 <div class="mb-3">
                     <label class="form-label small-t">
                         Nom
                     </label>
-                    <input class="form-control form-control-sm" type="text" value=""/>
+                    <input class="form-control form-control-sm" type="text" value="" name="nom" id="nom"/>
                 </div>
                 <div class="mb-3">
                     <label class="form-label small-t">
                         Adresse e-mail
                     </label>
-                    <input class="form-control form-control-sm" type="email" value=""/>
+                    <input class="form-control form-control-sm" type="email" value="" name="email" id="email"/>
                 </div>
                 <div class="mb-3">
                     <label class="form-label small-t">
                         Mot de passe
                     </label>
-                    <input class="form-control form-control-sm" type="password" value=""/>
+                    <input class="form-control form-control-sm" type="password" value="" name="mdp" id="mdp"/>
                 </div>
                 <div class="mb-3">
                     <label class="form-label small-t">
                         Je suis
                     </label>
-                    <select class="form-select form-select-sm" id="type">
+                    <select class="form-select form-select-sm" id="type" name="type">
                         <option value="etudiant">
                             Étudiant
                         </option>
@@ -146,15 +157,15 @@
                         <label class="form-label small-t">
                             Poste occupé
                         </label>
-                        <input class="form-control form-control-sm" type="text" value=""/>
+                        <input class="form-control form-control-sm" type="text" value="" name="poste_occupe" id="poste_occupe"/>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label small-t">
                             Promotion
                         </label>
-                        <select class="form-select form-select-sm">
-                            <option>
-                                2027
+                        <select class="form-select form-select-sm" id="ref_promotion" name="ref_promotion">
+                            <option value="1">
+                                TEST
                             </option>
                             <option>
                                 2026
@@ -168,9 +179,9 @@
                         <label class="form-label small-t">
                             Entreprise
                         </label>
-                        <select class="form-select form-select-sm">
-                            <option>
-                                Agence Lumière
+                        <select class="form-select form-select-sm" name="ref_entreprise" id="ref_entreprise">
+                            <option value="1">
+                                TEST
                             </option>
                             <option>
                                 Studio Nord
@@ -184,7 +195,7 @@
                         <label class="form-label small-t">
                             CV
                         </label>
-                        <input class="form-control form-control-sm" type="file"/>
+                        <input class="form-control form-control-sm" type="file" name="cv" id="cv"/>
                     </div>
                 </div>
                 <div class="type-grp row g-3 mb-3" data-type="partenaire" hidden="">
@@ -253,6 +264,8 @@
                         </select>
                     </div>
                 </div>
+                        <input type="hidden" name="date_inscription" id="date_inscription" value="2026-10-10"/>
+                        <input type="hidden" name="statut_validation" id="statut_validation" value="en attente"/>
                 <p class="muted small-t">
                     Ton compte sera vérifié (statut : en attente) avant validation.
                 </p>
@@ -260,7 +273,7 @@
                     <input class="form-check-input" type="checkbox"/>
                     J’accepte les conditions d’utilisation
                 </div>
-                <button class="btn btn-primary w-100" type="button">
+                <button class="btn btn-primary w-100" type="submit">
                     Créer mon compte
                 </button>
             </form>
