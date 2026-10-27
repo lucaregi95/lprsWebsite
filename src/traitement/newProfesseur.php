@@ -1,6 +1,6 @@
 <?php
-require_once '../../bdd/Bdd.php';
-require_once '../model/Professeur.php';
+require_once __DIR__ .'/../../bdd/bdd.php';
+require_once __DIR__ .'/../model/Professeur.php';
 
 if(isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST['date_inscription']) && isset($_POST['statut_validation']) && isset($_POST['ref_promotion']) ) {
     $id_utilisateur = (isset($_POST['id_utilisateur'])) ? $_POST['id_utilisateur'] : null;

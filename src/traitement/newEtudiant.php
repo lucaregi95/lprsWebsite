@@ -1,13 +1,13 @@
 <?php
-require_once '../../bdd/Bdd.php';
-require_once '../model/Etudiant.php';
+require_once __DIR__ .'/../../bdd/bdd.php';
+require_once __DIR__ .'/../model/Etudiant.php';
 
 if(isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST['date_inscription']) && isset($_POST['statut_validation'])) {
     $id_utilisateur = (isset($_POST['id_utilisateur'])) ? $_POST['id_utilisateur'] : null;
     $ref_utilisateur = (isset($_POST['ref_utilisateur'])) ? $_POST['ref_utilisateur'] : null;
     $ref_formation = (isset($_POST['ref_formation'])) ? $_POST['ref_formation'] : null;
     $ref_promotion = (isset($_POST['ref_promotion'])) ? $_POST['ref_promotion'] : null;
-    $cv = (isset($_POST['cv'])) ? $_POST['cv'] : null;
+    $cv = (isset($_POST['cv_etudiant'])) ? $_POST['cv_etudiant'] : null;
     $mdp= $_POST['mdp'];
     if (substr($mdp, 0, 4) != '$2y$') {//compare les 4 caracteres a partir du caractere 0
         $mdp = password_hash($mdp, PASSWORD_DEFAULT);
