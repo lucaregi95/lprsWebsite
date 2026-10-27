@@ -26,7 +26,7 @@ private $connexionBdd;
         $result = $req->fetchAll();
         $professeurs = array();
         foreach ($result as $results) {
-            $professeurs[] = new Professeur($results["id_utilisateur"],$result["nom"],$result['prenom'], $result["email"],$result["mdp"],$result["date_inscription"],$result["statut_validation"],$result["specialite"],$result["ref_utilisateur"]);
+            $professeurs[] = new Professeur($results["id_utilisateur"],$results["nom"],$results['prenom'], $results["email"],$results["mdp"],$results["date_inscription"],$results["statut_validation"],$results["specialite"],$results["ref_utilisateur"]);
         }
         return $professeurs;
     }
