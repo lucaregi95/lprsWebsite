@@ -20,9 +20,8 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
     </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
-    <link href="style.css" rel="stylesheet"/>
-    <!-- dans le <head>, après style.css -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link href="style/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg">
@@ -96,9 +95,6 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
                     <div class="eyebrow">Ajouter un évènement</div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-                <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
                 <form method="POST" action="../src/traitement/newEvenement.php">
                     <div class="modal-body">
                         <div class="mb-3">
@@ -113,7 +109,7 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
 
                         <div class="mb-3">
                             <label class="form-label">Lieu</label>
-                            <input type="text" class="form-event" name="lieu" required>
+                            <input type="text" class="form-event" name="lieu" readonly>
                         </div>
 
                         <!-- Recherche + carte -->
@@ -140,8 +136,6 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
                         <button type="submit" class="btn btn-primary">Ajouter</button>
                     </div>
                 </form>
-
-
             </div>
         </div>
     </div>
@@ -181,8 +175,8 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
                     </label>
                 </div>
             </div>
-
         </aside>
+
         <div class="col-lg-9">
             <div class="d-flex gap-2 mb-3">
                 <input class="form-control form-control-sm" placeholder="Rechercher un évènement"/>
@@ -195,6 +189,8 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
             <h5>
                 Évènements à venir
             </h5>
+
+
             <div class="row g-3">
                 <?php if (empty($evenements)): ?>
                     <p class="muted">Aucun évènement pour le moment.</p>
@@ -220,19 +216,28 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
                                     <h6 class="mt-1 mb-1"><?= htmlspecialchars($evenement->getTitre()) ?></h6>
                                     <div class="muted small-t">
                                         <i class="bi bi-geo-alt"></i>
-                                        <?= htmlspecialchars($evenement->getLieu()) ?> · <?= (int)$evenement->getNbrPlaces() ?> places au total
+                                        <?= htmlspecialchars($evenement->getLieu()) ?> <hr> <br>· <?= (int)$evenement->getNbrPlaces() ?> places au total
                                     </div>
                                     <p class="muted small-t my-2"><?= htmlspecialchars($evenement->getDescription()) ?></p>
 
-                                    <a class="btn btn-primary btn-sm mt-2 <?= $complet ? 'disabled' : '' ?>" href="#">S'inscrire</a>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
-                                            data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
-                                        Aperçu
-                                    </button>
+                                    <?php if ($complet): ?>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
+                                                data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
+                                            Aperçu
+                                        </button>
+                                    <?php else: ?>
+                                        <a class="btn btn-primary btn-sm mt-2 " href="#">S'inscrire</a>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
+                                                data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
+                                            Aperçu
+                                        </button>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+
                     <div class="modal fade preview-modal" id="preview<?= $id ?>" tabindex="-1"
                          data-lat="<?= $evenement->getLat() ?>" data-lng="<?= $evenement->getLng() ?>">
                         <div class="modal-dialog modal-lg">
@@ -309,11 +314,9 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
         © 2026 Campus. Tous droits réservés.
     </div>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-</script>
-<!-- en bas, après le script Bootstrap -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
         var map = null;
