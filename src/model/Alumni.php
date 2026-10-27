@@ -5,6 +5,8 @@
         protected $cv;
 
         protected $poste_occupe;
+        protected $ref_promotion;
+        protected $ref_entreprise;
 
 
 

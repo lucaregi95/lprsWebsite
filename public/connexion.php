@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 $bdd = null;
-require_once('bdd/bdd.php');
+require_once('../bdd/bdd.php');
 
 $nom=null;
 $prenom=null;
