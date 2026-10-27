@@ -32,10 +32,24 @@ class SignalementRepository{
     }
 
 
+    public function ajoutSignalement(Signalement $signalement){
+        $sql = "INSERT INTO signalement VALUES (:id_signalement,:date,:ref_signalant,:ref_signale,:titre,:contenu)";
+        $req = $this->connexionBdd->prepare($sql);
+        $req->bindValue(':id_signalement',$signalement->getIdSignalement());
+        $req->bindValue(':date',$signalement->getDate());
+        $req->bindValue(':ref_signalant',$signalement->getRefSignalant());
+        $req->bindValue(':ref_signale',$signalement->getRefSignale());
+        $req->bindValue(':titre',$signalement->getTitre());
+        $req->bindValue(':contenu',$signalement->getContenu());
+        $req->execute();
+    }
 
-
-
-
-
-
+    public function modifierSignalement(Signalement $signalement){
+        $sql = "UPDATE signalement SET date = :date,contenu = :contenu WHERE id_signalement = :id_signalement";
+        $req = $this->connexionBdd->prepare($sql);
+        $req->bindValue(':date',$signalement->getDate());
+        $req->bindValue(':contenu',$signalement->getContenu());
+        $req->bindValue(':id_signalement',$signalement->getIdSignalement());
+        $req->execute();
+    }
 }
