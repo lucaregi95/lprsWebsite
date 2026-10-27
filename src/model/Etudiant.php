@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . "/../../src/model/Utilisateur.php";
 
 class Etudiant extends Utilisateur{
 

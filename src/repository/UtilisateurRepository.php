@@ -24,14 +24,19 @@ class UtilisateurRepository{
         $req->execute();
         $result = $req->fetch();
     }
-    public function getUtilisateurs(){
-        $sql = "SELECT * FROM utilisateur";
-        $req = $this->connexionbdd->prepare($sql);
-        $req->execute();
-        $result = $req->fetchAll();
-        $tabUtilisateur = array();
-        return $tabUtilisateur;
-    }
+//    public function getAllUtilisateurs() {
+//        $sql = "SELECT * FROM utilisateur";
+//        $req = $this->connexionbdd->prepare($sql);
+//        $req->execute();
+//        $results = $req->fetchAll();
+//        $tabUtilisateur = array();
+//        foreach ($results as $result) {
+//            $tabUtilisateur[] = new Utilisateur($result["id_acteur"],$result["nom"],$result["prenom"],$result["email"], $result["mdp"],$result["date_naissance"],$result["tel"],$result["rue"],$result["ville"],$result["cp"],$result["role"],$result["etat"]);
+//        }
+//        return $tabUtilisateur;
+//    }
+
+    //Utilisateur est abract donc pas d'instanciation
 
 
     public function ajoutUtilisateur(Utilisateur $utilisateur){

@@ -32,7 +32,7 @@ class ReponseRepository{
     }
 
     public function ajouterReponse(Reponse $id_reponse){
-        $sql = "INSERT INTO reponse (contenu,date_reponse,ref_inscrit,ref_sujet) VALUES (:contenu,:date_reponse,:ref_inscrit,:ref_sujet)";
+        $sql = "INSERT INTO reponse (contenu,date_reponse,ref_utilisateur,ref_post) VALUES (:contenu,:date_reponse,:ref_utilisateur,:ref_post)";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':$id_reponse', $id_reponse->getIdReponse());
         $req->bindValue(':contenu', $id_reponse->getContenu());

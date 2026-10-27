@@ -7,7 +7,7 @@ if(isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && 
     $ref_utilisateur = (isset($_POST['ref_utilisateur'])) ? $_POST['ref_utilisateur'] : null;
     $ref_formation = (isset($_POST['ref_formation'])) ? $_POST['ref_formation'] : null;
     $ref_promotion = (isset($_POST['ref_promotion'])) ? $_POST['ref_promotion'] : null;
-    $cv = (isset($_POST['cv_etudiant'])) ? $_POST['cv_etudiant'] : null;
+    $cv = (isset($_POST['cv'])) ? $_POST['cv'] : null;
     $mdp= $_POST['mdp'];
     if (substr($mdp, 0, 4) != '$2y$') {//compare les 4 caracteres a partir du caractere 0
         $mdp = password_hash($mdp, PASSWORD_DEFAULT);

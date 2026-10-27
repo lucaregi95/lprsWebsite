@@ -1,4 +1,53 @@
-<?php?>
+<?php
+require_once "../bdd/bdd.php";
+session_start();
+
+$bdd = new Bdd();
+$connexionBdd = $bdd->getConnexionBdd();
+
+// Redirige vers la connexion si l'utilisateur n'est pas connecté
+//if(!isset($_SESSION['nom']) || !isset($_SESSION['prenom'])) {
+//  header("location:connexion.php?page=f");
+//  exit();
+//}
+
+// Récupère les filtres depuis l'URL (GET)
+if (isset($_GET['categorie_sujet'])) {
+    $categorie = $_GET['categorie_sujet'];
+} else {
+    $categorie = '';
+}
+if (isset($_GET['recherche'])) {
+    $recherche = $_GET['recherche'];
+} else {
+    $recherche = '';
+}
+
+// "WHERE 1=1" est une astuce pour pouvoir ajouter des "AND" dynamiquement sans condition initiale
+$sql = " SELECT post.id_post, post.titre, post.date_post, post.categorie_post, utilisateur.nom,(SELECT COUNT(*) FROM reponse WHERE reponse.ref_post = post.id_post) as nb_reponses FROM post INNER JOIN utilisateur ON post.ref_utilisateur = utilisateur.id_utilisateur WHERE 1=1 ";
+
+// Tableau des paramètres PDO, construit dynamiquement selon les filtres actifs
+$tableau = [];
+
+if ($categorie != '') {
+    $sql = $sql . " AND post.categorie_post LIKE :categorie";
+    $tableau['categorie'] = '%' . $categorie . '%';
+}
+
+if ($recherche != '') {
+    $sql = $sql . " AND (post.titre LIKE :recherche OR post.contenu LIKE :recherche)";
+    $tableau['recherche'] = '%' . $recherche . '%';
+}
+
+$sql = $sql . " ORDER BY post.date_post DESC";
+
+$req = $connexionBdd->prepare($sql);
+$req->execute($tableau);
+$sujets = $req->fetchAll(PDO::FETCH_ASSOC);
+
+
+$categories = ['Général', 'Cours', 'Stages & Alternance', 'Vie étudiante', 'Projets', 'Entraide'];
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,7 +58,8 @@
     </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
-    <link href="style.css" rel="stylesheet"/>
+    <link href="style/style.css" rel="stylesheet"/>
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg">
@@ -80,16 +130,45 @@
                 <h6>
                     Nouveau post
                 </h6>
-                On peut essayer de mettre soit le formulaire ou un bouton qui ouvre une fenêtre du formulaure
-                <textarea class="form-control form-control-sm mb-2" placeholder="Écris ton message…" rows="4"></textarea>
-                <button class="btn btn-primary btn-sm w-100">
-                    Publier
-                </button>
+                <form action="ajouter_post.php" method="post">
+                    <input class="form-control form-control-sm mb-2" type="text" name="titre" placeholder="Titre" required/>
+                    <select class="form-select form-select-sm mb-2" name="categorie_post" required>
+                        <option value="">Catégorie…</option>
+                        <?php foreach ($categories as $cat) { ?>
+                            <option value="<?= htmlspecialchars($cat) ?>"><?= htmlspecialchars($cat) ?></option>
+                        <?php } ?>
+                    </select>
+                    <textarea class="form-control form-control-sm mb-2" name="contenu" placeholder="Écris ton message…" rows="4" required></textarea>
+                    <button class="btn btn-primary btn-sm w-100" type="submit">
+                        Publier
+                    </button>
+                </form>
+            </div>
+
+            <div class="box">
+                <h6>
+                    Catégories
+                </h6>
+                <div class="d-flex flex-column gap-1">
+                    <a class="small-t text-decoration-none <?= $categorie == '' ? 'fw-bold' : '' ?>" href="forum.php">
+                        Toutes
+                    </a>
+                    <?php foreach ($categories as $cat) { ?>
+                        <a class="small-t text-decoration-none <?= $categorie == $cat ? 'fw-bold' : '' ?>" href="forum.php?categorie_sujet=<?= urlencode($cat) ?>">
+                            <?= htmlspecialchars($cat) ?>
+                        </a>
+                    <?php } ?>
+                </div>
             </div>
 
         </aside>
         <div class="col-lg-9">
-            <input class="form-control form-control-sm mb-3" placeholder="Rechercher un post"/>
+            <form method="get" action="forum.php" class="mb-3">
+                <?php if ($categorie != '') { ?>
+                    <input type="hidden" name="categorie_sujet" value="<?= htmlspecialchars($categorie) ?>"/>
+                <?php } ?>
+                <input class="form-control form-control-sm" name="recherche" value="<?= htmlspecialchars($recherche) ?>" placeholder="Rechercher un post"/>
+            </form>
             <div class="tabs border-bottom mb-3">
                 <a class="on" href="#">
                     Récents
@@ -101,102 +180,33 @@
                     Mes posts
                 </a>
             </div>
-            <div class="row-i">
-            <span class="avatar">
-              L
-            </span>
-                <div class="flex-grow-1">
-                    <b class="small-t">
-                        Lucas Bernard
-                    </b>
-                    <span class="tag">
-                Étudiant
-              </span>
-                    <div class="small-t my-1">
-                        Quelqu'un voudrait former un groupe de travail pour le partiel de bases de données ?
+
+            <?php foreach ($sujets as $sujet) { ?>
+                <div class="row-i">
+                <span class="avatar">
+                  <?= htmlspecialchars(mb_strtoupper(mb_substr($sujet['nom'], 0, 1))) ?>
+                </span>
+                    <div class="flex-grow-1">
+                        <b class="small-t">
+                            <?= htmlspecialchars($sujet['nom']) ?>
+                        </b>
+                        <span class="tag">
+                    <?= htmlspecialchars($sujet['categorie_post']) ?>
+                  </span>
+                        <div class="small-t my-1">
+                            <?= htmlspecialchars($sujet['titre']) ?>
+                        </div>
+                        <div class="muted small-t">
+                            <?= date('d/m/Y à H:i', strtotime($sujet['date_post'])) ?>
+                        </div>
                     </div>
-                    <div class="muted small-t">
-                        12/10/2026 à 14:32
-                    </div>
+                    <a class="small-t text-nowrap" href="#">
+                        <i class="bi bi-chat-dots">
+                        </i>
+                        <?= $sujet['nb_reponses'] ?> réponses
+                    </a>
                 </div>
-                <a class="small-t text-nowrap" href="#">
-                    <i class="bi bi-chat-dots">
-                    </i>
-                    5 réponses
-                </a>
-            </div>
-            <div class="row-i">
-            <span class="avatar">
-              S
-            </span>
-                <div class="flex-grow-1">
-                    <b class="small-t">
-                        Sofia Martin
-                    </b>
-                    <span class="tag">
-                Alumni
-              </span>
-                    <div class="small-t my-1">
-                        Conseils pour réussir son premier stage : soignez votre CV et préparez des questions.
-                    </div>
-                    <div class="muted small-t">
-                        12/10/2026 à 09:10
-                    </div>
-                </div>
-                <a class="small-t text-nowrap" href="#">
-                    <i class="bi bi-chat-dots">
-                    </i>
-                    8 réponses
-                </a>
-            </div>
-            <div class="row-i">
-            <span class="avatar">
-              K
-            </span>
-                <div class="flex-grow-1">
-                    <b class="small-t">
-                        Pr. Karim Diallo
-                    </b>
-                    <span class="tag">
-                Professeur
-              </span>
-                    <div class="small-t my-1">
-                        Rappel : les inscriptions aux tutorats sont ouvertes jusqu'à vendredi.
-                    </div>
-                    <div class="muted small-t">
-                        11/10/2026 à 17:45
-                    </div>
-                </div>
-                <a class="small-t text-nowrap" href="#">
-                    <i class="bi bi-chat-dots">
-                    </i>
-                    2 réponses
-                </a>
-            </div>
-            <div class="row-i">
-            <span class="avatar">
-              E
-            </span>
-                <div class="flex-grow-1">
-                    <b class="small-t">
-                        Emma Roux
-                    </b>
-                    <span class="tag">
-                Étudiante
-              </span>
-                    <div class="small-t my-1">
-                        Où trouver les annales de droit des contrats ?
-                    </div>
-                    <div class="muted small-t">
-                        10/10/2026 à 20:05
-                    </div>
-                </div>
-                <a class="small-t text-nowrap" href="#">
-                    <i class="bi bi-chat-dots">
-                    </i>
-                    0 réponses
-                </a>
-            </div>
+            <?php } ?>
 
         </div>
     </div>

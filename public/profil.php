@@ -1,11 +1,12 @@
 <?php
-//session_start();
+session_start();
 require_once "../bdd/bdd.php";
 require_once "../src/model/Evenement.php";
 require_once "../src/repository/EvenementRepository.php";
 
-//$idUtilisateur = $_SESSION['id_utilisateur'];
-//$mesEvenements = (new EvenementRepository())->getEvenementsByUtilisateur($idUtilisateur);
+$idUtilisateur = $_SESSION['id_utilisateur'];
+$mesEvenements = (new EvenementRepository())->getEvenementsByUtilisateur($idUtilisateur);
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -17,7 +18,8 @@ require_once "../src/repository/EvenementRepository.php";
     </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
-    <link href="style.css" rel="stylesheet"/>
+    <link href="style/style.css" rel="stylesheet"/>
+
 </head>
 <main>
 
@@ -73,7 +75,7 @@ require_once "../src/repository/EvenementRepository.php";
                                 <label class="form-label small-t">
                                     Prénom
                                 </label>
-                                <input class="form-control form-control-sm" type="text" value="Nassim"/>
+                                <input class="form-control form-control-sm" type="text" value="<?= ['prenom'] ?>"/>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small-t">

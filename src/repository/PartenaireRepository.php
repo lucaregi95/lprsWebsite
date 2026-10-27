@@ -17,7 +17,7 @@ class PartenaireRepository{
         return $partenaire;
     }
 
-    public function getPartenaires(){ // a verifier pluriel ou pas dans tous les fichies
+    public function getAllPartenaires(){
         $sql = "SELECT * FROM partenaire";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();

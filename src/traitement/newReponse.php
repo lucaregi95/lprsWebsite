@@ -1,6 +1,6 @@
 <?php
 
-require_once "../../bdd/Bdd.php";
+require_once "../../bdd/bdd.php";
 require_once "../model/Reponse.php";
 
 if(isset($_POST['contenu']) && isset($_POST['datetime_reponse']) && isset($_POST['ref_utilisateur'])&& isset($_POST['ref_post'])){
