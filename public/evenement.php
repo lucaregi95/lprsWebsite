@@ -203,9 +203,15 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
                     <div class="col-md-6">
                         <div class="box ev h-100">
                             <div class="d-flex gap-3">
+                                <?php if ($complet): ?>
+                                <div class="logo-sq-complet">
+                                    <i class="bi bi-calendar-event"></i>
+                                </div>
+                                <?php else: ?>
                                 <div class="logo-sq">
                                     <i class="bi bi-calendar-event"></i>
                                 </div>
+                                <?php endif; ?>
                                 <div class="flex-grow-1">
                                     <?php if ($complet): ?>
                                         <span class="tag" style="background:#fde8e8;color:#c0392b">Complet</span>
@@ -225,11 +231,15 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
                                                 data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
                                             Aperçu
                                         </button>
-                                    <?php else: ?>
+                                        <?php else: ?>
                                         <a class="btn btn-primary btn-sm mt-2 " href="#">S'inscrire</a>
                                         <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
                                                 data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
                                             Aperçu
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm mt-2"
+                                                data-bs-toggle="modal" data-bs-target="#edit<?= $id ?>">
+                                            Modifier
                                         </button>
                                     <?php endif; ?>
                                 </div>
@@ -284,9 +294,81 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
                             </div>
                         </div>
                     </div>
+
+                    <?php
+                    $lat = $evenement->getLat();
+                    $lng = $evenement->getLng();
+                    $aPosition = ($lat !== null && $lat !== '' && $lng !== null && $lng !== '');
+                    ?>
+                    <div class="modal fade edit-modal" id="edit<?= $id ?>" tabindex="-1"
+                         data-lat="<?= $aPosition ? $lat : '' ?>" data-lng="<?= $aPosition ? $lng : '' ?>">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <div class="eyebrow">Modifier l'évènement</div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <form method="POST" action="../src/traitement/modifierEvenement.php">
+                                    <input type="hidden" name="id_evenement" value="<?=$evenement->getIdEvenement() ?>">
+
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label class="form-label">Nom de l'évènement</label>
+                                            <input type="text" class="form-event" name="titre"
+                                                   value="<?= $evenement->getTitre() ?>" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Description</label>
+                                            <textarea class="form-event" name="description" required><?=$evenement->getDescription() ?></textarea>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Lieu</label>
+                                            <input type="text" class="form-event" name="lieu"
+                                                   value="<?= $evenement->getLieu() ?>" readonly>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Position actuelle</label>
+                                            <div class="edit-map" style="height:300px; width:100%; border-radius:8px;"></div>
+                                            <small class="text-muted">Cliquez sur la carte pour déplacer le point.</small>
+                                        </div>
+
+                                        <div class="row g-2 mb-3">
+                                            <div class="col">
+                                                <input type="number" step="any" min="-360" max="360" class="form-event edit-lat" name="lat"
+                                                       value="<?= $aPosition ? $lat : '' ?>">
+
+
+                                            </div>
+                                            <div class="col">
+                                                <input type="number" step="any" min="-360" max="360" class="form-event edit-lng" name="lng"
+                                                       value="<?= $aPosition ? $lng : '' ?>">
+                                            </div>
+                                            <small class="text-muted">
+                                                Pour trouver des coordonnées : clic droit sur un lieu dans Google Maps, puis cliquez sur les chiffres pour les copier.
+                                            </small>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Nombre de Place</label>
+                                            <input type="number" class="form-event" name="nbr_places" min="1"
+                                                   value="<?= $evenement->getNbrPlaces() ?>" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 <?php endforeach; ?>
             </div>
-
         </div>
     </div>
 </main>
@@ -409,6 +491,68 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
                 }).addTo(carte);
                 L.marker([lat, lng]).addTo(carte);
             }
+            setTimeout(function () { carte.invalidateSize(); }, 100);
+        });
+    });
+</script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>  <!-- idéalement dans le <head> -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    document.querySelectorAll('.edit-modal').forEach(function (modal) {
+        var carte = null, marqueur = null;
+        var champLat = modal.querySelector('.edit-lat');
+        var champLng = modal.querySelector('.edit-lng');
+        var champLieu = modal.querySelector('input[name="lieu"]');
+
+        function placer(lat, lng) {
+            if (marqueur) {
+                marqueur.setLatLng([lat, lng]);
+            } else {
+                marqueur = L.marker([lat, lng]).addTo(carte);
+            }
+            champLat.value = lat;
+            champLng.value = lng;
+        }
+
+        modal.addEventListener('shown.bs.modal', function () {
+            var lat = parseFloat(modal.dataset.lat);
+            var lng = parseFloat(modal.dataset.lng);
+            var aPosition = !isNaN(lat) && !isNaN(lng);
+
+            if (!carte) {
+                carte = L.map(modal.querySelector('.edit-map'))
+                    .setView(aPosition ? [lat, lng] : [48.8566, 2.3522], aPosition ? 16 : 12);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap'
+                }).addTo(carte);
+
+                if (aPosition) placer(lat, lng);
+
+                // Clic sur la carte : met à jour les champs et le lieu
+                carte.on('click', function (e) {
+                    placer(e.latlng.lat, e.latlng.lng);
+
+                    fetch('https://nominatim.openstreetmap.org/reverse?format=json&accept-language=fr&lat='
+                        + e.latlng.lat + '&lon=' + e.latlng.lng)
+                        .then(function (r) { return r.json(); })
+                        .then(function (data) {
+                            if (data && data.display_name) champLieu.value = data.display_name;
+                        });
+                });
+
+                // Si on tape les coordonnées à la main, le marqueur suit
+                function depuisChamps() {
+                    var a = parseFloat(champLat.value), b = parseFloat(champLng.value);
+                    if (!isNaN(a) && !isNaN(b)) {
+                        placer(a, b);
+                        carte.setView([a, b], 16);
+                    }
+                }
+                champLat.addEventListener('change', depuisChamps);
+                champLng.addEventListener('change', depuisChamps);
+            }
+
             setTimeout(function () { carte.invalidateSize(); }, 100);
         });
     });
