@@ -9,7 +9,7 @@ class EtudiantRepository
     }
 
     public function getEtudiant($id_etudiant){
-        $sql = "SELECT u.*, e.* FROM utilisateur u INNER JOIN etudiant e ON u.id = e.ref_utilisateur WHERE e.ref_utilisateur = :ref_utilisateur";
+        $sql = "SELECT u.*, e.* FROM utilisateur u INNER JOIN etudiant e ON u.id_utilisateur = e.ref_utilisateur WHERE e.ref_utilisateur = :ref_utilisateur";
         $req = $this->connexionbdd->prepare($sql);
         $req->bindValue(':ref_utilisateur', $id_etudiant);
         $req->execute();
@@ -18,8 +18,8 @@ class EtudiantRepository
         return $etudiant;
     }
 
-    public function getEtudiants(){
-        $sql = "SELECT u.*, e.* FROM utilisateur u INNER JOIN etudiant e ON u.id = e.ref_utilisateur";
+    public function getAllEtudiants(){
+        $sql = "SELECT u.*, e.* FROM utilisateur u INNER JOIN etudiant e ON u.id_utilisateur = e.ref_utilisateur";
         $req = $this->connexionbdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
