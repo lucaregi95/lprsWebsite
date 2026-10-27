@@ -193,7 +193,7 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
                                     <?php else: ?>
                                         <span class="tag"><?= $restantes ?> place<?= $restantes > 1 ? 's' : '' ?> restante<?= $restantes > 1 ? 's' : '' ?></span>
                                     <?php endif; ?>
-                                    <h6 class="mt-1 mb-1"><?= htmlspecialchars($evenement->getTitre()) ?></h6>
+                                    <h6 class="mt-1 mb-1"><?=$evenement->getTitre() ?></h6>
                                     <div class="muted small-t">
                                         <i class="bi bi-geo-alt"></i>
                                         <?= $evenement->getLieu() ?> · <?= $evenement->getNbrPlaces() ?> places aux total
@@ -226,12 +226,17 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
                                         <div><?= $complet ? 'Complet' : $restantes . ' / ' . (int)$evenement->getNbrPlaces() . ' places restantes' ?></div>                                    </div>
                                     <div class="mb-3">
                                         <div class="form-label">Description</div>
-                                        <p class="mb-0"><?= nl2br(htmlspecialchars($evenement->getDescription())) ?></p>
+                                        <p class="mb-0"><?=($evenement->getDescription()) ?></p>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                                    <a href="#" class="btn btn-primary <?= $complet ? 'disabled' : '' ?>">S'inscrire</a>
+                                    <?php if ($complet) :?>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                    <?php else :?>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                        <a href="#" class="btn btn-primary <?= $complet ? 'disabled' : '' ?>">S'inscrire</a>
+                                    <?php endif;?>
+
                                 </div>
                             </div>
                         </div>
