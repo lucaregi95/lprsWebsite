@@ -10,7 +10,7 @@ class AlumniRepository{
 
     public function getAlumni($id_alumni)
     {
-        $sql = "SELECT u.* ,a.* FROM utilisateur u INNER JOIN alumni e ON u.id = a.ref_utilisateur WHERE e.ref_utilisateur = :ref_utilisateur ";
+        $sql = "SELECT u.* ,a.* FROM utilisateur u INNER JOIN alumni a ON u.id_utilisateur = a.ref_utilisateur WHERE a.ref_utilisateur = :ref_utilisateur ";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':ref_utilisateur', $id_alumni);
         $req->execute();
@@ -20,9 +20,9 @@ class AlumniRepository{
         return $alumni;
     }
 
-    public function getAllAlumni()
+    public function getAllAlumnis()
     {
-        $sql = "SELECT u.*, e.* FROM utilisateur u INNER JOIN alumni a ON u.id = a.ref_utilisateur";
+        $sql = "SELECT u.*, a.* FROM utilisateur u INNER JOIN alumni a ON u.id_utilisateur = a.ref_utilisateur";
 
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();

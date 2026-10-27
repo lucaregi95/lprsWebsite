@@ -41,7 +41,7 @@ class EntrepriseRepository{
     }
 
     public function modifierEntreprise(Entreprise $entreprise){
-        $sql="UPDATE entreprise SET addresse = :addresse, nom_entreprise =:nom_entreprise, site_web=:site_web WHERE id_entreprise = :id_entreprise";
+        $sql="UPDATE entreprise SET adresse = :addresse, nom_entreprise =:nom_entreprise, site_web=:site_web WHERE id_entreprise = :id_entreprise";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':addresse', $entreprise-> getAdresse());
         $req->bindValue(':nom_entreprise',$entreprise-> getNomEntreprise());

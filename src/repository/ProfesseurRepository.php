@@ -9,8 +9,8 @@ private $connexionBdd;
     }
 
     public function getProfesseur($ref_utilisateur){
-        $sql = "SELECT u.* , p. ref_professeur FROM utilisateur u INNER JOIN  professeur p ON u.id = p.ref_utilisateur WHERE e.ref_utilisateur = :ref_utilisateur";
-        $req = $this->connexionbdd->prepare($sql);
+        $sql = "SELECT u.* , p.ref_utilisateur FROM utilisateur u INNER JOIN  professeur p ON u.id_utilisateur = p.ref_utilisateur WHERE p.ref_utilisateur = :ref_utilisateur";
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue('ref_utilisateur', $ref_utilisateur);
         $req->execute();
         $result = $req->fetch();
@@ -19,10 +19,10 @@ private $connexionBdd;
 
     }
 
-    public function getProfesseurs() {
+    public function getAllProfesseurs() {
         $sql = "SELECT u.*, p.* FROM utilisateur u INNER JOIN professeur p ON u.id_utilisateur = p.ref_utilisateur";
-        $req = $this->connexionbdd->query($sql);
-        $req = $req->execute();
+        $req = $this->connexionBdd->prepare($sql);
+        $req->execute();
         $result = $req->fetchAll();
         $professeurs = array();
         foreach ($result as $results) {
