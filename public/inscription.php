@@ -1,14 +1,4 @@
 <?php
-
-
-
-
-
-
-
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -269,10 +259,14 @@
                 <p class="muted small-t">
                     Ton compte sera vérifié (statut : en attente) avant validation.
                 </p>
-                <div class="form-check small-t mb-3">
-                    <input class="form-check-input" type="checkbox"/>
-                    J’accepte les conditions d’utilisation
-                </div>
+                        <div class="form-check small-t mb-3">
+                            <input class="form-check-input" type="checkbox" />
+                            J’accepte les
+                            <a href="condition_utilisation" target="_blank"
+                               style="color: blue; text-decoration: underline;">
+                                conditions d’utilisation
+                            </a>
+                        </div>
                 <button class="btn btn-primary w-100" type="submit">
                     Créer mon compte
                 </button>
