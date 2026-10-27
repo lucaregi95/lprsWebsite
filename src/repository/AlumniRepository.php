@@ -46,9 +46,10 @@ class AlumniRepository{
         $sql="INSERT INTO alumni VALUES (:ref_utilisateur,:cv,:poste_occupe,:ref_promotion, :ref_entreprise)";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':ref_utilisateur', $lastId);
-        $req->bindValue('poste_occupe', $alumni-> getPosteOccupe());
-        $req->bindValue('ref_promotion' , $alumni-> getRefPromotion());
-        $req->bindValue('ref_entrprise' , $alumni-> getRefEntreprise());
+        $req->bindValue(':cv', $alumni-> getCv());
+        $req->bindValue(':poste_occupe', $alumni-> getPosteOccupe());
+        $req->bindValue(':ref_promotion' , $alumni-> getRefPromotion());
+        $req->bindValue(':ref_entreprise' , $alumni-> getRefEntreprise());
         $req->execute();
 
     }

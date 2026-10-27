@@ -35,12 +35,13 @@ class UtilisateurRepository{
 
 
     public function ajoutUtilisateur(Utilisateur $utilisateur){
-        $sql="INSERT INTO utilisateur VALUES (:nom,:prenom,:email,:mdp,:statut_validation)";
+        $sql="INSERT INTO utilisateur(nom,prenom,email,mdp,date_inscription,statut_validation) VALUES (:nom,:prenom,:email,:mdp,:date_inscription,:statut_validation)";
         $req = $this->connexionbdd->prepare($sql);
         $req->bindValue(":nom",$utilisateur-> getNom());
         $req->bindValue(":prenom",$utilisateur-> getPrenom());
         $req->bindValue(":email",$utilisateur-> getEmail());
         $req->bindValue(":mdp",$utilisateur-> getMdp());
+        $req->bindValue(":date_inscription",$utilisateur-> getDateInscription());
         $req->bindValue(":statut_validation",$utilisateur-> getStatutValidation());
         $req->execute();
         return (int) $this->connexionbdd->lastInsertId();
