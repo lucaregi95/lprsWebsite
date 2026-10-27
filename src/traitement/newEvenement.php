@@ -26,7 +26,6 @@ if(isset($_POST['titre']) && isset($_POST['description']) && isset($_POST['lieu'
         exit;
     }
 }else{
-    var_dump($_POST);
-//    header("Location: ../../public/evenement.php");
-//    exit;
+    header("Location: ../../public/evenement.php");
+    exit;
 }
