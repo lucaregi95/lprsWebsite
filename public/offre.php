@@ -345,7 +345,78 @@ function h($v)
                     </div>
                 </div>
 
+                <!-- editModal -->
+                <div class="modal fade edit-modal" id="edit<?= $id ?>" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="eyebrow">Modifier l'offre</div>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
 
+                            <form method="POST" action="../src/traitement/modifierOffre.php">
+                                <input type="hidden" name="id_offre" value="<?= h($offre->getIdOffre()) ?>">
+
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label class="form-label">Nom de l'offre</label>
+                                        <input type="text" class="form-event" name="titre"
+                                               value="<?= h($offre->getTitre()) ?>" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Description</label>
+                                        <textarea class="form-event" name="description" required><?= h($offre->getDescription()) ?></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Mission</label>
+                                        <input type="text" class="form-event" name="mission"
+                                               value="<?= h($offre->getMission()) ?>" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Salaire (€/mois)</label>
+                                        <input type="number" class="form-event" name="salaire" min="0"
+                                               value="<?= h($offre->getSalaire()) ?>" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Type d'offre</label>
+                                        <select class="form-event" name="type_offre" required>
+                                            <?php foreach (['Stage', 'Alternance', 'Job étudiant'] as $type): ?>
+                                                <option value="<?= h($type) ?>" <?= $offre->getTypeOffre() === $type ? 'selected' : '' ?>>
+                                                    <?= h($type) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">État</label>
+                                        <select class="form-event" name="etat" required>
+                                            <option value="0" <?= !$ferme ? 'selected' : '' ?>>Ouvert</option>
+                                            <option value="1" <?= $ferme ? 'selected' : '' ?>>Fermé</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Entreprise</label>
+                                        <select class="form-event" name="ref_entreprise" required>
+                                            <option value="1" <?= (int)$offre->getRefEntreprise() === 1 ? 'selected' : '' ?>>A</option>
+                                            <option value="2" <?= (int)$offre->getRefEntreprise() === 2 ? 'selected' : '' ?>>B</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             <?php endforeach; ?>
         </div>
     </div>
