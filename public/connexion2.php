@@ -16,21 +16,27 @@ if(isset($_POST["page"])){
     $page  = $_POST["page"];}
 
 $rep = new UtilisateurRepository();
-$result = $rep->connecterUtilisateur($email, $mdp);
+$result = $rep->getUtilisateurParEmail($email);
+
 
 if (!$result) {
     // Aucun utilisateur trouvé : redirection avec message d'erreur
     header("Location: connexion.php?erreur=unknown");
 } else {
+    if (password_verify($mdp, $result["mdp"])) {
+        session_start();
+        // Stockage des informations de l'utilisateur en session
+        $_SESSION['id']     = $result["id_utlisateur"];
+        $_SESSION['nom']    = $result["nom"];
+        $_SESSION['prenom'] = $result["prenom"];
+        $_SESSION['email']  = $result["email"];
+        $_SESSION['role'] = $result["role"];
 
-    session_start();
-    // Stockage des informations de l'utilisateur en session
-    $_SESSION['id']     = $result["id_utlisateur"];
-    $_SESSION['nom']    = $result["nom"];
-    $_SESSION['prenom'] = $result["prenom"];
-    $_SESSION['email']  = $result["email"];
+        header("location:accueil.php");
+    }else{
+        header("Location: connexion.php?erreur=incorrect");
+    }
 
-    header("location:acceuil.php");
 
     ?>
     <!DOCTYPE html>
