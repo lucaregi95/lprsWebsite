@@ -27,7 +27,7 @@ if(isset($_GET['page'])){
 }
 $inscription="Pas de compte ? Inscrivez-vous";
 ?>
-?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

@@ -15,6 +15,9 @@ $mdp   = $_POST["mdp"];
 if(isset($_POST["page"])){
     $page  = $_POST["page"];}
 
+
+
+
 if (!$result) {
     // Aucun utilisateur trouvé : redirection avec message d'erreur
     header("Location: connexion.php?erreur=unknown");
