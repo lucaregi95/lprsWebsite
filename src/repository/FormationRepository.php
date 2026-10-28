@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . "/../../bdd/bdd.php";
+
 class FormationRepository{
 
     private $connexionBdd;
@@ -17,7 +19,7 @@ class FormationRepository{
         return $formation;
     }
 
-    public function getFormations(){ // a verifier pluriel ou pas dans tous les fichies
+    public function getAllFormations(){
         $sql = "SELECT * FROM formation";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();

@@ -1,5 +1,6 @@
 <?php
 require_once "UtilisateurRepository.php";
+require_once __DIR__ . "/../../bdd/bdd.php";
 class AlumniRepository{
 
     private $connexionBdd;
@@ -27,13 +28,11 @@ class AlumniRepository{
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
-        $alumnis = array();
+        $tabAlumni = array();
         foreach ($result as $results) {
-
-            $alumnis[] = new Alumni($results["id_utilisateur"], $results["nom"], $results["prenom"], $results["email"], $results["mdp"], $results["date_inscription"], $results["statut_validation"], $results["ref_utilisateur"], $results["cv"], $results["poste_occupe"], $results["ref_promotion"], $results["ref_entreprise"]);
-
+            $tabAlumni[] = new Alumni($results["id_utilisateur"], $results["nom"], $results["prenom"], $results["email"], $results["mdp"], $results["date_inscription"], $results["statut_validation"], $results["ref_utilisateur"], $results["cv"], $results["poste_occupe"], $results["ref_promotion"], $results["ref_entreprise"]);
         }
-        return $alumnis;
+        return $tabAlumni;
     }
 
 

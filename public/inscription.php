@@ -3,24 +3,17 @@ require_once "../bdd/bdd.php";
 require_once "../src/model/Promotion.php";
 require_once "../src/repository/PromotionRepository.php";
 $repPromotion = new PromotionRepository();
-$promotions = $repPromotion -> getPromotions();
+$promotions = $repPromotion -> getAllPromotions();
 
 require_once "../src/model/Entreprise.php";
 require_once "../src/repository/EntrepriseRepository.php";
 $repEntreprise = new EntrepriseRepository();
-$entreprises = $repEntreprise -> getEntreprises();
+$entreprises = $repEntreprise -> getAllEntreprises();
 
 require_once "../src/model/Formation.php";
 require_once "../src/repository/FormationRepository.php";
 $repFormation = new FormationRepository();
-$formations = $repFormation -> getFormations();
-
-
-
-
-
-
-
+$formations = $repFormation -> getAllFormations();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -267,7 +260,8 @@ $formations = $repFormation -> getFormations();
                         <div class="form-check small-t mb-3">
                             <input class="form-check-input" type="checkbox"/>
                             J’accepte les conditions d’utilisation
-                        </div>
+                        <!--                    mettre le lien-->
+                </div>
                         <button class="btn btn-primary w-100" type="submit">
                             Créer mon compte
                         </button>
