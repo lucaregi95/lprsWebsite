@@ -259,7 +259,7 @@ $formations = $repFormation -> getAllFormations();
                         </p>
                         <div class="form-check small-t mb-3">
                             <input class="form-check-input" type="checkbox"/>
-                            J’accepte les conditions d’utilisation
+                            J'accepte les <a href="condition_utilisation.html">conditions d’utilisation</a>
                         <!--                    mettre le lien-->
                 </div>
                         <button class="btn btn-primary w-100" type="submit">

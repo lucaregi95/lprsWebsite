@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__.'/../../bdd/bdd.php';
+require_once __DIR__.'/../../src/model/Promotion.php';
 class PromotionRepository{
 
     private $connexionBdd;

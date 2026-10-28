@@ -89,24 +89,30 @@ $inscription="Pas de compte ? Inscrivez-vous";
                     <p class="muted small-t text-center">Renseigne tes informations.</p>
 
                     <form method="POST" action="connexion2.php">
-                        <label for="email">Adresse e-mail :</label><br>
-                        <input type="email" id="email" name="email" value="<?=$email?>" autocomplete="off" required><br><br>
+                        <div class="mb-3">
+                        <label for="email">Adresse e-mail :</label>
+                        <input class="form-control form-control-sm" type="email" id="email" name="email" value="<?=$email?>" autocomplete="off" required>
+                        </div>
 
-                        <label for="mdp">Mot de Passe :</label><br>
-                        <input type="password" id="mdp" name="mdp" autocomplete="off" required><br>
+                        <div class="mb-3">
+                        <label for="mdp">Mot de Passe :</label>
+                        <input class="form-control form-control-sm" type="password" id="mdp" name="mdp" autocomplete="off" required>
+                        </div>
 
+                        <div class="mb-3">
                         <?php if (isset($page)) {?>
-                            <input type="hidden" value="<?=$page?>" name="page">
+                            <input class="form-control form-control-sm" type="hidden" value="<?=$page?>" name="page">
                         <?php } ?>
                         <h6><?=$erreur?></h6>
+                        </div>
 
-                        <button type="submit">Connectez-vous !</button><br><br>
+                        <button class="btn btn-primary w-100"  type="submit">Connectez-vous !</button>
                     </form>
 
                     <p class="small-t text-center mt-3 mb-0">
                         Pas encore de compte ?
-                    <div>
-                        <a href="inscription.php"><?=$inscription?></a>
+                    <div class="small-t text-center mt-3 mb-0">
+                        <a style="text-align: center !important;" href="inscription.php"><?=$inscription?></a>
                     </div>
                     </p>
                 </div>

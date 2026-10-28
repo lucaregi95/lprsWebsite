@@ -9,6 +9,7 @@ class Offre{
     private $salaire;
     private $type_offre;
     private $etat;
+    private $ref_entreprise;
 
     /**
      * @param $id_offre
@@ -19,8 +20,7 @@ class Offre{
      * @param $type_offre
      * @param $etat
      */
-    public function __construct($id_offre, $titre, $description, $mission, $salaire, $type_offre, $etat, $ref_entreprise)
-    {
+    public function __construct($id_offre, $titre, $description, $mission, $salaire, $type_offre, $etat, $ref_entreprise){
         $this->id_offre = $id_offre;
         $this->titre = $titre;
         $this->description = $description;
@@ -34,8 +34,7 @@ class Offre{
     /**
      * @return mixed
      */
-    public function getIdOffre()
-    {
+    public function getIdOffre(){
         return $this->id_offre;
     }
 
