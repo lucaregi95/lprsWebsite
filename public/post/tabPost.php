@@ -42,7 +42,7 @@ $posts = $postRepository->getAllPosts();
     <?php } ?>
     </tbody>
 </table>
-<a href="ajouterPost.php">Ajouter un post</a><br>
+<a href="../forum.php">Ajouter un post</a><br>
 <button type="button" onclick="location.href='../accueil.html'">Retour à l'accueil</button>
 </body>
 </html>
