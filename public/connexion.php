@@ -27,7 +27,6 @@ if(isset($_GET['page'])){
 }
 $inscription="Pas de compte ? Inscrivez-vous";
 ?>
-?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -77,35 +76,41 @@ $inscription="Pas de compte ? Inscrivez-vous";
         </div>
     </div>
 </nav>
+
+
 <main class="container mt-5">
     <div class="auth-wrapper">
         <div class="auth">
             <div class="p-4 p-lg-4">
                 <div class="auth-form">
+
                     <h4 class="fw-bold text-center">Connexion</h4>
                     <p class="muted small-t text-center">Renseigne tes informations.</p>
 
                     <form method="POST" action="connexion2.php">
-                        <label for="email">Adresse e-mail :</label><br>
-                        <input type="email" id="email" name="email" value="<?=$email?>" autocomplete="off" required><br><br>
+                        <div class="mb-3">
+                            <label class="form-label small-t" for="email">Adresse e-mail :</label>
+                            <input class="form-control form-control-sm" type="email" id="email" name="email" value="<?=$email?>" autocomplete="off" required>
+                        <div>
 
-                        <label for="mdp">Mot de Passe :</label><br>
-                        <input type="password" id="mdp" name="mdp" autocomplete="off" required><br>
-
+                        <div class="mb-3">
+                            <label class="form-label small-t" for="mdp">Mot de Passe :</label>
+                            <input class="form-control form-control-sm" type="password" id="mdp" name="mdp" autocomplete="off" required>
+                        <div>
                         <?php if (isset($page)) {?>
-                            <input type="hidden" value="<?=$page?>" name="page">
+                            <input  type="hidden" value="<?=$page?>" name="page">
                         <?php } ?>
                         <h6><?=$erreur?></h6>
 
-                        <button type="submit">Connectez-vous !</button><br><br>
+                        <button class="btn btn-primary w-100" type="submit">Connectez-vous !</button>
                     </form>
 
                     <p class="small-t text-center mt-3 mb-0">
                         Pas encore de compte ?
-                    <div>
-                        <a href="inscription.php"><?=$inscription?></a>
-                    </div>
                     </p>
+                    <div class="small-t text-center mt-3 mb-0">
+                        <a style="text-align: center !important;" href="inscription.php"><?=$inscription?></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -113,14 +118,14 @@ $inscription="Pas de compte ? Inscrivez-vous";
 </main>
 <footer>
     <div>
-        <div>
+        <div class="small-t text-center mt-3 mb-0">
             <h4>Nous contacter</h4>
 
             <a href="https://mail.google.com/mail/?view=cm&to=LPRS@gmail.com&su=Prise de contact"
                target="_blank">LPRS@gmail.com</a>
         </div>
     </div>
-    <div>
+    <div class="small-t text-center mt-3 mb-0">
         <p>© 2026 — Luca Regi, Nassim Kharfouche, Prosper Fajnzyn, William Lemaire — Tous droits réservés</p>
     </div>
 </footer>
