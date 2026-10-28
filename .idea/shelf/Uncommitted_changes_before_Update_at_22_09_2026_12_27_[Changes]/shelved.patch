@@ -1,0 +1,922 @@
+Index: src/repository/UtilisateurRepository.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\nclass UtilisateurRepository{\r\n\r\n    private $connexionbdd;\r\n\r\n    public function __construct(){\r\n        $this->connexionbdd = (new Bdd())->getConnexionBdd();\r\n    }\r\n\r\n    public function getUtilisateur($id_utilisateur){\r\n        $sql = \"SELECT * FROM utilisateur WHERE id_utilisateur = :id_utilisateur\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->bindValue(':id_utilisateur', $id_utilisateur);\r\n        $req->execute();\r\n        $result = $req->fetch();\r\n    }\r\n\r\n    public function getUtilisateurs(){\r\n        $sql = \"SELECT * FROM utilisateur\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->execute();\r\n        $result = $req->fetchAll();\r\n        $tabUtilisateur = array();\r\n        return $tabUtilisateur;\r\n        }\r\n\r\n\r\n        public function ajoutUtilisateur(Utilisateur $utilisateur){\r\n        $sql=\"INSERT INTO utilisateur VALUES (:id_utilisateur,:nom,:prenom,:mail,:mdp,:statut_validation)\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->bindValue(':id_utilisateur', $utilisateur-> getIdUtilisateur());;\r\n        $req->bindValue(\":nom\",$utilisateur-> getNom());\r\n        $req->bindValue(\":prenom\",$utilisateur-> getPrenom());\r\n        $req->bindValue(\":mail\",$utilisateur-> getEmail());\r\n        $req->bindValue(\":mdp\",$utilisateur-> getMdp());\r\n        $req->bindValue(\":statut_validation\",$utilisateur-> getStatutValidation());\r\n        $req->execute();\r\n        }\r\n\r\n        public function modifierUtilisateur(Utilisateur $utilisateur){\r\n        $sql=\"UPDATE utilisateur SET nom = :nom, prenom =:prenom, mail=:mail, mdp=:mdp, statut_validation=:statut_validation WHERE id_utilisateur = :id_utilisateur\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->bindValue(':id_utilisateur', $utilisateur-> getIdUtilisateur());\r\n        $req->bindValue(':nom',$utilisateur-> getNom());\r\n        $req->bindValue(':prenom',$utilisateur-> getPrenom());\r\n        $req->bindValue(':mail',$utilisateur-> getEmail());\r\n        $req->bindValue(':mdp',$utilisateur-> getMdp());\r\n        $req->bindValue(':statut_validation',$utilisateur-> getStatutValidation());\r\n        $req->bindValue(':id_utilisateur',$utilisateur-> getIdUtilisateur());\r\n        $req->execute();\r\n        }\r\n\r\n    public function supprimerUtilisateur($id_utilisateur){\r\n        $sql=\"DELETE FROM utilisateur WHERE id_utilisateur = :id_utilisateur\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->bindValue(':id_utilisateur', $id_utilisateur);\r\n        $req->execute();\r\n    }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/repository/UtilisateurRepository.php b/src/repository/UtilisateurRepository.php
+--- a/src/repository/UtilisateurRepository.php	(revision 28c3e108a8e5712319da204b8483ad20833185aa)
++++ b/src/repository/UtilisateurRepository.php	(date 1790072830618)
+@@ -15,36 +15,38 @@
+         $result = $req->fetch();
+     }
+ 
+-    public function getUtilisateurs(){
++    public function getUtilisateurs()
++    {
+         $sql = "SELECT * FROM utilisateur";
+         $req = $this->connexionbdd->prepare($sql);
+         $req->execute();
+         $result = $req->fetchAll();
+         $tabUtilisateur = array();
+-        return $tabUtilisateur;
+-        }
++    }
+ 
+ 
+         public function ajoutUtilisateur(Utilisateur $utilisateur){
+-        $sql="INSERT INTO utilisateur VALUES (:id_utilisateur,:nom,:prenom,:mail,:mdp,:statut_validation)";
++        $sql="INSERT INTO utilisateur VALUES (:id_utilisateur,:nom,:prenom,:email,:mdp, :date_inscription, :statut_validation)";
+         $req = $this->connexionbdd->prepare($sql);
+         $req->bindValue(':id_utilisateur', $utilisateur-> getIdUtilisateur());;
+         $req->bindValue(":nom",$utilisateur-> getNom());
+         $req->bindValue(":prenom",$utilisateur-> getPrenom());
+-        $req->bindValue(":mail",$utilisateur-> getEmail());
++        $req->bindValue(":email",$utilisateur-> getEmail());
+         $req->bindValue(":mdp",$utilisateur-> getMdp());
++        $req->bindValue(":date_inscription",$utilisateur-> getDateInscription());
+         $req->bindValue(":statut_validation",$utilisateur-> getStatutValidation());
+         $req->execute();
+         }
+ 
+         public function modifierUtilisateur(Utilisateur $utilisateur){
+-        $sql="UPDATE utilisateur SET nom = :nom, prenom =:prenom, mail=:mail, mdp=:mdp, statut_validation=:statut_validation WHERE id_utilisateur = :id_utilisateur";
++        $sql="UPDATE utilisateur SET nom = :nom, prenom =:prenom, email=:email, mdp=:mdp, date_inscription=:date_inscription, statut_validation=:statut_validation WHERE id_utilisateur = :id_utilisateur";
+         $req = $this->connexionbdd->prepare($sql);
+         $req->bindValue(':id_utilisateur', $utilisateur-> getIdUtilisateur());
+         $req->bindValue(':nom',$utilisateur-> getNom());
+         $req->bindValue(':prenom',$utilisateur-> getPrenom());
+-        $req->bindValue(':mail',$utilisateur-> getEmail());
++        $req->bindValue(':email',$utilisateur-> getEmail());
+         $req->bindValue(':mdp',$utilisateur-> getMdp());
++        $req->bindValue(':date_inscription',$utilisateur-> getDateInscription());
+         $req->bindValue(':statut_validation',$utilisateur-> getStatutValidation());
+         $req->bindValue(':id_utilisateur',$utilisateur-> getIdUtilisateur());
+         $req->execute();
+Index: src/traitement/newProfesseur.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\nrequire_once '../bdd/bdd.php';\r\nrequire_once '../model/Professeur.php';\r\n\r\nif(isset($_POST['specialite']) && isset($_POST['ref_professeur'])) {\r\n    $id_utilisateur = (isset($_POST['id_utilisateur'])) ? $_POST['id_utilisateur'] : null;\r\n    $description = (isset($_POST['$description'])) ? $_POST['$description'] : null;\r\n    $missions = (isset($_POST['missions'])) ? $_POST['missions'] : null;\r\n    $salaire = (isset($_POST['salaire'])) ? $_POST['salaire'] : null;\r\n    $type_offre = (isset($_POST['type_offre'])) ? $_POST['type_offre'] : null;\r\n    $etat = (isset($_POST['etat'])) ? $_POST['etat'] : null;\r\n    $ref_professeur = (isset($_POST['ref_professeur']));\r\n    $specialite = (isset($_POST['specialite']));\r\n    $titre = (isset($_POST['titre'])) ? $_POST['titre'] : null;\r\n\r\n\r\n\r\n$professeur = new Professeur($id_utilisateur,$titre,$description, $missions, $salaire, $type_offre, $etat,$ref_professeur,$specialite);\r\n}\r\n\r\n\r\n\r\n\r\n?>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/traitement/newProfesseur.php b/src/traitement/newProfesseur.php
+--- a/src/traitement/newProfesseur.php	(revision 28c3e108a8e5712319da204b8483ad20833185aa)
++++ b/src/traitement/newProfesseur.php	(date 1790072801784)
+@@ -2,20 +2,15 @@
+ require_once '../bdd/bdd.php';
+ require_once '../model/Professeur.php';
+ 
+-if(isset($_POST['specialite']) && isset($_POST['ref_professeur'])) {
++
++if(isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST['specialite'])){
+     $id_utilisateur = (isset($_POST['id_utilisateur'])) ? $_POST['id_utilisateur'] : null;
+-    $description = (isset($_POST['$description'])) ? $_POST['$description'] : null;
+-    $missions = (isset($_POST['missions'])) ? $_POST['missions'] : null;
+-    $salaire = (isset($_POST['salaire'])) ? $_POST['salaire'] : null;
+-    $type_offre = (isset($_POST['type_offre'])) ? $_POST['type_offre'] : null;
+-    $etat = (isset($_POST['etat'])) ? $_POST['etat'] : null;
+-    $ref_professeur = (isset($_POST['ref_professeur']));
+-    $specialite = (isset($_POST['specialite']));
+-    $titre = (isset($_POST['titre'])) ? $_POST['titre'] : null;
++    $date_inscription = (isset($_POST['date_inscription'])) ? $_POST['date_inscription'] : null;
++    $statut_validation = (isset($_POST['statut_validation'])) ? $_POST['statut_validation'] : null;
+ 
+ 
+ 
+-$professeur = new Professeur($id_utilisateur,$titre,$description, $missions, $salaire, $type_offre, $etat,$ref_professeur,$specialite);
++$professeur = new Professeur($id_utilisateur,$_POST["nom"],$_POST["prenom"],$_POST["email"], $_POST["mdp"],$date_inscription,$statut_validation,$_POST["specialite"]);
+ }
+ 
+ 
+Index: src/repository/PostRepository.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nclass PostRepository{\r\n\r\n    private $connexionBdd;\r\n    public function __construct(){\r\n        $this->connexionbdd = (new Bdd())->getConnexionBdd();\r\n    }\r\n\r\n    public function getPost($id_post){\r\n        $sql = \"SELECT * FROM post WHERE id_post = : id_post\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->bindValue(':id_post', $id_post);\r\n        $req->execute();\r\n        $result = $req->fetch();\r\n        $post = new Post($result[\"id_post\"],$result[\"contenu\"],$result[\"date\"],$result[\"heure\"]);\r\n        return $post;\r\n\r\n    }\r\n\r\n    public function getAllPosts(){\r\n        $sql = \"SELECT * FROM post\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->execute();\r\n        $result = $req->fetchAll();\r\n        $tabPost = array();\r\n        foreach($result as $post){\r\n            $post = new Post($result[\"id_post\"],$result[\"contenu\"],$result[\"date\"],$result[\"heure\"]);\r\n            $tabPost[] = $post;\r\n        }\r\n        return $tabPost;\r\n    }\r\n\r\n    public function ajouterPost(Post $id_post){\r\n        $sql = \"INSERT INTO post(id_post,contenu,date,heure) VALUES(:id_post,:contenu,:date,:heure)\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->bindValue(':id_post',$id_post->getIdPost());\r\n        $req->bindValue(':contenu',$id_post->getContenu());\r\n        $req->bindValue(':date',$id_post->getDate());\r\n        $req->bindValue(':heure',$id_post->getHeure());\r\n        $req->execute();\r\n\r\n    }\r\n\r\n    public function supprimerPost($id_post){\r\n        $sql = \"DELETE FROM post WHERE id_post = :id_post\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->bindValue(':id_post',$id_post);\r\n        $req->execute();\r\n    }\r\n\r\n    public function modifierPost(Post $post){\r\n        $sql = \"UPDATE post SET contenu=:contenu, date=:date, heure=:heure WHERE id_post=:id_post\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->bindValue(':contenu',$post->getContenu());\r\n        $req->bindValue(':date',$post->getDate());\r\n        $req->bindValue(':heure',$post->getHeure());\r\n        $req->bindValue(':id_post',$post->getIdPost());\r\n        $req->execute();\r\n\r\n    }\r\n\r\n\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/repository/PostRepository.php b/src/repository/PostRepository.php
+--- a/src/repository/PostRepository.php	(revision 28c3e108a8e5712319da204b8483ad20833185aa)
++++ b/src/repository/PostRepository.php	(date 1790072801780)
+@@ -13,7 +13,7 @@
+         $req->bindValue(':id_post', $id_post);
+         $req->execute();
+         $result = $req->fetch();
+-        $post = new Post($result["id_post"],$result["contenu"],$result["date"],$result["heure"]);
++        $post = new Post($result["id_post"],$result["contenu"],$result["datetime"],$result["ref_utilisateur"]);
+         return $post;
+ 
+     }
+@@ -25,19 +25,18 @@
+         $result = $req->fetchAll();
+         $tabPost = array();
+         foreach($result as $post){
+-            $post = new Post($result["id_post"],$result["contenu"],$result["date"],$result["heure"]);
+-            $tabPost[] = $post;
++            $tabPost = new Post($result["id_post"],$result["contenu"],$result["datetime"],$result["ref_utilisateur"]);
+         }
+         return $tabPost;
+     }
+ 
+     public function ajouterPost(Post $id_post){
+-        $sql = "INSERT INTO post(id_post,contenu,date,heure) VALUES(:id_post,:contenu,:date,:heure)";
++        $sql = "INSERT INTO post(id_post,contenu,datetime,ref_utilisateur) VALUES(:id_post,:contenu,:datetime,:ref_utilisateur)";
+         $req = $this->connexionbdd->prepare($sql);
+         $req->bindValue(':id_post',$id_post->getIdPost());
+         $req->bindValue(':contenu',$id_post->getContenu());
+-        $req->bindValue(':date',$id_post->getDate());
+-        $req->bindValue(':heure',$id_post->getHeure());
++        $req->bindValue(':datetime',$id_post->getDateTime());
++        $req->bindValue(':ref_utilisateur',$id_post->getRefUtilisateur());
+         $req->execute();
+ 
+     }
+@@ -50,11 +49,11 @@
+     }
+ 
+     public function modifierPost(Post $post){
+-        $sql = "UPDATE post SET contenu=:contenu, date=:date, heure=:heure WHERE id_post=:id_post";
++        $sql = "UPDATE post SET contenu=:contenu, datetime=:datetime, ref_utilisateur=:ref_utilisateur WHERE id_post=:id_post";
+         $req = $this->connexionbdd->prepare($sql);
+         $req->bindValue(':contenu',$post->getContenu());
+-        $req->bindValue(':date',$post->getDate());
+-        $req->bindValue(':heure',$post->getHeure());
++        $req->bindValue(':datetime',$post->getDateTime());
++
+         $req->bindValue(':id_post',$post->getIdPost());
+         $req->execute();
+ 
+Index: src/repository/ReponseRepository.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nclass ReponseRepository{\r\n\r\n    private $connexionBdd;\r\n    public function __construct()\r\n    {\r\n        $this->connexionBdd = (new Bdd())->getConnexionBdd();\r\n    }\r\n\r\n    public function getReponse($id_reponse){\r\n        $sql = \"SELECT * FROM reponse WHERE id_reponse = :id_reponse \";\r\n        $req = $this->connexionBdd->prepare($sql);\r\n        $req->bindValue(':id_reponse', $id_reponse);\r\n        $req->execute();\r\n        $result = $req->fetch();\r\n        $reponse = new Reponse($result['id_reponse'],$result['contenu'],$result['date_reponse'],$result['ref_inscrit'],$result['ref_sujet']);\r\n        return $reponse;\r\n\r\n    }\r\n\r\n    public function getAllReponses(){\r\n        $sql = \"SELECT * FROM reponse\";\r\n        $req = $this->connexionBdd->prepare($sql);\r\n        $req->execute();\r\n        $result = $req->fetchAll();\r\n        $tabReponse = array();\r\n        foreach($result as $row){\r\n            $reponse = new Reponse($result['$id_reponse'],$result['contenu'],$result['date_reponse'],$result['ref_inscrit'],$result['ref_sujet']);\r\n\r\n            $tabReponse[] = $reponse;\r\n        }\r\n        return $tabReponse;\r\n    }\r\n\r\n    public function ajouterReponse(Reponse $id_reponse){\r\n        $sql = \"INSERT INTO reponse (contenu,date_reponse,ref_inscrit,ref_sujet) VALUES (:contenu,:date_reponse,:ref_inscrit,:ref_sujet)\";\r\n        $req = $this->connexionBdd->prepare($sql);\r\n        $req->bindValue(':$id_reponse', $id_reponse->getIdReponse());\r\n        $req->bindValue(':contenu', $id_reponse->getContenu());\r\n        $req->bindValue(':date_reponse', $id_reponse->getDateReponse());\r\n        $req->bindValue(':ref_inscrit', $id_reponse->getRefInscrit());\r\n        $req->bindValue(':ref_sujet', $id_reponse->getRefSujet());\r\n        $req -> execute();\r\n    }\r\n\r\n    public function supprimerReponse($id_reponse){\r\n        $sql = \"DELETE FROM reponse WHERE id_reponse = :id_reponse\";\r\n        $req = $this->connexionBdd->prepare($sql);\r\n        $req->bindValue(':$id_reponse', $id_reponse);\r\n        $req->execute();\r\n    }\r\n\r\n    public function modifierReponse(Reponse $reponse){\r\n        $sql = \"UPDATE reponse SET contenu=:contenu,date_reponse=:date_reponse,ref_inscrit=:ref_inscrit,ref_sujet=:ref_sujet WHERE id_reponse=:id_reponse\";\r\n        $req = $this->connexionBdd->prepare($sql);\r\n        $req->bindValue(':$id_reponse', $reponse->getIdReponse());\r\n        $req->bindValue(':contenu', $reponse->getContenu());\r\n        $req->bindValue(':date_reponse', $reponse->getDateReponse());\r\n        $req->bindValue(':ref_inscrit', $reponse->getRefInscrit());\r\n        $req->bindValue(':ref_sujet', $reponse->getRefSujet());\r\n        $req -> execute();\r\n    }\r\n\r\n\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/repository/ReponseRepository.php b/src/repository/ReponseRepository.php
+--- a/src/repository/ReponseRepository.php	(revision 28c3e108a8e5712319da204b8483ad20833185aa)
++++ b/src/repository/ReponseRepository.php	(date 1790072801781)
+@@ -14,7 +14,7 @@
+         $req->bindValue(':id_reponse', $id_reponse);
+         $req->execute();
+         $result = $req->fetch();
+-        $reponse = new Reponse($result['id_reponse'],$result['contenu'],$result['date_reponse'],$result['ref_inscrit'],$result['ref_sujet']);
++        $reponse = new Reponse($result['id_reponse'],$result['contenu'],$result['datetime_reponse'],$result['ref_utilisateur'],$result['ref_post']);
+         return $reponse;
+ 
+     }
+@@ -26,7 +26,7 @@
+         $result = $req->fetchAll();
+         $tabReponse = array();
+         foreach($result as $row){
+-            $reponse = new Reponse($result['$id_reponse'],$result['contenu'],$result['date_reponse'],$result['ref_inscrit'],$result['ref_sujet']);
++            $reponse = new Reponse($result['$id_reponse'],$result['contenu'],$result['datetime_reponse'],$result['ref_utilisateur'],$result['ref_post']);
+ 
+             $tabReponse[] = $reponse;
+         }
+@@ -34,13 +34,13 @@
+     }
+ 
+     public function ajouterReponse(Reponse $id_reponse){
+-        $sql = "INSERT INTO reponse (contenu,date_reponse,ref_inscrit,ref_sujet) VALUES (:contenu,:date_reponse,:ref_inscrit,:ref_sujet)";
++        $sql = "INSERT INTO reponse (contenu,datetime_reponse,ref_utilisateur,ref_post) VALUES (:contenu,:datetime_reponse,:ref_utilisateur,:ref_post)";
+         $req = $this->connexionBdd->prepare($sql);
+         $req->bindValue(':$id_reponse', $id_reponse->getIdReponse());
+         $req->bindValue(':contenu', $id_reponse->getContenu());
+-        $req->bindValue(':date_reponse', $id_reponse->getDateReponse());
+-        $req->bindValue(':ref_inscrit', $id_reponse->getRefInscrit());
+-        $req->bindValue(':ref_sujet', $id_reponse->getRefSujet());
++        $req->bindValue(':datetime_reponse', $id_reponse->getDatetimeReponse());
++        $req->bindValue(':ref_utilisateur', $id_reponse->getrefUtilisateur());
++        $req->bindValue(':ref_post', $id_reponse->getrefPost());
+         $req -> execute();
+     }
+ 
+@@ -52,13 +52,13 @@
+     }
+ 
+     public function modifierReponse(Reponse $reponse){
+-        $sql = "UPDATE reponse SET contenu=:contenu,date_reponse=:date_reponse,ref_inscrit=:ref_inscrit,ref_sujet=:ref_sujet WHERE id_reponse=:id_reponse";
++        $sql = "UPDATE reponse SET contenu=:contenu,datetime_reponse=:datetime_reponse,ref_utilisateur=:ref_utilisateur,ref_post=:ref_post WHERE id_reponse=:id_reponse";
+         $req = $this->connexionBdd->prepare($sql);
+         $req->bindValue(':$id_reponse', $reponse->getIdReponse());
+         $req->bindValue(':contenu', $reponse->getContenu());
+-        $req->bindValue(':date_reponse', $reponse->getDateReponse());
+-        $req->bindValue(':ref_inscrit', $reponse->getRefInscrit());
+-        $req->bindValue(':ref_sujet', $reponse->getRefSujet());
++        $req->bindValue(':datetime_reponse', $reponse->getDatetimeReponse());
++        $req->bindValue(':ref_utilisateur', $reponse->getrefUtilisateur());
++        $req->bindValue(':ref_post', $reponse->getrefPost());
+         $req -> execute();
+     }
+ 
+Index: .idea/dataSources.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"DataSourceManagerImpl\" format=\"xml\" multifile-model=\"true\">\r\n    <data-source source=\"LOCAL\" name=\"lprs@localhost\" uuid=\"19028178-9c80-499f-b7d7-8c1f342aab10\">\r\n      <driver-ref>mysql_aurora.aws_wrapper</driver-ref>\r\n      <synchronize>true</synchronize>\r\n      <jdbc-driver>software.amazon.jdbc.Driver</jdbc-driver>\r\n      <jdbc-url>jdbc:aws-wrapper:mysql://localhost:3306/lprs</jdbc-url>\r\n      <working-dir>$ProjectFileDir$</working-dir>\r\n    </data-source>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/dataSources.xml b/.idea/dataSources.xml
+--- a/.idea/dataSources.xml	(revision 28c3e108a8e5712319da204b8483ad20833185aa)
++++ b/.idea/dataSources.xml	(date 1790072836939)
+@@ -1,8 +1,13 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
++<<<<<<< HEAD
+     <data-source source="LOCAL" name="lprs@localhost" uuid="19028178-9c80-499f-b7d7-8c1f342aab10">
+       <driver-ref>mysql_aurora.aws_wrapper</driver-ref>
++=======
++    <data-source source="LOCAL" name="lprs@localhost" uuid="c2eb56ee-5a2c-4937-9a2a-2b88e77bdcd7">
++      <driver-ref>mysql.8</driver-ref>
++>>>>>>> e9cc30edff0680514277f2cf22018c538bcaf79b
+       <synchronize>true</synchronize>
+       <jdbc-driver>software.amazon.jdbc.Driver</jdbc-driver>
+       <jdbc-url>jdbc:aws-wrapper:mysql://localhost:3306/lprs</jdbc-url>
+Index: src/repository/PartenaireRepository.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\nclass PartenaireRepository{\r\n\r\n    private $connexionbdd;\r\n\r\n    public function __construct(){\r\n        $this->connexionbdd = (new Bdd())->getConnexionBdd();\r\n    }\r\n\r\n    public function getPartenaire($id_partenaire){\r\n        $sql = \"SELECT * FROM partenaire WHERE id_partenaire = :id_partenaire\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->bindValue(':id_partenaire', $id_partenaire);\r\n        $req->execute();\r\n        $result = $req->fetch();\r\n        $partenaire = new Partenaire($result[\"ref_utilisateur\"],$result[\"poste_occupe\"], $result[\"motif_inscription\"], $result[\"ref_entreprise\"]);\r\n        return $partenaire;\r\n    }\r\n\r\n    public function getPartenaires(){ // a verifier pluriel ou pas dans tous les fichies\r\n        $sql = \"SELECT * FROM partenaire\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->execute();\r\n        $result = $req->fetchAll();\r\n        $tabPartenaire = array();\r\n        foreach ($result as $results) {\r\n            $tabPartenaire[] = new Partenaire($results[\"ref_utilisateur]\"],$results[\"poste_occupe\"], $result[\"motif_inscription\"], $result[\"ref_entreprise\"]);\r\n        }\r\n        return $tabPartenaire;\r\n    }\r\n\r\n\r\n    public function ajoutOffre(Partenaire $partenaire){\r\n        $sql=\"INSERT INTO partenaire VALUES (:ref_utilisateur,:poste_occupe, :motif_inscription, :ref_entreprise)\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->bindValue(':ref_utilisateur', $partenaire-> getRefPartenaire());;\r\n        $req->bindValue(\":poste_occupe\",$partenaire-> getPosteOccupe());\r\n        $req->bindValue(\":motif_inscription\",$partenaire-> getMotifInscription());\r\n        $req->bindValue(\":ref_entreprise\",$partenaire-> getRefEntreprise());\r\n        $req->execute();\r\n    }\r\n\r\n    public function modifierOffre(Partenaire $partenaire){\r\n        $sql=\"UPDATE partenaire SET ref_utilisateur = :ref_utilisateur, poste_occupe = :poste_occupe, motif_inscription = :motif_inscription, ref_entreprise = :ref_entreprise WHERE id_partenaire = :id_partenaire\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->bindValue(':ref_utilisateur', $partenaire-> getRefPartenaire());\r\n        $req->bindValue(':poste_occupe', $partenaire-> getPosteOccupe());\r\n        $req->bindValue(':motif_inscription', $partenaire-> getMotifInscription());\r\n        $req->bindValue(':ref_entreprise', $partenaire-> getRefEntreprise());\r\n        $req->execute();\r\n\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/repository/PartenaireRepository.php b/src/repository/PartenaireRepository.php
+--- a/src/repository/PartenaireRepository.php	(revision 28c3e108a8e5712319da204b8483ad20833185aa)
++++ b/src/repository/PartenaireRepository.php	(date 1790072801779)
+@@ -7,10 +7,10 @@
+         $this->connexionbdd = (new Bdd())->getConnexionBdd();
+     }
+ 
+-    public function getPartenaire($id_partenaire){
+-        $sql = "SELECT * FROM partenaire WHERE id_partenaire = :id_partenaire";
++    public function getPartenaire($ref_utilisateur){
++        $sql = "SELECT * FROM partenaire WHERE ref_utilisateur = :ref_utilisateur";
+         $req = $this->connexionbdd->prepare($sql);
+-        $req->bindValue(':id_partenaire', $id_partenaire);
++        $req->bindValue(':ref_utisateur', $ref_utilisateur);
+         $req->execute();
+         $result = $req->fetch();
+         $partenaire = new Partenaire($result["ref_utilisateur"],$result["poste_occupe"], $result["motif_inscription"], $result["ref_entreprise"]);
+@@ -41,7 +41,7 @@
+     }
+ 
+     public function modifierOffre(Partenaire $partenaire){
+-        $sql="UPDATE partenaire SET ref_utilisateur = :ref_utilisateur, poste_occupe = :poste_occupe, motif_inscription = :motif_inscription, ref_entreprise = :ref_entreprise WHERE id_partenaire = :id_partenaire";
++        $sql="UPDATE partenaire SET ref_utilisateur = :ref_utilisateur, poste_occupe = :poste_occupe, motif_inscription = :motif_inscription, ref_entreprise = :ref_entreprise WHERE ref_utilisateur = :ref_utisateur";
+         $req = $this->connexionbdd->prepare($sql);
+         $req->bindValue(':ref_utilisateur', $partenaire-> getRefPartenaire());
+         $req->bindValue(':poste_occupe', $partenaire-> getPosteOccupe());
+Index: src/model/Alumni.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n    class Alumni extends Utilisateur{\r\n\r\n        protected $ref_alumni;\r\n        protected $cv;\r\n\r\n        protected $poste_occupe;\r\n    public function __construct($ref_alumni,$cv, $poste_occupe ,$id_utilisateur,$nom, $prenom, $mail, $mdp, $date_inscription, $statut_validation) {\r\n        parent::__construct($id_utilisateur,$nom, $prenom, $mail, $mdp, $date_inscription, $statut_validation);\r\n    $this->ref_alumni = $ref_alumni;\r\n    $this->cv = $cv;\r\n    $this->poste_occupe = $poste_occupe;}\r\n\r\n\r\n\r\n\r\n    }\r\n\r\n?>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/model/Alumni.php b/src/model/Alumni.php
+--- a/src/model/Alumni.php	(revision 28c3e108a8e5712319da204b8483ad20833185aa)
++++ b/src/model/Alumni.php	(date 1790072801775)
+@@ -1,13 +1,15 @@
+ <?php
+     class Alumni extends Utilisateur{
+ 
+-        protected $ref_alumni;
++        protected $ref_promotion;
++        private $ref_entreprise;
+         protected $cv;
+ 
+         protected $poste_occupe;
+-    public function __construct($ref_alumni,$cv, $poste_occupe ,$id_utilisateur,$nom, $prenom, $mail, $mdp, $date_inscription, $statut_validation) {
++    public function __construct($id_utilisateur,$nom, $prenom, $mail, $mdp, $date_inscription, $statut_validation,$cv, $poste_occupe, $ref_promotion, $ref_entreprise) {
+         parent::__construct($id_utilisateur,$nom, $prenom, $mail, $mdp, $date_inscription, $statut_validation);
+-    $this->ref_alumni = $ref_alumni;
++    $this->ref_promotion = $ref_promotion;
++    $this->ref_entreprise = $ref_entreprise;
+     $this->cv = $cv;
+     $this->poste_occupe = $poste_occupe;}
+ 
+Index: src/model/Post.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nclass Post{\r\n    private $id_post;\r\n    private $contenu;\r\n    private $date;\r\n    private $heure;\r\n\r\n    /**\r\n     * @param $id_post\r\n     * @param $contenu\r\n     * @param $date\r\n     * @param $heure\r\n     */\r\n    public function __construct($id_post, $contenu, $date, $heure)\r\n    {\r\n        $this->id_post = $id_post;\r\n        $this->contenu = $contenu;\r\n        $this->date = $date;\r\n        $this->heure = $heure;\r\n    }\r\n\r\n    /**\r\n     * @return mixed\r\n     */\r\n    public function getIdPost()\r\n    {\r\n        return $this->id_post;\r\n    }\r\n\r\n    /**\r\n     * @param mixed $id_post\r\n     */\r\n    public function setId($id_post)\r\n    {\r\n        $this->id = $id_post;\r\n    }\r\n\r\n    /**\r\n     * @return mixed\r\n     */\r\n    public function getContenu()\r\n    {\r\n        return $this->contenu;\r\n    }\r\n\r\n    /**\r\n     * @param mixed $contenu\r\n     */\r\n    public function setContenu($contenu)\r\n    {\r\n        $this->contenu = $contenu;\r\n    }\r\n\r\n    /**\r\n     * @return mixed\r\n     */\r\n    public function getDate()\r\n    {\r\n        return $this->date;\r\n    }\r\n\r\n    /**\r\n     * @param mixed $date\r\n     */\r\n    public function setDate($date)\r\n    {\r\n        $this->date = $date;\r\n    }\r\n\r\n    /**\r\n     * @return mixed\r\n     */\r\n    public function getHeure()\r\n    {\r\n        return $this->heure;\r\n    }\r\n\r\n    /**\r\n     * @param mixed $heure\r\n     */\r\n    public function setHeure($heure)\r\n    {\r\n        $this->heure = $heure;\r\n    }\r\n\r\n\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/model/Post.php b/src/model/Post.php
+--- a/src/model/Post.php	(revision 28c3e108a8e5712319da204b8483ad20833185aa)
++++ b/src/model/Post.php	(date 1790072801776)
+@@ -1,23 +1,24 @@
+ <?php
+ 
++
+ class Post{
+     private $id_post;
+     private $contenu;
+-    private $date;
+-    private $heure;
++    private $datetime;
++    private $ref_utilisateur;
+ 
+     /**
+      * @param $id_post
+      * @param $contenu
+-     * @param $date
+-     * @param $heure
++     * @param $datetime
++     * @param $ref_utilisateur
+      */
+-    public function __construct($id_post, $contenu, $date, $heure)
++    public function __construct($id_post, $contenu, $datetime, $ref_utilisateur)
+     {
+         $this->id_post = $id_post;
+         $this->contenu = $contenu;
+-        $this->date = $date;
+-        $this->heure = $heure;
++        $this->datetime = $datetime;
++        $this->ref_utilisateur = $ref_utilisateur;
+     }
+ 
+     /**
+@@ -55,33 +56,33 @@
+     /**
+      * @return mixed
+      */
+-    public function getDate()
++    public function getDateTime()
+     {
+-        return $this->date;
++        return $this->datetime;
+     }
+ 
+     /**
+-     * @param mixed $date
++     * @param mixed $dateTime
+      */
+-    public function setDate($date)
++    public function setDateTime($datetime)
+     {
+-        $this->date = $date;
++        $this->datetime = $datetime;
+     }
+ 
+     /**
+      * @return mixed
+      */
+-    public function getHeure()
++    public function getRefUtilisateur()
+     {
+-        return $this->heure;
++        return $this->ref_utilisateur;
+     }
+ 
+     /**
+-     * @param mixed $heure
++     * @param mixed $ref_utilisateur
+      */
+-    public function setHeure($heure)
++    public function setRefUtilisateur($ref_utilisateur)
+     {
+-        $this->heure = $heure;
++        $this->ref_utilisateur = $ref_utilisateur;
+     }
+ 
+ 
+Index: src/repository/AlumniRepository.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\nclass AlumniRepository{\r\n\r\n    private $connexionbdd;\r\n\r\n    public function __construct(){\r\n        $this->connexionbdd = (new Bdd())->getConnexionBdd();\r\n    }\r\n\r\n    public function getAlumni($id_alumni){\r\n        $sql = \"SELECT * FROM alumni WHERE id_alumni = :id_alumni\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->bindValue(':id_alumni', $id_alumni);\r\n        $req->execute();\r\n        $result = $req->fetch();\r\n        $alumni = new Alumni($result[\"ref_utilisateur\"],$result[\"cv\"],$result['poste_occupe'],$result['ref_promotion'], $result[\"ref_entreprise\"]);\r\n        return $alumni;\r\n    }\r\n\r\n    public function getAlumnis(){\r\n        $sql = \"SELECT * FROM alumni\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->execute();\r\n        $result = $req->fetchAll();\r\n        $alumnis = array();\r\n        foreach ($result as $results) {\r\n            $tabAlumni[] = new Alumni($result[\"ref_utilisateur\"],$result[\"cv\"],$result['poste_occupe'],$result['ref_promotion'], $result[\"ref_entreprise\"]);\r\n        }\r\n        return $alumnis;\r\n    }\r\n\r\n\r\n    public function ajoutAlumni(Alumni $alumni){\r\n        $sql=\"INSERT INTO alumni VALUES (:ref_utilisateur,:cv,:poste_occupe,:ref_promotion, :ref_entreprise)\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->bindValue(':id_entreprise', $alumni-> getRefUtilisateur());;\r\n        $req->bindValue(\":addressse\",$alumni-> getCV());\r\n        $req->bindValue(\":poste_occupe\",$alumni-> getPosteOccupe());\r\n        $req->bindValue(\":ref_promotion\",$alumni-> getRefPromotion());\r\n        $req->bindValue(\"ref_entreprise\", $alumni->getRefEntrprise());\r\n        $req->execute();\r\n    }\r\n\r\n    public function modifierAlumni(Alumni $alumni){\r\n        $sql=\"UPDATE alumni SET cv = :cv, poste_occupe =:poste_occupe, ref_promotion=:ref_promotion, ref_entreprise=:ref_entreprise WHERE ref_utilisateur = :ref_utilisateur\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->bindValue(':cv', $alumni-> getCV());\r\n        $req->bindValue(':poste_occupe',$alumni-> getPosteOccupe());\r\n        $req->bindValue(':ref_promotion',$alumni-> getRefPromotion());\r\n        $req->bindValue(':ref_entreprise',$alumni-> getRefEntreprise());\r\n        $req->bindValue(':ref_utilisateur',$alumni-> getRefUtilisateur());\r\n        $req->execute();\r\n\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/repository/AlumniRepository.php b/src/repository/AlumniRepository.php
+--- a/src/repository/AlumniRepository.php	(revision 28c3e108a8e5712319da204b8483ad20833185aa)
++++ b/src/repository/AlumniRepository.php	(date 1790072801777)
+@@ -7,10 +7,10 @@
+         $this->connexionbdd = (new Bdd())->getConnexionBdd();
+     }
+ 
+-    public function getAlumni($id_alumni){
+-        $sql = "SELECT * FROM alumni WHERE id_alumni = :id_alumni";
++    public function getAlumni($ref_utisateur){
++        $sql = "SELECT * FROM alumni WHERE ref_utilisateur = :ref_utisateur";
+         $req = $this->connexionbdd->prepare($sql);
+-        $req->bindValue(':id_alumni', $id_alumni);
++        $req->bindValue(':ref_utisateur', $ref_utisateur);
+         $req->execute();
+         $result = $req->fetch();
+         $alumni = new Alumni($result["ref_utilisateur"],$result["cv"],$result['poste_occupe'],$result['ref_promotion'], $result["ref_entreprise"]);
+Index: src/model/Etudiant.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nclass Etudiant extends Utilisateur{\r\n\r\n    private $ref_etudiant;\r\n    private $cv;\r\n\r\n    /**\r\n     * @param $ref_etudiant\r\n     * @param $cv\r\n     */\r\n    public function __construct($id_utilisateur,$titre,$description,$missions,$salaire,$type_offre,$etat, $ref_etudiant, $cv){\r\n        parent::__construct($id_utilisateur,$titre,$description,$missions,$salaire,$type_offre,$etat);\r\n        $this->ref_etudiant = $ref_etudiant;\r\n        $this->cv = $cv;\r\n    }\r\n\r\n    /**\r\n     * @return mixed\r\n     */\r\n    public function getRefEtudiant()\r\n    {\r\n        return $this->ref_etudiant;\r\n    }\r\n\r\n    /**\r\n     * @param mixed $ref_etudiant\r\n     */\r\n    public function setRefEtudiant($ref_etudiant)\r\n    {\r\n        $this->ref_etudiant = $ref_etudiant;\r\n    }\r\n\r\n    /**\r\n     * @return mixed\r\n     */\r\n    public function getCv()\r\n    {\r\n        return $this->cv;\r\n    }\r\n\r\n    /**\r\n     * @param mixed $cv\r\n     */\r\n    public function setCv($cv)\r\n    {\r\n        $this->cv = $cv;\r\n    }\r\n\r\n\r\n\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/model/Etudiant.php b/src/model/Etudiant.php
+--- a/src/model/Etudiant.php	(revision 28c3e108a8e5712319da204b8483ad20833185aa)
++++ b/src/model/Etudiant.php	(date 1790072801775)
+@@ -2,33 +2,37 @@
+ 
+ class Etudiant extends Utilisateur{
+ 
+-    private $ref_etudiant;
+     private $cv;
++    private $ref_formation;
++    private $ref_promotion;
++
+ 
+     /**
+-     * @param $ref_etudiant
++     * @param $ref_utilisateur
+      * @param $cv
+      */
+-    public function __construct($id_utilisateur,$titre,$description,$missions,$salaire,$type_offre,$etat, $ref_etudiant, $cv){
+-        parent::__construct($id_utilisateur,$titre,$description,$missions,$salaire,$type_offre,$etat);
+-        $this->ref_etudiant = $ref_etudiant;
++    public function __construct($id_utilisateur,$nom,$prenom,$mail,$mdp,$date_inscription,$statut_validation, $cv,$ref_formation,$ref_promotion){
++        parent::__construct($id_utilisateur,$nom,$prenom,$mail,$mdp,$date_inscription,$statut_validation);
++
+         $this->cv = $cv;
++        $this->ref_formation = $ref_formation;
++        $this->ref_promotion = $ref_promotion;
+     }
+ 
+     /**
+      * @return mixed
+      */
+-    public function getRefEtudiant()
++    public function getRefUtilisateur()
+     {
+-        return $this->ref_etudiant;
++        return $this->ref_utilisateur;
+     }
+ 
+     /**
+-     * @param mixed $ref_etudiant
++     * @param mixed $ref_utilisateur
+      */
+-    public function setRefEtudiant($ref_etudiant)
++    public function setRefUtilisateur($ref_utilisateur)
+     {
+-        $this->ref_etudiant = $ref_etudiant;
++        $this->ref_utilisateur = $ref_utilisateur;
+     }
+ 
+     /**
+@@ -47,6 +51,38 @@
+         $this->cv = $cv;
+     }
+ 
++    /**
++     * @return mixed
++     */
++    public function getRefFormation()
++    {
++        return $this->ref_formation;
++    }
++
++    /**
++     * @param mixed $ref_formation
++     */
++    public function setRefFormation($ref_formation)
++    {
++        $this->ref_formation = $ref_formation;
++    }
++
++    /**
++     * @return mixed
++     */
++    public function getRefPromotion()
++    {
++        return $this->ref_promotion;
++    }
++
++    /**
++     * @param mixed $ref_promotion
++     */
++    public function setRefPromotion($ref_promotion)
++    {
++        $this->ref_promotion = $ref_promotion;
++    }
++
+ 
+ 
+ 
+Index: src/repository/EntrepriseRepository.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\nclass EntrepriseRepository{\r\n\r\n    private $connexionbdd;\r\n\r\n    public function __construct(){\r\n        $this->connexionbdd = (new Bdd())->getConnexionBdd();\r\n    }\r\n\r\n    public function getEntreprise($id_entreprise){\r\n        $sql = \"SELECT * FROM entreprise WHERE id_entreprise = :id_entreprise\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->bindValue(':id_entreprise', $id_entreprise);\r\n        $req->execute();\r\n        $result = $req->fetch();\r\n        $entreprise = new Entreprise($result[\"id_entreprise]\"],$result[\"addresse\"],$result['nom_entreprise'],$result['site_wab']);\r\n        return $entreprise;\r\n    }\r\n\r\n    public function getEntreprises(){\r\n        $sql = \"SELECT * FROM entreprise\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->execute();\r\n        $result = $req->fetchAll();\r\n        $entreprises = array();\r\n        foreach ($result as $results) {\r\n            $tabEntreprise[] = new Entreprise($results[\"id_entreprise]\"],$results[\"addresse\"],$results['nom_entreprise'],$results['site_web']);\r\n        }\r\n        return $entreprises;\r\n    }\r\n\r\n\r\n    public function ajoutEntreprise(Entreprise $entreprise){\r\n        $sql=\"INSERT INTO entreprise VALUES (:id_entreprise,:addresse,:nom_entreprise,:site_web)\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->bindValue(':id_entreprise', $entreprise-> getidEntreprise());;\r\n        $req->bindValue(\":addressse\",$entreprise-> getAdresse());\r\n        $req->bindValue(\":nom_entreprise\",$entreprise-> getNomEntreprise());\r\n        $req->bindValue(\":site_web\",$entreprise-> getSiteWeb());\r\n        $req->execute();\r\n    }\r\n\r\n    public function modifierEntreprise(Entreprise $entreprise){\r\n        $sql=\"UPDATE entreprise SET addresse = :addresse, nom_entreprise =:nom_entreprise, site_web=:site_web WHERE id_entreprise = :id_entreprise\";\r\n        $req = $this->connexionbdd->prepare($sql);\r\n        $req->bindValue(':addresse', $entreprise-> getAdresse());\r\n        $req->bindValue(':nom_entreprise',$entreprise-> getNomEntreprise());\r\n        $req->bindValue(':site_web',$entreprise-> getSiteWeb());\r\n        $req->bindValue(':id_entreprise',$entreprise-> getidEntreprise());\r\n        $req->execute();\r\n\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/repository/EntrepriseRepository.php b/src/repository/EntrepriseRepository.php
+--- a/src/repository/EntrepriseRepository.php	(revision 28c3e108a8e5712319da204b8483ad20833185aa)
++++ b/src/repository/EntrepriseRepository.php	(date 1790072801778)
+@@ -13,7 +13,7 @@
+         $req->bindValue(':id_entreprise', $id_entreprise);
+         $req->execute();
+         $result = $req->fetch();
+-        $entreprise = new Entreprise($result["id_entreprise]"],$result["addresse"],$result['nom_entreprise'],$result['site_wab']);
++        $entreprise = new Entreprise($result["id_entreprise]"],$result["adresse"],$result['nom_entreprise'],$result['site_wab']);
+         return $entreprise;
+     }
+ 
+@@ -22,28 +22,28 @@
+         $req = $this->connexionbdd->prepare($sql);
+         $req->execute();
+         $result = $req->fetchAll();
+-        $entreprises = array();
++        $tabEntreprise = array();
+         foreach ($result as $results) {
+-            $tabEntreprise[] = new Entreprise($results["id_entreprise]"],$results["addresse"],$results['nom_entreprise'],$results['site_web']);
++            $tabEntreprise[] = new Entreprise($results["id_entreprise]"],$results["adresse"],$results['nom_entreprise'],$results['site_web']);
+         }
+-        return $entreprises;
++        return $tabEntreprise;
+     }
+ 
+ 
+     public function ajoutEntreprise(Entreprise $entreprise){
+-        $sql="INSERT INTO entreprise VALUES (:id_entreprise,:addresse,:nom_entreprise,:site_web)";
++        $sql="INSERT INTO entreprise VALUES (:id_entreprise,:adresse,:nom_entreprise,:site_web)";
+         $req = $this->connexionbdd->prepare($sql);
+         $req->bindValue(':id_entreprise', $entreprise-> getidEntreprise());;
+-        $req->bindValue(":addressse",$entreprise-> getAdresse());
++        $req->bindValue(":adresse",$entreprise-> getAdresse());
+         $req->bindValue(":nom_entreprise",$entreprise-> getNomEntreprise());
+         $req->bindValue(":site_web",$entreprise-> getSiteWeb());
+         $req->execute();
+     }
+ 
+     public function modifierEntreprise(Entreprise $entreprise){
+-        $sql="UPDATE entreprise SET addresse = :addresse, nom_entreprise =:nom_entreprise, site_web=:site_web WHERE id_entreprise = :id_entreprise";
++        $sql="UPDATE entreprise SET adresse = :adresse, nom_entreprise =:nom_entreprise, site_web=:site_web WHERE id_entreprise = :id_entreprise";
+         $req = $this->connexionbdd->prepare($sql);
+-        $req->bindValue(':addresse', $entreprise-> getAdresse());
++        $req->bindValue(':adresse', $entreprise-> getAdresse());
+         $req->bindValue(':nom_entreprise',$entreprise-> getNomEntreprise());
+         $req->bindValue(':site_web',$entreprise-> getSiteWeb());
+         $req->bindValue(':id_entreprise',$entreprise-> getidEntreprise());
+Index: src/traitement/newEntreprise.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/traitement/newEntreprise.php b/src/traitement/newEntreprise.php
+--- a/src/traitement/newEntreprise.php	(revision 28c3e108a8e5712319da204b8483ad20833185aa)
++++ b/src/traitement/newEntreprise.php	(date 1790072801783)
+@@ -1,1 +1,12 @@
+ <?php
++
++require_once "../bdd/bdd.php";
++require_once "../model/Entreprise.php";
++
++
++if(isset($_POST['adresse']) && isset($_POST['nom_entreprise']) && isset($_POST['site_web'])){
++    $id_entreprise = (isset($_POST['id_entreprise'])) ? $_POST['id_entreprise'] : null;
++
++
++    $entreprise = new Entreprise($id_entreprise,$_POST['adresse'],$_POST['nom_entreprise'],$_POST['site_web']);
++}
+\ No newline at end of file
+Index: src/model/Reponse.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nclass Reponse{\r\n\r\n    private $id_reponse;\r\n    private $contenu;\r\n    private $date_reponse;\r\n    private $ref_inscrit;\r\n    private $ref_sujet;\r\n\r\n    /**\r\n     * @param $id_reponse\r\n     * @param $contenu\r\n     * @param $date_reponse\r\n     * @param $ref_inscrit\r\n     * @param $ref_sujet\r\n     */\r\n    public function __construct($id_reponse, $contenu, $date_reponse, $ref_inscrit, $ref_sujet)\r\n    {\r\n        $this->id_reponse = $id_reponse;\r\n        $this->contenu = $contenu;\r\n        $this->date_reponse = $date_reponse;\r\n        $this->ref_inscrit = $ref_inscrit;\r\n        $this->ref_sujet = $ref_sujet;\r\n    }\r\n\r\n    /**\r\n     * @return mixed\r\n     */\r\n    public function getIdReponse()\r\n    {\r\n        return $this->id_reponse;\r\n    }\r\n\r\n    /**\r\n     * @param mixed $id_reponse\r\n     */\r\n    public function setIdReponse($id_reponse)\r\n    {\r\n        $this->id_reponse = $id_reponse;\r\n    }\r\n\r\n    /**\r\n     * @return mixed\r\n     */\r\n    public function getContenu()\r\n    {\r\n        return $this->contenu;\r\n    }\r\n\r\n    /**\r\n     * @param mixed $contenu\r\n     */\r\n    public function setContenu($contenu)\r\n    {\r\n        $this->contenu = $contenu;\r\n    }\r\n\r\n    /**\r\n     * @return mixed\r\n     */\r\n    public function getDateReponse()\r\n    {\r\n        return $this->date_reponse;\r\n    }\r\n\r\n    /**\r\n     * @param mixed $date_reponse\r\n     */\r\n    public function setDateReponse($date_reponse)\r\n    {\r\n        $this->date_reponse = $date_reponse;\r\n    }\r\n\r\n    /**\r\n     * @return mixed\r\n     */\r\n    public function getRefInscrit()\r\n    {\r\n        return $this->ref_inscrit;\r\n    }\r\n\r\n    /**\r\n     * @param mixed $ref_inscrit\r\n     */\r\n    public function setRefInscrit($ref_inscrit)\r\n    {\r\n        $this->ref_inscrit = $ref_inscrit;\r\n    }\r\n\r\n    /**\r\n     * @return mixed\r\n     */\r\n    public function getRefSujet()\r\n    {\r\n        return $this->ref_sujet;\r\n    }\r\n\r\n    /**\r\n     * @param mixed $ref_sujet\r\n     */\r\n    public function setRefSujet($ref_sujet)\r\n    {\r\n        $this->ref_sujet = $ref_sujet;\r\n    }\r\n\r\n\r\n\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/model/Reponse.php b/src/model/Reponse.php
+--- a/src/model/Reponse.php	(revision 28c3e108a8e5712319da204b8483ad20833185aa)
++++ b/src/model/Reponse.php	(date 1790072801776)
+@@ -4,24 +4,24 @@
+ 
+     private $id_reponse;
+     private $contenu;
+-    private $date_reponse;
+-    private $ref_inscrit;
+-    private $ref_sujet;
++    private $datetime_reponse;
++    private $ref_utilisateur;
++    private $ref_post;
+ 
+     /**
+      * @param $id_reponse
+      * @param $contenu
+-     * @param $date_reponse
+-     * @param $ref_inscrit
+-     * @param $ref_sujet
++     * @param $datetime_reponse
++     * @param $ref_utilisateur
++     * @param $ref_post
+      */
+-    public function __construct($id_reponse, $contenu, $date_reponse, $ref_inscrit, $ref_sujet)
++    public function __construct($id_reponse, $contenu, $datetime_reponse, $ref_utilisateur, $ref_post)
+     {
+         $this->id_reponse = $id_reponse;
+         $this->contenu = $contenu;
+-        $this->date_reponse = $date_reponse;
+-        $this->ref_inscrit = $ref_inscrit;
+-        $this->ref_sujet = $ref_sujet;
++        $this->datetime_reponse = $datetime_reponse;
++        $this->ref_utilisateur = $ref_utilisateur;
++        $this->ref_post = $ref_post;
+     }
+ 
+     /**
+@@ -59,52 +59,51 @@
+     /**
+      * @return mixed
+      */
+-    public function getDateReponse()
++    public function getDatetimeReponse()
+     {
+-        return $this->date_reponse;
++        return $this->datetime_reponse;
+     }
+ 
+     /**
+-     * @param mixed $date_reponse
++     * @param mixed $datetime_reponse
+      */
+-    public function setDateReponse($date_reponse)
++    public function setDatetimeReponse($datetime_reponse)
+     {
+-        $this->date_reponse = $date_reponse;
++        $this->datetime_reponse = $datetime_reponse;
+     }
+ 
+     /**
+      * @return mixed
+      */
+-    public function getRefInscrit()
++    public function getRefUtilisateur()
+     {
+-        return $this->ref_inscrit;
++        return $this->ref_utilisateur;
+     }
+ 
+     /**
+-     * @param mixed $ref_inscrit
++     * @param mixed $ref_utilisateur
+      */
+-    public function setRefInscrit($ref_inscrit)
++    public function setRefUtilisateur($ref_utilisateur)
+     {
+-        $this->ref_inscrit = $ref_inscrit;
++        $this->ref_utilisateur = $ref_utilisateur;
+     }
+ 
+     /**
+      * @return mixed
+      */
+-    public function getRefSujet()
++    public function getRefPost()
+     {
+-        return $this->ref_sujet;
++        return $this->ref_post;
+     }
+ 
+     /**
+-     * @param mixed $ref_sujet
++     * @param mixed $ref_post
+      */
+-    public function setRefSujet($ref_sujet)
++    public function setRefPost($ref_post)
+     {
+-        $this->ref_sujet = $ref_sujet;
++        $this->ref_post = $ref_post;
+     }
+ 
+ 
+ 
+-
+ }
+\ No newline at end of file
+Index: src/traitement/newAlumni.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n?>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/traitement/newAlumni.php b/src/traitement/newAlumni.php
+--- a/src/traitement/newAlumni.php	(revision 28c3e108a8e5712319da204b8483ad20833185aa)
++++ b/src/traitement/newAlumni.php	(date 1790072801782)
+@@ -1,10 +1,16 @@
+ <?php
+-
+-
+-
++require_once '../bdd/bdd.php';
++require_once '../model/Alumni.php';
+ 
+ 
++if(isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST['poste_occupe'])){
++    $id_utilisateur = (isset($_POST['id_utilisateur'])) ? $_POST['id_utilisateur'] : null;
++    $date_inscription = (isset($_POST['date_inscription'])) ? $_POST['date_inscription'] : null;
++    $statut_validation = (isset($_POST['statut_validation'])) ? $_POST['statut_validation'] : null;
++    $ref_promotion = (isset($_POST['ref_promotion'])) ? $_POST['ref_promotion'] : null;
++    $ref_entreprise = (isset($_POST['ref_entreprise'])) ? $_POST['ref_entreprise'] : null;
++    $cv = (isset($_POST['cv'])) ? $_POST['cv'] : null;
+ 
+ 
+-
+-?>
++    $alumni = new Alumni($id_utilisateur,$_POST["nom"],$_POST["prenom"],$_POST["email"], $_POST["mdp"],$date_inscription,$statut_validation,$cv,$_POST['poste_occupe'],$ref_promotion,$ref_entreprise);
++}
+Index: src/traitement/newEtudiant.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/traitement/newEtudiant.php b/src/traitement/newEtudiant.php
+--- a/src/traitement/newEtudiant.php	(revision 28c3e108a8e5712319da204b8483ad20833185aa)
++++ b/src/traitement/newEtudiant.php	(date 1790072801783)
+@@ -1,1 +1,17 @@
+ <?php
++
++require_once "../bdd/bdd.php";
++require_once "../model/Etudiant.php";
++
++
++if(isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST['cv']) && isset($_POST['ref_formation']) && isset($_POST['ref_promotion'])) {
++    $id_etudiant  = (isset($_POST['id_evenement'])) ? $_POST['id_evenement'] : null;
++    $date_inscription = (isset($_POST['date_inscription'])) ? $_POST['date_inscription'] : null;
++    $statut_validation = (isset($_POST['statut_validation'])) ? $_POST['statut_validation'] : null;
++
++
++    $etudiant = new Etudiant($id_etudiant, $_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['mdp'],$date_inscription,$statut_validation,$_POST['cv'], $_POST['ref_formation'], $_POST['ref_promotion']);
++}
++
++
++
+Index: src/traitement/newUtilisateur.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\nrequire_once \"../bdd/bdd.php\";\r\nrequire_once \"../model/Utilisateur.php\";\r\n\r\nif(isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mdp'])){\r\n    $id_utilisateur = (isset($_POST['id_utilisateur'])) ? $_POST['id_utilisateur'] : null;\r\n    $date_inscription = (isset($_POST['date_inscription'])) ? $_POST['date_inscription'] : null;\r\n    $statut_validation = (isset($_POST['statut_validation'])) ? $_POST['statut_validation'] : null;\r\n\r\n\r\n\r\n$mdp= $_POST['mdp'];\r\n    if (substr($mdp, 0, 4) != '$2y$') {//compare les 4 caracteres a partir du caractere 0\r\n        $mdp = password_hash($mdp, PASSWORD_DEFAULT);\r\n\r\n        // comme le fichier sert a la fois pour l'ajout ET la modif, ca evite de re hasher un mdp deja hasher\r\n    }\r\n$utilisateur = new Utilisateur($id_utilisateur, $_POST['nom'], $_POST['prenom'], $_POST['mail'], $mdp,$date_inscription, $statut_validation);\r\n\r\n\r\n}   
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/traitement/newUtilisateur.php b/src/traitement/newUtilisateur.php
+--- a/src/traitement/newUtilisateur.php	(revision 28c3e108a8e5712319da204b8483ad20833185aa)
++++ b/src/traitement/newUtilisateur.php	(date 1790072801785)
+@@ -15,7 +15,6 @@
+ 
+         // comme le fichier sert a la fois pour l'ajout ET la modif, ca evite de re hasher un mdp deja hasher
+     }
+-$utilisateur = new Utilisateur($id_utilisateur, $_POST['nom'], $_POST['prenom'], $_POST['mail'], $mdp,$date_inscription, $statut_validation);
+ 
+ 
+ }   
+\ No newline at end of file
+Index: src/traitement/newPartenaire.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nif(isset($_POST[\"\"])){\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/traitement/newPartenaire.php b/src/traitement/newPartenaire.php
+--- a/src/traitement/newPartenaire.php	(revision 28c3e108a8e5712319da204b8483ad20833185aa)
++++ b/src/traitement/newPartenaire.php	(date 1790072801784)
+@@ -1,5 +1,7 @@
+ <?php
+ 
+-if(isset($_POST[""])){
++if( isset($_POST["poste_occupe"]) && isset($_POST["motif_inscription"])&& isset($_POST["ref_entreprise"])){
++   $ref_utilisateur=(isset($_POST["ref_utilisateur"]))?$_POST["ref_utilisateur"]:"";
+ 
++    $partenaire = new Partenaire($ref_utilisateur,$_POST["poste_occupe"], $_POST["motif_inscription"], $_POST["ref_entreprise"]);
+ }
+\ No newline at end of file
+Index: src/repository/EtudiantRepository.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/repository/EtudiantRepository.php b/src/repository/EtudiantRepository.php
+new file mode 100644
+--- /dev/null	(date 1790072801778)
++++ b/src/repository/EtudiantRepository.php	(date 1790072801778)
+@@ -0,0 +1,63 @@
++<?php
++
++class EtudiantRepository{
++
++    private $connexionBdd;
++    public function __construct()
++    {
++        $this->connexionBdd = (new Bdd())->getConnexionBdd();
++    }
++
++    public function getEtudiant($ref_utilisateur){
++        $sql = "SELECT * FROM etudiant WHERE ref_utilisateur = :ref_utilisateur";
++        $req = $this->connexionBdd->prepare($sql);
++        $req->bindValue(':ref_utilisateur', $ref_utilisateur);
++        $req->execute();
++        $result = $req->fetch();
++        $etudiant = new Etudiant($result['ref_utilisateur'],$result['cv'],$result['ref_formation'],$result['ref_promotion']);
++        return $etudiant;
++    }
++
++    public function getAllEtudiants(){
++        $sql = "SELECT * FROM etudiant";
++        $req = $this->connexionBdd->prepare($sql);
++        $req->execute();
++        $result = $req->fetchAll();
++        $tabEtudiants = array();
++        foreach ($result as $row) {
++            $etudiant = new Etudiant($result['ref_utilisateur'],$result['cv'],$result['ref_formation'],$result['ref_promotion']);
++        $tabEtudiants[] = $etudiant;
++        }
++        return $tabEtudiants;
++
++    }
++
++    public function ajouterEtudiant(Etudiant $ref_utilisateur){
++        $sql = "INSERT INTO etudiant (ref_utilisateur,cv,ref_formation,ref_promotion) Values (:ref_utilisateur, :cv, :ref_formation, :ref_promotion)";
++        $req = $this->connexionBdd->prepare($sql);
++        $req->bindValue(':ref_utilisateur', $ref_utilisateur);
++        $req->bindValue(':cv', $_POST['cv']);
++        $req->bindValue(':ref_formation', $_POST['ref_formation']);
++        $req->bindValue(':ref_promotion', $_POST['ref_promotion']);
++        $req->execute();
++    }
++
++    public function supprimerEtudiant($ref_utilisateur){
++        $sql = "DELETE FROM etudiant WHERE ref_utilisateur = :ref_utilisateur";
++        $req = $this->connexionBdd->prepare($sql);
++        $req->bindValue(':ref_utilisateur', $ref_utilisateur);
++        $req->execute();
++    }
++
++    public function modifierEtudiant(Etudiant $etudiant){
++        $sql ="UPDATE etudiant SET cv=:cv , ref_formation=:ref_formation, ref_promotion=:ref_promotion WHERE ref_utilisateur=:ref_utilisateur";
++        $req = $this->connexionBdd->prepare($sql);
++        $req->bindValue(':ref_utilisateur', $etudiant->getRefUtilisateur());
++        $req->bindValue(':cv', $etudiant->getCv());
++        $req->bindValue(':ref_formation', $etudiant->getRefFormation());
++        $req->bindValue(':ref_promotion', $etudiant->getRefPromotion());
++        $req-> execute();
++    }
++
++
++}
+\ No newline at end of file
+Index: src/repository/EvenementRepository.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nclass EvenementRepository{\r\n\r\n    private $connexionBdd;\r\n    public function __construct()\r\n    {\r\n        $this->connexionBdd = (new Bdd())->getConnexionBdd();\r\n    }\r\n\r\n    public function getEvenement($id_evenement){\r\n        $sql = \"SELECT * FROM evenement WHERE id_evenement = :id_evenement \";\r\n        $req = $this->connexionBdd->prepare($sql);\r\n        $req->bindValue(':id_evenement', $id_evenement);\r\n        $req->execute();\r\n        $result = $req->fetch();\r\n        $evenement = new Evenement($result['id_evenement'],$result['titre'],$result['description'],$result['lieu'],$result['element_requis'],$result['nbr_places']);\r\n        return $evenement;\r\n\r\n    }\r\n\r\n    public function getAllEvenements(){\r\n        $sql = \"SELECT * FROM evenement\";\r\n        $req = $this->connexionBdd->prepare($sql);\r\n        $req->execute();\r\n        $result = $req->fetchAll();\r\n        $tabEvenement = array();\r\n        foreach($result as $row){\r\n            $evenement = new Evenement($result['id_evenement'],$result['titre'],$result['description'],$result['lieu'],$result['element_requis'],$result['nbr_places']);\r\n\r\n        $tabEvenement[] = $evenement;\r\n        }\r\n        return $tabEvenement;\r\n    }\r\n\r\n    public function ajouterEvenement(Evenement $id_evenement){\r\n        $sql = \"INSERT INTO evenement (titre,description,lieu,element_requis,nbr_places) VALUES (:id_evenement,:titre,:description,:lieu,:element_requis,:nbr_places)\";\r\n        $req = $this->connexionBdd->prepare($sql);\r\n        $req->bindValue(':id_evenement', $id_evenement->getIdEvenement());\r\n        $req->bindValue(':titre', $id_evenement->getTitre());\r\n        $req->bindValue(':description', $id_evenement->getDescription());\r\n        $req->bindValue(':lieu', $id_evenement->getLieu());\r\n        $req->bindValue(':element_requis', $id_evenement->getElementRequis());\r\n        $req->bindValue(':nbr_places', $id_evenement->getNbrPlaces());\r\n        $req -> execute();\r\n    }\r\n\r\n    public function supprimerEvenement($id_evenement){\r\n        $sql = \"DELETE FROM evenement WHERE id_evenement = :id_evenement\";\r\n        $req = $this->connexionBdd->prepare($sql);\r\n        $req->bindValue(':id_evenement', $id_evenement);\r\n        $req->execute();\r\n    }\r\n\r\n    public function modifierEvenement(Evenement $evenement){\r\n        $sql = \"UPDATE evenement SET titre=:titre,description=:description,lieu=:lieu,element_requis=:element_requis,nbr_places=:nbr_places WHERE id_evenement=:id_evenement\";\r\n        $req = $this->connexionBdd->prepare($sql);\r\n        $req->bindValue(':id_evenement', $evenement->getIdEvenement());\r\n        $req->bindValue(':titre', $evenement->getTitre());\r\n        $req->bindValue(':description', $evenement->getDescription());\r\n        $req->bindValue(':lieu', $evenement->getLieu());\r\n        $req->bindValue(':element_requis', $evenement->getElementRequis());\r\n        $req->bindValue(':nbr_places', $evenement->getNbrPlaces());\r\n        $req -> execute();\r\n    }\r\n\r\n\r\n\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/repository/EvenementRepository.php b/src/repository/EvenementRepository.php
+--- a/src/repository/EvenementRepository.php	(revision 28c3e108a8e5712319da204b8483ad20833185aa)
++++ b/src/repository/EvenementRepository.php	(date 1790072801779)
+@@ -14,7 +14,7 @@
+         $req->bindValue(':id_evenement', $id_evenement);
+         $req->execute();
+         $result = $req->fetch();
+-        $evenement = new Evenement($result['id_evenement'],$result['titre'],$result['description'],$result['lieu'],$result['element_requis'],$result['nbr_places']);
++        $evenement = new Evenement($result['id_evenement'],$result['titre'],$result['description'],$result['lieu'],$result['nbr_places']);
+         return $evenement;
+ 
+     }
+@@ -34,13 +34,12 @@
+     }
+ 
+     public function ajouterEvenement(Evenement $id_evenement){
+-        $sql = "INSERT INTO evenement (titre,description,lieu,element_requis,nbr_places) VALUES (:id_evenement,:titre,:description,:lieu,:element_requis,:nbr_places)";
++        $sql = "INSERT INTO evenement (titre,description,lieu,nbr_places) VALUES (:titre,:description,:lieu,:nbr_places)";
+         $req = $this->connexionBdd->prepare($sql);
+         $req->bindValue(':id_evenement', $id_evenement->getIdEvenement());
+         $req->bindValue(':titre', $id_evenement->getTitre());
+         $req->bindValue(':description', $id_evenement->getDescription());
+         $req->bindValue(':lieu', $id_evenement->getLieu());
+-        $req->bindValue(':element_requis', $id_evenement->getElementRequis());
+         $req->bindValue(':nbr_places', $id_evenement->getNbrPlaces());
+         $req -> execute();
+     }
+@@ -53,13 +52,12 @@
+     }
+ 
+     public function modifierEvenement(Evenement $evenement){
+-        $sql = "UPDATE evenement SET titre=:titre,description=:description,lieu=:lieu,element_requis=:element_requis,nbr_places=:nbr_places WHERE id_evenement=:id_evenement";
++        $sql = "UPDATE evenement SET titre=:titre,description=:description,lieu=:lieu,nbr_places=:nbr_places WHERE id_evenement=:id_evenement";
+         $req = $this->connexionBdd->prepare($sql);
+         $req->bindValue(':id_evenement', $evenement->getIdEvenement());
+         $req->bindValue(':titre', $evenement->getTitre());
+         $req->bindValue(':description', $evenement->getDescription());
+         $req->bindValue(':lieu', $evenement->getLieu());
+-        $req->bindValue(':element_requis', $evenement->getElementRequis());
+         $req->bindValue(':nbr_places', $evenement->getNbrPlaces());
+         $req -> execute();
+     }
