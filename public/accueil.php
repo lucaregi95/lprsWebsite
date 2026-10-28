@@ -1,6 +1,5 @@
 <?php
 session_start();
-var_dump($_SESSION);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -32,14 +31,14 @@ var_dump($_SESSION);
             </ul>
 
 
-            <?php if(isset($_SESSION["id"])){ ?>
-            <a class="text-decoration-none text-dark d-flex align-items-center gap-2" href="profil.php">
-                <span class="avatar">NK</span>
-                <span class="small"><?php echo $_SESSION["prenom"]." ".$_SESSION["nom"]?><i class="bi bi-chevron-down"></i></span>
+            <?php if(isset($_SESSION["id_utilisateur"])){ ?>
+            <a class="text-decoration-none text-dark d-flex align-items-center gap-2" href="deconnexion.php">
+                <span class="avatar"><?php echo $_SESSION["prenom"][0].$_SESSION["nom"][0] ?></span>
+                <span class="small"><?php echo $_SESSION["prenom"]." ".$_SESSION["nom"]." "?><i class="bi bi-chevron-down"></i></span>
            </a>
             <?php }else{ ?>
-                <a class="nav-link" href="inscription.php">Inscription --</a>
-                <a class="nav-link" href="connexion.php">-- Connexion</a>
+                <a class="nav-link" href="inscription.php">Inscription/</a>
+                <a class="nav-link" href="connexion.php">Connexion</a>
             <?php } ?>
         </div>
     </div>
