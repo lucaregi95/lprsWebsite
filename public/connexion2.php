@@ -30,6 +30,7 @@ if (!$result) {
         $_SESSION['nom']    = $result["nom"];
         $_SESSION['prenom'] = $result["prenom"];
         $_SESSION['email']  = $result["email"];
+        $_SESSION['statut_validation']  = $result["statut_validation"];
         $_SESSION['role'] = $result["role"];
 
         header("location:accueil.php");

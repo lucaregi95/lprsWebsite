@@ -28,6 +28,9 @@ session_start();
                 <li class="nav-item"><a class="nav-link" href="alumni.php">Alumni</a></li>
                 <li class="nav-item"><a class="nav-link" href="entreprise.php">Entreprises</a></li>
                 <li class="nav-item"><a class="nav-link" href="forum.php">Forum</a></li>
+                <?php if(isset($_SESSION['statut_validation']) && $_SESSION['statut_validation'] == 'admin') { ?>
+                <li class="nav-item"><a class="nav-link" href="admin.php">Administration</a></li>
+                <?php } ?>
             </ul>
 
 
@@ -59,7 +62,7 @@ session_start();
         <h1>Créer votre compte ou connectez vous pour accéder a votre espace LPRS</h1>
         <?php }?>
 
-        <p>Étudiants, alumni, professeurs et entreprises réunis dans un même espace.</p>
+        <p>Étudiants, alumni, professeurs et entreprises sont réunis sur une seule plateforme afin d'améliorer la circulation d'information à travers le lycée.</p>
     </div>
 </header>
 

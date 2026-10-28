@@ -252,7 +252,7 @@ $formations = $repFormation -> getAllFormations();
                                 </select>
                             </div>
                         </div>
-                        <input type="hidden" name="date_inscription" id="date_inscription" value="2026-12-12"/>
+                        <input type="hidden" name="date_inscription" id="date_inscription" value="<?=date("Y-m-d")?>"/>
                         <input type="hidden" name="statut_validation" id="statut_validation" value="en attente"/>
                         <p class="muted small-t">
                             Ton compte sera vérifié (statut : en attente) avant validation.
