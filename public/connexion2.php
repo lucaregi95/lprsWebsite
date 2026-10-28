@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 ini_set('display_errors', 5);
 error_reporting(E_ALL);
 
@@ -24,13 +24,14 @@ if (!$result) {
     header("Location: connexion.php?erreur=unknown");
 } else {
     if (password_verify($mdp, $result["mdp"])) {
-        session_start();
+
         // Stockage des informations de l'utilisateur en session
         $_SESSION['id_utilisateur']     = $result["id_utilisateur"];
         $_SESSION['nom']    = $result["nom"];
         $_SESSION['prenom'] = $result["prenom"];
         $_SESSION['email']  = $result["email"];
         $_SESSION['role'] = $result["role"];
+        $_SESSION['date_inscription'] = $result["date_inscription"];
 
         header("location:accueil.php");
     }else{

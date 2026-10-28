@@ -1,6 +1,53 @@
 <?php
 session_start();
-//$mesEvenements = (new EvenementRepository())->getEvenementsByUtilisateur($id_utilisateur);
+
+require_once "../bdd/bdd.php";
+require_once "../src/model/Utilisateur.php";
+require_once "../src/model/Etudiant.php";
+require_once "../src/model/Alumni.php";
+require_once "../src/repository/UtilisateurRepository.php";
+require_once "../src/repository/EtudiantRepository.php";
+require_once "../src/repository/AlumniRepository.php";
+require_once "../src/repository/PromotionRepository.php";
+require_once "../src/model/Promotion.php";
+require_once "../src/repository/FormationRepository.php";
+require_once "../src/model/Formation.php";
+
+
+if (!isset($_SESSION['id_utilisateur'])) {
+    header("Location: connexion.php");
+    exit;
+}
+
+$id_utilisateur = $_SESSION['id_utilisateur'];
+$utilisateur = (new UtilisateurRepository())->getUtilisateur($id_utilisateur);
+$infos = null;
+$nomFormation = '';
+$nomPromotion = '';
+$promotionActuelle = null;
+
+switch ($_SESSION['role']) {
+    case 'etudiant':
+        $infos = (new EtudiantRepository())->getEtudiant($id_utilisateur);
+
+        $formationActuelle = $infos->getRefFormation();
+        $promotionActuelle = $infos->getRefPromotion();
+
+
+
+        if ($formationActuelle !== null) {
+            $nomFormation = (new FormationRepository())->getFormation($formationActuelle)->getNomFormation();
+        }
+        if ($promotionActuelle !== null) {
+            $nomPromotion = (new PromotionRepository())->getPromotion($promotionActuelle)->getAnnee();
+        }
+        break;
+
+    case 'alumni':
+        $infos = (new AlumniRepository())->getAlumni($id_utilisateur);
+        break;
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -44,12 +91,7 @@ session_start();
             <div class="d-flex align-items-center gap-2">
                 <i class="bi bi-person-circle"></i>
                 <div>
-                    <div class="fs-5 lh-1">
-                        Nassim Kharfouche
-                    </div>
-                    <small class="muted">
-                        Étudiant · Promotion 2027
-                    </small>
+                    <?= htmlspecialchars($infos->getPrenom() . ' ' . $infos->getNom()) ?>
                 </div>
             </div>
             <a class="nav-link" href="deconnexion.php">
@@ -58,7 +100,7 @@ session_start();
         </div>
 
         <div class="profil-box">
-            form method="post">
+            <form method="POST" action="../src/traitement/modifierProfil.php">
                 <div class="col-lg-9">
                     <div class="box_profil mb-4">
                         <h6>
@@ -69,46 +111,31 @@ session_start();
                                 <label class="form-label small-t">
                                     Prénom
                                 </label>
-                                <input class="form-control form-control-sm" type="text" value="<?= $utilisateur['prenom'] ?>"/>
+                                <input class="form-control form-control-sm" type="text" name='prenom'value="<?= htmlspecialchars($infos->getPrenom(), ENT_QUOTES); ?>"/>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small-t">
                                     Nom
                                 </label>
-                                <input class="form-control form-control-sm" type="text" value=<?= $utilisateur['nom'] ?>/>
+                                <input class="form-control form-control-sm" type="text"  name='nom' value="<?= htmlspecialchars($infos->getNom(), ENT_QUOTES); ?>"/>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small-t">
                                     Adresse e-mail
                                 </label>
-                                <input class="form-control form-control-sm" type="email" value=<?= $utilisateur['email'] ?>  />
+                                <input class="form-control form-control-sm" type="email" name="email" value="<?= htmlspecialchars($infos->getEmail(), ENT_QUOTES); ?>" />
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small-t">
                                     role
                                 </label>
-                                <input class="form-control form-control-sm" type="role"  value="<?= $utilisateur['role'] ?> " readonly />
-                            </div>
-
-                            <div class="col-md-6">
-
-                                <div class="mb-3 mdp-bloc">
-                                    <label class="form-label small-t" for="mdp">Mot de passe</label>
-                                    <input type="checkbox" id="voir-mdp" class="d-none"/>
-                                    <div class="input-group input-group-sm">
-                                        <input class="form-control form-control-sm champ-mdp" type="text" id="mdp" autocomplete="off" value="jsp"/>
-                                        <label for="voir-mdp" class="btn btn-outline-secondary">
-                                            <i class="bi bi-eye"></i>
-                                            <i class="bi bi-eye-slash"></i>
-                                        </label>
-                                    </div>
-                                </div>
+                                <input class="form-control form-control-sm" type="role" name="role" value="<?= $_SESSION['role'] ?>"   readonly />
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small-t">
                                     Date d'inscription
                                 </label>
-                                <input class="form-control form-control-sm" type="text" value="jj/mm/aaaa"/>
+                                <input class="form-control form-control-sm" type="text" name="date_inscription" value="<?= $infos->getDateInscription()  ?>"   readonly />
                             </div>
                         </div>
                         <h6 class="mt-4">
@@ -116,48 +143,18 @@ session_start();
                         </h6>
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label small-t">
-                                    Formation
-                                </label>
-                                <select class="form-control" id="classe" name="ref_classe" required>
-                                    <option value="">Sélectionne ta classe...</option>
-
-                                    <optgroup label="Lycée Professionnel">
-                                        <option value="1">Troisième Prépa Pro</option>
-                                        <option value="2">Bac Pro TRPM</option>
-                                        <option value="3">Bac Pro MSPC</option>
-                                        <option value="4">Bac Pro CIEL</option>
-                                        <option value="5">Formation SST</option>
-                                    </optgroup>
-
-                                    <optgroup label="Lycée Technologique">
-                                        <option value="6">Bac STI2D</option>
-                                    </optgroup>
-
-                                    <optgroup label="Enseignement supérieur et UFA">
-                                        <option value="7">BTS CPRP</option>
-                                        <option value="8">BTS SIO – Option SISR</option>
-                                        <option value="9">BTS SIO – Option SLAM</option>
-                                        <option value="10">BTS MS</option>
-                                        <option value="11">CQPM</option>
-                                    </optgroup>
-                                </select>
+                                <label class="form-label small-t" for="classe">Formation</label>
+                                <input class="form-control form-control-sm" type="text" id="classe"
+                                       value="<?= htmlspecialchars((string) $nomFormation, ENT_QUOTES) ?>" readonly/>
                             </div>
+
                             <div class="col-md-6">
-                                <label class="form-label small-t">
-                                    Promotion
-                                </label>
-                                <select class="form-select form-select-sm">
-                                    <option>
-                                        2027
-                                    </option>
-                                    <option>
-                                        2026
-                                    </option>
-                                    <option>
-                                        2025
-                                    </option>
-                                </select>
+                                <label class="form-label small-t" for="promotion">Promotion</label>
+                                <input class="form-control form-control-sm" type="text" id="promotion"
+                                       value="<?= htmlspecialchars((string) $nomPromotion, ENT_QUOTES) ?>" readonly/>
+                            </div>
+
+                            <div class="col-md-6">
                             </div>
                             <div class="col-12">
                                 <label class="form-label small-t">
@@ -167,11 +164,13 @@ session_start();
                             </div>
                         </div>
                         <div class="text-end mt-3">
-                            <button class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary">
                                 Enregistrer les modifications
                             </button>
                         </div>
                     </div>
+                    <input type="hidden" name="id_utilisateur" value="<?= $_SESSION['id_utilisateur'] ?>"/>
+                    <input type="hidden" name="role" value="<?= $_SESSION['role'] ?>'"/>
             </form>
         </div>
         <div class="profil-events">
