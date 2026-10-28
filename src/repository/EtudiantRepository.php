@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . "/../../bdd/bdd.php";
 require_once "UtilisateurRepository.php";
 require_once __DIR__ . "/../../src/model/Etudiant.php";
 class EtudiantRepository
@@ -48,7 +49,8 @@ class EtudiantRepository
     }
 
     public function modifierEtudiant(Etudiant $etudiant){
-
+        $utilisateurRepository = new UtilisateurRepository();
+        $utilisateurRepository->modifierUtilisateur($etudiant);
         $sql="UPDATE etudiant SET cv = :cv, ref_formation=:ref_formation, ref_promotion=:ref_promotion WHERE ref_utilisateur = :ref_utilisateur";
         $req = $this->connexionbdd->prepare($sql);
         $req->bindValue(':cv', $etudiant-> getCV());

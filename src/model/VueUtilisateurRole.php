@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/../../src/model/Utilisateur.php";
 
-class Professeur extends Utilisateur{
+class VueUtilisateurRole extends Utilisateur{
 
 
     protected $role;
@@ -14,35 +14,35 @@ class Professeur extends Utilisateur{
      * @param $mdp
      * @param $date_inscription
      * @param $statut_validation
-     * @param $specialite
-     * @param $ref_utilisateur
+     * @param $role
      */
-    public function __construct($id_utilisateur, $nom, $prenom, $email, $mdp, $date_inscription, $statut_validation, $ref_utilisateur, $specialite)
+    public function __construct($id_utilisateur, $nom, $prenom, $email, $mdp, $date_inscription, $statut_validation, $role)
     {
         parent::__construct($id_utilisateur, $nom, $prenom, $email, $mdp, $date_inscription, $statut_validation);
-        $this->specialite = $specialite;
-        $this->ref_utilisateur = $ref_utilisateur;
+        $this->role = $role;
     }
+
+
 
     /**
      * @return mixed
      */
-    public function getSpecialite()
+    public function getRole()
     {
-        return $this->specialite;
+        return $this->role;
     }
 
     /**
-     * @param mixed $specialite
+     * @param mixed $role
      */
-    public function setSpecialite($specialite)
+    public function setRole($role)
     {
-        $this->specialite = $specialite;
+        $this->role = $role;
     }
 
-    public function getRefProfesseur(){
-        return $this->ref_utilisateur;
-    }
+
+
+
 
 
 

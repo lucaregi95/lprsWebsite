@@ -24,7 +24,7 @@ class PartenaireRepository{
         $result = $req->fetchAll();
         $tabPartenaire = array();
         foreach ($result as $results) {
-            $tabPartenaire[] = new Partenaire($results["ref_utilisateur]"],$results["poste_occupe"], $result["motif_inscription"], $result["ref_entreprise"]);
+            $tabPartenaire[] = new Partenaire($results["ref_utilisateur"],$results["poste_occupe"], $result["motif_inscription"], $result["ref_entreprise"]);
         }
         return $tabPartenaire;
     }
@@ -44,13 +44,16 @@ class PartenaireRepository{
         $req->execute();
     }
 
-    public function modifierOffre(Partenaire $partenaire){
-        $sql="UPDATE partenaire SET ref_utilisateur = :ref_utilisateur, poste_occupe = :poste_occupe, motif_inscription = :motif_inscription, ref_entreprise = :ref_entreprise WHERE ref_utilisateur = :id_partenaire";
+    public function modifierPartenaire(Partenaire $partenaire){
+        $utilisateurRepository = new UtilisateurRepository();
+        $utilisateurRepository->modifierUtilisateur($partenaire);
+        $sql="UPDATE partenaire SET  poste_occupe = :poste_occupe, motif_inscription = :motif_inscription, ref_entreprise = :ref_entreprise WHERE ref_utilisateur = :ref_utilisateur";
         $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':ref_utilisateur', $partenaire-> getRefPartenaire());
+        $req->bindValue(':ref_utilisateur', $partenaire-> getRefUtilisateur());
         $req->bindValue(':poste_occupe', $partenaire-> getPosteOccupe());
         $req->bindValue(':motif_inscription', $partenaire-> getMotifInscription());
         $req->bindValue(':ref_entreprise', $partenaire-> getRefEntreprise());
+
         $req->execute();
 
     }

@@ -40,7 +40,6 @@ class PostRepository{
         $req->bindValue(':categorie_post',$id_post->getCategoriePost());
         $req->bindValue(':ref_utilisateur',$id_post->getRefUtilisateur());
         $req->execute();
-
     }
 
     public function supprimerPost($id_post){

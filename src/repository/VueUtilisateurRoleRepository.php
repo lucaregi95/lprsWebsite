@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . "/../../bdd/bdd.php";
 
 class VueUtilisateurRoleRepository{
@@ -11,12 +12,25 @@ class VueUtilisateurRoleRepository{
 
     public function getAllUtilisateurWithRoles(){
         $sql = "SELECT * FROM v_utilisateurwithrole";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->execute();
         $results = $req->fetchAll();
         $tabUtilisateur = array();
         foreach ($results as $result) {
-            $tabUtilisateur[] = new VueUtilisateurRole($result["id_acteur"],$result["nom"],$result["prenom"],$result["email"], $result["mdp"],$result["date_naissance"],$result["tel"],$result["rue"],$result["ville"],$result["cp"],$result["role"],$result["etat"]);
+            $tabUtilisateur[] = new VueUtilisateurRole($result["id_utilisateur"],$result["nom"],$result["prenom"],$result["email"], $result["mdp"],$result["date_inscription"],$result["statut_validation"],$result["role"]);
+        }
+        return $tabUtilisateur;
+    }
+
+    public function getAllUtilisateurWithRolesEnAttente(){
+        $sql = "SELECT * FROM v_utilisateurwithrole WHERE statut_validation='En attente'";
+        $req = $this->connexionBdd->prepare($sql);
+
+        $req->execute();
+        $results = $req->fetchAll();
+        $tabUtilisateur = array();
+        foreach ($results as $result) {
+            $tabUtilisateur[] = new VueUtilisateurRole($result["id_utilisateur"],$result["nom"],$result["prenom"],$result["email"], $result["mdp"],$result["date_inscription"],$result["statut_validation"],$result["role"]);
         }
         return $tabUtilisateur;
     }
