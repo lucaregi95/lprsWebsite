@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__.'/../../bdd/bdd.php';
 class PromotionRepository{
 
     private $connexionBdd;
@@ -17,7 +18,7 @@ class PromotionRepository{
         return $promotion;
     }
 
-    public function getPromotions(){ // a verifier pluriel ou pas dans tous les fichies
+    public function getAllPromotions(){
         $sql = "SELECT * FROM promotion";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();

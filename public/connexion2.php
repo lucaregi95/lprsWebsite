@@ -1,46 +1,42 @@
 <?php
 
+ini_set('display_errors', 5);
+error_reporting(E_ALL);
+
+$connexion = null;
 require_once('../bdd/bdd.php');
-require_once('../src/model/Utilisateur.php');
-require_once ('../src/repository/UtilisateurRepository.php');
+require_once('../src/repository/UtilisateurRepository.php');
 
-if (isset($_POST["email"])) {
-    $email = $_POST["email"];
-} else {
-    $email = '';
-}
+$utilisateur = new UtilisateurRepository();
 
-if (isset($_POST["mdp"])) {
-    $mdp = $_POST["mdp"];
-} else {
-    $mdp = '';
-}
-
+// Récupération des données du formulaire de connexion
+$email = $_POST["email"];
+$mdp   = $_POST["mdp"];
 if(isset($_POST["page"])){
     $page  = $_POST["page"];}
 
 $rep = new UtilisateurRepository();
-$result = $rep->connecterUtilisateur($email, $mdp);
+$result = $rep->getUtilisateurParEmail($email);
+
 
 if (!$result) {
-    header("Location: connexionActeur.php?erreur=inconnu");
-    exit();
-} else if ($result['statut_validation']==0){
-    header("Location: connexionActeur.php?erreur=bannir");
-    exit();
-} else if (!password_verify($mdp, $result['mdp'])) {
-    header("Location: connexionActeur.php?erreur=unknown");
-    exit();
-}
-else{
+    // Aucun utilisateur trouvé : redirection avec message d'erreur
+    header("Location: connexion.php?erreur=unknown");
+} else {
+    if (password_verify($mdp, $result["mdp"])) {
+        session_start();
+        // Stockage des informations de l'utilisateur en session
+        $_SESSION['id']     = $result["id_utlisateur"];
+        $_SESSION['nom']    = $result["nom"];
+        $_SESSION['prenom'] = $result["prenom"];
+        $_SESSION['email']  = $result["email"];
+        $_SESSION['role'] = $result["role"];
 
-    session_start();
-    $_SESSION['id']     = $result["id_utilisateur"];
-    $_SESSION['nom']    = $result["nom"];
-    $_SESSION['prenom'] = $result["prenom"];
-    $_SESSION['email']  = $result["email"];
+        header("location:accueil.php");
+    }else{
+        header("Location: connexion.php?erreur=incorrect");
+    }
 
-    header('Location: ../client/accueil.php');
 
     ?>
     <!DOCTYPE html>

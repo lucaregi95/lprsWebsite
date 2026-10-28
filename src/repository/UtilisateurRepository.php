@@ -17,14 +17,16 @@ class UtilisateurRepository{
     }
 
 
-    public function getUtilisateurParEmailEtMDP($email, $mdp){
-        $sql = "SELECT * FROM utilisateur WHERE email = :email AND mdp = :mdp";
+    public function getUtilisateurParEmail($email){
+        $sql = "SELECT * FROM v_utilisateurwithrole WHERE email = :email";
         $req = $this->connexionbdd->prepare($sql);
         $req->bindValue(':email', $email);
-        $req->bindValue(':mdp', $mdp);
         $req->execute();
         $result = $req->fetch();
+        return $result;
     }
+
+
 //    public function getAllUtilisateurs() {
 //        $sql = "SELECT * FROM utilisateur";
 //        $req = $this->connexionbdd->prepare($sql);

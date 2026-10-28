@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . "/../../bdd/bdd.php";
 class OffreRepository{
 
     private $connexionBdd;
@@ -17,7 +18,7 @@ class OffreRepository{
         return $offre;
     }
 
-    public function getOffres(){ // a verifier pluriel ou pas dans tous les fichies
+    public function getAllOffres(){
         $sql = "SELECT * FROM offre";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
