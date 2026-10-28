@@ -9,6 +9,8 @@ $evenements = $eventRepository->getAllEvenements();
 $inscrits = $eventRepository->getNbInscritsParEvenement();
 
 
+$vueRole="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=".$_SESSION['id_utilisateur'];
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -245,7 +247,13 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
                                             Aperçu
                                         </button>
                                         <?php else: ?>
-                                        <a class="btn btn-primary btn-sm mt-2 " href="#">S'inscrire</a>
+                                        <form method="POST" action="../src/traitement/newParticipe.php">
+                                            <input type="hidden" name="ref_utilisateur" value="<?= $_SESSION['id_utilisateur'] ?>">
+                                            <input type="hidden" name="ref_evenement" value="<?=$evenement->getIdEvenement()?>() ?>">
+                                            <button class="btn btn-primary btn-sm mt-2 ">
+                                                S'inscrire
+                                            </button>
+                                        </form>
                                         <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
                                                 data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
                                             Aperçu
