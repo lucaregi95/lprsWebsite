@@ -54,6 +54,8 @@ class AlumniRepository{
     }
 
     public function modifierAlumni(Alumni $alumni){
+        $utilisateurRepository = new UtilisateurRepository();
+        $utilisateurRepository->modifierUtilisateur($alumni);
         $sql="UPDATE alumni SET cv = :cv, poste_occupe =:poste_occupe, ref_promotion=:ref_promotion, ref_entreprise=:ref_entreprise WHERE ref_utilisateur = :ref_utilisateur";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':cv', $alumni-> getCV());

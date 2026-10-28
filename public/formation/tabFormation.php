@@ -27,10 +27,10 @@ $formations = $formationRepository->getAllFormations();
         <tr>
             <td><?= $formation->getIdFormation() ?></td>
             <td><?= $formation->getNomFormation() ?></td>
-            <td><a href="modiferFormation.php?id=<?= $formations->getIdFormation() ?>">Modifier</a></td>
+            <td><a href="modifierFormation.php?id=<?= $formation->getIdFormation() ?>">Modifier</a></td>
             <td>
-                <form method="post" action="supprimerFormation.php" onsubmit="return confirm('Voulez-vous vraiment supprimer la formation  n°<?= $formations->getIdFormation() ?> ?');">
-                    <input type="hidden" name="id_formation" value="<?= $formations->getIdFormation() ?>">
+                <form method="post" action="supprimerFormation.php" onsubmit="return confirm('Voulez-vous vraiment supprimer la formation  n°<?= $formation->getIdFormation() ?> ?');">
+                    <input type="hidden" name="id_formation" value="<?= $formation->getIdFormation() ?>">
                     <button type="submit">Supprimer</button>
                 </form>
             </td>

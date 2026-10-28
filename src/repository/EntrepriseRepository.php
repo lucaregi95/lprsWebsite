@@ -16,7 +16,7 @@ class EntrepriseRepository{
         $req->bindValue(':id_entreprise', $id_entreprise);
         $req->execute();
         $result = $req->fetch();
-        $entreprise = new Entreprise($result["id_entreprise"],$result["adresse"],$result['nom_entreprise'],$result['site_wab']);
+        $entreprise = new Entreprise($result["id_entreprise"],$result["adresse"],$result['nom_entreprise'],$result['site_web']);
         return $entreprise;
     }
 
@@ -51,6 +51,12 @@ class EntrepriseRepository{
         $req->bindValue(':site_web',$entreprise-> getSiteWeb());
         $req->bindValue(':id_entreprise',$entreprise-> getidEntreprise());
         $req->execute();
+    }
 
+    public function supprimerEntreprise($id_entreprise){
+        $sql = "DELETE FROM entreprise WHERE id_entreprise = :id_entreprise";
+        $req = $this->connexionBdd->prepare($sql);
+        $req->bindValue(':id_entreprise', $id_entreprise);
+        $req->execute();
     }
 }

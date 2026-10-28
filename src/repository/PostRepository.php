@@ -13,7 +13,7 @@ class PostRepository{
         $req->bindValue(':id_post', $id_post);
         $req->execute();
         $result = $req->fetch();
-        $post = new Post($result["id_post"],$result["contenu"],$result["date_sujet"],$result["titre"],$result["ref_utilisateur"],$result["categorie_sujet"]);
+        $post = new Post($result["id_post"],$result["contenu"],$result["date_sujet"],$result["titre"],$result["ref_utilisateur"],$result["categorie_post"]);
         return $post;
 
     }
@@ -22,11 +22,10 @@ class PostRepository{
         $sql = "SELECT * FROM post";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
-        $result = $req->fetchAll();
+        $results = $req->fetchAll();
         $tabPost = array();
-        foreach($result as $post){
-            $post = new Post($result["id_post"],$result["contenu"],$result["date_sujet"],$result["titre"],$result["ref_utilisateur"],$result["categorie_sujet"]);
-            $tabPost[] = $post;
+        foreach($results as $result){
+            $tabPost[] = new Post($result["id_post"],$result["contenu"],$result["date_sujet"],$result["ref_utilisateur"],$result["categorie_post"],$result["titre"]);
         }
         return $tabPost;
     }
@@ -41,7 +40,6 @@ class PostRepository{
         $req->bindValue(':categorie_post',$id_post->getCategoriePost());
         $req->bindValue(':ref_utilisateur',$id_post->getRefUtilisateur());
         $req->execute();
-
     }
 
     public function supprimerPost($id_post){
@@ -52,7 +50,7 @@ class PostRepository{
     }
 
     public function modifierPost(Post $post){
-        $sql = "UPDATE post SET contenu=:contenu, date=:date_post, titre=:titre,categorie_post=:categorie_post, WHERE id_post=:id_post";
+        $sql = "UPDATE post SET contenu=:contenu, date_post=:date_post, titre=:titre,categorie_post=:categorie_post WHERE id_post=:id_post";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':contenu',$post->getContenu());
         $req->bindValue(':datePost',$post->getDatePost());
