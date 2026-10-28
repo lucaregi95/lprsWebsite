@@ -1,5 +1,6 @@
 <?php
 require_once "UtilisateurRepository.php";
+require_once __DIR__ . "/../../src/model/Etudiant.php";
 class EtudiantRepository
 {
     private $connexionbdd;
