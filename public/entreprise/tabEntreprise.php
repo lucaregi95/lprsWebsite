@@ -31,10 +31,12 @@ $entreprises = $entrepriseRepository->getAllEntreprises();
             <td><?= $entreprise->getAdresse() ?></td>
             <td><?= $entreprise->getNomEntreprise() ?></td>
             <td><?= $entreprise->getSiteWeb() ?></td>
-            <td><a href="modifierEntreprise .php?id=<?= $entreprise->getIdEntreprise() ?>">Modifier</a></td>
+            <td><a href="modifierEntreprise.php?id=<?= $entreprise->getIdEntreprise() ?>">Modifier</a></td>
             <td>
                 <form method="post" action="supprimerEntreprise.php" onsubmit="return confirm('Voulez-vous vraiment supprimer l entreprise  n°<?= $entreprise->getIdEntreprise() ?> ?');">
-                    <input type="hidden" name="id_site" value="<?= $entreprise->getIdEntreprise() ?>">
+                    <input type="hidden" name="id_entreprise" value="
+                    <?= $entreprise->getIdEntreprise() ?>"
+                    >
                     <button type="submit">Supprimer</button>
                 </form>
             </td>
