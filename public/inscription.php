@@ -68,7 +68,8 @@ $formations = $repFormation -> getFormations();
                     </a>
                 </li>
             </ul>
-
+            <a class="nav-link" href="inscription.php">Inscription --</a>
+            <a class="nav-link" href="connexion.php">-- Connexion</a>
         </div>
     </div>
 </nav>
