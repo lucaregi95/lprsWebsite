@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="dataSourceStorageLocal" created-in="PS-252.28238.9">
+  <component name="dataSourceStorageLocal" created-in="PS-251.25410.148">
     <data-source name="lprs@localhost" uuid="19028178-9c80-499f-b7d7-8c1f342aab10">
-      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL_AURORA" />
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL_AURORA">
+        <extra-name-characters>$</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower" />
+      <user-name>root</user-name>
       <schema-mapping />
+      <load-sources>user_and_system_sources</load-sources>
     </data-source>
     <data-source name="@localhost" uuid="0dd1df78-c0d9-4c47-8477-c9dc85179f65">
       <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" />

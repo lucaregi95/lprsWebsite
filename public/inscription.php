@@ -1,7 +1,19 @@
 <?php
+require_once "../bdd/bdd.php";
+require_once "../src/model/Promotion.php";
+require_once "../src/repository/PromotionRepository.php";
+$repPromotion = new PromotionRepository();
+$promotions = $repPromotion -> getPromotions();
 
+require_once "../src/model/Entreprise.php";
+require_once "../src/repository/EntrepriseRepository.php";
+$repEntreprise = new EntrepriseRepository();
+$entreprises = $repEntreprise -> getEntreprises();
 
-
+require_once "../src/model/Formation.php";
+require_once "../src/repository/FormationRepository.php";
+$repFormation = new FormationRepository();
+$formations = $repFormation -> getFormations();
 
 
 
