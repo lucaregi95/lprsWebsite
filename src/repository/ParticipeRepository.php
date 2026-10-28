@@ -8,8 +8,8 @@ Class ParticipeRepository{
         $this->connexionBdd = (new Bdd())->getConnexionBdd();
     }
 
-    public function getPaticipe($id_participe){
-        $sql ="SELECT * FROM paticipe WHERE id_participe = :id_participe";
+    public function getParticipe($id_participe){
+        $sql ="SELECT * FROM participe WHERE id_participe = :id_participe";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_participe', $id_participe);
         $req->execute();
@@ -19,7 +19,7 @@ Class ParticipeRepository{
     }
 
     public function getAllParticipes(){
-        $sql ="SELECT * FROM paticipe";
+        $sql ="SELECT * FROM participe";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();

@@ -1,7 +1,7 @@
 <?php
 
-//ini_set('display_errors', 1);
-//error_reporting(E_ALL);
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 require_once __DIR__ . '/../../src/repository/EntrepriseRepository.php';
 
@@ -35,7 +35,7 @@ if (!$entreprise) {
 <head>
     <meta charset="UTF-8">
     <title>Modifier un entreprise</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../style/style.css">
 </head>
 <body>
 <h1>Modifier le entreprise</h1>
@@ -49,6 +49,9 @@ if (!$entreprise) {
 
     <label for="nom_entreprise">Nom de l'entreprise</label>
     <input type="text" name="nom_entreprise" id="nom_entreprise" value="<?= $entreprise->getNomEntreprise() ?>" required><br>
+
+    <label for="site_web">Site web de l'entreprise</label>
+    <input type="url" name="site_web" id="site_web" value="<?= $entreprise->getSiteWeb() ?>" required><br>
 
     <input type="submit" name="btn_submit" value="Enregistrer">
     <a href="tabEntreprise.php">Annuler</a>

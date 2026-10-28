@@ -3,29 +3,32 @@
 //ini_set('display_errors', 1);
 //error_reporting(E_ALL);
 
-require_once __DIR__ . '/../../src/repository/SiteRepository.php';
+require_once __DIR__ . '/../../src/repository/PostRepository.php';
 
-$siteRepository = new SiteRepository();
+$postRepository = new PostRepository();
 
 if (isset($_POST['btn_submit'])) {
-    $site = new Site(
-        $_POST['id_site'],
-        $_POST['nom'],
-        $_POST['adresse']
+    $post = new Post(
+        $_POST['id_post'],
+        $_POST['contenu'],
+        $_POST['date_post'],
+        $_POST['ref_utilisateur'],
+        $_POST['categorie_post'],
+        $_POST['titre'],
     );
-    $siteRepository->modifierSite($site);
-    header('Location: tabSite.php');
+    $postRepository->modifierPost($post);
+    header('Location: tabPost.php');
     exit;
 }
 
 if (!isset($_GET['id'])) {
-    header('Location: tabSite.php');
+    header('Location: tabPost.php');
     exit;
 }
 
-$site = $siteRepository->getSite($_GET['id']);
-if (!$site) {
-    header('Location: tabSite.php');
+$post = $postRepository->getPost($_GET['id']);
+if (!$post) {
+    header('Location: tabPost.php');
     exit;
 }
 ?>
@@ -33,24 +36,33 @@ if (!$site) {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Modifier un site</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Modifier un post</title>
+    <link rel="stylesheet" href="../style/style.css">
 </head>
 <body>
-<h1>Modifier le site</h1>
+<h1>Modifier le post</h1>
 
-<form method="post" action="modifierSite.php">
-    <label for="id_site">ID</label>
-    <input type="text" name="id_site" id="id_site" value="<?= $site->getIdSite() ?>" readonly><br>
+<form method="post" action="modifierPost.php">
+    <label for="id_post">ID</label>
+    <input type="text" name="id_post" id="id_post" value="<?= $post->getIdPost() ?>" readonly><br>
 
-    <label for="nom">Nom du site</label>
-    <input type="text" name="nom" id="nom" value="<?= $site->getNom() ?>" required><br>
+    <label for="contenu">Contenu</label>
+    <input type="text" name="contenu" id="contenu" value="<?= $post->getContenu() ?>" required><br>
 
-    <label for="adresse">Adresse</label>
-    <input type="text" name="adresse" id="adresse" value="<?= $site->getAdresse() ?>" required><br>
+    <label for="date_post">Date</label>
+    <input type="text" name="date_post" id="date_post" value="<?= $post->getDatePost() ?>" required><br>
+
+    <label for="ref_utilisateur">Utilisateur</label>
+    <input type="text" name="ref_utilisateur" id="ref_utilisateur" value="<?= $post->getRefUtilisateur() ?>" required><br>
+
+    <label for="categorie_post">Categorie</label>
+    <input type="text" name="categorie_post" id="categorie_post" value="<?= $post->getCategoriePost() ?>" required><br>
+
+    <label for="titre">Titre</label>
+    <input type="text" name="titre" id="titre" value="<?= $post->getTitre() ?>" required><br>
 
     <input type="submit" name="btn_submit" value="Enregistrer">
-    <a href="tabSite.php">Annuler</a>
+    <a href="tabPost.php">Annuler</a>
 </form>
 </body>
 </html>

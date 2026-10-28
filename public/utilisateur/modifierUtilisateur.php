@@ -3,29 +3,29 @@
 //ini_set('display_errors', 1);
 //error_reporting(E_ALL);
 
-require_once __DIR__ . '/../../src/repository/SiteRepository.php';
+require_once __DIR__ . '/../../src/repository/UtilisateurRepository.php';
 
-$siteRepository = new SiteRepository();
+$utilisateurRepository = new UtilisateurRepository();
 
 if (isset($_POST['btn_submit'])) {
-    $site = new Site(
-        $_POST['id_site'],
+    $utilisateur = new Utilisateur(
+        $_POST['id_utilisateur'],
         $_POST['nom'],
         $_POST['adresse']
     );
-    $siteRepository->modifierSite($site);
-    header('Location: tabSite.php');
+    $utilisateurRepository->modifierUtilisateur($utilisateur);
+    header('Location: tabUtilisateur.php');
     exit;
 }
 
 if (!isset($_GET['id'])) {
-    header('Location: tabSite.php');
+    header('Location: tabUtilisateur.php');
     exit;
 }
 
-$site = $siteRepository->getSite($_GET['id']);
-if (!$site) {
-    header('Location: tabSite.php');
+$utilisateur = $utilisateurRepository->getUtilisateur($_GET['id']);
+if (!$utilisateur) {
+    header('Location: tabUtilisateur.php');
     exit;
 }
 ?>
@@ -33,24 +33,24 @@ if (!$site) {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Modifier un site</title>
+    <title>Modifier un utilisateur</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-<h1>Modifier le site</h1>
+<h1>Modifier le utilisateur</h1>
 
-<form method="post" action="modifierSite.php">
-    <label for="id_site">ID</label>
-    <input type="text" name="id_site" id="id_site" value="<?= $site->getIdSite() ?>" readonly><br>
+<form method="post" action="modifierUtilisateur.php">
+    <label for="id_utilisateur">ID</label>
+    <input type="text" name="id_utilisateur" id="id_utilisateur" value="<?= $utilisateur->getIdUtilisateur() ?>" readonly><br>
 
-    <label for="nom">Nom du site</label>
-    <input type="text" name="nom" id="nom" value="<?= $site->getNom() ?>" required><br>
+    <label for="nom">Nom du utilisateur</label>
+    <input type="text" name="nom" id="nom" value="<?= $utilisateur->getNom() ?>" required><br>
 
     <label for="adresse">Adresse</label>
-    <input type="text" name="adresse" id="adresse" value="<?= $site->getAdresse() ?>" required><br>
+    <input type="text" name="adresse" id="adresse" value="<?= $utilisateur->getAdresse() ?>" required><br>
 
     <input type="submit" name="btn_submit" value="Enregistrer">
-    <a href="tabSite.php">Annuler</a>
+    <a href="tabUtilisateur.php">Annuler</a>
 </form>
 </body>
 </html>

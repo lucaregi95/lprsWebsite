@@ -49,10 +49,25 @@ if (!$offre) {
     <input type="text" name="id_offre" id="id_offre" value="<?= $offre->getIdOffre() ?>" readonly><br>
 
     <label for="titre">Titre</label>
-    <input type="text" name="titre" id="titre" value="<?= $offre->getNom() ?>" required><br>
+    <input type="text" name="titre" id="titre" value="<?= $offre->getTitre() ?>" required><br>
 
-    <label for="description">Adresse</label>
-    <input type="text" name="adresse" id="adresse" value="<?= $offre->getAdresse() ?>" required><br>
+    <label for="description">Description</label>
+    <input type="text" name="description" id="description" value="<?= $offre->getDescription() ?>" required><br>
+
+    <label for="mission">Mission</label>
+    <input type="text" name="mission" id="mission" value="<?= $offre->getMission() ?>" required><br>
+
+    <label for="salaire">Salaire</label>
+    <input type="text" name="salaire" id="salaire" value="<?= $offre->getSalaire() ?>" required><br>
+
+    <label for="type_offre">Type de l'offre</label>
+    <input type="text" name="type_offre" id="type_offre" value="<?= $offre->getTypeOffre() ?>" required><br>
+
+    <label for="etat">Etat</label>
+    <input type="text" name="etat" id="etat" value="<?= $offre->getEtat() ?>" required><br>
+
+    <label for="ref_entreprise">Entreprise</label>
+    <input type="text" name="ref_entreprise" id="ref_entreprise" value="<?= $offre->getRefEntreprise() ?>" required><br>
 
     <input type="submit" name="btn_submit" value="Enregistrer">
     <a href="tabOffre.php">Annuler</a>

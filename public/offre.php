@@ -214,14 +214,6 @@ function h($v)
                     </option>
                 </select>
             </div>
-            <div class="promo">
-                <b class="small-t">
-                    Mes candidatures
-                </b>
-                <p class="muted small-t mb-0">
-                    2 offres auxquelles tu as postulé.
-                </p>
-            </div>
         </aside>
 
         <div class="col-lg-9">
@@ -334,7 +326,13 @@ function h($v)
                                     </button>
                                 </form>
                                 <?php if (!$ferme): ?>
-                                    <a href="#" class="btn btn-primary">Postuler</a>
+                                    <form method="POST" action="../src/traitement/newOffreUtilisateur.php">
+                                        <input type="hidden" name="ref_utilisateur" value="<?= $_SESSION['id_utilisateur'] ?>">
+                                        <input type="hidden" name="ref_offre" value="<?=$offre->getIdOffre()?>() ?>">
+                                        <button class="btn btn-primary btn-sm mt-2 ">
+                                            Postuler
+                                        </button>
+                                    </form>
                                 <?php endif; ?>
                             </div>
                         </div>

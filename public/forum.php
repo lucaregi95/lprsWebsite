@@ -30,8 +30,8 @@ $sql = " SELECT post.id_post, post.titre, post.date_post, post.categorie_post, u
 $tableau = [];
 
 if ($categorie != '') {
-    $sql = $sql . " AND post.categorie_post LIKE :categorie";
-    $tableau['categorie'] = '%' . $categorie . '%';
+    $sql = $sql . " AND post.categorie_post LIKE :categorie_post";
+    $tableau['categorie_post'] = '%' . $categorie . '%';
 }
 
 if ($recherche != '') {
@@ -126,7 +126,7 @@ $categories = ['Général', 'Cours', 'Stages & Alternance', 'Vie étudiante', 'P
                 <h6>
                     Nouveau post
                 </h6>
-                <form action="ajouter_post.php" method="post">
+                <form action="../src/traitement/newPost.php" method="post">
                     <input class="form-control form-control-sm mb-2" type="text" name="titre" placeholder="Titre" required/>
                     <select class="form-select form-select-sm mb-2" name="categorie_post" required>
                         <option value="">Catégorie…</option>

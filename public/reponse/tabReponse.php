@@ -30,10 +30,10 @@ $reponses = $reponseRepository->getAllReponses();
         <tr>
             <td><?= $reponse->getIdReponse() ?></td>
             <td><?= $reponse->getContenu() ?></td>
-            <td><?= $reponse->getDate() ?></td>
+            <td><?= $reponse->getDatetimeReponse() ?></td>
             <td><?= $reponse->getRefUtilisateur() ?></td>
             <td><?= $reponse->getRefPost() ?></td>
-            <td><a href="modifierReponse.php?id=<?= $reponses->getIdReponse() ?>">Modifier</a></td>
+            <td><a href="modifierReponse.php?id=<?= $reponse->getIdReponse() ?>">Modifier</a></td>
             <td>
                 <form method="post" action="supprimerReponse.php" onsubmit="return confirm('Voulez-vous vraiment supprimer l reponse  n°<?= $reponse->getIdReponse() ?> ?');">
                     <input type="hidden" name="id_reponse" value="<?= $reponse->getIdReponse() ?>">

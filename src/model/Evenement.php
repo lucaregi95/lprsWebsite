@@ -8,6 +8,7 @@ class Evenement{
     private $nbr_places;
     private $lat;
     private $lng;
+    private $date_evenement;
 
     /**
      * @param $id_evenement
@@ -16,7 +17,7 @@ class Evenement{
      * @param $lieu
      * @param $nbr_places
      */
-    public function __construct($id_evenement, $titre, $description, $lieu, $nbr_places,$lat,$lng){
+    public function __construct($id_evenement, $titre, $description, $lieu, $nbr_places,$lat,$lng,$date_evenement){
         $this->id_evenement = $id_evenement;
         $this->titre = $titre;
         $this->description = $description;
@@ -24,6 +25,7 @@ class Evenement{
         $this->nbr_places = $nbr_places;
         $this->lat = $lat;
         $this->lng = $lng;
+        $this->date_evenement = $date_evenement;
     }
 
     /**
@@ -137,6 +139,22 @@ class Evenement{
     public function setLng($lng)
     {
         $this->lng = $lng;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateEvenement()
+    {
+        return $this->date_evenement;
+    }
+
+    /**
+     * @param mixed $date_evenement
+     */
+    public function setDateEvenement($date_evenement)
+    {
+        $this->date_evenement = $date_evenement;
     }
 
 
