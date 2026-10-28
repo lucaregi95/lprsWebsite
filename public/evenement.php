@@ -219,12 +219,12 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
                                         <span class="tag"><?= $restantes ?> place<?= $restantes > 1 ? 's' : '' ?> restante<?= $restantes > 1 ? 's' : '' ?></span>
                                     <?php endif; ?>
 
-                                    <h6 class="mt-1 mb-1"><?= htmlspecialchars($evenement->getTitre()) ?></h6>
+                                    <h6 class="mt-1 mb-1"><?= ($evenement->getTitre()) ?></h6>
                                     <div class="muted small-t">
                                         <i class="bi bi-geo-alt"></i>
-                                        <?= htmlspecialchars($evenement->getLieu()) ?> <hr> <br>· <?= (int)$evenement->getNbrPlaces() ?> places au total
+                                        <?= ($evenement->getLieu()) ?> <hr> <br>· <?= (int)$evenement->getNbrPlaces() ?> places au total
                                     </div>
-                                    <p class="muted small-t my-2"><?= htmlspecialchars($evenement->getDescription()) ?></p>
+                                    <p class="muted small-t my-2"><?= ($evenement->getDescription()) ?></p>
 
                                     <?php if ($complet): ?>
                                         <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
@@ -257,11 +257,11 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <h5 class="mb-3"><?= htmlspecialchars($evenement->getTitre()) ?></h5>
+                                    <h5 class="mb-3"><?= ($evenement->getTitre()) ?></h5>
 
                                     <div class="mb-3">
                                         <div class="form-label">Lieu</div>
-                                        <div><i class="bi bi-geo-alt"></i> <?= htmlspecialchars($evenement->getLieu()) ?></div>
+                                        <div><i class="bi bi-geo-alt"></i> <?= ($evenement->getLieu()) ?></div>
                                     </div>
 
                                     <?php if ($evenement->getLat() !== null && $evenement->getLng() !== null): ?>
@@ -282,11 +282,19 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
 
                                     <div class="mb-3">
                                         <div class="form-label">Description</div>
-                                        <p class="mb-0"><?= nl2br(htmlspecialchars($evenement->getDescription())) ?></p>
+                                        <p class="mb-0"><?= $evenement->getDescription()?></p>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                    <form method="POST" action="../src/traitement/suppEvenement.php">
+                                        <input type="hidden" name="id_evenement" value="<?=$evenement->getIdEvenement() ?>">
+                                        <input type="hidden" name="titre" value="<?=$evenement->getTitre() ?>">
+                                        <input type="hidden" name="nbr_places" value="<?= $evenement->getNbrPlaces() ?>">
+                                        <button class="btn btn-danger btn-sm mt-2 ">
+                                        Supprimer
+                                        </button>
+                                    </form>
                                     <?php if (!$complet): ?>
                                         <a href="#" class="btn btn-primary">S'inscrire</a>
                                     <?php endif; ?>
