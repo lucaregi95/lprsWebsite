@@ -3,10 +3,25 @@ session_start();
 require_once "../bdd/bdd.php";
 require_once "../src/model/Evenement.php";
 require_once "../src/repository/EvenementRepository.php";
+require_once "../src/repository/UtilisateurRepository.php";
+require_once "../src/model/Utilisateur.php";
 
-$idUtilisateur = $_SESSION['id_utilisateur'];
-$mesEvenements = (new EvenementRepository())->getEvenementsByUtilisateur($idUtilisateur);
+if (!isset($_SESSION['id_utilisateur'])) {
+    header("Location: connexion.php");
+    exit;
+}
 
+$id_utilisateur = $_SESSION['id_utilisateur'];
+$utilisateurRepo = new UtilisateurRepository();
+
+if (!isset($_POST['prenom'])) {
+    $utilisateurRepo->modifierUtilisateur($id_utilisateur);
+    header("Location: profil.php?succes=modifier");
+    exit;
+}
+
+$utilisateur = $utilisateurRepo->getUtilisateur($id_utilisateur);
+$mesEvenements = (new EvenementRepository())->getEvenementsByUtilisateur($id_utilisateur);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -64,7 +79,7 @@ $mesEvenements = (new EvenementRepository())->getEvenementsByUtilisateur($idUtil
         </div>
 
         <div class="profil-box">
-            <form>
+            form method="post">
                 <div class="col-lg-9">
                     <div class="box_profil mb-4">
                         <h6>
@@ -75,20 +90,27 @@ $mesEvenements = (new EvenementRepository())->getEvenementsByUtilisateur($idUtil
                                 <label class="form-label small-t">
                                     Prénom
                                 </label>
-                                <input class="form-control form-control-sm" type="text" value="<?= ['prenom'] ?>"/>
+                                <input class="form-control form-control-sm" type="text" value="<?= $utilisateur['prenom'] ?>"/>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small-t">
                                     Nom
                                 </label>
-                                <input class="form-control form-control-sm" type="text" value="Kharfouche"/>
+                                <input class="form-control form-control-sm" type="text" value=<?= $utilisateur['nom'] ?>/>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small-t">
                                     Adresse e-mail
                                 </label>
-                                <input class="form-control form-control-sm" type="email" value="nassim@lprs.fr"/>
+                                <input class="form-control form-control-sm" type="email" value=<?= $utilisateur['email'] ?>  />
                             </div>
+                            <div class="col-md-6">
+                                <label class="form-label small-t">
+                                    role
+                                </label>
+                                <input class="form-control form-control-sm" type="role"  value="<?= $utilisateur['role'] ?> " readonly />
+                            </div>
+
                             <div class="col-md-6">
 
                                 <div class="mb-3 mdp-bloc">

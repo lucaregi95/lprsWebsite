@@ -1,4 +1,12 @@
-<?php?>
+<?php
+require_once "../bdd/bdd.php";
+require_once "../src/model/Offre.php";
+require_once "../src/repository/OffreRepository.php";
+
+$offreRepository = new OffreRepository();
+$offres = $offreRepository->getAllOffres();
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -70,12 +78,80 @@
                 Stages, alternances et jobs étudiants proposés par nos entreprises.
             </p>
         </div>
-        <a class="btn btn-primary" href="#">
-            + Publier une offre
-        </a>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+            + Publier une Offre
+        </button>
     </div>
 </header>
+
+
 <main class="container mt-4">
+
+    <!--/* aperçuModal */   -->
+
+<!--/* addModal */   -->
+    <div class="modal fade" id="addModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="eyebrow">Ajouter une Offre</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="POST" action="../src/traitement/newOffre.php">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nom de l'offre</label>
+                            <input type="text" class="form-event" name="titre" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="description">Description</label>
+                            <textarea class="form-event" id="description" name="description" required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Mission</label>
+                            <input type="text" class="form-event" name="mission" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Salaire</label>
+                            <input type="number" class="form-event" name="salaire" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Type d'offre</label>
+                            <input type="text" class="form-event" name="type_offre" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Etat:</label>
+                            <select class="form-event" name="etat" required>
+                                <option value="ouvert">Ouvert</option>
+                                <option value="ferme">Fermé</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Entreprise:</label>
+                            <select class="form-event" name="ref_entreprise" required>
+                                <option value="1">A</option>
+                                <option value="2">B</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Ajouter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<!--/* modifModal */   -->
+<!--/* suppModal */   -->
+
     <div class="row g-4">
         <aside class="col-lg-3">
             <div class="box mb-3">
@@ -145,6 +221,7 @@
             </div>
         </aside>
         <div class="col-lg-9">
+
             <div class="d-flex gap-2 mb-3">
                 <input class="form-control form-control-sm" placeholder="Rechercher une offre"/>
                 <select class="form-select form-select-sm w-auto">
@@ -153,6 +230,10 @@
                     </option>
                 </select>
             </div>
+            <?php if (empty($offres)): ?>
+                <p class="muted">Aucune offre pour le moment.</p>
+            <?php endif; ?>
+            <?php foreach ($offres as $offre):  ?>
             <div class="row-i ev">
                 <div class="logo-sq">
                     <i class="bi bi-briefcase">
@@ -160,126 +241,28 @@
                 </div>
                 <div class="flex-grow-1">
                     <b>
-                        Stage assistant communication
+                        <?= $offre->getTitre() ?>
                     </b>
                     <div class="muted small-t">
-                        Agence Lumière · Paris · 1 200 €/mois
+                        Agence Lumière · Paris · <?= $offre->getSalaire() ?> €/mois
                     </div>
                     <p class="muted small-t my-1">
-                        Gestion des réseaux sociaux et création de contenus.
+                        <?= $offre->getMission() ?>
                     </p>
                     <span class="tag">
-                Stage
+                <?= $offre->getTypeOffre() ?>
               </span>
                     <span class="tag" style="">
-                Ouverte
+                <?= $offre->getEtat() ?>
               </span>
                 </div>
                 <a class="btn btn-sm btn-primary" href="#">
                     Postuler
                 </a>
             </div>
-            <div class="row-i ev">
-                <div class="logo-sq">
-                    <i class="bi bi-briefcase">
-                    </i>
-                </div>
-                <div class="flex-grow-1">
-                    <b>
-                        Alternance développeur web
-                    </b>
-                    <div class="muted small-t">
-                        Studio Nord · Lyon · 1 450 €/mois
-                    </div>
-                    <p class="muted small-t my-1">
-                        Développement front-end et maintenance d'applications.
-                    </p>
-                    <span class="tag">
-                Alternance
-              </span>
-                    <span class="tag" style="">
-                Ouverte
-              </span>
-                </div>
-                <a class="btn btn-sm btn-primary" href="#">
-                    Postuler
-                </a>
-            </div>
-            <div class="row-i ev">
-                <div class="logo-sq">
-                    <i class="bi bi-briefcase">
-                    </i>
-                </div>
-                <div class="flex-grow-1">
-                    <b>
-                        Stage data analyst
-                    </b>
-                    <div class="muted small-t">
-                        DataCorp · Télétravail · 1 100 €/mois
-                    </div>
-                    <p class="muted small-t my-1">
-                        Analyse de jeux de données et tableaux de bord.
-                    </p>
-                    <span class="tag">
-                Stage
-              </span>
-                    <span class="tag" style="">
-                Ouverte
-              </span>
-                </div>
-                <a class="btn btn-sm btn-primary" href="#">
-                    Postuler
-                </a>
-            </div>
-            <div class="row-i ev">
-                <div class="logo-sq">
-                    <i class="bi bi-briefcase">
-                    </i>
-                </div>
-                <div class="flex-grow-1">
-                    <b>
-                        Job étudiant accueil
-                    </b>
-                    <div class="muted small-t">
-                        Agence Lumière · Paris · 12 €/h
-                    </div>
-                    <p class="muted small-t my-1">
-                        Accueil des visiteurs et gestion du standard.
-                    </p>
-                    <span class="tag">
-                Job étudiant
-              </span>
-                    <span class="tag" style="background:#fde8e8;color:#c0392b">
-                Fermée
-              </span>
-                </div>
-                <a class="btn btn-sm btn-primary disabled" href="#">
-                    Postuler
-                </a>
-            </div>
-            <ul class="pagination pagination-sm justify-content-center mt-3">
-                <li class="page-item">
-                    <a class="page-link" href="#">
-                        ‹
-                    </a>
-                </li>
-                <li class="page-item active">
-                    <a class="page-link" href="#">
-                        1
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">
-                        2
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">
-                        ›
-                    </a>
-                </li>
-            </ul>
+            <?php endforeach; ?>
         </div>
+
     </div>
 </main>
 <footer>

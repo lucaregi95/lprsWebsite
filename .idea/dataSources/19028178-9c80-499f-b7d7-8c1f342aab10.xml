@@ -2,196 +2,10 @@
 <dataSource name="lprs@localhost">
   <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.53">
     <root id="1">
-      <DefaultCasing>lower/lower</DefaultCasing>
+      <DefaultAuthPlugin>caching_sha2_password</DefaultAuthPlugin>
       <DefaultEngine>MyISAM</DefaultEngine>
       <DefaultTmpEngine>InnoDB</DefaultTmpEngine>
-      <Grants>|root||root|localhost|ALLOW_NONEXISTENT_DEFINER|G
-|root||root|localhost|ALTER|G
-|root||root|localhost|ALTER ROUTINE|G
-|root||root|localhost|APPLICATION_PASSWORD_ADMIN|G
-|root||mysql.infoschema|localhost|AUDIT_ABORT_EXEMPT|G
-|root||mysql.session|localhost|AUDIT_ABORT_EXEMPT|G
-|root||mysql.sys|localhost|AUDIT_ABORT_EXEMPT|G
-|root||root|localhost|AUDIT_ABORT_EXEMPT|G
-|root||root|localhost|AUDIT_ADMIN|G
-|root||mysql.session|localhost|AUTHENTICATION_POLICY_ADMIN|G
-|root||root|localhost|AUTHENTICATION_POLICY_ADMIN|G
-|root||mysql.session|localhost|BACKUP_ADMIN|G
-|root||root|localhost|BACKUP_ADMIN|G
-|root||root|localhost|BINLOG_ADMIN|G
-|root||root|localhost|BINLOG_ENCRYPTION_ADMIN|G
-|root||mysql.session|localhost|CLONE_ADMIN|G
-|root||root|localhost|CLONE_ADMIN|G
-|root||mysql.session|localhost|CONNECTION_ADMIN|G
-|root||root|localhost|CONNECTION_ADMIN|G
-|root||root|localhost|CREATE|G
-|root||root|localhost|CREATE ROLE|G
-|root||root|localhost|CREATE ROUTINE|G
-|root||root|localhost|CREATE TABLESPACE|G
-|root||root|localhost|CREATE TEMPORARY TABLES|G
-|root||root|localhost|CREATE USER|G
-|root||root|localhost|CREATE VIEW|G
-|root||root|localhost|DELETE|G
-|root||root|localhost|DROP|G
-|root||root|localhost|DROP ROLE|G
-|root||root|localhost|ENCRYPTION_KEY_ADMIN|G
-|root||root|localhost|EVENT|G
-|root||root|localhost|EXECUTE|G
-|root||root|localhost|FILE|G
-|root||mysql.infoschema|localhost|FIREWALL_EXEMPT|G
-|root||mysql.session|localhost|FIREWALL_EXEMPT|G
-|root||mysql.sys|localhost|FIREWALL_EXEMPT|G
-|root||root|localhost|FIREWALL_EXEMPT|G
-|root||root|localhost|FLUSH_OPTIMIZER_COSTS|G
-|root||root|localhost|FLUSH_PRIVILEGES|G
-|root||root|localhost|FLUSH_STATUS|G
-|root||root|localhost|FLUSH_TABLES|G
-|root||root|localhost|FLUSH_USER_RESOURCES|G
-|root||root|localhost|GROUP_REPLICATION_ADMIN|G
-|root||root|localhost|GROUP_REPLICATION_STREAM|G
-|root||root|localhost|INDEX|G
-|root||root|localhost|INNODB_REDO_LOG_ARCHIVE|G
-|root||root|localhost|INNODB_REDO_LOG_ENABLE|G
-|root||root|localhost|INSERT|G
-|root||root|localhost|LOCK TABLES|G
-|root||root|localhost|OPTIMIZE_LOCAL_TABLE|G
-|root||root|localhost|PASSWORDLESS_USER_ADMIN|G
-|root||mysql.session|localhost|PERSIST_RO_VARIABLES_ADMIN|G
-|root||root|localhost|PERSIST_RO_VARIABLES_ADMIN|G
-|root||root|localhost|PROCESS|G
-|root||root|localhost|REFERENCES|G
-|root||root|localhost|RELOAD|G
-|root||root|localhost|REPLICATION CLIENT|G
-|root||root|localhost|REPLICATION SLAVE|G
-|root||root|localhost|REPLICATION_APPLIER|G
-|root||root|localhost|REPLICATION_SLAVE_ADMIN|G
-|root||root|localhost|RESOURCE_GROUP_ADMIN|G
-|root||root|localhost|RESOURCE_GROUP_USER|G
-|root||root|localhost|ROLE_ADMIN|G
-|root||mysql.infoschema|localhost|SELECT|G
-|root||root|localhost|SELECT|G
-|root||root|localhost|SENSITIVE_VARIABLES_OBSERVER|G
-|root||root|localhost|SERVICE_CONNECTION_ADMIN|G
-|root||mysql.session|localhost|SESSION_VARIABLES_ADMIN|G
-|root||root|localhost|SESSION_VARIABLES_ADMIN|G
-|root||root|localhost|SET_ANY_DEFINER|G
-|root||root|localhost|SHOW DATABASES|G
-|root||root|localhost|SHOW VIEW|G
-|root||root|localhost|SHOW_ROUTINE|G
-|root||mysql.session|localhost|SHUTDOWN|G
-|root||root|localhost|SHUTDOWN|G
-|root||mysql.session|localhost|SUPER|G
-|root||root|localhost|SUPER|G
-|root||mysql.infoschema|localhost|SYSTEM_USER|G
-|root||mysql.session|localhost|SYSTEM_USER|G
-|root||mysql.sys|localhost|SYSTEM_USER|G
-|root||root|localhost|SYSTEM_USER|G
-|root||mysql.session|localhost|SYSTEM_VARIABLES_ADMIN|G
-|root||root|localhost|SYSTEM_VARIABLES_ADMIN|G
-|root||root|localhost|TABLE_ENCRYPTION_ADMIN|G
-|root||root|localhost|TELEMETRY_LOG_ADMIN|G
-|root||root|localhost|TRANSACTION_GTID_TAG|G
-|root||root|localhost|TRIGGER|G
-|root||root|localhost|UPDATE|G
-|root||root|localhost|XA_RECOVER_ADMIN|G
-|root||root|localhost|grant option|G
-bibliotheque|schema||joe_biblio||DELETE|G
-bibliotheque|schema||joe_biblio||INSERT|G
-bibliotheque|schema||joe_biblio||SELECT|G
-bibliotheque|schema||joe_biblio||UPDATE|G
-joe|schema||joe||ALTER|G
-joe|schema||joe||ALTER ROUTINE|G
-joe|schema||joe||CREATE|G
-joe|schema||joe||CREATE ROUTINE|G
-joe|schema||joe||CREATE TEMPORARY TABLES|G
-joe|schema||joe||CREATE VIEW|G
-joe|schema||joe||DELETE|G
-joe|schema||joe||DROP|G
-joe|schema||joe||EVENT|G
-joe|schema||joe||EXECUTE|G
-joe|schema||joe||INDEX|G
-joe|schema||joe||INSERT|G
-joe|schema||joe||LOCK TABLES|G
-joe|schema||joe||REFERENCES|G
-joe|schema||joe||SELECT|G
-joe|schema||joe||SHOW VIEW|G
-joe|schema||joe||TRIGGER|G
-joe|schema||joe||UPDATE|G
-lprs|schema||lprs_admin||ALTER|G
-lprs|schema||lprs_admin||ALTER ROUTINE|G
-lprs|schema||lprs_admin||CREATE|G
-lprs|schema||lprs_admin||CREATE ROUTINE|G
-lprs|schema||lprs_admin||CREATE TEMPORARY TABLES|G
-lprs|schema||lprs_admin||CREATE VIEW|G
-lprs|schema||lprs_admin||DELETE|G
-lprs|schema||lprs_admin||DROP|G
-lprs|schema||lprs_admin||EVENT|G
-lprs|schema||lprs_admin||EXECUTE|G
-lprs|schema||lprs_admin||INDEX|G
-lprs|schema||lprs_admin||INSERT|G
-lprs|schema||lprs_admin||LOCK TABLES|G
-lprs|schema||lprs_admin||REFERENCES|G
-lprs|schema||lprs_admin||SELECT|G
-lprs|schema||lprs_admin||SHOW VIEW|G
-lprs|schema||lprs_admin||TRIGGER|G
-lprs|schema||lprs_admin||UPDATE|G
-nird|schema||lregi||ALTER|G
-nird|schema||lregi||ALTER ROUTINE|G
-nird|schema||lregi||CREATE|G
-nird|schema||lregi||CREATE ROUTINE|G
-nird|schema||lregi||CREATE TEMPORARY TABLES|G
-nird|schema||lregi||CREATE VIEW|G
-nird|schema||lregi||DELETE|G
-nird|schema||lregi||DROP|G
-nird|schema||lregi||EVENT|G
-nird|schema||lregi||EXECUTE|G
-nird|schema||lregi||INDEX|G
-nird|schema||lregi||INSERT|G
-nird|schema||lregi||LOCK TABLES|G
-nird|schema||lregi||REFERENCES|G
-nird|schema||lregi||SELECT|G
-nird|schema||lregi||SHOW VIEW|G
-nird|schema||lregi||TRIGGER|G
-nird|schema||lregi||UPDATE|G
-performance_schema|schema||mysql.session|localhost|SELECT|G
-sys|schema||mysql.sys|localhost|TRIGGER|G
-tourdefrance|schema||tourdefrance||ALTER|G
-tourdefrance|schema||tourdefrance||ALTER ROUTINE|G
-tourdefrance|schema||tourdefrance||CREATE|G
-tourdefrance|schema||tourdefrance||CREATE ROUTINE|G
-tourdefrance|schema||tourdefrance||CREATE TEMPORARY TABLES|G
-tourdefrance|schema||tourdefrance||CREATE VIEW|G
-tourdefrance|schema||tourdefrance||DELETE|G
-tourdefrance|schema||tourdefrance||DROP|G
-tourdefrance|schema||tourdefrance||EVENT|G
-tourdefrance|schema||tourdefrance||EXECUTE|G
-tourdefrance|schema||tourdefrance||INDEX|G
-tourdefrance|schema||tourdefrance||INSERT|G
-tourdefrance|schema||tourdefrance||LOCK TABLES|G
-tourdefrance|schema||tourdefrance||REFERENCES|G
-tourdefrance|schema||tourdefrance||SELECT|G
-tourdefrance|schema||tourdefrance||SHOW VIEW|G
-tourdefrance|schema||tourdefrance||TRIGGER|G
-tourdefrance|schema||tourdefrance||UPDATE|G
-univoix|schema||univoix_admin||ALTER|G
-univoix|schema||univoix_admin||ALTER ROUTINE|G
-univoix|schema||univoix_admin||CREATE|G
-univoix|schema||univoix_admin||CREATE ROUTINE|G
-univoix|schema||univoix_admin||CREATE TEMPORARY TABLES|G
-univoix|schema||univoix_admin||CREATE VIEW|G
-univoix|schema||univoix_admin||DELETE|G
-univoix|schema||univoix_admin||DROP|G
-univoix|schema||univoix_admin||EVENT|G
-univoix|schema||univoix_admin||EXECUTE|G
-univoix|schema||univoix_admin||INDEX|G
-univoix|schema||univoix_admin||INSERT|G
-univoix|schema||univoix_admin||LOCK TABLES|G
-univoix|schema||univoix_admin||REFERENCES|G
-univoix|schema||univoix_admin||SELECT|G
-univoix|schema||univoix_admin||SHOW VIEW|G
-univoix|schema||univoix_admin||TRIGGER|G
-univoix|schema||univoix_admin||UPDATE|G</Grants>
-      <ServerVersion>9.1.0</ServerVersion>
+      <ServerVersion>8.4.7</ServerVersion>
     </root>
     <collation id="2" parent="1" name="armscii8_bin">
       <Charset>armscii8</Charset>
@@ -1123,7 +937,7 @@ univoix|schema||univoix_admin||UPDATE|G</Grants>
       <AutoIntrospectionLevel>3</AutoIntrospectionLevel>
       <Current>1</Current>
       <LastIntrospectionLevel>3</LastIntrospectionLevel>
-      <LastIntrospectionLocalTimestamp>2026-10-28.08:31:00</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2026-10-13.09:18:14</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="298" parent="1" name="mysql">
@@ -1159,884 +973,838 @@ univoix|schema||univoix_admin||UPDATE|G</Grants>
     <schema id="308" parent="1" name="univoix">
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
-    <schema id="309" parent="1" name="you_biblio_vt">
-      <CollationName>utf8mb4_0900_ai_ci</CollationName>
-    </schema>
-    <user id="310" parent="1" name="joe">
+    <user id="309" parent="1" name="joe">
       <Plugin>sha256_password</Plugin>
     </user>
-    <user id="311" parent="1" name="joe_biblio">
+    <user id="310" parent="1" name="joe_biblio">
       <Plugin>sha256_password</Plugin>
     </user>
-    <user id="312" parent="1" name="lprs_admin">
+    <user id="311" parent="1" name="lprs_admin">
       <Plugin>sha256_password</Plugin>
     </user>
-    <user id="313" parent="1" name="lregi">
+    <user id="312" parent="1" name="lregi">
       <Plugin>sha256_password</Plugin>
     </user>
-    <user id="314" parent="1" name="mysql.infoschema">
+    <user id="313" parent="1" name="mysql.infoschema">
       <CanLogin>0</CanLogin>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <user id="315" parent="1" name="mysql.session">
+    <user id="314" parent="1" name="mysql.session">
       <CanLogin>0</CanLogin>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <user id="316" parent="1" name="mysql.sys">
+    <user id="315" parent="1" name="mysql.sys">
       <CanLogin>0</CanLogin>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <user id="317" parent="1" name="root">
+    <user id="316" parent="1" name="root">
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <user id="318" parent="1" name="tourdefrance">
+    <user id="317" parent="1" name="tourdefrance">
       <Plugin>sha256_password</Plugin>
     </user>
-    <user id="319" parent="1" name="univoix_admin">
+    <user id="318" parent="1" name="univoix_admin">
       <Plugin>sha256_password</Plugin>
     </user>
-    <table id="320" parent="297" name="alumni">
+    <table id="319" parent="297" name="alumni">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="321" parent="297" name="entreprise">
+    <table id="320" parent="297" name="entreprise">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="322" parent="297" name="etudiant">
+    <table id="321" parent="297" name="etudiant">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="323" parent="297" name="evenement">
+    <table id="322" parent="297" name="evenement">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="324" parent="297" name="formation">
+    <table id="323" parent="297" name="formation">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="325" parent="297" name="offre">
+    <table id="324" parent="297" name="offre">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="326" parent="297" name="offreutilisateur">
+    <table id="325" parent="297" name="offreutilisateur">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="327" parent="297" name="partenaire">
+    <table id="326" parent="297" name="partenaire">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="328" parent="297" name="participe">
+    <table id="327" parent="297" name="participe">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="329" parent="297" name="post">
+    <table id="328" parent="297" name="post">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="330" parent="297" name="professeur">
+    <table id="329" parent="297" name="professeur">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="331" parent="297" name="professeurformation">
+    <table id="330" parent="297" name="professeurformation">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="332" parent="297" name="promotion">
+    <table id="331" parent="297" name="promotion">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="333" parent="297" name="reponse">
+    <table id="332" parent="297" name="reponse">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="334" parent="297" name="signalement">
+    <table id="333" parent="297" name="signalement">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="335" parent="297" name="utilisateur">
+    <table id="334" parent="297" name="utilisateur">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <view id="336" parent="297" name="v_utilisateurwithrole">
-      <Definer>root@localhost</Definer>
-      <DetailsLevel>3</DetailsLevel>
-      <SourceTextLength>1469</SourceTextLength>
-    </view>
-    <column id="337" parent="320" name="ref_utilisateur">
+    <column id="335" parent="319" name="ref_utilisateur">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="338" parent="320" name="cv">
+    <column id="336" parent="319" name="cv">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(200)|0s</StoredType>
     </column>
-    <column id="339" parent="320" name="poste_occupe">
+    <column id="337" parent="319" name="poste_occupe">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>varchar(200)|0s</StoredType>
     </column>
-    <column id="340" parent="320" name="ref_promotion">
+    <column id="338" parent="319" name="ref_promotion">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="341" parent="320" name="ref_entreprise">
+    <column id="339" parent="319" name="ref_entreprise">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <foreign-key id="342" parent="320" name="fk_utilisateurAlumni">
+    <foreign-key id="340" parent="319" name="fk_utilisateurAlumni">
       <ColNames>ref_utilisateur</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>id_utilisateur</RefColNames>
       <RefTableName>utilisateur</RefTableName>
     </foreign-key>
-    <foreign-key id="343" parent="320" name="fk_formationAlumni">
+    <foreign-key id="341" parent="319" name="fk_formationAlumni">
       <ColNames>ref_promotion</ColNames>
       <RefColNames>id_promotion</RefColNames>
       <RefTableName>promotion</RefTableName>
     </foreign-key>
-    <foreign-key id="344" parent="320" name="fk_entrepriseAlumni">
+    <foreign-key id="342" parent="319" name="fk_entrepriseAlumni">
       <ColNames>ref_entreprise</ColNames>
       <RefColNames>id_entreprise</RefColNames>
       <RefTableName>entreprise</RefTableName>
     </foreign-key>
-    <index id="345" parent="320" name="PRIMARY">
+    <index id="343" parent="319" name="PRIMARY">
       <ColNames>ref_utilisateur</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="346" parent="320" name="fk_formationAlumni">
+    <index id="344" parent="319" name="fk_formationAlumni">
       <ColNames>ref_promotion</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="347" parent="320" name="fk_entrepriseAlumni">
+    <index id="345" parent="319" name="fk_entrepriseAlumni">
       <ColNames>ref_entreprise</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="348" parent="320" name="PRIMARY">
+    <key id="346" parent="319" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="349" parent="321" name="id_entreprise">
+    <column id="347" parent="320" name="id_entreprise">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="350" parent="321" name="adresse">
+    <column id="348" parent="320" name="adresse">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>longtext|0s</StoredType>
     </column>
-    <column id="351" parent="321" name="nom_entreprise">
+    <column id="349" parent="320" name="nom_entreprise">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>varchar(200)|0s</StoredType>
     </column>
-    <column id="352" parent="321" name="site_web">
+    <column id="350" parent="320" name="site_web">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>varchar(200)|0s</StoredType>
     </column>
-    <index id="353" parent="321" name="PRIMARY">
+    <index id="351" parent="320" name="PRIMARY">
       <ColNames>id_entreprise</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="354" parent="321" name="PRIMARY">
+    <key id="352" parent="320" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="355" parent="322" name="ref_utilisateur">
+    <column id="353" parent="321" name="ref_utilisateur">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="356" parent="322" name="cv">
+    <column id="354" parent="321" name="cv">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(150)|0s</StoredType>
     </column>
-    <column id="357" parent="322" name="ref_formation">
+    <column id="355" parent="321" name="ref_formation">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="358" parent="322" name="ref_promotion">
+    <column id="356" parent="321" name="ref_promotion">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <foreign-key id="359" parent="322" name="fk_utilisateurEtudiant">
+    <foreign-key id="357" parent="321" name="fk_utilisateurEtudiant">
       <ColNames>ref_utilisateur</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>id_utilisateur</RefColNames>
       <RefTableName>utilisateur</RefTableName>
     </foreign-key>
-    <foreign-key id="360" parent="322" name="fk_formationEtudiant">
+    <foreign-key id="358" parent="321" name="fk_formationEtudiant">
       <ColNames>ref_formation</ColNames>
       <RefColNames>id_formation</RefColNames>
       <RefTableName>formation</RefTableName>
     </foreign-key>
-    <foreign-key id="361" parent="322" name="fk_promotionEtudiant">
+    <foreign-key id="359" parent="321" name="fk_promotionEtudiant">
       <ColNames>ref_promotion</ColNames>
       <RefColNames>id_promotion</RefColNames>
       <RefTableName>promotion</RefTableName>
     </foreign-key>
-    <index id="362" parent="322" name="PRIMARY">
+    <index id="360" parent="321" name="PRIMARY">
       <ColNames>ref_utilisateur</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="363" parent="322" name="fk_formationEtudiant">
+    <index id="361" parent="321" name="fk_formationEtudiant">
       <ColNames>ref_formation</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="364" parent="322" name="fk_promotionEtudiant">
+    <index id="362" parent="321" name="fk_promotionEtudiant">
       <ColNames>ref_promotion</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="365" parent="322" name="PRIMARY">
+    <key id="363" parent="321" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="366" parent="323" name="id_evenement">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="364" parent="322" name="id_evenement">
+      <AutoIncrement>9</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="367" parent="323" name="titre">
+    <column id="365" parent="322" name="titre">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(150)|0s</StoredType>
     </column>
-    <column id="368" parent="323" name="description">
+    <column id="366" parent="322" name="description">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>longtext|0s</StoredType>
     </column>
-    <column id="369" parent="323" name="lieu">
+    <column id="367" parent="322" name="lieu">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>varchar(250)|0s</StoredType>
     </column>
-    <column id="370" parent="323" name="nbr_places">
+    <column id="368" parent="322" name="nbr_places">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <index id="371" parent="323" name="PRIMARY">
+    <column id="369" parent="322" name="lat">
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+      <StoredType>decimal(10,8 digit)|0s</StoredType>
+    </column>
+    <column id="370" parent="322" name="lng">
+      <NotNull>1</NotNull>
+      <Position>7</Position>
+      <StoredType>decimal(11,8 digit)|0s</StoredType>
+    </column>
+    <index id="371" parent="322" name="PRIMARY">
       <ColNames>id_evenement</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="372" parent="323" name="PRIMARY">
+    <key id="372" parent="322" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="373" parent="324" name="id_formation">
+    <column id="373" parent="323" name="id_formation">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="374" parent="324" name="nom_formation">
+    <column id="374" parent="323" name="nom_formation">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <index id="375" parent="324" name="PRIMARY">
+    <index id="375" parent="323" name="PRIMARY">
       <ColNames>id_formation</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="376" parent="324" name="PRIMARY">
+    <key id="376" parent="323" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="377" parent="325" name="id_offre">
+    <column id="377" parent="324" name="id_offre">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="378" parent="325" name="titre">
+    <column id="378" parent="324" name="titre">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(150)|0s</StoredType>
     </column>
-    <column id="379" parent="325" name="description">
+    <column id="379" parent="324" name="description">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>longtext|0s</StoredType>
     </column>
-    <column id="380" parent="325" name="mission">
+    <column id="380" parent="324" name="mission">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>longtext|0s</StoredType>
     </column>
-    <column id="381" parent="325" name="salaire">
+    <column id="381" parent="324" name="salaire">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>decimal(6,2 digit)|0s</StoredType>
     </column>
-    <column id="382" parent="325" name="type_offre">
+    <column id="382" parent="324" name="type_offre">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StoredType>varchar(150)|0s</StoredType>
     </column>
-    <column id="383" parent="325" name="etat">
+    <column id="383" parent="324" name="etat">
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StoredType>tinyint(1)|0s</StoredType>
     </column>
-    <column id="384" parent="325" name="ref_entreprise">
+    <column id="384" parent="324" name="ref_entreprise">
       <NotNull>1</NotNull>
       <Position>8</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <foreign-key id="385" parent="325" name="fk_entrepriseOffre">
+    <foreign-key id="385" parent="324" name="fk_entrepriseOffre">
       <ColNames>ref_entreprise</ColNames>
-      <OnDelete>cascade</OnDelete>
-      <OnUpdate>cascade</OnUpdate>
       <RefColNames>id_entreprise</RefColNames>
       <RefTableName>entreprise</RefTableName>
     </foreign-key>
-    <index id="386" parent="325" name="PRIMARY">
+    <index id="386" parent="324" name="PRIMARY">
       <ColNames>id_offre</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="387" parent="325" name="fk_entrepriseOffre">
+    <index id="387" parent="324" name="fk_entrepriseOffre">
       <ColNames>ref_entreprise</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="388" parent="325" name="PRIMARY">
+    <key id="388" parent="324" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="389" parent="326" name="id_oU">
+    <column id="389" parent="325" name="id_oU">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="390" parent="326" name="ref_offre">
+    <column id="390" parent="325" name="ref_offre">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="391" parent="326" name="ref_utilisateur">
+    <column id="391" parent="325" name="ref_utilisateur">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <foreign-key id="392" parent="326" name="fk_offreOffreUtilisateur">
+    <foreign-key id="392" parent="325" name="fk_offreOffreUtilisateur">
       <ColNames>ref_offre</ColNames>
-      <OnDelete>cascade</OnDelete>
-      <OnUpdate>cascade</OnUpdate>
       <RefColNames>id_offre</RefColNames>
       <RefTableName>offre</RefTableName>
     </foreign-key>
-    <foreign-key id="393" parent="326" name="fk_utilisateurOffreUtilisateur">
+    <foreign-key id="393" parent="325" name="fk_utilisateurOffreUtilisateur">
       <ColNames>ref_utilisateur</ColNames>
-      <OnDelete>cascade</OnDelete>
-      <OnUpdate>cascade</OnUpdate>
       <RefColNames>id_utilisateur</RefColNames>
       <RefTableName>utilisateur</RefTableName>
     </foreign-key>
-    <index id="394" parent="326" name="PRIMARY">
+    <index id="394" parent="325" name="PRIMARY">
       <ColNames>id_oU</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="395" parent="326" name="fk_offreOffreUtilisateur">
+    <index id="395" parent="325" name="fk_offreOffreUtilisateur">
       <ColNames>ref_offre</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="396" parent="326" name="fk_utilisateurOffreUtilisateur">
+    <index id="396" parent="325" name="fk_utilisateurOffreUtilisateur">
       <ColNames>ref_utilisateur</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="397" parent="326" name="PRIMARY">
+    <key id="397" parent="325" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="398" parent="327" name="ref_utilisateur">
+    <column id="398" parent="326" name="ref_utilisateur">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="399" parent="327" name="poste_occupe">
+    <column id="399" parent="326" name="poste_occupe">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(200)|0s</StoredType>
     </column>
-    <column id="400" parent="327" name="motif_inscription">
+    <column id="400" parent="326" name="motif_inscription">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>varchar(500)|0s</StoredType>
     </column>
-    <column id="401" parent="327" name="ref_entreprise">
+    <column id="401" parent="326" name="ref_entreprise">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <foreign-key id="402" parent="327" name="fk_utilisateurPartenaire">
+    <foreign-key id="402" parent="326" name="fk_utilisateurPartenaire">
       <ColNames>ref_utilisateur</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>id_utilisateur</RefColNames>
       <RefTableName>utilisateur</RefTableName>
     </foreign-key>
-    <foreign-key id="403" parent="327" name="fk_entreprisePartenaire">
+    <foreign-key id="403" parent="326" name="fk_entreprisePartenaire">
       <ColNames>ref_entreprise</ColNames>
-      <OnDelete>cascade</OnDelete>
-      <OnUpdate>cascade</OnUpdate>
       <RefColNames>id_entreprise</RefColNames>
       <RefTableName>entreprise</RefTableName>
     </foreign-key>
-    <index id="404" parent="327" name="PRIMARY">
+    <index id="404" parent="326" name="PRIMARY">
       <ColNames>ref_utilisateur</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="405" parent="327" name="fk_entreprisePartenaire">
+    <index id="405" parent="326" name="fk_entreprisePartenaire">
       <ColNames>ref_entreprise</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="406" parent="327" name="PRIMARY">
+    <key id="406" parent="326" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="407" parent="328" name="id_participe">
+    <column id="407" parent="327" name="id_participe">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="408" parent="328" name="est_orga">
+    <column id="408" parent="327" name="est_orga">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>tinyint(1)|0s</StoredType>
     </column>
-    <column id="409" parent="328" name="ref_utilisateur">
+    <column id="409" parent="327" name="ref_utilisateur">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="410" parent="328" name="ref_evenement">
+    <column id="410" parent="327" name="ref_evenement">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <foreign-key id="411" parent="328" name="fk_utilisateurParticipe">
+    <foreign-key id="411" parent="327" name="fk_utilisateurParticipe">
       <ColNames>ref_utilisateur</ColNames>
       <RefColNames>id_utilisateur</RefColNames>
       <RefTableName>utilisateur</RefTableName>
     </foreign-key>
-    <foreign-key id="412" parent="328" name="fk_evenementParticipe">
+    <foreign-key id="412" parent="327" name="fk_evenementParticipe">
       <ColNames>ref_evenement</ColNames>
       <RefColNames>id_evenement</RefColNames>
       <RefTableName>evenement</RefTableName>
     </foreign-key>
-    <index id="413" parent="328" name="PRIMARY">
+    <index id="413" parent="327" name="PRIMARY">
       <ColNames>id_participe</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="414" parent="328" name="fk_utilisateurParticipe">
+    <index id="414" parent="327" name="fk_utilisateurParticipe">
       <ColNames>ref_utilisateur</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="415" parent="328" name="fk_evenementParticipe">
+    <index id="415" parent="327" name="fk_evenementParticipe">
       <ColNames>ref_evenement</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="416" parent="328" name="PRIMARY">
+    <key id="416" parent="327" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="417" parent="329" name="id_post">
+    <column id="417" parent="328" name="id_post">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="418" parent="329" name="contenu">
+    <column id="418" parent="328" name="contenu">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>longtext|0s</StoredType>
     </column>
-    <column id="419" parent="329" name="date_post">
+    <column id="419" parent="328" name="date_post">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>datetime|0s</StoredType>
     </column>
-    <column id="420" parent="329" name="ref_utilisateur">
+    <column id="420" parent="328" name="ref_utilisateur">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="421" parent="329" name="categorie_post">
+    <column id="421" parent="328" name="categorie_post">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>varchar(100)|0s</StoredType>
     </column>
-    <column id="422" parent="329" name="titre">
+    <column id="422" parent="328" name="titre">
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <foreign-key id="423" parent="329" name="fk_postUtilisateur">
+    <foreign-key id="423" parent="328" name="fk_postUtilisateur">
       <ColNames>ref_utilisateur</ColNames>
       <RefColNames>id_utilisateur</RefColNames>
       <RefTableName>utilisateur</RefTableName>
     </foreign-key>
-    <index id="424" parent="329" name="PRIMARY">
+    <index id="424" parent="328" name="PRIMARY">
       <ColNames>id_post</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="425" parent="329" name="fk_postUtilisateur">
+    <index id="425" parent="328" name="fk_postUtilisateur">
       <ColNames>ref_utilisateur</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="426" parent="329" name="PRIMARY">
+    <key id="426" parent="328" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="427" parent="330" name="ref_utilisateur">
+    <column id="427" parent="329" name="ref_utilisateur">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="428" parent="330" name="specialite">
+    <column id="428" parent="329" name="specialite">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(200)|0s</StoredType>
     </column>
-    <foreign-key id="429" parent="330" name="fk_utilisateurProfesseur">
+    <foreign-key id="429" parent="329" name="fk_utilisateurProfesseur">
       <ColNames>ref_utilisateur</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>id_utilisateur</RefColNames>
       <RefTableName>utilisateur</RefTableName>
     </foreign-key>
-    <index id="430" parent="330" name="PRIMARY">
+    <index id="430" parent="329" name="PRIMARY">
       <ColNames>ref_utilisateur</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="431" parent="330" name="PRIMARY">
+    <key id="431" parent="329" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="432" parent="331" name="id_pF">
+    <column id="432" parent="330" name="id_pF">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="433" parent="331" name="ref_professeur">
+    <column id="433" parent="330" name="ref_professeur">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="434" parent="331" name="ref_formation">
+    <column id="434" parent="330" name="ref_formation">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <foreign-key id="435" parent="331" name="fk_professeurProfesseurFormation">
+    <foreign-key id="435" parent="330" name="fk_professeurProfesseurFormation">
       <ColNames>ref_professeur</ColNames>
       <RefColNames>ref_utilisateur</RefColNames>
       <RefTableName>professeur</RefTableName>
     </foreign-key>
-    <foreign-key id="436" parent="331" name="fk_formationProfesseurFormation">
+    <foreign-key id="436" parent="330" name="fk_formationProfesseurFormation">
       <ColNames>ref_formation</ColNames>
       <RefColNames>id_formation</RefColNames>
       <RefTableName>formation</RefTableName>
     </foreign-key>
-    <index id="437" parent="331" name="PRIMARY">
+    <index id="437" parent="330" name="PRIMARY">
       <ColNames>id_pF</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="438" parent="331" name="fk_professeurProfesseurFormation">
+    <index id="438" parent="330" name="fk_professeurProfesseurFormation">
       <ColNames>ref_professeur</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="439" parent="331" name="fk_formationProfesseurFormation">
+    <index id="439" parent="330" name="fk_formationProfesseurFormation">
       <ColNames>ref_formation</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="440" parent="331" name="PRIMARY">
+    <key id="440" parent="330" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="441" parent="332" name="id_promotion">
+    <column id="441" parent="331" name="id_promotion">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="442" parent="332" name="annee">
+    <column id="442" parent="331" name="annee">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(9)|0s</StoredType>
     </column>
-    <index id="443" parent="332" name="PRIMARY">
+    <index id="443" parent="331" name="PRIMARY">
       <ColNames>id_promotion</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="444" parent="332" name="PRIMARY">
+    <key id="444" parent="331" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="445" parent="333" name="id_reponse">
+    <column id="445" parent="332" name="id_reponse">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="446" parent="333" name="contenu">
+    <column id="446" parent="332" name="contenu">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>longtext|0s</StoredType>
     </column>
-    <column id="447" parent="333" name="datetime_reponse">
+    <column id="447" parent="332" name="datetime_reponse">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>datetime|0s</StoredType>
     </column>
-    <column id="448" parent="333" name="ref_utilisateur">
+    <column id="448" parent="332" name="ref_utilisateur">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="449" parent="333" name="ref_post">
+    <column id="449" parent="332" name="ref_post">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <foreign-key id="450" parent="333" name="fk_utilisateurPost">
+    <foreign-key id="450" parent="332" name="fk_utilisateurPost">
       <ColNames>ref_utilisateur</ColNames>
       <RefColNames>id_utilisateur</RefColNames>
       <RefTableName>utilisateur</RefTableName>
     </foreign-key>
-    <foreign-key id="451" parent="333" name="fk_reponsePost">
+    <foreign-key id="451" parent="332" name="fk_reponsePost">
       <ColNames>ref_post</ColNames>
       <RefColNames>id_post</RefColNames>
       <RefTableName>post</RefTableName>
     </foreign-key>
-    <index id="452" parent="333" name="PRIMARY">
+    <index id="452" parent="332" name="PRIMARY">
       <ColNames>id_reponse</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="453" parent="333" name="fk_utilisateurPost">
+    <index id="453" parent="332" name="fk_utilisateurPost">
       <ColNames>ref_utilisateur</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="454" parent="333" name="fk_reponsePost">
+    <index id="454" parent="332" name="fk_reponsePost">
       <ColNames>ref_post</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="455" parent="333" name="PRIMARY">
+    <key id="455" parent="332" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="456" parent="334" name="id_signalement">
+    <column id="456" parent="333" name="id_signalement">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="457" parent="334" name="date">
+    <column id="457" parent="333" name="date">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>datetime|0s</StoredType>
     </column>
-    <column id="458" parent="334" name="ref_signalant">
+    <column id="458" parent="333" name="ref_signalant">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="459" parent="334" name="ref_signale">
+    <column id="459" parent="333" name="ref_signale">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="460" parent="334" name="titre">
+    <column id="460" parent="333" name="titre">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <column id="461" parent="334" name="contenu">
+    <column id="461" parent="333" name="contenu">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <foreign-key id="462" parent="334" name="fk_utilisateurSignalant">
+    <foreign-key id="462" parent="333" name="fk_utilisateurSignalant">
       <ColNames>ref_signalant</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>id_utilisateur</RefColNames>
       <RefTableName>utilisateur</RefTableName>
     </foreign-key>
-    <foreign-key id="463" parent="334" name="fk_utilisateurSignale">
+    <foreign-key id="463" parent="333" name="fk_utilisateurSignale">
       <ColNames>ref_signale</ColNames>
       <RefColNames>id_utilisateur</RefColNames>
       <RefTableName>utilisateur</RefTableName>
     </foreign-key>
-    <index id="464" parent="334" name="PRIMARY">
+    <index id="464" parent="333" name="PRIMARY">
       <ColNames>id_signalement</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="465" parent="334" name="fk_utilisateurSignalant">
+    <index id="465" parent="333" name="fk_utilisateurSignalant">
       <ColNames>ref_signalant</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="466" parent="334" name="fk_utilisateurSignale">
+    <index id="466" parent="333" name="fk_utilisateurSignale">
       <ColNames>ref_signale</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="467" parent="334" name="PRIMARY">
+    <key id="467" parent="333" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="468" parent="335" name="id_utilisateur">
+    <column id="468" parent="334" name="id_utilisateur">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="469" parent="335" name="nom">
+    <column id="469" parent="334" name="nom">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(100)|0s</StoredType>
     </column>
-    <column id="470" parent="335" name="prenom">
+    <column id="470" parent="334" name="prenom">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>varchar(100)|0s</StoredType>
     </column>
-    <column id="471" parent="335" name="email">
+    <column id="471" parent="334" name="email">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>varchar(150)|0s</StoredType>
     </column>
-    <column id="472" parent="335" name="mdp">
+    <column id="472" parent="334" name="mdp">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>varchar(256)|0s</StoredType>
     </column>
-    <column id="473" parent="335" name="date_inscription">
+    <column id="473" parent="334" name="date_inscription">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StoredType>date|0s</StoredType>
     </column>
-    <column id="474" parent="335" name="statut_validation">
+    <column id="474" parent="334" name="statut_validation">
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StoredType>varchar(50)|0s</StoredType>
     </column>
-    <index id="475" parent="335" name="PRIMARY">
+    <index id="475" parent="334" name="PRIMARY">
       <ColNames>id_utilisateur</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="476" parent="335" name="PRIMARY">
+    <key id="476" parent="334" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="477" parent="336" name="id_utilisateur">
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-      <StoredType>int|0s</StoredType>
-    </column>
-    <column id="478" parent="336" name="nom">
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-      <StoredType>varchar(100)|0s</StoredType>
-    </column>
-    <column id="479" parent="336" name="prenom">
-      <NotNull>1</NotNull>
-      <Position>3</Position>
-      <StoredType>varchar(100)|0s</StoredType>
-    </column>
-    <column id="480" parent="336" name="email">
-      <NotNull>1</NotNull>
-      <Position>4</Position>
-      <StoredType>varchar(150)|0s</StoredType>
-    </column>
-    <column id="481" parent="336" name="mdp">
-      <NotNull>1</NotNull>
-      <Position>5</Position>
-      <StoredType>varchar(256)|0s</StoredType>
-    </column>
-    <column id="482" parent="336" name="date_inscription">
-      <NotNull>1</NotNull>
-      <Position>6</Position>
-      <StoredType>date|0s</StoredType>
-    </column>
-    <column id="483" parent="336" name="statut_validation">
-      <NotNull>1</NotNull>
-      <Position>7</Position>
-      <StoredType>varchar(50)|0s</StoredType>
-    </column>
-    <column id="484" parent="336" name="alumni">
-      <NotNull>1</NotNull>
-      <Position>8</Position>
-      <StoredType>varchar(10)|0s</StoredType>
-    </column>
   </database-model>
 </dataSource>

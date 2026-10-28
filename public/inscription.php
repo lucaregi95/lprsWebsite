@@ -61,8 +61,7 @@ $formations = $repFormation -> getAllFormations();
                     </a>
                 </li>
             </ul>
-            <a class="nav-link" href="inscription.php">Inscription --</a>
-            <a class="nav-link" href="connexion.php">-- Connexion</a>
+
         </div>
     </div>
 </nav>
@@ -75,7 +74,7 @@ $formations = $repFormation -> getAllFormations();
                     <h4 class="fw-bold text-center">Inscription</h4>
                     <p class="muted small-t text-center">Renseigne tes informations.</p>
 
-                            <form method="POST" action="inscription2.php">
+                    <form method="POST" action="inscription2.php">
                         <div class="mb-3">
                             <label class="form-label small-t">
                                 Prénom
@@ -124,39 +123,32 @@ $formations = $repFormation -> getAllFormations();
                                 <label class="form-label small-t">
                                     Formation
                                 </label>
-                                <select class="form-select form-select-sm">
-                                    <option>
-                                        BUT Informatique
-                                    </option>
-                                    <option>
-                                        Master MIAGE
-                                    </option>
-                                    <option>
-                                        Licence Droit
-                                    </option>
+                                <select class="form-select form-select-sm" name="ref_formation" id="ref_formation">
+                                    <?php foreach ($formations as $formation) {?>
+                                        <option value="<?=$formation->getIdFormation()?>">
+                                            <?=$formation->getNomFormation()?>
+                                        </option>
+                                    <?php }?>
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small-t">
                                     Promotion
                                 </label>
-                                <select class="form-select form-select-sm">
-                                    <option>
-                                        2027
-                                    </option>
-                                    <option>
-                                        2026
-                                    </option>
-                                    <option>
-                                        2025
-                                    </option>
+                                <select class="form-select form-select-sm" name="ref_promotion" id="ref_promotion">
+                                    <?php foreach ($promotions as $promotion) {?>
+                                        <option value="<?=$promotion->getIdPromotion()?>">
+                                            <?=$promotion->getAnnee()?>
+                                        </option>
+                                    <?php }?>
+
                                 </select>
                             </div>
                             <div class="col-12">
                                 <label class="form-label small-t">
                                     CV
                                 </label>
-                                <input class="form-control form-control-sm" type="file"/>
+                                <input class="form-control form-control-sm" type="file" name="cv_etudiant" id="cv_etudiant"/>
                             </div>
                         </div>
                         <div class="type-grp row g-3 mb-3" data-type="alumni" hidden="">
@@ -170,16 +162,13 @@ $formations = $repFormation -> getAllFormations();
                                 <label class="form-label small-t">
                                     Promotion
                                 </label>
-                                <select class="form-select form-select-sm" id="ref_promotion" name="ref_promotion">
-                                    <option value="1">
-                                        TEST
-                                    </option>
-                                    <option>
-                                        2026
-                                    </option>
-                                    <option>
-                                        2025
-                                    </option>
+                                <select class="form-select form-select-sm" name="ref_promotion" id="ref_promotion">
+                                    <?php foreach ($promotions as $promotion) {?>
+                                        <option value="<?=$promotion->getIdPromotion()?>">
+                                            <?=$promotion->getAnnee()?>
+                                        </option>
+                                    <?php }?>
+
                                 </select>
                             </div>
                             <div class="col-md-6">
@@ -187,15 +176,11 @@ $formations = $repFormation -> getAllFormations();
                                     Entreprise
                                 </label>
                                 <select class="form-select form-select-sm" name="ref_entreprise" id="ref_entreprise">
-                                    <option value="1">
-                                        TEST
-                                    </option>
-                                    <option>
-                                        Studio Nord
-                                    </option>
-                                    <option>
-                                        DataCorp
-                                    </option>
+                                    <?php foreach ($entreprises as $entreprise) {?>
+                                        <option value="<?=$entreprise->getidEntreprise()?>">
+                                            <?=$entreprise->getNomEntreprise()?>
+                                        </option>
+                                    <?php }?>
                                 </select>
                             </div>
                             <div class="col-12">
@@ -210,29 +195,25 @@ $formations = $repFormation -> getAllFormations();
                                 <label class="form-label small-t">
                                     Poste occupé
                                 </label>
-                                <input class="form-control form-control-sm" type="text" value=""/>
+                                <input class="form-control form-control-sm" type="text" value="" name="poste_occupe" id="poste_occupe"/>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small-t">
                                     Entreprise
                                 </label>
-                                <select class="form-select form-select-sm">
-                                    <option>
-                                        Agence Lumière
-                                    </option>
-                                    <option>
-                                        Studio Nord
-                                    </option>
-                                    <option>
-                                        DataCorp
-                                    </option>
+                                <select class="form-select form-select-sm" id="ref_entreprise" name="ref_entreprise">
+                                    <?php foreach ($entreprises as $entreprise) {?>
+                                        <option value="<?=$entreprise->getidEntreprise()?>">
+                                            <?=$entreprise->getNomEntreprise()?>
+                                        </option>
+                                    <?php }?>
                                 </select>
                             </div>
                             <div class="col-12">
                                 <label class="form-label small-t">
                                     Motif d'inscription
                                 </label>
-                                <input class="form-control form-control-sm" type="text" value=""/>
+                                <input class="form-control form-control-sm" type="text" value="" name="motif_inscription" id="motif_inscription"/>
                             </div>
                         </div>
                         <div class="type-grp row g-3 mb-3" data-type="professeur" hidden="">
@@ -271,8 +252,8 @@ $formations = $repFormation -> getAllFormations();
                                 </select>
                             </div>
                         </div>
-                                <input type="hidden" name="date_inscription" id="date_inscription" value="2026-10-10"/>
-                                <input type="hidden" name="statut_validation" id="statut_validation" value="en attente"/>
+                        <input type="hidden" name="date_inscription" id="date_inscription" value="2026-10-10"/>
+                        <input type="hidden" name="statut_validation" id="statut_validation" value="en attente"/>
                         <p class="muted small-t">
                             Ton compte sera vérifié (statut : en attente) avant validation.
                         </p>
@@ -288,8 +269,9 @@ $formations = $repFormation -> getAllFormations();
 
                     <p class="small-t text-center mt-3 mb-0">
                         Déjà inscrit ?
-                    </p>
                         <a href="connexion.php">Connexion</a>
+                    </p>
+
                 </div>
             </div>
         </div>
