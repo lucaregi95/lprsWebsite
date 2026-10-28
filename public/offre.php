@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once "../bdd/bdd.php";
 require_once "../src/model/Offre.php";
 require_once "../src/repository/OffreRepository.php";
@@ -57,12 +58,21 @@ function h($v)
                     </a>
                 </li>
             </ul>
-            <a class="nav-link" href="inscription.php">Inscription/</a>
-            <a class="nav-link" href="connexion.php">Connexion</a>
-            <!--            <a class="text-decoration-none text-dark d-flex align-items-center gap-2" href="profil.php">-->
-            <!--                <span class="avatar">NK</span>-->
-            <!--                <span class="small">Nassim K. <i class="bi bi-chevron-down"></i></span>-->
-            <!--            </a>-->
+            <?php if(isset($_SESSION["id_utilisateur"])){ ?>
+                <div class="dropdown">
+                    <a class="text-decoration-none text-dark d-flex align-items-center gap-2" href="#" data-bs-toggle="dropdown">
+                        <span class="avatar"><?php echo $_SESSION["prenom"][0].$_SESSION["nom"][0] ?></span>
+                        <span class="small"><?php echo $_SESSION["prenom"]." ".$_SESSION["nom"]." " ?><i class="bi bi-chevron-down"></i></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="profil.php">Profil</a></li>
+                        <li><a class="dropdown-item" href="deconnexion.php">Déconnexion</a></li>
+                    </ul>
+                </div>
+            <?php }else{ ?>
+                <a class="nav-link" href="inscription.php">Inscription/</a>
+                <a class="nav-link" href="connexion.php">Connexion</a>
+            <?php } ?>
         </div>
     </div>
 </nav>
