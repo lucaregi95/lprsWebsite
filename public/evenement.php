@@ -3,13 +3,21 @@ session_start();
 require_once "../bdd/bdd.php";
 require_once "../src/model/Evenement.php";
 require_once "../src/repository/EvenementRepository.php";
+require_once "../src/model/Participe.php";
+require_once "../src/repository/ParticipeRepository.php";
 
 $eventRepository = new EvenementRepository();
 $evenements = $eventRepository->getAllEvenements();
 $inscrits = $eventRepository->getNbInscritsParEvenement();
 
+$participeRepository = new ParticipeRepository();
+$participes = $participeRepository->getAllParticipes();
 
-$vueRole="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=".$_SESSION['id_utilisateur'];
+
+$idUser=$_SESSION['id_utilisateur'];
+$vueRole="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=:idUser";
+
+
 
 ?>
 <!DOCTYPE html>
@@ -240,13 +248,12 @@ $vueRole="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=".$_SESSIO
                                     <div class="mb-3">
                                         <p class="muted small-t my-2"><?= ($evenement->getDateEvenement()) ?></p>
                                     </div>
-
                                     <?php if ($complet): ?>
                                         <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
                                                 data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
                                             Aperçu
                                         </button>
-                                        <?php else: ?>
+                                    <?php else: ?>
                                         <form method="POST" action="../src/traitement/newParticipe.php">
                                             <input type="hidden" name="ref_utilisateur" value="<?= $_SESSION['id_utilisateur'] ?>">
                                             <input type="hidden" name="ref_evenement" value="<?=$evenement->getIdEvenement()?>() ?>">
@@ -320,7 +327,13 @@ $vueRole="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=".$_SESSIO
                                         </button>
                                     </form>
                                     <?php if (!$complet): ?>
-                                        <a href="#" class="btn btn-primary">S'inscrire</a>
+                                        <form method="POST" action="../src/traitement/newParticipe.php">
+                                            <input type="hidden" name="ref_utilisateur" value="<?= $_SESSION['id_utilisateur'] ?>">
+                                            <input type="hidden" name="ref_evenement" value="<?=$evenement->getIdEvenement()?>() ?>">
+                                            <button class="btn btn-primary btn-sm mt-2 ">
+                                                S'inscrire
+                                            </button>
+                                        </form>
                                     <?php endif; ?>
                                 </div>
                             </div>
