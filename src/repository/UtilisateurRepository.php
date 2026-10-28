@@ -26,22 +26,6 @@ class UtilisateurRepository{
         return $result;
     }
 
-
-//    public function getAllUtilisateurs() {
-//        $sql = "SELECT * FROM utilisateur";
-//        $req = $this->connexionbdd->prepare($sql);
-//        $req->execute();
-//        $results = $req->fetchAll();
-//        $tabUtilisateur = array();
-//        foreach ($results as $result) {
-//            $tabUtilisateur[] = new Utilisateur($result["id_acteur"],$result["nom"],$result["prenom"],$result["email"], $result["mdp"],$result["date_naissance"],$result["tel"],$result["rue"],$result["ville"],$result["cp"],$result["role"],$result["etat"]);
-//        }
-//        return $tabUtilisateur;
-//    }
-
-    //Utilisateur est abract donc pas d'instanciation
-
-
     public function ajoutUtilisateur(Utilisateur $utilisateur){
         $sql="INSERT INTO utilisateur(nom,prenom,email,mdp,date_inscription,statut_validation) VALUES (:nom,:prenom,:email,:mdp,:date_inscription,:statut_validation)";
         $req = $this->connexionbdd->prepare($sql);

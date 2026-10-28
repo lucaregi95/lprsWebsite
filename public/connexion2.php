@@ -25,7 +25,6 @@ if (!$result) {
 } else {
     if (password_verify($mdp, $result["mdp"])) {
         if($result["statut_validation"]=="en attente"){
-            var_dump($result);
             header("Location: connexion.php?erreur=attente");
         }else{
         session_start();
