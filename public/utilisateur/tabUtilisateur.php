@@ -56,7 +56,7 @@ $professeurs = $professeurRepository->getAllProfesseurs();
     <?php } ?>
     </tbody>
 </table>
-<a href="ajouterEntreprise.php">Ajouter un utilisateur</a><br>
+<a href="../inscription.php">Ajouter un utilisateur</a><br>
 <button type="button" onclick="location.href='../accueil.html'">Retour à l'accueil</button>
 </body>
 </html>

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="dataSourceStorageLocal" created-in="PS-251.25410.148">
+  <component name="dataSourceStorageLocal" created-in="PS-252.28238.9">
     <data-source name="lprs@localhost" uuid="19028178-9c80-499f-b7d7-8c1f342aab10">
-      <database-info product="MySQL" version="9.1.0" jdbc-version="4.2" driver-name="MySQL Connector/J" driver-version="mysql-connector-j-9.7.0 (Revision: 0aade1f13bcc98faf7dda5c02e782481eb291f62)" dbms="MYSQL" exact-version="9.1.0" exact-driver-version="9.7">
-        <extra-name-characters>$</extra-name-characters>
+      <database-info product="MySQL" version="8.4.7" jdbc-version="4.2" driver-name="MySQL Connector/J" driver-version="mysql-connector-j-8.1.0 (Revision: 7b6f9a337afe6ccb41823df485bf848ca7952b09)" dbms="MYSQL" exact-version="8.4.7" exact-driver-version="8.1">
+        <extra-name-characters>#@</extra-name-characters>
         <identifier-quote-string>`</identifier-quote-string>
-        <jdbc-catalog-is-schema>true</jdbc-catalog-is-schema>
       </database-info>
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower" />
       <user-name>root</user-name>
