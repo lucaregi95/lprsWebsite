@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . "/../../bdd/bdd.php";
+
 class EntrepriseRepository{
 
     private $connexionBdd;
@@ -17,16 +19,16 @@ class EntrepriseRepository{
         return $entreprise;
     }
 
-    public function getEntreprises(){
+    public function getAllEntreprises(){
         $sql = "SELECT * FROM entreprise";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
-        $entreprises = array();
+        $tabEntreprise = array();
         foreach ($result as $results) {
-            $entreprises[] = new Entreprise($results["id_entreprise"],$results["adresse"],$results['nom_entreprise'],$results['site_web']);
+            $tabEntreprise[] = new Entreprise($results["id_entreprise"],$results["adresse"],$results['nom_entreprise'],$results['site_web']);
         }
-        return $entreprises;
+        return $tabEntreprise;
     }
 
 
