@@ -32,10 +32,16 @@ session_start();
 
 
             <?php if(isset($_SESSION["id_utilisateur"])){ ?>
-            <a class="text-decoration-none text-dark d-flex align-items-center gap-2" href="deconnexion.php">
-                <span class="avatar"><?php echo $_SESSION["prenom"][0].$_SESSION["nom"][0] ?></span>
-                <span class="small"><?php echo $_SESSION["prenom"]." ".$_SESSION["nom"]." "?><i class="bi bi-chevron-down"></i></span>
-           </a>
+                <div class="dropdown">
+                    <a class="text-decoration-none text-dark d-flex align-items-center gap-2" href="#" data-bs-toggle="dropdown">
+                        <span class="avatar"><?php echo $_SESSION["prenom"][0].$_SESSION["nom"][0] ?></span>
+                        <span class="small"><?php echo $_SESSION["prenom"]." ".$_SESSION["nom"]." " ?><i class="bi bi-chevron-down"></i></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="profil.php">Profil</a></li>
+                        <li><a class="dropdown-item" href="deconnexion.php">Déconnexion</a></li>
+                    </ul>
+                </div>
             <?php }else{ ?>
                 <a class="nav-link" href="inscription.php">Inscription/</a>
                 <a class="nav-link" href="connexion.php">Connexion</a>
@@ -47,7 +53,12 @@ session_start();
 <header class="hero">
     <div class="container">
         <div class="eyebrow">LPRS · Accueil</div>
-        <h1>Bonjour Nassim, bienvenue chez toi.</h1>
+        <?php if(isset($_SESSION["id_utilisateur"])){?>
+        <h1>Bonjour <?=$_SESSION["prenom"]?>, bienvenue sur ton espace LPRS.</h1>
+        <?php }else{ ?>
+        <h1>Créer votre compte ou connectez vous pour accéder a votre espace LPRS</h1>
+        <?php }?>
+
         <p>Étudiants, alumni, professeurs et entreprises réunis dans un même espace.</p>
     </div>
 </header>
