@@ -79,7 +79,7 @@ $formations = $repFormation -> getAllFormations();
                             <label class="form-label small-t">
                                 Prénom
                             </label>
-                            <input class="form-control form-control-sm" type="text" value="" name="prenom" id="prenom" required/>
+                            <input class="form-control form-control-sm" type="text" value="" name="prenom" id="prenom" />
                         </div>
                         <div class="mb-3">
                             <label class="form-label small-t">
@@ -123,7 +123,7 @@ $formations = $repFormation -> getAllFormations();
                                 <label class="form-label small-t">
                                     Formation
                                 </label>
-                                <select class="form-select form-select-sm" name="ref_formation" id="ref_formation" required>
+                                <select class="form-select form-select-sm" name="ref_formation" id="ref_formation" >
                                     <?php foreach ($formations as $formation) {?>
                                         <option value="<?=$formation->getIdFormation()?>">
                                             <?=$formation->getNomFormation()?>
@@ -135,7 +135,7 @@ $formations = $repFormation -> getAllFormations();
                                 <label class="form-label small-t">
                                     Promotion
                                 </label>
-                                <select class="form-select form-select-sm" name="ref_promotion" id="ref_promotion" required>
+                                <select class="form-select form-select-sm" name="ref_promotion" id="ref_promotion" >
                                     <?php foreach ($promotions as $promotion) {?>
                                         <option value="<?=$promotion->getIdPromotion()?>">
                                             <?=$promotion->getAnnee()?>
@@ -162,7 +162,7 @@ $formations = $repFormation -> getAllFormations();
                                 <label class="form-label small-t">
                                     Promotion
                                 </label>
-                                <select class="form-select form-select-sm" name="ref_promotion" id="ref_promotion" required>
+                                <select class="form-select form-select-sm" name="ref_promotion" id="ref_promotion" >
                                     <?php foreach ($promotions as $promotion) {?>
                                         <option value="<?=$promotion->getIdPromotion()?>">
                                             <?=$promotion->getAnnee()?>
@@ -175,7 +175,7 @@ $formations = $repFormation -> getAllFormations();
                                 <label class="form-label small-t">
                                     Entreprise
                                 </label>
-                                <select class="form-select form-select-sm" name="ref_entreprise" id="ref_entreprise" required>
+                                <select class="form-select form-select-sm" name="ref_entreprise" id="ref_entreprise" >
                                     <?php foreach ($entreprises as $entreprise) {?>
                                         <option value="<?=$entreprise->getidEntreprise()?>">
                                             <?=$entreprise->getNomEntreprise()?>
@@ -195,13 +195,13 @@ $formations = $repFormation -> getAllFormations();
                                 <label class="form-label small-t">
                                     Poste occupé
                                 </label>
-                                <input class="form-control form-control-sm" type="text" value="" name="poste_occupe" id="poste_occupe" required/>
+                                <input class="form-control form-control-sm" type="text" value="" name="poste_occupe" id="poste_occupe" />
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small-t">
                                     Entreprise
                                 </label>
-                                <select class="form-select form-select-sm" id="ref_entreprise" name="ref_entreprise" required>
+                                <select class="form-select form-select-sm" id="ref_entreprise" name="ref_entreprise" >
                                     <?php foreach ($entreprises as $entreprise) {?>
                                         <option value="<?=$entreprise->getidEntreprise()?>">
                                             <?=$entreprise->getNomEntreprise()?>
@@ -221,13 +221,13 @@ $formations = $repFormation -> getAllFormations();
                                 <label class="form-label small-t">
                                     Spécialité
                                 </label>
-                                <input class="form-control form-control-sm" type="text" value="" required/>
+                                <input class="form-control form-control-sm" type="text" value="" />
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small-t">
                                     Formation enseignée
                                 </label>
-                                <select class="form-control" id="classe" name="ref_classe" required>
+                                <select class="form-control" id="classe" name="ref_classe" >
 
 
                                     <optgroup label="Lycée Professionnel">
@@ -252,7 +252,7 @@ $formations = $repFormation -> getAllFormations();
                                 </select>
                             </div>
                         </div>
-                        <input type="hidden" name="date_inscription" id="date_inscription" value="<?php echo date("Y-m-d");?>"/>
+                        <input type="hidden" name="date_inscription" id="date_inscription" value="2026-12-12"/>
                         <input type="hidden" name="statut_validation" id="statut_validation" value="en attente"/>
                         <p class="muted small-t">
                             Ton compte sera vérifié (statut : en attente) avant validation.
