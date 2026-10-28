@@ -25,8 +25,6 @@ session_start();
                 <li class="nav-item"><a class="nav-link active" href="accueil.php">Accueil</a></li>
                 <li class="nav-item"><a class="nav-link" href="evenement.php">Évènement</a></li>
                 <li class="nav-item"><a class="nav-link" href="offre.php">Offre</a></li>
-                <li class="nav-item"><a class="nav-link" href="alumni.php">Alumni</a></li>
-                <li class="nav-item"><a class="nav-link" href="entreprise.php">Entreprises</a></li>
                 <li class="nav-item"><a class="nav-link" href="forum.php">Forum</a></li>
                 <?php if(isset($_SESSION['statut_validation']) && $_SESSION['statut_validation'] == 'admin') { ?>
                 <li class="nav-item"><a class="nav-link" href="admin.php">Administration</a></li>

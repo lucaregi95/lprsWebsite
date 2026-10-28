@@ -1,6 +1,14 @@
 <?php
-var_dump($_POST['type']);
+
 require_once "../src/model/Utilisateur.php";
+require_once "../src/repository/UtilisateurRepository.php";
+$rep = new UtilisateurRepository();
+$userVerif=$rep->getUtilisateurParEmail($_POST["email"]);
+if($userVerif!=null){
+    header("Location: inscription.php?erreur=email");
+    exit;
+}else{
+
 if(isset($_POST['type'])){
     switch ($_POST['type']) {
         case 'etudiant':
@@ -59,7 +67,7 @@ if(isset($_POST['type'])){
             }
             break;
     }
-}
+}}
 
 
 

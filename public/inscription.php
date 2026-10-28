@@ -14,6 +14,15 @@ require_once "../src/model/Formation.php";
 require_once "../src/repository/FormationRepository.php";
 $repFormation = new FormationRepository();
 $formations = $repFormation -> getAllFormations();
+
+$erreur="";
+if(isset($_GET['erreur'])){
+if ($_GET['erreur']=='email'){
+    $erreur="L'adresse email est déjà utilisée";
+}
+
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -51,7 +60,7 @@ $formations = $repFormation -> getAllFormations();
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="offre.php">
+                    <a class="nav-link" href="offre.php">
                         Offre
                     </a>
                 </li>
@@ -61,6 +70,8 @@ $formations = $repFormation -> getAllFormations();
                     </a>
                 </li>
             </ul>
+            <a class="nav-link active" href="inscription.php">Inscription/</a>
+            <a class="nav-link" href="connexion.php">Connexion</a>
 
         </div>
     </div>
@@ -260,8 +271,9 @@ $formations = $repFormation -> getAllFormations();
                         <div class="form-check small-t mb-3">
                             <input class="form-check-input" type="checkbox"/>
                             J'accepte les <a href="condition_utilisation.html">conditions d’utilisation</a>
-                        <!--                    mettre le lien-->
-                </div>
+
+                        </div>
+                        <h6 class="text-danger"><?=$erreur?></h6>
                         <button class="btn btn-primary w-100" type="submit">
                             Créer mon compte
                         </button>
