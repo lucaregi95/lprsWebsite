@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../bdd/bdd.php";
+require_once __DIR__ . "/../model/Reponse.php";
 class ReponseRepository{
 
     private $connexionBdd;
@@ -26,15 +27,14 @@ class ReponseRepository{
         $results = $req->fetchAll();
         $tabReponse = array();
         foreach($results as $result){
-            $tabReponse[] = new Reponse($result['$id_reponse'],$result['contenu'],$result['datetime_reponse'],$result['ref_post'],$result['ref_utilisateur']);
+            $tabReponse[] = new Reponse($result['id_reponse'],$result['contenu'],$result['datetime_reponse'],$result['ref_post'],$result['ref_utilisateur']);
         }
         return $tabReponse;
     }
 
     public function ajouterReponse(Reponse $id_reponse){
-        $sql = "INSERT INTO reponse (contenu,date_reponse,ref_utilisateur,ref_post) VALUES (:contenu,:date_reponse,:ref_utilisateur,:ref_post)";
+        $sql = "INSERT INTO reponse (contenu,datetime_reponse,ref_utilisateur,ref_post) VALUES (:contenu,:datetime_reponse,:ref_utilisateur,:ref_post)";
         $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':$id_reponse', $id_reponse->getIdReponse());
         $req->bindValue(':contenu', $id_reponse->getContenu());
         $req->bindValue(':datetime_reponse', $id_reponse->getDatetimeReponse());
         $req->bindValue(':ref_post', $id_reponse->getRefPost());
@@ -45,16 +45,16 @@ class ReponseRepository{
     public function supprimerReponse($id_reponse){
         $sql = "DELETE FROM reponse WHERE id_reponse = :id_reponse";
         $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':$id_reponse', $id_reponse);
+        $req->bindValue(':id_reponse', $id_reponse);
         $req->execute();
     }
 
     public function modifierReponse(Reponse $reponse){
         $sql = "UPDATE reponse SET contenu=:contenu,datetime_reponse=:datetime_reponse WHERE id_reponse=:id_reponse";
         $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':$id_reponse', $reponse->getIdReponse());
+        $req->bindValue(':id_reponse', $reponse->getIdReponse());
         $req->bindValue(':contenu', $reponse->getContenu());
-        $req->bindValue(':date_reponse', $reponse->getDatetimeReponse());
+        $req->bindValue(':datetime_reponse', $reponse->getDatetimeReponse());
         $req -> execute();
     }
 
