@@ -1,6 +1,6 @@
 <?php
 
-ini_set('display_errors', 1);
+ini_set('display_errors', 5);
 error_reporting(E_ALL);
 
 $bdd = null;
@@ -27,7 +27,7 @@ if(isset($_GET['page'])){
 }
 $inscription="Pas de compte ? Inscrivez-vous";
 ?>
-?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

@@ -25,7 +25,7 @@ $result = $rep->connecterUtilisateur($email, $mdp);
 if (!$result) {
     header("Location: connexionActeur.php?erreur=inconnu");
     exit();
-} else if ($result['etat']==0){
+} else if ($result['statut_validation']==0){
     header("Location: connexionActeur.php?erreur=bannir");
     exit();
 } else if (!password_verify($mdp, $result['mdp'])) {

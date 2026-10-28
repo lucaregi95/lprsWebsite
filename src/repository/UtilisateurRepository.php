@@ -13,6 +13,7 @@ class UtilisateurRepository{
         $req->bindValue(':id_utilisateur', $id_utilisateur);
         $req->execute();
         $result = $req->fetch();
+        return $result;
     }
 
 
