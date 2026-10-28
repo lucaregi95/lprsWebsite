@@ -1,4 +1,26 @@
 <?php
+require_once "../bdd/bdd.php";
+require_once "../src/model/Promotion.php";
+require_once "../src/repository/PromotionRepository.php";
+$repPromotion = new PromotionRepository();
+$promotions = $repPromotion -> getPromotions();
+
+require_once "../src/model/Entreprise.php";
+require_once "../src/repository/EntrepriseRepository.php";
+$repEntreprise = new EntrepriseRepository();
+$entreprises = $repEntreprise -> getEntreprises();
+
+require_once "../src/model/Formation.php";
+require_once "../src/repository/FormationRepository.php";
+$repFormation = new FormationRepository();
+$formations = $repFormation -> getFormations();
+
+
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -260,14 +282,10 @@
                 <p class="muted small-t">
                     Ton compte sera vérifié (statut : en attente) avant validation.
                 </p>
-                        <div class="form-check small-t mb-3">
-                            <input class="form-check-input" type="checkbox" />
-                            J’accepte les
-                            <a href="condition_utilisation" target="_blank"
-                               style="color: blue; text-decoration: underline;">
-                                conditions d’utilisation
-                            </a>
-                        </div>
+                <div class="form-check small-t mb-3">
+                    <input class="form-check-input" type="checkbox"/>
+                    J’accepte les conditions d’utilisation
+                </div>
                 <button class="btn btn-primary w-100" type="submit">
                     Créer mon compte
                 </button>

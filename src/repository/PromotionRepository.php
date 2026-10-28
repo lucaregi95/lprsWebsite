@@ -24,7 +24,7 @@ class PromotionRepository{
         $result = $req->fetchAll();
         $tabPromotion = array();
         foreach ($result as $results) {
-            $tabPromotion[] = new Promotion($results["id_promotion]"],$results["annee"]);
+            $tabPromotion[] = new Promotion($results["id_promotion"],$results["annee"]);
         }
         return $tabPromotion;
     }

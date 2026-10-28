@@ -40,7 +40,7 @@ class EtudiantRepository
         $sql="INSERT INTO etudiant VALUES (:ref_utilisateur, :cv, :ref_formation, :ref_promotion)";
         $req = $this->connexionbdd->prepare($sql);
         $req->bindValue(':ref_utilisateur', $lastId);
-        $req->bindValue(':cv', $etudiant-> getCV());
+        $req->bindValue(':cv', $etudiant-> getCv());
         $req->bindValue(":ref_formation",$etudiant-> getRefFormation());
         $req->bindValue(":ref_promotion",$etudiant-> getRefPromotion());
         $req->execute();

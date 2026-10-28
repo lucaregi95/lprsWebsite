@@ -24,7 +24,7 @@ class FormationRepository{
         $result = $req->fetchAll();
         $tabFormation = array();
         foreach ($result as $results) {
-            $tabFormation[] = new Formation($results["id_formation]"],$results["nom_formation"]);
+            $tabFormation[] = new Formation($results["id_formation"],$results["nom_formation"]);
         }
         return $tabFormation;
     }

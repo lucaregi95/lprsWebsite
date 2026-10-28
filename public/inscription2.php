@@ -9,6 +9,7 @@ if(isset($_POST['type'])){
             require_once "../src/traitement/newEtudiant.php";
 
             if (isset($etudiant)){
+                var_dump($_POST["cv_etudiant"]);
                 $rep = new EtudiantRepository();
                 $rep -> ajoutEtudiant($etudiant);
                 header("Location: connexion.php");
