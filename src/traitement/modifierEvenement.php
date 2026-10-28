@@ -13,9 +13,10 @@ if (isset($_POST['titre'], $_POST['description'], $_POST['lieu'], $_POST['nbr_pl
     $nbr_places  = (int) $_POST['nbr_places'];
     $lat         = (float) $_POST['lat'];
     $lng         = (float) $_POST['lng'];
+    $date_evenement = $_POST['date_evenement'];
 
     if ($titre !== '' && $nbr_places > 0) {
-        $evenement  = new Evenement($idEvenement, $titre, $description, $lieu, $nbr_places, $lat, $lng);
+        $evenement  = new Evenement($idEvenement, $titre, $description, $lieu, $nbr_places, $lat, $lng, $date_evenement);
         $repository = new EvenementRepository();
         $repository->modifierEvenement($evenement);
     }

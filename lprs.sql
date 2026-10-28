@@ -84,6 +84,7 @@ CREATE TABLE IF NOT EXISTS `evenement` (
   `description` longtext NOT NULL,
   `lieu` varchar(250) NOT NULL,
   `nbr_places` int NOT NULL,
+  'date_evenement' date NOT NULL,
   'lat' int NOT NULL,
   'lng' int NOT NULL,
   PRIMARY KEY (`id_evenement`)
