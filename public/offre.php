@@ -6,6 +6,11 @@ require_once "../src/repository/OffreRepository.php";
 $offreRepository = new OffreRepository();
 $offres = $offreRepository->getAllOffres();
 
+function h($v)
+{
+    return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -79,22 +84,19 @@ $offres = $offreRepository->getAllOffres();
             </p>
         </div>
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
-            + Publier une Offre
+            + Publier une offre
         </button>
     </div>
 </header>
 
-
 <main class="container mt-4">
 
-    <!--/* aperçuModal */   -->
-
-<!--/* addModal */   -->
+    <!-- addModal -->
     <div class="modal fade" id="addModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <div class="eyebrow">Ajouter une Offre</div>
+                    <div class="eyebrow">Ajouter une offre</div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form method="POST" action="../src/traitement/newOffre.php">
@@ -115,25 +117,29 @@ $offres = $offreRepository->getAllOffres();
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Salaire</label>
-                            <input type="number" class="form-event" name="salaire" required>
+                            <label class="form-label">Salaire (€/mois)</label>
+                            <input type="number" class="form-event" name="salaire" min="0" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Type d'offre</label>
-                            <input type="text" class="form-event" name="type_offre" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Etat:</label>
-                            <select class="form-event" name="etat" required>
-                                <option value="ouvert">Ouvert</option>
-                                <option value="ferme">Fermé</option>
+                            <select class="form-event" name="type_offre" required>
+                                <option value="Stage">Stage</option>
+                                <option value="Alternance">Alternance</option>
+                                <option value="Job étudiant">Job étudiant</option>
                             </select>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Entreprise:</label>
+                            <label class="form-label">État</label>
+                            <select class="form-event" name="etat" required>
+                                <option value="0">Ouvert</option>
+                                <option value="1">Fermé</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Entreprise</label>
                             <select class="form-event" name="ref_entreprise" required>
                                 <option value="1">A</option>
                                 <option value="2">B</option>
@@ -149,15 +155,16 @@ $offres = $offreRepository->getAllOffres();
             </div>
         </div>
     </div>
-<!--/* modifModal */   -->
-<!--/* suppModal */   -->
 
     <div class="row g-4">
         <aside class="col-lg-3">
             <div class="box mb-3">
                 <h6>
-                    Type d'offre
+                    Affiner ma recherche
                 </h6>
+                <label class="form-label small-t">
+                    Type d'offre
+                </label>
                 <div class="form-check small-t">
                     <input checked="" class="form-check-input" type="checkbox"/>
                     <label class="form-check-label">
@@ -182,10 +189,10 @@ $offres = $offreRepository->getAllOffres();
                         Job étudiant
                     </label>
                 </div>
-                <h6 class="mt-3">
+                <label class="form-label small-t mt-3">
                     État
-                </h6>
-                <select class="form-select form-select-sm">
+                </label>
+                <select class="form-select form-select-sm mb-3">
                     <option>
                         Ouverte
                     </option>
@@ -193,9 +200,9 @@ $offres = $offreRepository->getAllOffres();
                         Fermée
                     </option>
                 </select>
-                <h6 class="mt-3">
+                <label class="form-label small-t">
                     Entreprise
-                </h6>
+                </label>
                 <select class="form-select form-select-sm">
                     <option>
                         Toutes
@@ -220,8 +227,8 @@ $offres = $offreRepository->getAllOffres();
                 </p>
             </div>
         </aside>
-        <div class="col-lg-9">
 
+        <div class="col-lg-9">
             <div class="d-flex gap-2 mb-3">
                 <input class="form-control form-control-sm" placeholder="Rechercher une offre"/>
                 <select class="form-select form-select-sm w-auto">
@@ -230,39 +237,117 @@ $offres = $offreRepository->getAllOffres();
                     </option>
                 </select>
             </div>
+            <h5>
+                Offres disponibles
+            </h5>
+
             <?php if (empty($offres)): ?>
                 <p class="muted">Aucune offre pour le moment.</p>
             <?php endif; ?>
-            <?php foreach ($offres as $offre):  ?>
-            <div class="row-i ev">
-                <div class="logo-sq">
-                    <i class="bi bi-briefcase">
-                    </i>
-                </div>
-                <div class="flex-grow-1">
-                    <b>
-                        <?= $offre->getTitre() ?>
-                    </b>
-                    <div class="muted small-t">
-                        Agence Lumière · Paris · <?= $offre->getSalaire() ?> €/mois
+
+            <?php foreach ($offres as $id => $offre): ?>
+                <?php
+                // 0 = Ouvert, 1 = Fermé (comme dans le formulaire d'ajout)
+                $ferme = ((int)$offre->getEtat() === 1);
+                ?>
+
+                <!-- Ligne large -->
+                <div class="row-i ev">
+                    <?php if ($ferme): ?>
+                        <div class="logo-sq-complet">
+                            <i class="bi bi-briefcase"></i>
+                        </div>
+                    <?php else: ?>
+                        <div class="logo-sq">
+                            <i class="bi bi-briefcase"></i>
+                        </div>
+                    <?php endif; ?>
+                    <div class="flex-grow-1">
+                        <b><?= ($offre->getTitre()) ?></b>
+                        <div class="muted small-t">
+                            Agence Lumière · Paris · <?= ($offre->getSalaire()) ?> €/mois
+                        </div>
+                        <p class="muted small-t my-1"><?= ($offre->getMission()) ?></p>
+                        <span class="tag"><?= ($offre->getTypeOffre()) ?></span>
+                        <?php if ($ferme): ?>
+                            <span class="tag" style="background:#fde8e8;color:#c0392b">Fermé</span>
+                        <?php else: ?>
+                            <span class="tag">Ouvert</span>
+                        <?php endif; ?>
                     </div>
-                    <p class="muted small-t my-1">
-                        <?= $offre->getMission() ?>
-                    </p>
-                    <span class="tag">
-                <?= $offre->getTypeOffre() ?>
-              </span>
-                    <span class="tag" style="">
-                <?= $offre->getEtat() ?>
-              </span>
+                    <div class="d-flex flex-column gap-2">
+                        <?php if (!$ferme): ?>
+                            <a class="btn btn-sm btn-primary" href="#">Postuler</a>
+                        <?php endif; ?>
+                        <button type="button" class="btn btn-outline-secondary btn-sm"
+                                data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
+                            Aperçu
+                        </button>
+                        <?php if (!$ferme): ?>
+                            <button type="button" class="btn btn-outline-primary btn-sm"
+                                    data-bs-toggle="modal" data-bs-target="#edit<?= $id ?>">
+                                Modifier
+                            </button>
+                        <?php endif; ?>
+                    </div>
                 </div>
-                <a class="btn btn-sm btn-primary" href="#">
-                    Postuler
-                </a>
-            </div>
+
+                <!-- previewModal -->
+                <div class="modal fade preview-modal" id="preview<?= $id ?>" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="eyebrow">Aperçu de l'offre</div>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h5 class="mb-3"><?= ($offre->getTitre()) ?></h5>
+
+                                <div class="mb-3">
+                                    <div class="form-label">Mission</div>
+                                    <div><?= ($offre->getMission()) ?></div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-label">Salaire</div>
+                                    <div><?= ($offre->getSalaire()) ?> €/mois</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-label">Type d'offre</div>
+                                    <div><?= ($offre->getTypeOffre()) ?></div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-label">État</div>
+                                    <div><?= $ferme ? 'Fermé' : 'Ouvert' ?></div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-label">Description</div>
+                                    <p class="mb-0"><?= h($offre->getDescription()) ?></p>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                <form method="POST" action="../src/traitement/suppOffre.php">
+                                    <input type="hidden" name="id_offre" value="<?= h($offre->getIdOffre()) ?>">
+                                    <input type="hidden" name="titre" value="<?= h($offre->getTitre()) ?>">
+                                    <button class="btn btn-danger btn-sm mt-2">
+                                        Supprimer
+                                    </button>
+                                </form>
+                                <?php if (!$ferme): ?>
+                                    <a href="#" class="btn btn-primary">Postuler</a>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             <?php endforeach; ?>
         </div>
-
     </div>
 </main>
 <footer>
@@ -289,7 +374,6 @@ $offres = $offreRepository->getAllOffres();
         © 2026 Campus. Tous droits réservés.
     </div>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
