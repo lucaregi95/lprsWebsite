@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../bdd/bdd.php";
+require_once __DIR__ . "/../../src/model/Formation.php";
 
 class FormationRepository{
 
@@ -36,7 +37,14 @@ class FormationRepository{
         $sql="INSERT INTO formation VALUES (:id_formation,:nom_formation)";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_formation', $formation-> getIdFormation());;
-        $req->bindValue(":addressse",$formation-> getNomFormation());
+        $req->bindValue(":nom_formation",$formation-> getNomFormation());
+        $req->execute();
+    }
+
+    public function supprimerFormation($id_formation){
+        $sql = "DELETE FROM formation WHERE id_formation = :id_formation";
+        $req = $this->connexionBdd->prepare($sql);
+        $req->bindValue(':id_formation', $id_formation);
         $req->execute();
     }
 
