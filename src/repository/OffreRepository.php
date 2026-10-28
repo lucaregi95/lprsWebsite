@@ -25,7 +25,7 @@ class OffreRepository{
         $result = $req->fetchAll();
         $tabOffre = array();
         foreach ($result as $results) {
-            $tabOffre[] = new Offre($results["id_offre]"],$results["tirre"], $result["description"], $result["mission"], $result["salaire"], $result["type_offre"], $result["etat"], $result["ref_entreprise"]);
+            $tabOffre[] = new Offre($results["id_offre"],$results["titre"], $results["description"], $results["mission"], $results["salaire"], $results["type_offre"], $results["etat"], $results["ref_entreprise"]);
         }
         return $tabOffre;
     }
