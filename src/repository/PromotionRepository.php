@@ -48,4 +48,11 @@ class PromotionRepository{
         $req->execute();
 
     }
+
+    public function supprimerPromotion($id_promotion){
+        $sql = "DELETE FROM promotion WHERE id_promotion = :id_promotion";
+        $req = $this->connexionBdd->prepare($sql);
+        $req->bindValue(':id_promotion', $id_promotion);
+        $req->execute();
+    }
 }
