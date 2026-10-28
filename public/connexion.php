@@ -22,6 +22,9 @@ if(isset($_GET['erreur'])){
     if ($_GET['erreur']=='incorrect'){
         $erreur="Identifiants incorrects";
     }
+    if ($_GET['erreur']=='attente'){
+        $erreur="Votre profil est en cours de validation";
+    }
 
 }
 
@@ -89,7 +92,7 @@ $inscription="Pas de compte ? Inscrivez-vous";
                     <h4 class="fw-bold text-center">Connexion</h4>
                     <p class="muted small-t text-center">Renseigne tes informations.</p>
 
-                    <form method="POST" action="connexion2.php">
+                    <form method="POST" action="connexion2.php" autocomplete="off">
                         <div class="mb-3">
                         <label for="email">Adresse e-mail :</label>
                         <input class="form-control form-control-sm" type="email" id="email" name="email" value="<?=$email?>" autocomplete="off" required>
@@ -97,14 +100,14 @@ $inscription="Pas de compte ? Inscrivez-vous";
 
                         <div class="mb-3">
                         <label for="mdp">Mot de Passe :</label>
-                        <input class="form-control form-control-sm" type="password" id="mdp" name="mdp" autocomplete="off" required>
+                        <input class="form-control form-control-sm" type="password" id="mdp" name="mdp" autocomplete="new-password" required>
                         </div>
 
                         <div class="mb-3">
                         <?php if (isset($page)) {?>
                             <input class="form-control form-control-sm" type="hidden" value="<?=$page?>" name="page">
                         <?php } ?>
-                        <h6><?=$erreur?></h6>
+                        <h6 class="text-danger"><?=$erreur?></h6>
                         </div>
 
                         <button class="btn btn-primary w-100"  type="submit">Connectez-vous !</button>

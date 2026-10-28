@@ -59,4 +59,11 @@ class OffreRepository{
         $req->execute();
 
     }
+
+    public function supprimerOffre($id_offre){
+        $sql = "DELETE FROM offre WHERE id_offre = :id_offre";
+        $req = $this->connexionBdd->prepare($sql);
+        $req->bindValue(':id_offre', $id_offre);
+        $req->execute();
+    }
 }

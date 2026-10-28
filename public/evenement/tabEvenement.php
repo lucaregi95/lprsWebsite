@@ -44,7 +44,7 @@ $evenements = $evenementRepository->getAllEvenements();
     <?php } ?>
     </tbody>
 </table>
-<a href="ajouterEvenement.php">Ajouter un evenement</a><br>
+<a href="../evenement.php">Ajouter un evenement</a><br>
 <button type="button" onclick="location.href='../accueil.html'">Retour à l'accueil</button>
 </body>
 </html>

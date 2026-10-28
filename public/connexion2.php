@@ -24,16 +24,21 @@ if (!$result) {
     header("Location: connexion.php?erreur=unknown");
 } else {
     if (password_verify($mdp, $result["mdp"])) {
-
+        if($result["statut_validation"]=="en attente"){
+            var_dump($result);
+            header("Location: connexion.php?erreur=attente");
+        }else{
+        session_start();
         // Stockage des informations de l'utilisateur en session
         $_SESSION['id_utilisateur']     = $result["id_utilisateur"];
         $_SESSION['nom']    = $result["nom"];
         $_SESSION['prenom'] = $result["prenom"];
         $_SESSION['email']  = $result["email"];
+        $_SESSION['statut_validation']  = $result["statut_validation"];
         $_SESSION['role'] = $result["role"];
-        $_SESSION['date_inscription'] = $result["date_inscription"];
 
         header("location:accueil.php");
+        }
     }else{
         header("Location: connexion.php?erreur=incorrect");
     }
