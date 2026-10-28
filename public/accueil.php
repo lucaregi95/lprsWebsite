@@ -36,7 +36,7 @@ var_dump($_SESSION);
             <?php if(isset($_SESSION["id"])){ ?>
             <a class="text-decoration-none text-dark d-flex align-items-center gap-2" href="profil.php">
                 <span class="avatar">NK</span>
-                <span class="small"><?php echo $_SESSION["prenom"]?><i class="bi bi-chevron-down"></i></span>
+                <span class="small"><?php echo $_SESSION["prenom"]." ".$_SESSION["nom"]?><i class="bi bi-chevron-down"></i></span>
            </a>
             <?php } ?>
         </div>

@@ -26,7 +26,7 @@ if (!$result) {
     if (password_verify($mdp, $result["mdp"])) {
         session_start();
         // Stockage des informations de l'utilisateur en session
-        $_SESSION['id']     = $result["id_utlisateur"];
+        $_SESSION['id']     = $result["id_utilisateur"];
         $_SESSION['nom']    = $result["nom"];
         $_SESSION['prenom'] = $result["prenom"];
         $_SESSION['email']  = $result["email"];
