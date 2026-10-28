@@ -1,10 +1,10 @@
 <?php
 var_dump($_POST['type']);
-require_once "../src/model/utilisateur.php";
+require_once "../src/model/Utilisateur.php";
 if(isset($_POST['type'])){
     switch ($_POST['type']) {
         case 'etudiant':
-            require_once "../src/model/etudiant.php";
+            require_once "../src/model/Etudiant.php";
             require_once "../src/repository/EtudiantRepository.php";
             require_once "../src/traitement/newEtudiant.php";
 
@@ -18,7 +18,7 @@ if(isset($_POST['type'])){
             break;
 
         case 'alumni':
-            require_once "../src/model/alumni.php";
+            require_once "../src/model/Alumni.php";
             require_once "../src/repository/AlumniRepository.php";
             require_once "../src/traitement/newAlumni.php";
 
@@ -33,7 +33,7 @@ if(isset($_POST['type'])){
 
 
         case 'professeur':
-            require_once "../src/model/professeur.php";
+            require_once "../src/model/Professeur.php";
             require_once "../src/repository/ProfesseurRepository.php";
             require_once "../src/traitement/newProfesseur.php";
 
@@ -47,7 +47,7 @@ if(isset($_POST['type'])){
 
 
         case 'partenaire':
-            require_once "../src/model/partenaire.php";
+            require_once "../src/model/Partenaire.php";
             require_once "../src/repository/PartenaireRepository.php";
             require_once "../src/traitement/newPartenaire.php";
 

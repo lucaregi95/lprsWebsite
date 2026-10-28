@@ -14,11 +14,7 @@ if (!isset($_SESSION['id_utilisateur'])) {
 $id_utilisateur = $_SESSION['id_utilisateur'];
 $utilisateurRepo = new UtilisateurRepository();
 
-if (!isset($_POST['prenom'])) {
-    $utilisateurRepo->modifierUtilisateur($id_utilisateur);
-    header("Location: profil.php?succes=modifier");
-    exit;
-}
+
 
 $utilisateur = $utilisateurRepo->getUtilisateur($id_utilisateur);
 $mesEvenements = (new EvenementRepository())->getEvenementsByUtilisateur($id_utilisateur);
