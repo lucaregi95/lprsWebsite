@@ -45,7 +45,7 @@ session_start();
                 <i class="bi bi-person-circle"></i>
                 <div>
                     <div class="fs-5 lh-1">
-                        <input class="form-control form-control-sm" type="text" value="<?= $utilisateur['prenom'] ?>"/>
+                        Nassim Kharfouche
                     </div>
                     <small class="muted">
                         Étudiant · Promotion 2027
@@ -58,7 +58,7 @@ session_start();
         </div>
 
         <div class="profil-box">
-            <form method="post" action=../src/traitement/modifierProfil.php>
+            form method="post">
                 <div class="col-lg-9">
                     <div class="box_profil mb-4">
                         <h6>

@@ -79,31 +79,31 @@ $formations = $repFormation -> getAllFormations();
                             <label class="form-label small-t">
                                 Prénom
                             </label>
-                            <input class="form-control form-control-sm" type="text" value="" name="prenom" id="prenom"/>
+                            <input class="form-control form-control-sm" type="text" value="" name="prenom" id="prenom" required/>
                         </div>
                         <div class="mb-3">
                             <label class="form-label small-t">
                                 Nom
                             </label>
-                            <input class="form-control form-control-sm" type="text" value="" name="nom" id="nom"/>
+                            <input class="form-control form-control-sm" type="text" value="" name="nom" id="nom" required/>
                         </div>
                         <div class="mb-3">
                             <label class="form-label small-t">
                                 Adresse e-mail
                             </label>
-                            <input class="form-control form-control-sm" type="email" value="" name="email" id="email"/>
+                            <input class="form-control form-control-sm" type="email" value="" name="email" id="email" required/>
                         </div>
                         <div class="mb-3">
                             <label class="form-label small-t">
                                 Mot de passe
                             </label>
-                            <input class="form-control form-control-sm" type="password" value="" name="mdp" id="mdp"/>
+                            <input class="form-control form-control-sm" type="password" value="" name="mdp" id="mdp" required/>
                         </div>
                         <div class="mb-3">
                             <label class="form-label small-t">
                                 Je suis
                             </label>
-                            <select class="form-select form-select-sm" id="type" name="type">
+                            <select class="form-select form-select-sm" id="type" name="type" required>
                                 <option value="etudiant">
                                     Étudiant
                                 </option>
@@ -123,7 +123,7 @@ $formations = $repFormation -> getAllFormations();
                                 <label class="form-label small-t">
                                     Formation
                                 </label>
-                                <select class="form-select form-select-sm" name="ref_formation" id="ref_formation">
+                                <select class="form-select form-select-sm" name="ref_formation" id="ref_formation" required>
                                     <?php foreach ($formations as $formation) {?>
                                         <option value="<?=$formation->getIdFormation()?>">
                                             <?=$formation->getNomFormation()?>
@@ -135,7 +135,7 @@ $formations = $repFormation -> getAllFormations();
                                 <label class="form-label small-t">
                                     Promotion
                                 </label>
-                                <select class="form-select form-select-sm" name="ref_promotion" id="ref_promotion">
+                                <select class="form-select form-select-sm" name="ref_promotion" id="ref_promotion" required>
                                     <?php foreach ($promotions as $promotion) {?>
                                         <option value="<?=$promotion->getIdPromotion()?>">
                                             <?=$promotion->getAnnee()?>
@@ -162,7 +162,7 @@ $formations = $repFormation -> getAllFormations();
                                 <label class="form-label small-t">
                                     Promotion
                                 </label>
-                                <select class="form-select form-select-sm" name="ref_promotion" id="ref_promotion">
+                                <select class="form-select form-select-sm" name="ref_promotion" id="ref_promotion" required>
                                     <?php foreach ($promotions as $promotion) {?>
                                         <option value="<?=$promotion->getIdPromotion()?>">
                                             <?=$promotion->getAnnee()?>
@@ -175,7 +175,7 @@ $formations = $repFormation -> getAllFormations();
                                 <label class="form-label small-t">
                                     Entreprise
                                 </label>
-                                <select class="form-select form-select-sm" name="ref_entreprise" id="ref_entreprise">
+                                <select class="form-select form-select-sm" name="ref_entreprise" id="ref_entreprise" required>
                                     <?php foreach ($entreprises as $entreprise) {?>
                                         <option value="<?=$entreprise->getidEntreprise()?>">
                                             <?=$entreprise->getNomEntreprise()?>
@@ -195,13 +195,13 @@ $formations = $repFormation -> getAllFormations();
                                 <label class="form-label small-t">
                                     Poste occupé
                                 </label>
-                                <input class="form-control form-control-sm" type="text" value="" name="poste_occupe" id="poste_occupe"/>
+                                <input class="form-control form-control-sm" type="text" value="" name="poste_occupe" id="poste_occupe" required/>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small-t">
                                     Entreprise
                                 </label>
-                                <select class="form-select form-select-sm" id="ref_entreprise" name="ref_entreprise">
+                                <select class="form-select form-select-sm" id="ref_entreprise" name="ref_entreprise" required>
                                     <?php foreach ($entreprises as $entreprise) {?>
                                         <option value="<?=$entreprise->getidEntreprise()?>">
                                             <?=$entreprise->getNomEntreprise()?>
@@ -221,7 +221,7 @@ $formations = $repFormation -> getAllFormations();
                                 <label class="form-label small-t">
                                     Spécialité
                                 </label>
-                                <input class="form-control form-control-sm" type="text" value=""/>
+                                <input class="form-control form-control-sm" type="text" value="" required/>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small-t">
@@ -252,14 +252,14 @@ $formations = $repFormation -> getAllFormations();
                                 </select>
                             </div>
                         </div>
-                        <input type="hidden" name="date_inscription" id="date_inscription" value="2026-10-10"/>
+                        <input type="hidden" name="date_inscription" id="date_inscription" value="<?php echo date("Y-m-d");?>"/>
                         <input type="hidden" name="statut_validation" id="statut_validation" value="en attente"/>
                         <p class="muted small-t">
                             Ton compte sera vérifié (statut : en attente) avant validation.
                         </p>
                         <div class="form-check small-t mb-3">
                             <input class="form-check-input" type="checkbox"/>
-                            J’accepte les conditions d’utilisation
+                            J'accepte les <a href="condition_utilisation.html">conditions d’utilisation</a>
                         <!--                    mettre le lien-->
                 </div>
                         <button class="btn btn-primary w-100" type="submit">
