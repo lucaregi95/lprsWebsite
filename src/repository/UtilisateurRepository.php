@@ -73,4 +73,14 @@ class UtilisateurRepository{
         $req->bindValue(':id_utilisateur', $id_utilisateur);
         $req->execute();
     }
+
+    public function connecterUtilisateur($email, $mdp){
+        $sql = "SELECT * FROM utilisateur WHERE email = :email AND mdp = :mdp";
+        $req = $this->connexionbdd->prepare($sql);
+        $req->bindValue(':email', $email);
+        $req->bindValue(':mdp', $mdp);
+        $req->execute();
+        $result = $req->fetch();
+        return $result;
+    }
 }

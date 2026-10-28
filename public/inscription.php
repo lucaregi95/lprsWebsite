@@ -68,7 +68,8 @@ $formations = $repFormation -> getFormations();
                     </a>
                 </li>
             </ul>
-
+            <a class="nav-link" href="inscription.php">Inscription --</a>
+            <a class="nav-link" href="connexion.php">-- Connexion</a>
         </div>
     </div>
 </nav>
@@ -81,224 +82,223 @@ $formations = $repFormation -> getFormations();
                     <h4 class="fw-bold text-center">Inscription</h4>
                     <p class="muted small-t text-center">Renseigne tes informations.</p>
 
-                    <form method="POST" action="inscription2.php">
-                <div class="mb-3">
-                    <label class="form-label small-t">
-                        Prénom
-                    </label>
-                    <input class="form-control form-control-sm" type="text" value="" name="prenom" id="prenom"/>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label small-t">
-                        Nom
-                    </label>
-                    <input class="form-control form-control-sm" type="text" value="" name="nom" id="nom"/>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label small-t">
-                        Adresse e-mail
-                    </label>
-                    <input class="form-control form-control-sm" type="email" value="" name="email" id="email"/>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label small-t">
-                        Mot de passe
-                    </label>
-                    <input class="form-control form-control-sm" type="password" value="" name="mdp" id="mdp"/>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label small-t">
-                        Je suis
-                    </label>
-                    <select class="form-select form-select-sm" id="type" name="type">
-                        <option value="etudiant">
-                            Étudiant
-                        </option>
-                        <option value="alumni">
-                            Alumni
-                        </option>
-                        <option value="partenaire">
-                            Partenaire
-                        </option>
-                        <option value="professeur">
-                            Professeur
-                        </option>
-                    </select>
-                </div>
-                <div class="type-grp row g-3 mb-3" data-type="etudiant" hidden="">
-                    <div class="col-md-6">
-                        <label class="form-label small-t">
-                            Formation
-                        </label>
-                        <select class="form-select form-select-sm">
-                            <option>
-                                BUT Informatique
-                            </option>
-                            <option>
-                                Master MIAGE
-                            </option>
-                            <option>
-                                Licence Droit
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small-t">
-                            Promotion
-                        </label>
-                        <select class="form-select form-select-sm">
-                            <option>
-                                2027
-                            </option>
-                            <option>
-                                2026
-                            </option>
-                            <option>
-                                2025
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label small-t">
-                            CV
-                        </label>
-                        <input class="form-control form-control-sm" type="file"/>
-                    </div>
-                </div>
-                <div class="type-grp row g-3 mb-3" data-type="alumni" hidden="">
-                    <div class="col-md-6">
-                        <label class="form-label small-t">
-                            Poste occupé
-                        </label>
-                        <input class="form-control form-control-sm" type="text" value="" name="poste_occupe" id="poste_occupe"/>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small-t">
-                            Promotion
-                        </label>
-                        <select class="form-select form-select-sm" id="ref_promotion" name="ref_promotion">
-                            <option value="1">
-                                TEST
-                            </option>
-                            <option>
-                                2026
-                            </option>
-                            <option>
-                                2025
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small-t">
-                            Entreprise
-                        </label>
-                        <select class="form-select form-select-sm" name="ref_entreprise" id="ref_entreprise">
-                            <option value="1">
-                                TEST
-                            </option>
-                            <option>
-                                Studio Nord
-                            </option>
-                            <option>
-                                DataCorp
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label small-t">
-                            CV
-                        </label>
-                        <input class="form-control form-control-sm" type="file" name="cv" id="cv"/>
-                    </div>
-                </div>
-                <div class="type-grp row g-3 mb-3" data-type="partenaire" hidden="">
-                    <div class="col-md-6">
-                        <label class="form-label small-t">
-                            Poste occupé
-                        </label>
-                        <input class="form-control form-control-sm" type="text" value=""/>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small-t">
-                            Entreprise
-                        </label>
-                        <select class="form-select form-select-sm">
-                            <option>
-                                Agence Lumière
-                            </option>
-                            <option>
-                                Studio Nord
-                            </option>
-                            <option>
-                                DataCorp
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label small-t">
-                            Motif d'inscription
-                        </label>
-                        <input class="form-control form-control-sm" type="text" value=""/>
-                    </div>
-                </div>
-                <div class="type-grp row g-3 mb-3" data-type="professeur" hidden="">
-                    <div class="col-md-6">
-                        <label class="form-label small-t">
-                            Spécialité
-                        </label>
-                        <input class="form-control form-control-sm" type="text" value=""/>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label small-t">
-                            Formation enseignée
-                        </label>
-                        <select class="form-control" id="classe" name="ref_classe" required>
+                            <form method="POST" action="inscription2.php">
+                        <div class="mb-3">
+                            <label class="form-label small-t">
+                                Prénom
+                            </label>
+                            <input class="form-control form-control-sm" type="text" value="" name="prenom" id="prenom"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small-t">
+                                Nom
+                            </label>
+                            <input class="form-control form-control-sm" type="text" value="" name="nom" id="nom"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small-t">
+                                Adresse e-mail
+                            </label>
+                            <input class="form-control form-control-sm" type="email" value="" name="email" id="email"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small-t">
+                                Mot de passe
+                            </label>
+                            <input class="form-control form-control-sm" type="password" value="" name="mdp" id="mdp"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small-t">
+                                Je suis
+                            </label>
+                            <select class="form-select form-select-sm" id="type" name="type">
+                                <option value="etudiant">
+                                    Étudiant
+                                </option>
+                                <option value="alumni">
+                                    Alumni
+                                </option>
+                                <option value="partenaire">
+                                    Partenaire
+                                </option>
+                                <option value="professeur">
+                                    Professeur
+                                </option>
+                            </select>
+                        </div>
+                        <div class="type-grp row g-3 mb-3" data-type="etudiant" hidden="">
+                            <div class="col-md-6">
+                                <label class="form-label small-t">
+                                    Formation
+                                </label>
+                                <select class="form-select form-select-sm">
+                                    <option>
+                                        BUT Informatique
+                                    </option>
+                                    <option>
+                                        Master MIAGE
+                                    </option>
+                                    <option>
+                                        Licence Droit
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small-t">
+                                    Promotion
+                                </label>
+                                <select class="form-select form-select-sm">
+                                    <option>
+                                        2027
+                                    </option>
+                                    <option>
+                                        2026
+                                    </option>
+                                    <option>
+                                        2025
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small-t">
+                                    CV
+                                </label>
+                                <input class="form-control form-control-sm" type="file"/>
+                            </div>
+                        </div>
+                        <div class="type-grp row g-3 mb-3" data-type="alumni" hidden="">
+                            <div class="col-md-6">
+                                <label class="form-label small-t">
+                                    Poste occupé
+                                </label>
+                                <input class="form-control form-control-sm" type="text" value="" name="poste_occupe" id="poste_occupe"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small-t">
+                                    Promotion
+                                </label>
+                                <select class="form-select form-select-sm" id="ref_promotion" name="ref_promotion">
+                                    <option value="1">
+                                        TEST
+                                    </option>
+                                    <option>
+                                        2026
+                                    </option>
+                                    <option>
+                                        2025
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small-t">
+                                    Entreprise
+                                </label>
+                                <select class="form-select form-select-sm" name="ref_entreprise" id="ref_entreprise">
+                                    <option value="1">
+                                        TEST
+                                    </option>
+                                    <option>
+                                        Studio Nord
+                                    </option>
+                                    <option>
+                                        DataCorp
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small-t">
+                                    CV
+                                </label>
+                                <input class="form-control form-control-sm" type="file" name="cv" id="cv"/>
+                            </div>
+                        </div>
+                        <div class="type-grp row g-3 mb-3" data-type="partenaire" hidden="">
+                            <div class="col-md-6">
+                                <label class="form-label small-t">
+                                    Poste occupé
+                                </label>
+                                <input class="form-control form-control-sm" type="text" value=""/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small-t">
+                                    Entreprise
+                                </label>
+                                <select class="form-select form-select-sm">
+                                    <option>
+                                        Agence Lumière
+                                    </option>
+                                    <option>
+                                        Studio Nord
+                                    </option>
+                                    <option>
+                                        DataCorp
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small-t">
+                                    Motif d'inscription
+                                </label>
+                                <input class="form-control form-control-sm" type="text" value=""/>
+                            </div>
+                        </div>
+                        <div class="type-grp row g-3 mb-3" data-type="professeur" hidden="">
+                            <div class="col-md-6">
+                                <label class="form-label small-t">
+                                    Spécialité
+                                </label>
+                                <input class="form-control form-control-sm" type="text" value=""/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small-t">
+                                    Formation enseignée
+                                </label>
+                                <select class="form-control" id="classe" name="ref_classe" required>
 
 
-                            <optgroup label="Lycée Professionnel">
-                                <option value="1">Troisième Prépa Pro</option>
-                                <option value="2">Bac Pro TRPM</option>
-                                <option value="3">Bac Pro MSPC</option>
-                                <option value="4">Bac Pro CIEL</option>
-                                <option value="5">Formation SST</option>
-                            </optgroup>
+                                    <optgroup label="Lycée Professionnel">
+                                        <option value="1">Troisième Prépa Pro</option>
+                                        <option value="2">Bac Pro TRPM</option>
+                                        <option value="3">Bac Pro MSPC</option>
+                                        <option value="4">Bac Pro CIEL</option>
+                                        <option value="5">Formation SST</option>
+                                    </optgroup>
 
-                            <optgroup label="Lycée Technologique">
-                                <option value="6">Bac STI2D</option>
-                            </optgroup>
+                                    <optgroup label="Lycée Technologique">
+                                        <option value="6">Bac STI2D</option>
+                                    </optgroup>
 
-                            <optgroup label="Enseignement supérieur et UFA">
-                                <option value="7">BTS CPRP</option>
-                                <option value="8">BTS SIO – Option SISR</option>
-                                <option value="9">BTS SIO – Option SLAM</option>
-                                <option value="10">BTS MS</option>
-                                <option value="11">CQPM</option>
-                            </optgroup>
-                        </select>
-                    </div>
+                                    <optgroup label="Enseignement supérieur et UFA">
+                                        <option value="7">BTS CPRP</option>
+                                        <option value="8">BTS SIO – Option SISR</option>
+                                        <option value="9">BTS SIO – Option SLAM</option>
+                                        <option value="10">BTS MS</option>
+                                        <option value="11">CQPM</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                                <input type="hidden" name="date_inscription" id="date_inscription" value="2026-10-10"/>
+                                <input type="hidden" name="statut_validation" id="statut_validation" value="en attente"/>
+                        <p class="muted small-t">
+                            Ton compte sera vérifié (statut : en attente) avant validation.
+                        </p>
+                        <div class="form-check small-t mb-3">
+                            <input class="form-check-input" type="checkbox"/>
+                            J’accepte les conditions d’utilisation
+                        </div>
+                        <button class="btn btn-primary w-100" type="submit">
+                            Créer mon compte
+                        </button>
+                    </form>
+
+                    <p class="small-t text-center mt-3 mb-0">
+                        Déjà inscrit ?
+                    </p>
+                        <a href="connexion.php">Connexion</a>
                 </div>
-                        <input type="hidden" name="date_inscription" id="date_inscription" value="2026-10-10"/>
-                        <input type="hidden" name="statut_validation" id="statut_validation" value="en attente"/>
-                <p class="muted small-t">
-                    Ton compte sera vérifié (statut : en attente) avant validation.
-                </p>
-                <div class="form-check small-t mb-3">
-                    <input class="form-check-input" type="checkbox"/>
-                    J’accepte les conditions d’utilisation
-                </div>
-                <button class="btn btn-primary w-100" type="submit">
-                    Créer mon compte
-                </button>
-            </form>
-
-            <p class="small-t text-center mt-3 mb-0">
-                Déjà inscrit ?
-                <a href="connexion.php">Connexion</a>
-            </p>
-
+            </div>
         </div>
-    </div>
-    </div>
     </div>
 </main>
 <footer>

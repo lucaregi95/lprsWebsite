@@ -94,16 +94,12 @@ $categories = ['Général', 'Cours', 'Stages & Alternance', 'Vie étudiante', 'P
                     </a>
                 </li>
             </ul>
-            <a class="text-decoration-none text-dark d-flex align-items-center gap-2" href="profil.php">
-            <span class="avatar">
-              NK
-            </span>
-                <span class="small">
-              Nassim K.
-              <i class="bi bi-chevron-down">
-              </i>
-            </span>
-            </a>
+            <a class="nav-link" href="inscription.php">Inscription --</a>
+            <a class="nav-link" href="connexion.php">-- Connexion</a>
+            <!--            <a class="text-decoration-none text-dark d-flex align-items-center gap-2" href="profil.php">-->
+            <!--                <span class="avatar">NK</span>-->
+            <!--                <span class="small">Nassim K. <i class="bi bi-chevron-down"></i></span>-->
+            <!--            </a>-->
         </div>
     </div>
 </nav>
