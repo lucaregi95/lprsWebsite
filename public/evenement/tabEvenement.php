@@ -33,10 +33,10 @@ $evenements = $evenementRepository->getAllEvenements();
             <td><?= $evenement->getDescription() ?></td>
             <td><?= $evenement->getLieu() ?></td>
             <td><?= $evenement->getNbrPlaces() ?></td>
-            <td><a href="modifierEvenement.php?id=<?= $evenements->getIdEvenement() ?>">Modifier</a></td>
+            <td><a href="modifierEvenement.php?id=<?= $evenement    ->getIdEvenement() ?>">Modifier</a></td>
             <td>
                 <form method="post" action="supprimerEvenement.php" onsubmit="return confirm('Voulez-vous vraiment supprimer l evenement  n°<?= $evenement->getIdEvenement() ?> ?');">
-                    <input type="hidden" name="id_site" value="<?= $evenement->getIdEvenement() ?>">
+                    <input type="hidden" name="id_evenement" value="<?= $evenement->getIdEvenement() ?>">
                     <button type="submit">Supprimer</button>
                 </form>
             </td>

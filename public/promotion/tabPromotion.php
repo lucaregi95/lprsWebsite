@@ -27,7 +27,7 @@ $promotions = $promotionRepository->getAllPromotions();
         <tr>
             <td><?= $promotion->getIdPromotion() ?></td>
             <td><?= $promotion->getAnnee() ?></td>
-            <td><a href="modifierPromotion.php?id=<?= $promotions->getIdPromotion() ?>">Modifier</a></td>
+            <td><a href="modifierPromotion.php?id=<?= $promotion->getIdPromotion() ?>">Modifier</a></td>
             <td>
                 <form method="post" action="supprimerPromotion.php" onsubmit="return confirm('Voulez-vous vraiment supprimer la promotion  n°<?= $promotion->getIdPromotion() ?> ?');">
                     <input type="hidden" name="id_promotion" value="<?= $promotion->getIdPromotion() ?>">

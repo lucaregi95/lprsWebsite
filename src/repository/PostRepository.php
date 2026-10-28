@@ -12,16 +12,19 @@ class PostRepository{
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_post', $id_post);
         $req->execute();
-        $r = $req->fetch(PDO::FETCH_ASSOC);
-        return new Post($r["id_post"], $r["contenu"], $r["date_post"], $r["titre"], $r["categorie_post"], $r["ref_utilisateur"]);
+        $result = $req->fetch();
+        $post = new Post($result["id_post"],$result["contenu"],$result["date_sujet"],$result["titre"],$result["ref_utilisateur"],$result["categorie_post"]);
+        return $post;
+
     }
 
     public function getAllPosts(){
         $req = $this->connexionBdd->prepare("SELECT * FROM post");
         $req->execute();
-        $tabPost = [];
-        foreach ($req->fetchAll(PDO::FETCH_ASSOC) as $r) {
-            $tabPost[] = new Post($r["id_post"], $r["contenu"], $r["date_post"], $r["titre"], $r["categorie_post"], $r["ref_utilisateur"]);
+        $results = $req->fetchAll();
+        $tabPost = array();
+        foreach($results as $result){
+            $tabPost[] = new Post($result["id_post"],$result["contenu"],$result["date_sujet"],$result["ref_utilisateur"],$result["categorie_post"],$result["titre"]);
         }
         return $tabPost;
     }
@@ -39,7 +42,7 @@ class PostRepository{
     }
 
     public function modifierPost(Post $post){
-        $sql = "UPDATE post SET contenu=:contenu, titre=:titre, categorie_post=:categorie_post WHERE id_post=:id_post";
+        $sql = "UPDATE post SET contenu=:contenu, date_post=:date_post, titre=:titre,categorie_post=:categorie_post WHERE id_post=:id_post";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':contenu', $post->getContenu());
         $req->bindValue(':titre', $post->getTitre());

@@ -3,10 +3,20 @@ session_start();
 require_once "../bdd/bdd.php";
 require_once "../src/model/Evenement.php";
 require_once "../src/repository/EvenementRepository.php";
+require_once "../src/model/Participe.php";
+require_once "../src/repository/ParticipeRepository.php";
 
 $eventRepository = new EvenementRepository();
 $evenements = $eventRepository->getAllEvenements();
 $inscrits = $eventRepository->getNbInscritsParEvenement();
+
+$participeRepository = new ParticipeRepository();
+$participes = $participeRepository->getAllParticipes();
+
+
+$idUser=$_SESSION['id_utilisateur'];
+$vueRole="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=:idUser";
+
 
 
 ?>
@@ -134,6 +144,11 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
                             <label class="form-label">Nombre de Place</label>
                             <input type="number" class="form-event" name="nbr_places" required>
                         </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Date de l'Évènement</label>
+                            <input type="date" class="form-event" name="date_evenement" required>
+                        </div>
                     </div>
 
                     <div class="modal-footer">
@@ -230,14 +245,22 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
                                         <?= ($evenement->getLieu()) ?> <hr> <br>· <?= (int)$evenement->getNbrPlaces() ?> places au total
                                     </div>
                                     <p class="muted small-t my-2"><?= ($evenement->getDescription()) ?></p>
-
+                                    <div class="mb-3">
+                                        <p class="muted small-t my-2"><?= ($evenement->getDateEvenement()) ?></p>
+                                    </div>
                                     <?php if ($complet): ?>
                                         <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
                                                 data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
                                             Aperçu
                                         </button>
-                                        <?php else: ?>
-                                        <a class="btn btn-primary btn-sm mt-2 " href="#">S'inscrire</a>
+                                    <?php else: ?>
+                                        <form method="POST" action="../src/traitement/newParticipe.php">
+                                            <input type="hidden" name="ref_utilisateur" value="<?= $_SESSION['id_utilisateur'] ?>">
+                                            <input type="hidden" name="ref_evenement" value="<?=$evenement->getIdEvenement()?>() ?>">
+                                            <button class="btn btn-primary btn-sm mt-2 ">
+                                                S'inscrire
+                                            </button>
+                                        </form>
                                         <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
                                                 data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
                                             Aperçu
@@ -289,6 +312,9 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
                                         <div class="form-label">Description</div>
                                         <p class="mb-0"><?= $evenement->getDescription()?></p>
                                     </div>
+                                    <div class="mb-3">
+                                        <p class="muted small-t my-2"><?= ($evenement->getDateEvenement()) ?></p>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
@@ -301,7 +327,13 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
                                         </button>
                                     </form>
                                     <?php if (!$complet): ?>
-                                        <a href="#" class="btn btn-primary">S'inscrire</a>
+                                        <form method="POST" action="../src/traitement/newParticipe.php">
+                                            <input type="hidden" name="ref_utilisateur" value="<?= $_SESSION['id_utilisateur'] ?>">
+                                            <input type="hidden" name="ref_evenement" value="<?=$evenement->getIdEvenement()?>() ?>">
+                                            <button class="btn btn-primary btn-sm mt-2 ">
+                                                S'inscrire
+                                            </button>
+                                        </form>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -369,6 +401,11 @@ $inscrits = $eventRepository->getNbInscritsParEvenement();
                                             <label class="form-label">Nombre de Place</label>
                                             <input type="number" class="form-event" name="nbr_places" min="1"
                                                    value="<?= $evenement->getNbrPlaces() ?>" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Date de l'Évènement</label>
+                                            <input type="date" class="form-event" name="date_evenement" value="<?= $evenement->getDateEvenement() ?>" required>
                                         </div>
                                     </div>
 

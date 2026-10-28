@@ -1,7 +1,7 @@
 <?php
 
 require_once '../../bdd/bdd.php';
-require_once '../model/Entreprise.php';
+require_once __DIR__ . "/../model/Entreprise.php";
 
 if (isset($_POST['adresse']) && isset($_POST['nom_entreprise']) ){
     $id_entreprise= (isset($_POST['id_entreprise'])) ? $_POST['id_entreprise'] : null;

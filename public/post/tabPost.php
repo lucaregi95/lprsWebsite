@@ -3,6 +3,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 require_once __DIR__ . "/../../src/repository/PostRepository.php";
+require_once __DIR__ . "/../../src/model/Post.php";
 
 $postRepository = new PostRepository();
 $posts = $postRepository->getAllPosts();
@@ -34,7 +35,7 @@ $posts = $postRepository->getAllPosts();
             <td><a href="modifierPost.php?id=<?= $posts->getIdPost() ?>">Modifier</a></td>
             <td>
                 <form method="post" action="supprimerPost.php" onsubmit="return confirm('Voulez-vous vraiment supprimer le post  n°<?= $post->getIdPost() ?> ?');">
-                    <input type="hidden" name="id_site" value="<?= $post->getIdPost() ?>">
+                    <input type="hidden" name="id_post" value="<?= $post->getIdPost() ?>">
                     <button type="submit">Supprimer</button>
                 </form>
             </td>
