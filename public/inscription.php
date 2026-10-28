@@ -74,30 +74,30 @@ $formations = $repFormation -> getAllFormations();
                     <h4 class="fw-bold text-center">Inscription</h4>
                     <p class="muted small-t text-center">Renseigne tes informations.</p>
 
-                    <form method="POST" action="inscription2.php">
+                    <form method="POST" action="inscription2.php" autocomplete="off">
                         <div class="mb-3">
                             <label class="form-label small-t">
                                 Prénom
                             </label>
-                            <input class="form-control form-control-sm" type="text" value="" name="prenom" id="prenom" />
+                            <input class="form-control form-control-sm" type="text" value="" name="prenom" id="prenom" required autocomplete="off"/>
                         </div>
                         <div class="mb-3">
                             <label class="form-label small-t">
                                 Nom
                             </label>
-                            <input class="form-control form-control-sm" type="text" value="" name="nom" id="nom" required/>
+                            <input class="form-control form-control-sm" type="text" value="" name="nom" id="nom" autocomplete="off" required/>
                         </div>
                         <div class="mb-3">
                             <label class="form-label small-t">
                                 Adresse e-mail
                             </label>
-                            <input class="form-control form-control-sm" type="email" value="" name="email" id="email" required/>
+                            <input class="form-control form-control-sm" type="email" value="" name="email" id="email" autocomplete="off" required/>
                         </div>
                         <div class="mb-3">
                             <label class="form-label small-t">
                                 Mot de passe
                             </label>
-                            <input class="form-control form-control-sm" type="password" value="" name="mdp" id="mdp" required/>
+                            <input class="form-control form-control-sm" type="password" value="" name="mdp" id="mdp" autocomplete="new-password" required/>
                         </div>
                         <div class="mb-3">
                             <label class="form-label small-t">

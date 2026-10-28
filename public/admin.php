@@ -6,6 +6,12 @@ if(!(isset($_SESSION['statut_validation']) || $_SESSION['statut_validation'] != 
     exit;
 }else{
 
+    require_once __DIR__."/../bdd/bdd.php";
+    require_once __DIR__."/../src/model/VueUtilisateurRole.php";
+    require_once __DIR__."/../src/repository/VueUtilisateurRoleRepository.php";
+
+    $rep = new VueUtilisateurRoleRepository();
+    $userAttente=$rep->getAllUtilisateurWithRolesEnAttente();
 }
 ?>
 <!DOCTYPE html>
@@ -68,9 +74,73 @@ if(!(isset($_SESSION['statut_validation']) || $_SESSION['statut_validation'] != 
     </div>
 </header>
 
+<div class="row justify-content-center my-4">
+    <div class="col-lg-8 col-xl-7">
+        <div class="card border-0 shadow-sm rounded-4">
 
+            <div class="card-header bg-white border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="mb-0">Utilisateurs en attente</h5>
+                    <small class="text-muted">Comptes à valider</small>
+                </div>
+                <span class="badge bg-warning text-dark rounded-pill"><?= count($userAttente)." en attente" ?></span>
+            </div>
 
+            <div class="card-body px-4">
+                <?php if (empty($userAttente)) { ?>
+                    <p class="text-muted text-center my-4">Aucun utilisateur en attente.</p>
+                <?php } else { ?>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="text-muted small">
+                            <tr>
+                                <th>Utilisateur</th>
+                                <th>Date d'inscription</th>
+                                <th>Statut de validation</th>
+                                <th>Rôle</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($userAttente as $u) { ?>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="avatar"><?= htmlspecialchars(mb_strtoupper(mb_substr($u->getPrenom(), 0, 1) . mb_substr($u->getNom(), 0, 1))) ?></span>
+                                            <div>
+                                                <div class="fw-semibold"><?= htmlspecialchars($u->getPrenom() . " " . $u->getNom()) ?></div>
+                                                <div class="small text-muted"><?= htmlspecialchars($u->getEmail()) ?></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="small"><?= htmlspecialchars($u->getDateInscription()) ?></td>
+                                    <td><span class="badge bg-warning text-dark border"><?= htmlspecialchars($u->getStatutValidation()) ?></span></td>
+                                    <td><span class="badge bg-light text-dark border"><?= htmlspecialchars($u->getRole()) ?></span></td>
+                                    <td class="text-end">
+                                        <form method="post" action="../src/traitement/validationUtilisateur.php" class="d-inline">
+                                            <input type="hidden" name="id" value="<?= $u->getIdUtilisateur() ?>">
 
+                                            <input type="hidden" name="role" value="<?= $u->getRole() ?>">
+                                            <button name="action" value="valider" class="btn btn-sm btn-success">Valider</button>
+
+                                        </form>
+                                        <form method="post" action="consultationUtilisateur.php" class="d-inline">
+                                            <input type="hidden" name="id" value="<?= $u->getIdUtilisateur() ?>">
+
+                                            <button name="action" value="modifier" class="btn btn-sm btn-outline-primary">Consulter le profil</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php } ?>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 <footer>
     <div class="container d-flex flex-wrap justify-content-between">
