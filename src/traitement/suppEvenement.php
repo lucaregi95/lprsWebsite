@@ -13,3 +13,5 @@ if (isset($_POST['id_evenement'],$_POST['titre'], $_POST['nbr_places'])) {
 
 header("Location: ../../public/evenement.php");
 exit;
+
+?>
