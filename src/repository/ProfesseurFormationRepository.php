@@ -1,5 +1,5 @@
 <?php
-require_once "../model/ProfesseurFormation.php";
+require_once __DIR__."/../model/ProfesseurFormation.php";
 
 class ProfesseurFormationRepository{
     private $connexionBdd;

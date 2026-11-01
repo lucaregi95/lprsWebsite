@@ -34,6 +34,7 @@ if ($_GET['erreur']=='email'){
     </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
     <link href="style/style.css" rel="stylesheet"/>
 
 </head>
@@ -232,34 +233,18 @@ if ($_GET['erreur']=='email'){
                                 <label class="form-label small-t">
                                     Spécialité
                                 </label>
-                                <input class="form-control form-control-sm" type="text" value="" />
+                                <input class="form-control form-control-sm" type="text" value="" name="specialite" id="specialite"/>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small-t">
                                     Formation(s) enseignée(s)
                                 </label>
-                                <select class="form-control" id="classe" name="ref_classe" >
-
-
-                                    <optgroup label="Lycée Professionnel">
-                                        <option value="1">Troisième Prépa Pro</option>
-                                        <option value="2">Bac Pro TRPM</option>
-                                        <option value="3">Bac Pro MSPC</option>
-                                        <option value="4">Bac Pro CIEL</option>
-                                        <option value="5">Formation SST</option>
-                                    </optgroup>
-
-                                    <optgroup label="Lycée Technologique">
-                                        <option value="6">Bac STI2D</option>
-                                    </optgroup>
-
-                                    <optgroup label="Enseignement supérieur et UFA">
-                                        <option value="7">BTS CPRP</option>
-                                        <option value="8">BTS SIO – Option SISR</option>
-                                        <option value="9">BTS SIO – Option SLAM</option>
-                                        <option value="10">BTS MS</option>
-                                        <option value="11">CQPM</option>
-                                    </optgroup>
+                                <select id="formations" name="formations[]" multiple placeholder="ex. BTS SIO">
+                                    <?php foreach ($formations as $formation) {?>
+                                        <option value="<?=$formation->getIdFormation()?>">
+                                            <?=$formation->getNomFormation()?>
+                                        </option>
+                                    <?php }?>
                                 </select>
                             </div>
                         </div>
@@ -314,6 +299,14 @@ if ($_GET['erreur']=='email'){
     </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+<script>
+    new TomSelect('#formations', {
+        plugins: ['remove_button'],
+        maxOptions: null,
+        hidePlaceholder: true
+    });
 </script>
 <script>
     function m(){document.querySelectorAll(".type-grp").forEach(g=>g.hidden=g.dataset.type!==document.getElementById("type").value)}document.getElementById("type").addEventListener("change",m);m();

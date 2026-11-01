@@ -40,9 +40,10 @@ private $connexionBdd;
         }
         $sql="INSERT INTO professeur VALUES(:ref_utilisateur, :specialite)";
         $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue('ref_utlisateur', $lastId);
+        $req->bindValue('ref_utilisateur', $lastId);
         $req->bindValue('specialite', $professeur->getSpecialite());
         $req->execute();
+        return (int) $lastId;
     }
 
    public function modifierProfesseur(Professeur $professeur){
