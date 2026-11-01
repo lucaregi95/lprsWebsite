@@ -236,7 +236,7 @@ if ($_GET['erreur']=='email'){
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small-t">
-                                    Formation enseignée
+                                    Formation(s) enseignée(s)
                                 </label>
                                 <select class="form-control" id="classe" name="ref_classe" >
 
