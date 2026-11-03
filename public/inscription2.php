@@ -1,6 +1,14 @@
 <?php
-var_dump($_POST['type']);
+
 require_once "../src/model/Utilisateur.php";
+require_once "../src/repository/UtilisateurRepository.php";
+$rep = new UtilisateurRepository();
+$userVerif=$rep->getUtilisateurParEmail($_POST["email"]);
+if($userVerif!=null){
+    header("Location: inscription.php?erreur=email");
+    exit;
+}else{
+
 if(isset($_POST['type'])){
     switch ($_POST['type']) {
         case 'etudiant':
@@ -35,11 +43,20 @@ if(isset($_POST['type'])){
         case 'professeur':
             require_once "../src/model/Professeur.php";
             require_once "../src/repository/ProfesseurRepository.php";
+            require_once "../src/model/ProfesseurFormation.php";
+            require_once "../src/repository/ProfesseurFormationRepository.php";
             require_once "../src/traitement/newProfesseur.php";
 
             if (isset($professeur)){
                 $rep = new ProfesseurRepository();
-                $rep -> ajoutProfesseur($professeur);
+                $rep2 = new ProfesseurFormationRepository();
+
+                $lastId = $rep -> ajoutProfesseur($professeur);
+                if(isset($_POST["formations"])){
+                foreach($_POST["formations"] as $formation){
+                    $professeurFormation = new professeurFormation(null,$lastId,$formation);
+                    $rep2->ajoutProfesseurFormations($professeurFormation);
+                }}
                 header("Location: connexion.php");
                 exit();
             }
@@ -59,7 +76,7 @@ if(isset($_POST['type'])){
             }
             break;
     }
-}
+}}
 
 
 
