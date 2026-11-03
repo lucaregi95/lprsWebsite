@@ -32,9 +32,9 @@ private $connexionBdd;
     }
 
 
-    public function ajoutProfesseur(Professeur $professeur){
+    public function ajouterProfesseur(Professeur $professeur){
         $utilisateurRepository = new UtilisateurRepository();
-        $lastId = $utilisateurRepository->ajoutUtilisateur($professeur);
+        $lastId = $utilisateurRepository->ajouterUtilisateur($professeur);
         if($lastId==0){
             return null;
         }

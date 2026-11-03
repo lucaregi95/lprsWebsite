@@ -32,7 +32,7 @@ class OffreRepository{
     }
 
 
-    public function ajoutOffre(Offre $offre){
+    public function ajouterOffre(Offre $offre){
         $sql="INSERT INTO offre VALUES (:id_offre,:titre, :description, :mission, :salaire, :type_offre, :etat, :ref_entreprise)";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_offre', $offre-> getIdOffre());;

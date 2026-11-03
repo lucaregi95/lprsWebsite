@@ -33,9 +33,9 @@ class EtudiantRepository
     }
 
 
-    public function ajoutEtudiant(Etudiant $etudiant){
+    public function ajouterEtudiant(Etudiant $etudiant){
         $utilisateurRepository = new UtilisateurRepository();
-        $lastId=$utilisateurRepository->ajoutUtilisateur($etudiant);
+        $lastId=$utilisateurRepository->ajouterUtilisateur($etudiant);
         if($lastId==0){
             return null;
         }

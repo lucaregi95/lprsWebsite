@@ -19,7 +19,7 @@ if(isset($_POST['type'])){
             if (isset($etudiant)){
                 var_dump($_POST["cv_etudiant"]);
                 $rep = new EtudiantRepository();
-                $rep -> ajoutEtudiant($etudiant);
+                $rep -> ajouterEtudiant($etudiant);
                 header("Location: connexion.php");
                 exit();
             }
@@ -33,7 +33,7 @@ if(isset($_POST['type'])){
             if (isset($alumni)){
 
                 $rep = new AlumniRepository();
-                $rep -> ajoutAlumni($alumni);
+                $rep -> ajouterAlumni($alumni);
                 header("Location: connexion.php");
                 exit();
             }
@@ -51,11 +51,11 @@ if(isset($_POST['type'])){
                 $rep = new ProfesseurRepository();
                 $rep2 = new ProfesseurFormationRepository();
 
-                $lastId = $rep -> ajoutProfesseur($professeur);
+                $lastId = $rep -> ajouterProfesseur($professeur);
                 if(isset($_POST["formations"])){
                 foreach($_POST["formations"] as $formation){
                     $professeurFormation = new professeurFormation(null,$lastId,$formation);
-                    $rep2->ajoutProfesseurFormations($professeurFormation);
+                    $rep2->ajouterProfesseurFormations($professeurFormation);
                 }}
                 header("Location: connexion.php");
                 exit();
@@ -70,7 +70,7 @@ if(isset($_POST['type'])){
 
             if (isset($partenaire)){
                 $rep = new PartenaireRepository();
-                $rep -> ajoutPartenaire($partenaire);
+                $rep -> ajouterPartenaire($partenaire);
                 header("Location: connexion.php");
                 exit();
             }

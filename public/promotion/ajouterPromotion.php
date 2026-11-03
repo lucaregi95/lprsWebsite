@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../src/repository/PromotionRepository.php';
 
 if (isset($promotion)) {
     $promotionRepository = new PromotionRepository();
-    $promotionRepository->ajoutPromotion($promotion);
+    $promotionRepository->ajouterPromotion($promotion);
     header('Location: tabPromotion.php');
     exit;
 }

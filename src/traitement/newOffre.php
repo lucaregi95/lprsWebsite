@@ -13,7 +13,7 @@ if(isset($_POST['titre']) && isset($_POST['description']) && isset($_POST['missi
 
     $repo= new OffreRepository();
     $offre = new Offre(null,$_POST['titre'],$_POST['description'],$_POST['mission'],$_POST['salaire'], $_POST['type_offre'], $_POST['etat'],$_POST['ref_entreprise'] );
-    $repo ->ajoutOffre($offre);
+    $repo ->ajouterOffre($offre);
 
 header('Location: ../../public/offre.php');
 exit();
