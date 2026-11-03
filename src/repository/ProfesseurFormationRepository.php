@@ -1,5 +1,5 @@
 <?php
-require_once "../model/ProfesseurFormation.php";
+require_once __DIR__."/../model/ProfesseurFormation.php";
 
 class ProfesseurFormationRepository{
     private $connexionBdd;
@@ -31,7 +31,7 @@ class ProfesseurFormationRepository{
             return $tabProfesseurFormation;
     }
 
-    public function ajoutProfesseurFormations(ProfesseurFormation $professeurFormation){
+    public function ajouterProfesseurFormations(ProfesseurFormation $professeurFormation){
        $sql = "INSERT INTO professeurformation VALUES (:id_pF,:ref_professeur,:ref_formation)";
         $req = $this->connexionbdd->prepare($sql);
         $req->bindValue("id_pF", $professeurFormation-> getIdPf());

@@ -1,11 +1,14 @@
 <?php
 
-//ini_set('display_errors', 1);
-//error_reporting(E_ALL);
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 require_once __DIR__ . '/../../src/repository/OffreRepository.php';
+require_once __DIR__ . '/../../src/repository/EntrepriseRepository.php';
 
 $offreRepository = new OffreRepository();
+$tabEntreprise = (new EntrepriseRepository())->getAllEntreprises();
+
 
 if (isset($_POST['btn_submit'])) {
     $offre = new Offre(
@@ -67,7 +70,11 @@ if (!$offre) {
     <input type="text" name="etat" id="etat" value="<?= $offre->getEtat() ?>" required><br>
 
     <label for="ref_entreprise">Entreprise</label>
-    <input type="text" name="ref_entreprise" id="ref_entreprise" value="<?= $offre->getRefEntreprise() ?>" required><br>
+    <select name="ref_entreprise" id="ref_entreprise" required>
+        <?php foreach ($tabEntreprise as $entreprise) { ?>
+            <option value="<?= $entreprise->getIdEntreprise() ?>"><?= $entreprise->getNomEntreprise() ?></option>
+        <?php } ?>
+    </select><br>
 
     <input type="submit" name="btn_submit" value="Enregistrer">
     <a href="tabOffre.php">Annuler</a>

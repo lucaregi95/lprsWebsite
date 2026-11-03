@@ -15,7 +15,7 @@ class EvenementRepository{
         $req->bindValue(':id_evenement', $id_evenement);
         $req->execute();
         $result = $req->fetch();
-        $evenement = new Evenement($result['id_evenement'],$result['titre'],$result['description'],$result['lieu'],$result['nbr_places'],$result['date_evenement']);
+        $evenement = new Evenement($result['id_evenement'],$result['titre'],$result['description'],$result['lieu'],$result['nbr_places'],$result['date_evenement'], $result['lat'],$result['lng']);
         return $evenement;
 
     }
@@ -27,27 +27,47 @@ class EvenementRepository{
         $result = $req->fetchAll();
         $tabEvenement = array();
         foreach($result as $results){
-            $evenement = new Evenement($results['id_evenement'],$results['titre'],$results['description'],$results['lieu'],$results['nbr_places'],$results['lat'],$results['lng'],$results['date_evenement']);
+            $evenement = new Evenement($results['id_evenement'],$results['titre'],$results['description'],$results['lieu'],$results['nbr_places'], $results['date_evenement'], $results['lat'],$results['lng']);
         $tabEvenement[] = $evenement;
         }
         return $tabEvenement;
     }
 
     public function getEvenementsByUtilisateur($id_utilisateur){
-        $sql = "SELECT e.* FROM evenement e INNER JOIN participe p ON p.ref_evenement = e.id_evenement WHERE p.ref_utilisateur = :id_utilisateur";
+        $sql = "SELECT e.* FROM evenement e INNER JOIN participe p ON p.ref_evenement = e.id_evenement WHERE p.ref_utilisateur = :id_utilisateur ";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_utilisateur', $id_utilisateur);
         $req->execute();
         $result = $req->fetchAll();
         $tabEvenement = array();
         foreach($result as $results){
-            $tabEvenement[] = new Evenement($results['id_evenement'],$results['titre'],$results['description'],$results['lieu'],$results['nbr_places'],$results['lat'],$results['lng'],$results['date_evenement']);
+            $tabEvenement[] = new Evenement($results['id_evenement'],$results['titre'],$results['description'],$results['lieu'],$results['nbr_places'], $results['date_evenement'], $results['lat'],$results['lng']);
         }
         return $tabEvenement;
     }
 
+    public function getEvenementOrganiseParUtilisateur($id_utilisateur, $id_evenement){
+        $sql = "SELECT e.*
+            FROM evenement e
+            INNER JOIN participe p ON p.ref_evenement = e.id_evenement
+            WHERE p.ref_utilisateur = :id_utilisateur
+              AND p.est_orga = 1
+              AND p.ref_evenement = :ref_evenement";
+        $req = $this->connexionBdd->prepare($sql);
+        $req->bindValue(':id_utilisateur', $id_utilisateur);
+        $req->bindValue(':ref_evenement', $id_evenement);
+        $req->execute();
+        $row = $req->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
+            return null; // l'utilisateur n'est pas organisateur de cet événement
+        }
+
+        return new Evenement($row['id_evenement'], $row['titre'], $row['description'], $row['lieu'], $row['nbr_places'], $row['lat'], $row['lng'], $row['date_evenement']);
+    }
+
     public function ajouterEvenement(Evenement $evenement){
-        $sql = "INSERT INTO evenement (titre,description,lieu,nbr_places,lat,lng,date_evenement) VALUES (:titre,:description,:lieu,:nbr_places,:lat,:lng,:date_evenement)";
+        $sql = "INSERT INTO evenement (titre,description,lieu,nbr_places,lat,lng, date_evenement) VALUES (:titre,:description,:lieu,:nbr_places,:lat,:lng, :date_evenement)";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':titre', $evenement->getTitre());
         $req->bindValue(':description', $evenement->getDescription());
@@ -57,6 +77,8 @@ class EvenementRepository{
         $req->bindValue(':lng', $evenement->getLng());
         $req->bindValue(':date_evenement', $evenement->getDateEvenement());
         $req -> execute();
+
+        return (int) $this->connexionBdd->lastInsertId();
     }
 
 
@@ -68,16 +90,16 @@ class EvenementRepository{
     }
 
     public function modifierEvenement(Evenement $evenement){
-        $sql = "UPDATE evenement SET titre=:titre,description=:description,lieu=:lieu,nbr_places=:nbr_places,lat=:lat,lng=:lng, date_evenement=:date_evenement WHERE id_evenement=:id_evenement";
+        $sql = "UPDATE evenement SET titre=:titre,description=:description,lieu=:lieu,nbr_places=:nbr_places,date_evenement=:date_evenement, lat=:lat,lng=:lng WHERE id_evenement=:id_evenement";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_evenement', $evenement->getIdEvenement());
         $req->bindValue(':titre', $evenement->getTitre());
         $req->bindValue(':description', $evenement->getDescription());
         $req->bindValue(':lieu', $evenement->getLieu());
         $req->bindValue(':nbr_places', $evenement->getNbrPlaces());
+        $req->bindValue(':date_evenement', $evenement->getDateEvenement());
         $req->bindValue(':lat', $evenement->getLat());
         $req->bindValue(':lng', $evenement->getLng());
-        $req->bindValue(':date_evenement', $evenement->getDateEvenement());
 
         $req -> execute();
     }

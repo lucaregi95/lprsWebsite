@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . "/../../bdd/bdd.php";
 class UtilisateurRepository{
 
     private $connexionbdd;
@@ -26,7 +27,7 @@ class UtilisateurRepository{
         return $result;
     }
 
-    public function ajoutUtilisateur(Utilisateur $utilisateur){
+    public function ajouterUtilisateur(Utilisateur $utilisateur){
         $sql="INSERT INTO utilisateur(nom,prenom,email,mdp,date_inscription,statut_validation) VALUES (:nom,:prenom,:email,:mdp,:date_inscription,:statut_validation)";
         $req = $this->connexionbdd->prepare($sql);
         $req->bindValue(":nom",$utilisateur-> getNom());

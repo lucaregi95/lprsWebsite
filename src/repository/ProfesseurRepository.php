@@ -32,17 +32,18 @@ private $connexionBdd;
     }
 
 
-    public function ajoutProfesseur(Professeur $professeur){
+    public function ajouterProfesseur(Professeur $professeur){
         $utilisateurRepository = new UtilisateurRepository();
-        $lastId = $utilisateurRepository->ajoutUtilisateur($professeur);
+        $lastId = $utilisateurRepository->ajouterUtilisateur($professeur);
         if($lastId==0){
             return null;
         }
         $sql="INSERT INTO professeur VALUES(:ref_utilisateur, :specialite)";
         $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue('ref_utlisateur', $lastId);
+        $req->bindValue('ref_utilisateur', $lastId);
         $req->bindValue('specialite', $professeur->getSpecialite());
         $req->execute();
+        return (int) $lastId;
     }
 
    public function modifierProfesseur(Professeur $professeur){

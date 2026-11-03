@@ -6,16 +6,28 @@ require_once "../src/repository/EvenementRepository.php";
 require_once "../src/model/Participe.php";
 require_once "../src/repository/ParticipeRepository.php";
 
+$idUser=$_SESSION['id_utilisateur'];
+
 $eventRepository = new EvenementRepository();
 $evenements = $eventRepository->getAllEvenements();
 $inscrits = $eventRepository->getNbInscritsParEvenement();
+
+
 
 $participeRepository = new ParticipeRepository();
 $participes = $participeRepository->getAllParticipes();
 
 
-$idUser=$_SESSION['id_utilisateur'];
-$vueRole="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=:idUser";
+
+$connexionBdd = (new Bdd())->getConnexionBdd();
+
+
+$sql="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=:id";
+$req = $connexionBdd->prepare($sql);
+$req->execute([':id'=>$idUser]);
+$result = $req->fetch(pdo::FETCH_ASSOC);
+$vueRole=$result['role'];
+
 
 
 
@@ -97,9 +109,11 @@ $vueRole="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=:idUser";
                 Retrouve tous les évènements de LPRS.
             </p>
         </div>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
-            + Proposer un évènement
-        </button>
+        <?php if($vueRole === "partenaire"): ?>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+                + Proposer un évènement <?= $vueRole ?>
+            </button>
+        <?php endif; ?>
     </div>
 </header>
 <main class="container mt-4">
@@ -112,6 +126,7 @@ $vueRole="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=:idUser";
                 </div>
                 <form method="POST" action="../src/traitement/newEvenement.php">
                     <div class="modal-body">
+
                         <div class="mb-3">
                             <label class="form-label">Nom de l'évènement</label>
                             <input type="text" class="form-event" name="titre" required>
@@ -219,6 +234,9 @@ $vueRole="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=:idUser";
                     <?php
                     $restantes = max(0, (int)$evenement->getNbrPlaces() - ($inscrits[$evenement->getIdEvenement()] ?? 0));
                     $complet = ($restantes <= 0);
+                    $eventUser= $eventRepository->getEvenementOrganiseParUtilisateur($idUser,$evenement->getIdEvenement());
+
+
                     ?>
                     <div class="col-md-6">
                         <div class="box ev h-100">
@@ -254,21 +272,25 @@ $vueRole="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=:idUser";
                                             Aperçu
                                         </button>
                                     <?php else: ?>
-                                        <form method="POST" action="../src/traitement/newParticipe.php">
-                                            <input type="hidden" name="ref_utilisateur" value="<?= $_SESSION['id_utilisateur'] ?>">
-                                            <input type="hidden" name="ref_evenement" value="<?=$evenement->getIdEvenement()?>() ?>">
-                                            <button class="btn btn-primary btn-sm mt-2 ">
-                                                S'inscrire
+                                        <?php if($vueRole === "etudiant"): ?>
+                                            <form method="POST" action="../src/traitement/newParticipe.php">
+                                                <input type="hidden" name="ref_utilisateur" value="<?= $_SESSION['id_utilisateur'] ?>">
+                                                <input type="hidden" name="ref_evenement" value="<?=$evenement->getIdEvenement()?>() ?>">
+                                                <button class="btn btn-primary btn-sm mt-2 ">
+                                                    S'inscrire
+                                                </button>
+                                            </form>
+                                            <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
+                                                    data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
+                                                Aperçu
                                             </button>
-                                        </form>
-                                        <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
-                                                data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
-                                            Aperçu
-                                        </button>
-                                        <button type="button" class="btn btn-outline-primary btn-sm mt-2"
-                                                data-bs-toggle="modal" data-bs-target="#edit<?= $id ?>">
-                                            Modifier
-                                        </button>
+
+                                        <?php elseif ($vueRole === "partenaire" && $eventUser!==null): ?>
+                                            <button type="button" class="btn btn-outline-primary btn-sm mt-2"
+                                                    data-bs-toggle="modal" data-bs-target="#edit<?= $id ?>">
+                                                Modifier
+                                            </button>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 </div>
                             </div>

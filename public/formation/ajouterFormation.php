@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../src/repository/FormationRepository.php';
 
 if (isset($formation)) {
     $formationRepository = new FormationRepository();
-    $formationRepository->ajoutFormation($formation);
+    $formationRepository->ajouterFormation($formation);
     header('Location: tabFormation.php');
     exit;
 }

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.3
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 13 oct. 2026 à 09:39
--- Version du serveur : 9.1.0
--- Version de PHP : 8.3.14
+-- Généré le : mar. 03 nov. 2026 à 08:17
+-- Version du serveur : 8.4.7
+-- Version de PHP : 8.3.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -84,9 +84,9 @@ CREATE TABLE IF NOT EXISTS `evenement` (
   `description` longtext NOT NULL,
   `lieu` varchar(250) NOT NULL,
   `nbr_places` int NOT NULL,
-  'date_evenement' date NOT NULL,
-  'lat' int NOT NULL,
-  'lng' int NOT NULL,
+  `date_evenement` date NOT NULL,
+  `lat` int NOT NULL,
+  `lng` int NOT NULL,
   PRIMARY KEY (`id_evenement`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -131,11 +131,9 @@ CREATE TABLE IF NOT EXISTS `offre` (
 
 DROP TABLE IF EXISTS `offreutilisateur`;
 CREATE TABLE IF NOT EXISTS `offreutilisateur` (
-  `id_oU` int NOT NULL AUTO_INCREMENT,
   `ref_offre` int NOT NULL,
   `ref_utilisateur` int NOT NULL,
-  PRIMARY KEY (`id_oU`),
-  KEY `fk_offreOffreUtilisateur` (`ref_offre`),
+  PRIMARY KEY (`ref_offre`,`ref_utilisateur`),
   KEY `fk_utilisateurOffreUtilisateur` (`ref_utilisateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -163,13 +161,11 @@ CREATE TABLE IF NOT EXISTS `partenaire` (
 
 DROP TABLE IF EXISTS `participe`;
 CREATE TABLE IF NOT EXISTS `participe` (
-  `id_participe` int NOT NULL AUTO_INCREMENT,
-  `est_orga` tinyint(1) NOT NULL,
   `ref_utilisateur` int NOT NULL,
   `ref_evenement` int NOT NULL,
-  PRIMARY KEY (`id_participe`),
-  KEY `fk_evenementParticipe` (`ref_evenement`),
-  KEY `fk_utilisateurParticipe` (`ref_utilisateur`)
+  `est_orga` tinyint(1) NOT NULL,
+  PRIMARY KEY (`ref_utilisateur`,`ref_evenement`),
+  KEY `fk_evenementParticipe` (`ref_evenement`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -211,11 +207,9 @@ CREATE TABLE IF NOT EXISTS `professeur` (
 
 DROP TABLE IF EXISTS `professeurformation`;
 CREATE TABLE IF NOT EXISTS `professeurformation` (
-  `id_pF` int NOT NULL AUTO_INCREMENT,
   `ref_professeur` int NOT NULL,
   `ref_formation` int NOT NULL,
-  PRIMARY KEY (`id_pF`),
-  KEY `fk_professeurProfesseurFormation` (`ref_professeur`),
+  PRIMARY KEY (`ref_professeur`,`ref_formation`),
   KEY `fk_formationProfesseurFormation` (`ref_formation`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -286,6 +280,34 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `statut_validation` varchar(50) NOT NULL,
   PRIMARY KEY (`id_utilisateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Doublure de structure pour la vue `v_utilisateurwithrole`
+-- (Voir ci-dessous la vue réelle)
+--
+DROP VIEW IF EXISTS `v_utilisateurwithrole`;
+CREATE TABLE IF NOT EXISTS `v_utilisateurwithrole` (
+`date_inscription` date
+,`email` varchar(150)
+,`id_utilisateur` int
+,`mdp` varchar(256)
+,`nom` varchar(100)
+,`prenom` varchar(100)
+,`role` varchar(10)
+,`statut_validation` varchar(50)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la vue `v_utilisateurwithrole`
+--
+DROP TABLE IF EXISTS `v_utilisateurwithrole`;
+
+DROP VIEW IF EXISTS `v_utilisateurwithrole`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_utilisateurwithrole`  AS SELECT `u`.`id_utilisateur` AS `id_utilisateur`, `u`.`nom` AS `nom`, `u`.`prenom` AS `prenom`, `u`.`email` AS `email`, `u`.`mdp` AS `mdp`, `u`.`date_inscription` AS `date_inscription`, `u`.`statut_validation` AS `statut_validation`, 'alumni' AS `role` FROM (`alumni` `a` join `utilisateur` `u` on((`u`.`id_utilisateur` = `a`.`ref_utilisateur`)))union select `u`.`id_utilisateur` AS `id_utilisateur`,`u`.`nom` AS `nom`,`u`.`prenom` AS `prenom`,`u`.`email` AS `email`,`u`.`mdp` AS `mdp`,`u`.`date_inscription` AS `date_inscription`,`u`.`statut_validation` AS `statut_validation`,'etudiant' AS `role` from (`etudiant` `e` join `utilisateur` `u` on((`u`.`id_utilisateur` = `e`.`ref_utilisateur`))) union select `u`.`id_utilisateur` AS `id_utilisateur`,`u`.`nom` AS `nom`,`u`.`prenom` AS `prenom`,`u`.`email` AS `email`,`u`.`mdp` AS `mdp`,`u`.`date_inscription` AS `date_inscription`,`u`.`statut_validation` AS `statut_validation`,'partenaire' AS `role` from (`partenaire` `p` join `utilisateur` `u` on((`u`.`id_utilisateur` = `p`.`ref_utilisateur`))) union select `u`.`id_utilisateur` AS `id_utilisateur`,`u`.`nom` AS `nom`,`u`.`prenom` AS `prenom`,`u`.`email` AS `email`,`u`.`mdp` AS `mdp`,`u`.`date_inscription` AS `date_inscription`,`u`.`statut_validation` AS `statut_validation`,'professeur' AS `role` from (`professeur` `pr` join `utilisateur` `u` on((`u`.`id_utilisateur` = `pr`.`ref_utilisateur`)))  ;
 
 --
 -- Contraintes pour les tables déchargées

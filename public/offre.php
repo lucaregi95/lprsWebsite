@@ -1,10 +1,17 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+session_start();
 require_once "../bdd/bdd.php";
 require_once "../src/model/Offre.php";
 require_once "../src/repository/OffreRepository.php";
+require_once __DIR__ . "/../src/repository/EntrepriseRepository.php";
 
 $offreRepository = new OffreRepository();
 $offres = $offreRepository->getAllOffres();
+$tabEntreprise = (new EntrepriseRepository())->getAllEntreprises();
+
 
 function h($v)
 {
@@ -57,16 +64,21 @@ function h($v)
                     </a>
                 </li>
             </ul>
-            <i class="bi bi-search me-3">
-            </i>
-            <i class="bi bi-bell me-3">
-            </i>
-            <a class="nav-link" href="inscription.php">Inscription --</a>
-            <a class="nav-link" href="connexion.php">-- Connexion</a>
-            <!--            <a class="text-decoration-none text-dark d-flex align-items-center gap-2" href="profil.php">-->
-            <!--                <span class="avatar">NK</span>-->
-            <!--                <span class="small">Nassim K. <i class="bi bi-chevron-down"></i></span>-->
-            <!--            </a>-->
+            <?php if(isset($_SESSION["id_utilisateur"])){ ?>
+                <div class="dropdown">
+                    <a class="text-decoration-none text-dark d-flex align-items-center gap-2" href="#" data-bs-toggle="dropdown">
+                        <span class="avatar"><?php echo $_SESSION["prenom"][0].$_SESSION["nom"][0] ?></span>
+                        <span class="small"><?php echo $_SESSION["prenom"]." ".$_SESSION["nom"]." " ?><i class="bi bi-chevron-down"></i></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="profil.php">Profil</a></li>
+                        <li><a class="dropdown-item" href="deconnexion.php">Déconnexion</a></li>
+                    </ul>
+                </div>
+            <?php }else{ ?>
+                <a class="nav-link" href="inscription.php">Inscription/</a>
+                <a class="nav-link" href="connexion.php">Connexion</a>
+            <?php } ?>
         </div>
     </div>
 </nav>
@@ -140,10 +152,11 @@ function h($v)
 
                         <div class="mb-3">
                             <label class="form-label">Entreprise</label>
-                            <select class="form-event" name="ref_entreprise" required>
-                                <option value="1">A</option>
-                                <option value="2">B</option>
-                            </select>
+                            <select name="ref_entreprise" id="ref_entreprise" required>
+                                <?php foreach ($tabEntreprise as $entreprise) { ?>
+                                    <option value="<?= $entreprise->getIdEntreprise() ?>"><?= $entreprise->getNomEntreprise() ?></option>
+                                <?php } ?>
+                            </select><br>
                         </div>
                     </div>
 
@@ -400,10 +413,11 @@ function h($v)
 
                                     <div class="mb-3">
                                         <label class="form-label">Entreprise</label>
-                                        <select class="form-event" name="ref_entreprise" required>
-                                            <option value="1" <?= (int)$offre->getRefEntreprise() === 1 ? 'selected' : '' ?>>A</option>
-                                            <option value="2" <?= (int)$offre->getRefEntreprise() === 2 ? 'selected' : '' ?>>B</option>
-                                        </select>
+                                        <select class="form-event" name="ref_entreprise" id="ref_entreprise" required>
+                                            <?php foreach ($tabEntreprise as $entreprise) { ?>
+                                                <option value="<?= $entreprise->getIdEntreprise() ?>"><?= $entreprise->getNomEntreprise() ?></option>
+                                            <?php } ?>
+                                        </select><br>
                                     </div>
                                 </div>
 
