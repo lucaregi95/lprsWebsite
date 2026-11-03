@@ -1458,355 +1458,346 @@
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="408" parent="327" name="id_participe">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="408" parent="327" name="ref_utilisateur">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="409" parent="327" name="est_orga">
+    <column id="409" parent="327" name="ref_evenement">
       <NotNull>1</NotNull>
       <Position>2</Position>
-      <StoredType>tinyint(1)|0s</StoredType>
+      <StoredType>int|0s</StoredType>
     </column>
-    <column id="410" parent="327" name="ref_utilisateur">
+    <column id="410" parent="327" name="est_orga">
       <NotNull>1</NotNull>
       <Position>3</Position>
-      <StoredType>int|0s</StoredType>
+      <StoredType>tinyint(1)|0s</StoredType>
     </column>
-    <column id="411" parent="327" name="ref_evenement">
-      <NotNull>1</NotNull>
-      <Position>4</Position>
-      <StoredType>int|0s</StoredType>
-    </column>
-    <foreign-key id="412" parent="327" name="fk_utilisateurParticipe">
+    <foreign-key id="411" parent="327" name="fk_utilisateurParticipe">
       <ColNames>ref_utilisateur</ColNames>
       <RefColNames>id_utilisateur</RefColNames>
       <RefTableName>utilisateur</RefTableName>
     </foreign-key>
-    <foreign-key id="413" parent="327" name="fk_evenementParticipe">
+    <foreign-key id="412" parent="327" name="fk_evenementParticipe">
       <ColNames>ref_evenement</ColNames>
       <RefColNames>id_evenement</RefColNames>
       <RefTableName>evenement</RefTableName>
     </foreign-key>
-    <index id="414" parent="327" name="PRIMARY">
-      <ColNames>id_participe</ColNames>
+    <index id="413" parent="327" name="PRIMARY">
+      <ColNames>ref_utilisateur
+ref_evenement</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="415" parent="327" name="fk_utilisateurParticipe">
-      <ColNames>ref_utilisateur</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="416" parent="327" name="fk_evenementParticipe">
+    <index id="414" parent="327" name="fk_evenementParticipe">
       <ColNames>ref_evenement</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="417" parent="327" name="PRIMARY">
+    <key id="415" parent="327" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="418" parent="328" name="id_post">
+    <column id="416" parent="328" name="id_post">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="419" parent="328" name="contenu">
+    <column id="417" parent="328" name="contenu">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>longtext|0s</StoredType>
     </column>
-    <column id="420" parent="328" name="date_post">
+    <column id="418" parent="328" name="date_post">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>datetime|0s</StoredType>
     </column>
-    <column id="421" parent="328" name="ref_utilisateur">
+    <column id="419" parent="328" name="ref_utilisateur">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="422" parent="328" name="categorie_post">
+    <column id="420" parent="328" name="categorie_post">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>varchar(100)|0s</StoredType>
     </column>
-    <column id="423" parent="328" name="titre">
+    <column id="421" parent="328" name="titre">
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <foreign-key id="424" parent="328" name="fk_postUtilisateur">
+    <foreign-key id="422" parent="328" name="fk_postUtilisateur">
       <ColNames>ref_utilisateur</ColNames>
       <RefColNames>id_utilisateur</RefColNames>
       <RefTableName>utilisateur</RefTableName>
     </foreign-key>
-    <index id="425" parent="328" name="PRIMARY">
+    <index id="423" parent="328" name="PRIMARY">
       <ColNames>id_post</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="426" parent="328" name="fk_postUtilisateur">
+    <index id="424" parent="328" name="fk_postUtilisateur">
       <ColNames>ref_utilisateur</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="427" parent="328" name="PRIMARY">
+    <key id="425" parent="328" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="428" parent="329" name="ref_utilisateur">
+    <column id="426" parent="329" name="ref_utilisateur">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="429" parent="329" name="specialite">
+    <column id="427" parent="329" name="specialite">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(200)|0s</StoredType>
     </column>
-    <foreign-key id="430" parent="329" name="fk_utilisateurProfesseur">
+    <foreign-key id="428" parent="329" name="fk_utilisateurProfesseur">
       <ColNames>ref_utilisateur</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>id_utilisateur</RefColNames>
       <RefTableName>utilisateur</RefTableName>
     </foreign-key>
-    <index id="431" parent="329" name="PRIMARY">
+    <index id="429" parent="329" name="PRIMARY">
       <ColNames>ref_utilisateur</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="432" parent="329" name="PRIMARY">
+    <key id="430" parent="329" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="433" parent="330" name="id_pF">
+    <column id="431" parent="330" name="id_pF">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="434" parent="330" name="ref_professeur">
+    <column id="432" parent="330" name="ref_professeur">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="435" parent="330" name="ref_formation">
+    <column id="433" parent="330" name="ref_formation">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <foreign-key id="436" parent="330" name="fk_professeurProfesseurFormation">
+    <foreign-key id="434" parent="330" name="fk_professeurProfesseurFormation">
       <ColNames>ref_professeur</ColNames>
       <RefColNames>ref_utilisateur</RefColNames>
       <RefTableName>professeur</RefTableName>
     </foreign-key>
-    <foreign-key id="437" parent="330" name="fk_formationProfesseurFormation">
+    <foreign-key id="435" parent="330" name="fk_formationProfesseurFormation">
       <ColNames>ref_formation</ColNames>
       <RefColNames>id_formation</RefColNames>
       <RefTableName>formation</RefTableName>
     </foreign-key>
-    <index id="438" parent="330" name="PRIMARY">
+    <index id="436" parent="330" name="PRIMARY">
       <ColNames>id_pF</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="439" parent="330" name="fk_professeurProfesseurFormation">
+    <index id="437" parent="330" name="fk_professeurProfesseurFormation">
       <ColNames>ref_professeur</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="440" parent="330" name="fk_formationProfesseurFormation">
+    <index id="438" parent="330" name="fk_formationProfesseurFormation">
       <ColNames>ref_formation</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="441" parent="330" name="PRIMARY">
+    <key id="439" parent="330" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="442" parent="331" name="id_promotion">
+    <column id="440" parent="331" name="id_promotion">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="443" parent="331" name="annee">
+    <column id="441" parent="331" name="annee">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(9)|0s</StoredType>
     </column>
-    <index id="444" parent="331" name="PRIMARY">
+    <index id="442" parent="331" name="PRIMARY">
       <ColNames>id_promotion</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="445" parent="331" name="PRIMARY">
+    <key id="443" parent="331" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="446" parent="332" name="id_reponse">
+    <column id="444" parent="332" name="id_reponse">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="447" parent="332" name="contenu">
+    <column id="445" parent="332" name="contenu">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>longtext|0s</StoredType>
     </column>
-    <column id="448" parent="332" name="datetime_reponse">
+    <column id="446" parent="332" name="datetime_reponse">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>datetime|0s</StoredType>
     </column>
-    <column id="449" parent="332" name="ref_utilisateur">
+    <column id="447" parent="332" name="ref_utilisateur">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="450" parent="332" name="ref_post">
+    <column id="448" parent="332" name="ref_post">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <foreign-key id="451" parent="332" name="fk_utilisateurPost">
+    <foreign-key id="449" parent="332" name="fk_utilisateurPost">
       <ColNames>ref_utilisateur</ColNames>
       <RefColNames>id_utilisateur</RefColNames>
       <RefTableName>utilisateur</RefTableName>
     </foreign-key>
-    <foreign-key id="452" parent="332" name="fk_reponsePost">
+    <foreign-key id="450" parent="332" name="fk_reponsePost">
       <ColNames>ref_post</ColNames>
       <RefColNames>id_post</RefColNames>
       <RefTableName>post</RefTableName>
     </foreign-key>
-    <index id="453" parent="332" name="PRIMARY">
+    <index id="451" parent="332" name="PRIMARY">
       <ColNames>id_reponse</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="454" parent="332" name="fk_utilisateurPost">
+    <index id="452" parent="332" name="fk_utilisateurPost">
       <ColNames>ref_utilisateur</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="455" parent="332" name="fk_reponsePost">
+    <index id="453" parent="332" name="fk_reponsePost">
       <ColNames>ref_post</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="456" parent="332" name="PRIMARY">
+    <key id="454" parent="332" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="457" parent="333" name="id_signalement">
+    <column id="455" parent="333" name="id_signalement">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="458" parent="333" name="date">
+    <column id="456" parent="333" name="date">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>datetime|0s</StoredType>
     </column>
-    <column id="459" parent="333" name="ref_signalant">
+    <column id="457" parent="333" name="ref_signalant">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="460" parent="333" name="ref_signale">
+    <column id="458" parent="333" name="ref_signale">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="461" parent="333" name="titre">
+    <column id="459" parent="333" name="titre">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <column id="462" parent="333" name="contenu">
+    <column id="460" parent="333" name="contenu">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <foreign-key id="463" parent="333" name="fk_utilisateurSignalant">
+    <foreign-key id="461" parent="333" name="fk_utilisateurSignalant">
       <ColNames>ref_signalant</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>id_utilisateur</RefColNames>
       <RefTableName>utilisateur</RefTableName>
     </foreign-key>
-    <foreign-key id="464" parent="333" name="fk_utilisateurSignale">
+    <foreign-key id="462" parent="333" name="fk_utilisateurSignale">
       <ColNames>ref_signale</ColNames>
       <RefColNames>id_utilisateur</RefColNames>
       <RefTableName>utilisateur</RefTableName>
     </foreign-key>
-    <index id="465" parent="333" name="PRIMARY">
+    <index id="463" parent="333" name="PRIMARY">
       <ColNames>id_signalement</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="466" parent="333" name="fk_utilisateurSignalant">
+    <index id="464" parent="333" name="fk_utilisateurSignalant">
       <ColNames>ref_signalant</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="467" parent="333" name="fk_utilisateurSignale">
+    <index id="465" parent="333" name="fk_utilisateurSignale">
       <ColNames>ref_signale</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="468" parent="333" name="PRIMARY">
+    <key id="466" parent="333" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="469" parent="334" name="id_utilisateur">
+    <column id="467" parent="334" name="id_utilisateur">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="470" parent="334" name="nom">
+    <column id="468" parent="334" name="nom">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(100)|0s</StoredType>
     </column>
-    <column id="471" parent="334" name="prenom">
+    <column id="469" parent="334" name="prenom">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>varchar(100)|0s</StoredType>
     </column>
-    <column id="472" parent="334" name="email">
+    <column id="470" parent="334" name="email">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>varchar(150)|0s</StoredType>
     </column>
-    <column id="473" parent="334" name="mdp">
+    <column id="471" parent="334" name="mdp">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>varchar(256)|0s</StoredType>
     </column>
-    <column id="474" parent="334" name="date_inscription">
+    <column id="472" parent="334" name="date_inscription">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StoredType>date|0s</StoredType>
     </column>
-    <column id="475" parent="334" name="statut_validation">
+    <column id="473" parent="334" name="statut_validation">
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StoredType>varchar(50)|0s</StoredType>
     </column>
-    <index id="476" parent="334" name="PRIMARY">
+    <index id="474" parent="334" name="PRIMARY">
       <ColNames>id_utilisateur</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="477" parent="334" name="PRIMARY">
+    <key id="475" parent="334" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>

@@ -6,16 +6,28 @@ require_once "../src/repository/EvenementRepository.php";
 require_once "../src/model/Participe.php";
 require_once "../src/repository/ParticipeRepository.php";
 
+$idUser=$_SESSION['id_utilisateur'];
+
 $eventRepository = new EvenementRepository();
 $evenements = $eventRepository->getAllEvenements();
 $inscrits = $eventRepository->getNbInscritsParEvenement();
+
+
 
 $participeRepository = new ParticipeRepository();
 $participes = $participeRepository->getAllParticipes();
 
 
-//$idUser=$_SESSION['id_utilisateur'];
-//$vueRole="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=:idUser";
+
+$connexionBdd = (new Bdd())->getConnexionBdd();
+
+
+$sql="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=:id";
+$req = $connexionBdd->prepare($sql);
+$req->execute([':id'=>$idUser]);
+$result = $req->fetch(pdo::FETCH_ASSOC);
+$vueRole=$result['role'];
+
 
 
 
@@ -97,9 +109,11 @@ $participes = $participeRepository->getAllParticipes();
                 Retrouve tous les évènements de LPRS.
             </p>
         </div>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
-            + Proposer un évènement
-        </button>
+        <?php if($vueRole === "partenaire"): ?>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+                + Proposer un évènement <?= $vueRole ?>
+            </button>
+        <?php endif; ?>
     </div>
 </header>
 <main class="container mt-4">
@@ -219,6 +233,7 @@ $participes = $participeRepository->getAllParticipes();
                     <?php
                     $restantes = max(0, (int)$evenement->getNbrPlaces() - ($inscrits[$evenement->getIdEvenement()] ?? 0));
                     $complet = ($restantes <= 0);
+                    $eventUser= $eventRepository->getEvenementOrganiseParUtilisateur($idUser,$id);
                     ?>
                     <div class="col-md-6">
                         <div class="box ev h-100">
@@ -254,21 +269,24 @@ $participes = $participeRepository->getAllParticipes();
                                             Aperçu
                                         </button>
                                     <?php else: ?>
-                                        <form method="POST" action="../src/traitement/newParticipe.php">
-                                            <input type="hidden" name="ref_utilisateur" value="<?= $_SESSION['id_utilisateur'] ?>">
-                                            <input type="hidden" name="ref_evenement" value="<?=$evenement->getIdEvenement()?>() ?>">
-                                            <button class="btn btn-primary btn-sm mt-2 ">
-                                                S'inscrire
+                                        <?php if($vueRole === "etudiant"): ?>
+                                            <form method="POST" action="../src/traitement/newParticipe.php">
+                                                <input type="hidden" name="ref_utilisateur" value="<?= $_SESSION['id_utilisateur'] ?>">
+                                                <input type="hidden" name="ref_evenement" value="<?=$evenement->getIdEvenement()?>() ?>">
+                                                <button class="btn btn-primary btn-sm mt-2 ">
+                                                    S'inscrire
+                                                </button>
+                                            </form>
+                                            <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
+                                                    data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
+                                                Aperçu
                                             </button>
-                                        </form>
-                                        <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
-                                                data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
-                                            Aperçu
-                                        </button>
-                                        <button type="button" class="btn btn-outline-primary btn-sm mt-2"
-                                                data-bs-toggle="modal" data-bs-target="#edit<?= $id ?>">
-                                            Modifier
-                                        </button>
+                                        <?php elseif ($vueRole === "partenaire" && $eventUser==1): ?>
+                                            <button type="button" class="btn btn-outline-primary btn-sm mt-2"
+                                                    data-bs-toggle="modal" data-bs-target="#edit<?= $id ?>">
+                                                Modifier
+                                            </button>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 </div>
                             </div>

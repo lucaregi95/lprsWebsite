@@ -8,13 +8,14 @@ Class ParticipeRepository{
         $this->connexionBdd = (new Bdd())->getConnexionBdd();
     }
 
-    public function getParticipe($id_participe){
-        $sql ="SELECT * FROM participe WHERE id_participe = :id_participe";
+    public function getParticipe($id_participe, $id_evenement){
+        $sql ="SELECT * FROM participe WHERE ref_utilisateur = :ref_utilisateur and ref_evenement=:ref_evenement";
         $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':id_participe', $id_participe);
+        $req->bindValue(':ref_utilisateur', $id_participe);
+        $req->bindValue(':ref_evenement', $id_participe);
         $req->execute();
         $result = $req->fetch();
-        $participe = new Participe($result['id_participe'],$result['est_orga'],$result['ref_utilisateur'],$result['ref_evenement']);
+        $participe = new Participe($result['est_orga'],$result['ref_utilisateur'],$result['ref_evenement']);
         return $participe;
     }
 
@@ -25,7 +26,7 @@ Class ParticipeRepository{
         $result = $req->fetchAll();
         $tabParticipes = array();
         foreach ($result as $results) {
-            $participes = new Participe($results['id_participe'],$results['est_orga'],$results['ref_utilisateur'],$results['ref_evenement']);
+            $participes = new Participe($results['est_orga'],$results['ref_utilisateur'],$results['ref_evenement']);
         $tabParticipes[] = $participes;
         }
         return $tabParticipes;
@@ -41,16 +42,16 @@ Class ParticipeRepository{
     }
 
     public function supprimerParticipe($id_participe){
-        $sql = "DELETE FROM participe WHERE id_participe = :id_participe";
+        $sql = "DELETE FROM participe WHERE ref_utilisateur = :ref_utilisateur and ref_evenement=:ref_evenement";
         $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':id_participe', $id_participe);
+        $req->bindValue(':ref_utilisateur', $id_participe);
+        $req->bindValue(':ref_evenement', $id_participe);
         $req->execute();
     }
 
     public function modifierParticipe(Participe $participe){
-        $sql = "UPDATE participe SET est_orga=:est_orga,ref_utilisateur=:ref_utilisateur,ref_evenement=:ref_evenement WHERE id_participe = :id_participe";
+        $sql = "UPDATE participe SET est_orga=:est_orga,ref_utilisateur=:ref_utilisateur,ref_evenement=:ref_evenement WHERE ref_utilisateur = :ref_utilisateur and ref_evenement=:ref_evenement";
         $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':id_participe',$participe->getIdParticipe());
         $req->bindValue(':est_orga',$participe->getEstOrga());
         $req->bindValue(':ref_utilisateur',$participe->getRefUtilisateur());
         $req->bindValue(':ref_evenement',$participe->getRefEvenement());
