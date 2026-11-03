@@ -32,9 +32,6 @@ switch ($_SESSION['role']) {
 
         $formationActuelle = $infos->getRefFormation();
         $promotionActuelle = $infos->getRefPromotion();
-
-
-
         if ($formationActuelle !== null) {
             $nomFormation = (new FormationRepository())->getFormation($formationActuelle)->getNomFormation();
         }
@@ -42,11 +39,9 @@ switch ($_SESSION['role']) {
             $nomPromotion = (new PromotionRepository())->getPromotion($promotionActuelle)->getAnnee();
         }
         break;
-
     case 'alumni':
         $infos = (new AlumniRepository())->getAlumni($id_utilisateur);
         break;
-
 }
 ?>
 <!DOCTYPE html>
