@@ -14,8 +14,8 @@ $participeRepository = new ParticipeRepository();
 $participes = $participeRepository->getAllParticipes();
 
 
-$idUser=$_SESSION['id_utilisateur'];
-$vueRole="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=:idUser";
+//$idUser=$_SESSION['id_utilisateur'];
+//$vueRole="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=:idUser";
 
 
 

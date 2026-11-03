@@ -2,18 +2,15 @@
 
 Class OffreUtilisateur{
 
-    private $id_oU;
     private $id_offre;
     private $id_utilisateur;
 
     /**
-     * @param $id_oU
      * @param $id_offre
      * @param $id_utilisateur
      */
-    public function __construct($id_oU, $id_offre, $id_utilisateur)
+    public function __construct( $id_offre, $id_utilisateur)
     {
-        $this->id_oU = $id_oU;
         $this->id_offre = $id_offre;
         $this->id_utilisateur = $id_utilisateur;
     }
@@ -21,18 +18,7 @@ Class OffreUtilisateur{
     /**
      * @return mixed
      */
-    public function getIdOU()
-    {
-        return $this->id_oU;
-    }
 
-    /**
-     * @param mixed $id_oU
-     */
-    public function setIdOU($id_oU)
-    {
-        $this->id_oU = $id_oU;
-    }
 
     /**
      * @return mixed
