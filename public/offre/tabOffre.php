@@ -39,7 +39,7 @@ $offres = $offreRepository->getAllOffres();
             <td><?= $offre->getTypeOffre() ?></td>
             <td><?= $offre->getEtat() ?></td>
             <td><?= $offre->getRefEntreprise() ?></td>
-            <td><a href="modifierOffre.php?id=<?= $offres->getIdOffre() ?>">Modifier</a></td>
+            <td><a href="modifierOffre.php?id=<?= $offre->getIdOffre() ?>">Modifier</a></td>
             <td>
                 <form method="post" action="supprimerOffre.php" onsubmit="return confirm('Voulez-vous vraiment supprimer l offre  n°<?= $offre->getIdOffre() ?> ?');">
                     <input type="hidden" name="id_offre" value="<?= $offre->getIdOffre() ?>">
