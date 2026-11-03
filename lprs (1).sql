@@ -116,17 +116,11 @@ CREATE TABLE IF NOT EXISTS `evenement` (
   `description` longtext NOT NULL,
   `lieu` varchar(250) NOT NULL,
   `nbr_places` int NOT NULL,
-  `lat` decimal(10,8) NOT NULL,
-  `lng` decimal(11,8) NOT NULL,
+  'date_evenement' date NOT NULL,
+  'lat' int NOT NULL,
+  'lng' int NOT NULL,
   PRIMARY KEY (`id_evenement`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Déchargement des données de la table `evenement`
---
-
-INSERT INTO `evenement` (`id_evenement`, `titre`, `description`, `lieu`, `nbr_places`, `lat`, `lng`) VALUES
-(1, 'gbe', 'gr', 'Bâtiments A-B, 4, Rue de la Porte d\'Issy, Quartier de Javel, Paris 15e Arrondissement, Paris, Île-de-France, France métropolitaine, 75021, France', 4, 48.83329625, 2.28120225);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -176,12 +170,9 @@ CREATE TABLE IF NOT EXISTS `offre` (
 
 DROP TABLE IF EXISTS `offreutilisateur`;
 CREATE TABLE IF NOT EXISTS `offreutilisateur` (
-  `id_oU` int NOT NULL AUTO_INCREMENT,
   `ref_offre` int NOT NULL,
   `ref_utilisateur` int NOT NULL,
-  PRIMARY KEY (`id_oU`),
-  KEY `fk_offreOffreUtilisateur` (`ref_offre`),
-  KEY `fk_utilisateurOffreUtilisateur` (`ref_utilisateur`)
+  PRIMARY KEY (`ref_offre`,`ref_utilisateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -208,24 +199,11 @@ CREATE TABLE IF NOT EXISTS `partenaire` (
 
 DROP TABLE IF EXISTS `participe`;
 CREATE TABLE IF NOT EXISTS `participe` (
-  `id_participe` int NOT NULL AUTO_INCREMENT,
-  `est_orga` tinyint(1) NOT NULL,
   `ref_utilisateur` int NOT NULL,
   `ref_evenement` int NOT NULL,
-  PRIMARY KEY (`id_participe`),
-  KEY `fk_evenementParticipe` (`ref_evenement`),
-  KEY `fk_utilisateurParticipe` (`ref_utilisateur`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Déchargement des données de la table `participe`
---
-
-INSERT INTO `participe` (`id_participe`, `est_orga`, `ref_utilisateur`, `ref_evenement`) VALUES
-(1, 0, 22, 1),
-(2, 0, 22, 1),
-(3, 0, 22, 1),
-(4, 0, 22, 1);
+  `est_orga` tinyint(1) NOT NULL,
+  PRIMARY KEY (`ref_utilisateur`,`ref_evenement`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -243,14 +221,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   `titre` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id_post`),
   KEY `fk_postUtilisateur` (`ref_utilisateur`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Déchargement des données de la table `post`
---
-
-INSERT INTO `post` (`id_post`, `contenu`, `date_post`, `ref_utilisateur`, `categorie_post`, `titre`) VALUES
-(1, 'test', '2026-10-28 16:23:22', 22, 'Général', 'test');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -273,12 +244,9 @@ CREATE TABLE IF NOT EXISTS `professeur` (
 
 DROP TABLE IF EXISTS `professeurformation`;
 CREATE TABLE IF NOT EXISTS `professeurformation` (
-  `id_pF` int NOT NULL AUTO_INCREMENT,
   `ref_professeur` int NOT NULL,
   `ref_formation` int NOT NULL,
-  PRIMARY KEY (`id_pF`),
-  KEY `fk_professeurProfesseurFormation` (`ref_professeur`),
-  KEY `fk_formationProfesseurFormation` (`ref_formation`)
+  PRIMARY KEY (`ref_professeur`,`ref_formation`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------

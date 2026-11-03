@@ -32,7 +32,7 @@ class PromotionRepository{
     }
 
 
-    public function ajoutPromotion(Promotion $promotion){
+    public function ajouterPromotion(Promotion $promotion){
         $sql="INSERT INTO promotion VALUES (:id_promotion,:annee)";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_promotion', $promotion-> getIdPromotion());;

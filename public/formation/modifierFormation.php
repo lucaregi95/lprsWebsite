@@ -1,7 +1,7 @@
 <?php
 
-//ini_set('display_errors', 1);
-//error_reporting(E_ALL);
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 require_once __DIR__ . '/../../src/repository/FormationRepository.php';
 
@@ -9,8 +9,8 @@ $formationRepository = new FormationRepository();
 
 if (isset($_POST['btn_submit'])) {
     $formation = new Formation(
-        $_POST['id_formation'],
-        $_POST['nom_formation'],
+            $_POST['id_formation'],
+            $_POST['nom_formation']
     );
     $formationRepository->modifierFormation($formation);
     header('Location: tabFormation.php');
@@ -32,11 +32,11 @@ if (!$formation) {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Modifier un formation</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Modifier une Formation</title>
+    <link rel="stylesheet" href="../style/style.css">
 </head>
 <body>
-<h1>Modifier le formation</h1>
+<h1>Modifier la formation</h1>
 
 <form method="post" action="modifierFormation.php">
     <label for="id_formation">ID</label>

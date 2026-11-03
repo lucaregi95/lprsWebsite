@@ -36,9 +36,9 @@ class AlumniRepository{
     }
 
 
-    public function ajoutAlumni(Alumni $alumni){
+    public function ajouterAlumni(Alumni $alumni){
         $utilisateurRepository = new UtilisateurRepository();
-        $lastId=$utilisateurRepository->ajoutUtilisateur($alumni);
+        $lastId=$utilisateurRepository->ajouterUtilisateur($alumni);
         if($lastId==0){
             return null;
         }

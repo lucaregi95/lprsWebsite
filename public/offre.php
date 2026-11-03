@@ -1,11 +1,17 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 require_once "../bdd/bdd.php";
 require_once "../src/model/Offre.php";
 require_once "../src/repository/OffreRepository.php";
+require_once __DIR__ . "/../src/repository/EntrepriseRepository.php";
 
 $offreRepository = new OffreRepository();
 $offres = $offreRepository->getAllOffres();
+$tabEntreprise = (new EntrepriseRepository())->getAllEntreprises();
+
 
 function h($v)
 {
@@ -146,10 +152,11 @@ function h($v)
 
                         <div class="mb-3">
                             <label class="form-label">Entreprise</label>
-                            <select class="form-event" name="ref_entreprise" required>
-                                <option value="1">A</option>
-                                <option value="2">B</option>
-                            </select>
+                            <select name="ref_entreprise" id="ref_entreprise" required>
+                                <?php foreach ($tabEntreprise as $entreprise) { ?>
+                                    <option value="<?= $entreprise->getIdEntreprise() ?>"><?= $entreprise->getNomEntreprise() ?></option>
+                                <?php } ?>
+                            </select><br>
                         </div>
                     </div>
 
@@ -406,10 +413,11 @@ function h($v)
 
                                     <div class="mb-3">
                                         <label class="form-label">Entreprise</label>
-                                        <select class="form-event" name="ref_entreprise" required>
-                                            <option value="1" <?= (int)$offre->getRefEntreprise() === 1 ? 'selected' : '' ?>>A</option>
-                                            <option value="2" <?= (int)$offre->getRefEntreprise() === 2 ? 'selected' : '' ?>>B</option>
-                                        </select>
+                                        <select class="form-event" name="ref_entreprise" id="ref_entreprise" required>
+                                            <?php foreach ($tabEntreprise as $entreprise) { ?>
+                                                <option value="<?= $entreprise->getIdEntreprise() ?>"><?= $entreprise->getNomEntreprise() ?></option>
+                                            <?php } ?>
+                                        </select><br>
                                     </div>
                                 </div>
 

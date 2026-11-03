@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../src/repository/OffreRepository.php';
 
 if (isset($offre)) {
     $offreRepository = new OffreRepository();
-    $offreRepository->ajoutOffre($offre);
+    $offreRepository->ajouterOffre($offre);
     header('Location: tabOffre.php');
     exit;
 }

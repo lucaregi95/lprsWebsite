@@ -29,14 +29,14 @@ class PartenaireRepository{
         return $tabPartenaire;
     }
 
-    public function ajoutPartenaire(Partenaire $partenaire){
+    public function ajouterPartenaire(Partenaire $partenaire){
         $utilisateurRepository = new UtilisateurRepository();
-        $lastId=$utilisateurRepository->ajoutUtilisateur($partenaire);
+        $lastId=$utilisateurRepository->ajouterUtilisateur($partenaire);
         if($lastId==0){
             return null;
         }
         $sql="INSERT INTO partenaire VALUES (:ref_utilisateur, :poste_occupe, :motif_inscription, :ref_entreprise)";
-        $req = $this->connexionbdd->prepare($sql);
+        $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':ref_utilisateur', $lastId);
         $req->bindValue(':poste_occupe', $partenaire-> getPosteOccupe());
         $req->bindValue(":motif_inscription",$partenaire-> getmotifInscription());

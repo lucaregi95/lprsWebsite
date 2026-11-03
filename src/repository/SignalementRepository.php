@@ -32,7 +32,7 @@ class SignalementRepository{
     }
 
 
-    public function ajoutSignalement(Signalement $signalement){
+    public function ajouterSignalement(Signalement $signalement){
         $sql = "INSERT INTO signalement VALUES (:id_signalement,:date,:ref_signalant,:ref_signale,:titre,:contenu)";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_signalement',$signalement->getIdSignalement());
