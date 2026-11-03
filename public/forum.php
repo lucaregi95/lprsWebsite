@@ -7,10 +7,25 @@ session_start();
 $bdd = new Bdd();
 $connexionBdd = $bdd->getConnexionBdd();
 
- //Redirige vers la connexion si l'utilisateur n'est pas connecté
+
+
+//Redirige vers la connexion si l'utilisateur n'est pas connecté
 if(!isset($_SESSION['nom']) || !isset($_SESSION['prenom'])) {
-  header("location:connexion.php?page=f");
-  exit();
+    header("location:connexion.php?page=f");
+    exit();
+}
+switch ($role) {
+    case 'etudiant':
+
+        break;
+    case 'partenaire':
+
+        break;
+    case 'alumni':
+
+        break;
+    default:
+
 }
 
 // Récupère les filtres depuis l'URL (GET)
@@ -49,7 +64,6 @@ $sujets = $req->fetchAll(PDO::FETCH_ASSOC);
 
 
 $categories = ['Général', 'Alumni', 'Étudiant','Entreprise'];
-$categories = $connexionBdd->query("SELECT DISTINCT categorie_post FROM post ORDER BY categorie_post")->fetchAll(PDO::FETCH_COLUMN);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -62,7 +76,54 @@ $categories = $connexionBdd->query("SELECT DISTINCT categorie_post FROM post ORD
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
     <link href="style/style.css" rel="stylesheet"/>
+    <style>
+        :root { --accent:#e11d48; --accent-dark:#be123c; --accent-soft:#fff1f2; --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb; }
+        body { background:#f8fafc; color:var(--ink); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; }
 
+        /* Navbar */
+        .navbar { background:#fff; border-bottom:1px solid var(--line); box-shadow:0 1px 8px rgba(0,0,0,.04); }
+        .navbar .logo { height:38px; }
+        .navbar .nav-link { color:var(--ink); font-weight:500; border-radius:8px; padding:.4rem .8rem; }
+        .navbar .nav-link:hover, .navbar .nav-link.active { background:var(--accent-soft); color:var(--accent); }
+        .avatar { background:var(--accent); color:#fff; width:36px; height:36px; border-radius:50%;
+            display:inline-flex; align-items:center; justify-content:center; font-weight:600; font-size:.8rem; text-transform:uppercase; }
+
+        /* Hero */
+        .hero { background:linear-gradient(135deg,#e11d48,#9f1239); color:#fff; padding:3rem 0; }
+        .hero h1 { font-weight:800; margin:0; }
+        .hero p { opacity:.9; margin:.4rem 0 0; }
+        .hero .eyebrow { text-transform:uppercase; letter-spacing:.12em; font-size:.75rem; opacity:.8; }
+
+        /* Boîtes latérales */
+        .box { background:#fff; border:1px solid var(--line); border-radius:16px; padding:1.1rem; box-shadow:0 2px 10px rgba(0,0,0,.04); }
+        .box h6 { font-weight:700; margin-bottom:.8rem; }
+        .box .form-control, .box .form-select { border-radius:10px; }
+        .form-control:focus, .form-select:focus { border-color:var(--accent); box-shadow:0 0 0 .2rem rgba(225,29,72,.15); }
+        .btn-primary { background:var(--accent); border-color:var(--accent); border-radius:10px; font-weight:600; }
+        .btn-primary:hover { background:var(--accent-dark); border-color:var(--accent-dark); }
+
+        /* Catégories */
+        .small-t { color:var(--muted); padding:.35rem .6rem; border-radius:8px; display:block; }
+        .small-t:hover, .small-t.fw-bold { background:var(--accent-soft); color:var(--accent); }
+
+        /* Recherche + onglets */
+        main .form-control-sm { border-radius:12px; padding:.6rem 1rem; border:1px solid var(--line); }
+        .tabs a { display:inline-block; padding:.6rem 1rem; color:var(--muted); text-decoration:none; border-bottom:3px solid transparent; font-weight:500; }
+        .tabs a.on, .tabs a:hover { color:var(--accent); border-bottom-color:var(--accent); }
+
+        /* Tableau */
+        .card.border-danger { border:1px solid var(--line) !important; border-radius:16px !important; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,.05) !important; background:#fff; }
+        .table-danger { --bs-table-bg:#fafafa; --bs-table-color:var(--muted); }
+        .table thead th { font-size:.75rem; text-transform:uppercase; letter-spacing:.06em; border-bottom:1px solid var(--line); }
+        .table-hover tbody tr:hover { --bs-table-hover-bg:var(--accent-soft); }
+        .badge.bg-danger { background:var(--accent-soft) !important; color:var(--accent); font-weight:600; }
+        .badge.bg-light { background:#f3f4f6 !important; border:none !important; font-weight:500; }
+
+        /* Footer */
+        footer { margin-top:3rem; padding:1.5rem 0; background:#fff; border-top:1px solid var(--line); color:var(--muted); font-size:.9rem; }
+        footer a { color:var(--muted); text-decoration:none; margin-left:1rem; }
+        footer a:hover { color:var(--accent); }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg">
@@ -75,12 +136,12 @@ $categories = $connexionBdd->query("SELECT DISTINCT categorie_post FROM post ORD
         </button>
         <div class="collapse navbar-collapse" id="m">
             <ul class="navbar-nav ms-4 me-auto">
-                <li class="nav-item"><a class="nav-link active" href="accueil.php">Accueil</a></li>
+                <li class="nav-item"><a class="nav-link" href="accueil.php">Accueil</a></li>
                 <li class="nav-item"><a class="nav-link" href="evenement.php">Évènement</a></li>
                 <li class="nav-item"><a class="nav-link" href="offre.php">Offre</a></li>
                 <li class="nav-item"><a class="nav-link" href="alumni.php">Alumni</a></li>
                 <li class="nav-item"><a class="nav-link" href="entreprise.php">Entreprises</a></li>
-                <li class="nav-item"><a class="nav-link" href="forum.php">Forum</a></li>
+                <li class="nav-item"><a class="nav-link active" href="forum.php">Forum</a></li>
                 <?php if(isset($_SESSION['statut_validation']) && $_SESSION['statut_validation'] == 'admin') { ?>
                     <li class="nav-item"><a class="nav-link" href="admin.php">Administration</a></li>
                 <?php } ?>
@@ -152,7 +213,7 @@ $categories = $connexionBdd->query("SELECT DISTINCT categorie_post FROM post ORD
                         Toutes
                     </a>
                     <?php foreach ($categories as $cat) { ?>
-                        <a class="small-t text-decoration-none <?= $categorie == $cat ? 'fw-bold' : '' ?>" href="forum.php?categorie_sujet=<?= urlencode($cat) ?>">
+                        <a class="small-t text-decoration-none <?= $categorie == $cat ? 'fw-bold' : '' ?>" href="forum.php?categorie_post=<?= urlencode($cat) ?>">
                             <?= htmlspecialchars($cat) ?>
                         </a>
                     <?php } ?>
@@ -226,6 +287,8 @@ $categories = $connexionBdd->query("SELECT DISTINCT categorie_post FROM post ORD
                     </table>
                 </div>
             </div>
+        </div>
+    </div>
 </main>
 <footer>
     <div class="container d-flex flex-wrap justify-content-between">

@@ -51,6 +51,13 @@ class PostRepository{
         $req->execute();
     }
 
+    public function supprimerPost($id_post){
+        $sql = "DELETE FROM post WHERE id_post = :id_post";
+        $req = $this->connexionBdd->prepare($sql);
+        $req->bindValue(':id_post', $id_post);
+        $req->execute();
+    }
+
 
 
 }

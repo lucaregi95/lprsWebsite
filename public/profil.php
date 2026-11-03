@@ -29,7 +29,6 @@ $promotionActuelle = null;
 switch ($_SESSION['role']) {
     case 'etudiant':
         $infos = (new EtudiantRepository())->getEtudiant($id_utilisateur);
-
         $formationActuelle = $infos->getRefFormation();
         $promotionActuelle = $infos->getRefPromotion();
         if ($formationActuelle !== null) {
@@ -41,6 +40,9 @@ switch ($_SESSION['role']) {
         break;
     case 'alumni':
         $infos = (new AlumniRepository())->getAlumni($id_utilisateur);
+        break;
+    case 'professeur' :
+        $infos = (new ProfesseurRepository())->getProfesseur($id_utilisateur);
         break;
 }
 ?>
