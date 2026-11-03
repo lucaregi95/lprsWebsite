@@ -29,9 +29,9 @@ class PartenaireRepository{
         return $tabPartenaire;
     }
 
-    public function ajoutPartenaire(Partenaire $partenaire){
+    public function ajouterPartenaire(Partenaire $partenaire){
         $utilisateurRepository = new UtilisateurRepository();
-        $lastId=$utilisateurRepository->ajoutUtilisateur($partenaire);
+        $lastId=$utilisateurRepository->ajouterUtilisateur($partenaire);
         if($lastId==0){
             return null;
         }

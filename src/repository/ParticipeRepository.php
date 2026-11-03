@@ -33,7 +33,7 @@ Class ParticipeRepository{
     }
 
 
-    public function ajoutParticipe(Participe $participe){
+    public function ajouterParticipe(Participe $participe){
         $sql = "INSERT INTO participe (est_orga,ref_utilisateur,ref_evenement) VALUES (:est_orga,:ref_utilisateur,:ref_evenement) ";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':est_orga',$participe->getEstOrga());

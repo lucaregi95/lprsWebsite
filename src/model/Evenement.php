@@ -17,15 +17,15 @@ class Evenement{
      * @param $lieu
      * @param $nbr_places
      */
-    public function __construct($id_evenement, $titre, $description, $lieu, $nbr_places,$lat,$lng,$date_evenement){
+    public function __construct($id_evenement, $titre, $description, $lieu, $nbr_places, $date_evenement,$lat,$lng){
         $this->id_evenement = $id_evenement;
         $this->titre = $titre;
         $this->description = $description;
         $this->lieu = $lieu;
         $this->nbr_places = $nbr_places;
+        $this->date_evenement = $date_evenement;
         $this->lat = $lat;
         $this->lng = $lng;
-        $this->date_evenement = $date_evenement;
     }
 
     /**

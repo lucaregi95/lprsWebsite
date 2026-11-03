@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../src/repository/EntrepriseRepository.php';
 
 if (isset($entreprise)) {
     $entrepriseRepository = new EntrepriseRepository();
-    $entrepriseRepository->ajoutEntreprise($entreprise);
+    $entrepriseRepository->ajouterEntreprise($entreprise);
     header('Location: tabEntreprise.php');
     exit;
 }

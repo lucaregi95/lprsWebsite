@@ -33,7 +33,7 @@ class EntrepriseRepository{
     }
 
 
-    public function ajoutEntreprise(Entreprise $entreprise){
+    public function ajouterEntreprise(Entreprise $entreprise){
         $sql="INSERT INTO entreprise VALUES (:id_entreprise,:adresse,:nom_entreprise,:site_web)";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_entreprise', $entreprise-> getidEntreprise());;

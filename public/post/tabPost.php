@@ -32,7 +32,7 @@ $posts = $postRepository->getAllPosts();
             <td><?= $post->getContenu() ?></td>
             <td><?= $post->getDatePost() ?></td>
             <td><?= $post->getRefUtilisateur() ?></td>
-            <td><a href="modifierPost.php?id=<?= $posts->getIdPost() ?>">Modifier</a></td>
+            <td><a href="modifierPost.php?id=<?= $post->getIdPost() ?>">Modifier</a></td>
             <td>
                 <form method="post" action="supprimerPost.php" onsubmit="return confirm('Voulez-vous vraiment supprimer le post  n°<?= $post->getIdPost() ?> ?');">
                     <input type="hidden" name="id_post" value="<?= $post->getIdPost() ?>">

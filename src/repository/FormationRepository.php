@@ -33,7 +33,7 @@ class FormationRepository{
     }
 
 
-    public function ajoutFormation(Formation $formation){
+    public function ajouterFormation(Formation $formation){
         $sql="INSERT INTO formation VALUES (:id_formation,:nom_formation)";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':id_formation', $formation-> getIdFormation());;
