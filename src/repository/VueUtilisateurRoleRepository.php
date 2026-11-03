@@ -34,4 +34,28 @@ class VueUtilisateurRoleRepository{
         }
         return $tabUtilisateur;
     }
+
+    public function getAllUtilisateurWithRolesGestionnaire(){
+        $sql = "SELECT * FROM v_utilisateurwithrole WHERE role='gestionnaire' COLLATE utf8mb4_0900_ai_ci;";
+        $req = $this->connexionBdd->prepare($sql);
+        $req->execute();
+        $results = $req->fetchAll();
+        $tabUtilisateur = array();
+        foreach ($results as $result) {
+            $tabUtilisateur[] = new VueUtilisateurRole($result["id_utilisateur"],$result["nom"],$result["prenom"],$result["email"], $result["mdp"],$result["date_inscription"],$result["statut_validation"],$result["role"]);
+        }
+        return $tabUtilisateur;
+    }
+
+    public function getAllUtilisateurWithRolesGestionnaireNonBannis(){
+        $sql = "SELECT * FROM v_utilisateurwithrole WHERE role='gestionnaire' COLLATE utf8mb4_0900_ai_ci and statut_validation <> 'banni' ";
+        $req = $this->connexionBdd->prepare($sql);
+        $req->execute();
+        $results = $req->fetchAll();
+        $tabUtilisateur = array();
+        foreach ($results as $result) {
+            $tabUtilisateur[] = new VueUtilisateurRole($result["id_utilisateur"],$result["nom"],$result["prenom"],$result["email"], $result["mdp"],$result["date_inscription"],$result["statut_validation"],$result["role"]);
+        }
+        return $tabUtilisateur;
+    }
 }

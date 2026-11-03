@@ -1,10 +1,8 @@
 <?php
 
 session_start();
-if(!(isset($_SESSION['statut_validation']) || $_SESSION['statut_validation'] != 'admin')) {
-    header("location:accueil.php");
-    exit;
-}else{
+if((isset($_SESSION['statut_validation']) && $_SESSION['statut_validation'] == 'admin') || $_SESSION['role'] == 'gestionnaire') {
+
 
     require_once __DIR__."/../bdd/bdd.php";
     require_once __DIR__."/../src/model/VueUtilisateurRole.php";
@@ -12,7 +10,7 @@ if(!(isset($_SESSION['statut_validation']) || $_SESSION['statut_validation'] != 
 
     $rep = new VueUtilisateurRoleRepository();
     $userAttente=$rep->getAllUtilisateurWithRolesEnAttente();
-}
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -156,3 +154,11 @@ if(!(isset($_SESSION['statut_validation']) || $_SESSION['statut_validation'] != 
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+</html>
+<?php
+
+}else{
+    header("location:accueil.php");
+    exit;}
+
+?>

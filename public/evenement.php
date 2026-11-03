@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+if(!(isset($_SESSION['id_utilisateur']))){
+    header('Location: connexion.php');
+}else{
+
 require_once "../bdd/bdd.php";
 require_once "../src/model/Evenement.php";
 require_once "../src/repository/EvenementRepository.php";
@@ -609,3 +614,4 @@ $vueRole="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=:idUser";
 </script>
 </body>
 </html>
+<?php } ?>
