@@ -8,7 +8,7 @@ Class OffreUtilisateurRepository{
     }
 
     public function getOffreUtilisateur($id){
-        $sql = "SELECT * FROM offreutilisateur WHERE ref_utilisateur = :ref_utilisateur ";
+        $sql = "SELECT * FROM offreutilisateur WHERE ref_utilisateur = :ref_utilisateur and ref_offre=:ref_offre ";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':ref_utilisateur', $id);
         $req->execute();
@@ -35,7 +35,7 @@ Class OffreUtilisateurRepository{
         $sql = "INSERT INTO offreutilisateur (ref_offre,ref_utilisateur) VALUES (:ref_offre,:ref_utilisateur)";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':ref_offre', $oU->getIdOffre());
-        $req->bindValue(':description', $oU->getIdOffre());
+        $req->bindValue(':ref_utilisateur', $oU->getIdOffre());
         $req -> execute();
     }
 
