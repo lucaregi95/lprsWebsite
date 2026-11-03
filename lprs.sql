@@ -162,6 +162,7 @@ DROP TABLE IF EXISTS `participe`;
 CREATE TABLE IF NOT EXISTS `participe` (
   `ref_utilisateur` int NOT NULL,
   `ref_evenement` int NOT NULL,
+  `est_orga` tinyint(1) NOT NULL,
   PRIMARY KEY (`ref_utilisateur`,`ref_evenement`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -204,12 +205,9 @@ CREATE TABLE IF NOT EXISTS `professeur` (
 
 DROP TABLE IF EXISTS `professeurformation`;
 CREATE TABLE IF NOT EXISTS `professeurformation` (
-  `id_pF` int NOT NULL AUTO_INCREMENT,
   `ref_professeur` int NOT NULL,
   `ref_formation` int NOT NULL,
-  PRIMARY KEY (`id_pF`),
-  KEY `fk_professeurProfesseurFormation` (`ref_professeur`),
-  KEY `fk_formationProfesseurFormation` (`ref_formation`)
+  PRIMARY KEY (`ref_professeur`,`ref_formation`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
