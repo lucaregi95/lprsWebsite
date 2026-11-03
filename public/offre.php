@@ -413,10 +413,11 @@ function h($v)
 
                                     <div class="mb-3">
                                         <label class="form-label">Entreprise</label>
-                                        <select class="form-event" name="ref_entreprise" required>
-                                            <option value="1" <?= (int)$offre->getRefEntreprise() === 1 ? 'selected' : '' ?>>A</option>
-                                            <option value="2" <?= (int)$offre->getRefEntreprise() === 2 ? 'selected' : '' ?>>B</option>
-                                        </select>
+                                        <select class="form-event" name="ref_entreprise" id="ref_entreprise" required>
+                                            <?php foreach ($tabEntreprise as $entreprise) { ?>
+                                                <option value="<?= $entreprise->getIdEntreprise() ?>"><?= $entreprise->getNomEntreprise() ?></option>
+                                            <?php } ?>
+                                        </select><br>
                                     </div>
                                 </div>
 
