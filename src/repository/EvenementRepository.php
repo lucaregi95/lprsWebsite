@@ -77,6 +77,8 @@ class EvenementRepository{
         $req->bindValue(':lng', $evenement->getLng());
         $req->bindValue(':date_evenement', $evenement->getDateEvenement());
         $req -> execute();
+
+        return (int) $this->connexionBdd->lastInsertId();
     }
 
 

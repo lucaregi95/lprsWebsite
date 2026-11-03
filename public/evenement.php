@@ -126,6 +126,7 @@ $vueRole=$result['role'];
                 </div>
                 <form method="POST" action="../src/traitement/newEvenement.php">
                     <div class="modal-body">
+
                         <div class="mb-3">
                             <label class="form-label">Nom de l'évènement</label>
                             <input type="text" class="form-event" name="titre" required>
@@ -233,7 +234,9 @@ $vueRole=$result['role'];
                     <?php
                     $restantes = max(0, (int)$evenement->getNbrPlaces() - ($inscrits[$evenement->getIdEvenement()] ?? 0));
                     $complet = ($restantes <= 0);
-                    $eventUser= $eventRepository->getEvenementOrganiseParUtilisateur($idUser,$id);
+                    $eventUser= $eventRepository->getEvenementOrganiseParUtilisateur($idUser,$evenement->getIdEvenement());
+
+
                     ?>
                     <div class="col-md-6">
                         <div class="box ev h-100">
@@ -281,7 +284,8 @@ $vueRole=$result['role'];
                                                     data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
                                                 Aperçu
                                             </button>
-                                        <?php elseif ($vueRole === "partenaire" && $eventUser==1): ?>
+
+                                        <?php elseif ($vueRole === "partenaire" && $eventUser!==null): ?>
                                             <button type="button" class="btn btn-outline-primary btn-sm mt-2"
                                                     data-bs-toggle="modal" data-bs-target="#edit<?= $id ?>">
                                                 Modifier
