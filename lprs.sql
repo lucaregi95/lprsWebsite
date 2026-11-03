@@ -131,12 +131,9 @@ CREATE TABLE IF NOT EXISTS `offre` (
 
 DROP TABLE IF EXISTS `offreutilisateur`;
 CREATE TABLE IF NOT EXISTS `offreutilisateur` (
-  `id_oU` int NOT NULL AUTO_INCREMENT,
   `ref_offre` int NOT NULL,
   `ref_utilisateur` int NOT NULL,
-  PRIMARY KEY (`id_oU`),
-  KEY `fk_offreOffreUtilisateur` (`ref_offre`),
-  KEY `fk_utilisateurOffreUtilisateur` (`ref_utilisateur`)
+  PRIMARY KEY (`ref_offre`,`ref_utilisateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -163,13 +160,9 @@ CREATE TABLE IF NOT EXISTS `partenaire` (
 
 DROP TABLE IF EXISTS `participe`;
 CREATE TABLE IF NOT EXISTS `participe` (
-  `id_participe` int NOT NULL AUTO_INCREMENT,
-  `est_orga` tinyint(1) NOT NULL,
   `ref_utilisateur` int NOT NULL,
   `ref_evenement` int NOT NULL,
-  PRIMARY KEY (`id_participe`),
-  KEY `fk_evenementParticipe` (`ref_evenement`),
-  KEY `fk_utilisateurParticipe` (`ref_utilisateur`)
+  PRIMARY KEY (`ref_utilisateur`,`ref_evenement`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
