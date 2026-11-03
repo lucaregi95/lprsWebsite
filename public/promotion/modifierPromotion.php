@@ -43,7 +43,7 @@ if (!$promotion) {
     <input type="number" name="id_promotion" id="id_promotion" value="<?= $promotion->getIdPromotion() ?>" readonly><br>
 
     <label for="annee">Annee</label>
-    <input type="text" name="annee" id="annee" value="<?= $promotion->getAnnee() ?>" required><br>
+    <input type="number" name="annee" id="annee" value="<?= $promotion->getAnnee() ?>" required><br>
 
     <input type="submit" name="btn_submit" value="Enregistrer">
     <a href="tabPromotion.php">Annuler</a>
