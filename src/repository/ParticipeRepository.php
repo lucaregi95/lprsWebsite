@@ -12,11 +12,17 @@ Class ParticipeRepository{
         $sql ="SELECT * FROM participe WHERE ref_utilisateur = :ref_utilisateur and ref_evenement=:ref_evenement";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':ref_utilisateur', $id_participe);
-        $req->bindValue(':ref_evenement', $id_participe);
+        $req->bindValue(':ref_evenement', $id_evenement);
         $req->execute();
         $result = $req->fetch();
-        $participe = new Participe($result['est_orga'],$result['ref_utilisateur'],$result['ref_evenement']);
-        return $participe;
+
+
+        if($result==false){
+            return null;
+        }else{
+            $participe = new Participe($result['est_orga'],$result['ref_utilisateur'],$result['ref_evenement']);
+            return $participe;
+        }
     }
 
     public function getAllParticipes(){
@@ -42,11 +48,11 @@ Class ParticipeRepository{
         $req->execute();
     }
 
-    public function supprimerParticipe($id_participe){
+    public function supprimerParticipe($id_participe,$id_evenement){
         $sql = "DELETE FROM participe WHERE ref_utilisateur = :ref_utilisateur and ref_evenement=:ref_evenement";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':ref_utilisateur', $id_participe);
-        $req->bindValue(':ref_evenement', $id_participe);
+        $req->bindValue(':ref_evenement', $id_evenement);
         $req->execute();
     }
 
