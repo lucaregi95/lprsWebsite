@@ -280,11 +280,17 @@ $demain = date('Y-m-d', strtotime('tomorrow'));
                                         <?php if ($Yparticipe==2): ?>
                                             <span class="tag" style="background:#ebfde8;color:#2fae2c">Inscrit</span>
                                         <?php endif; ?>
+
                                     <?php else: ?>
                                         <span class="tag"> Places restantes : <?= $placesRestantes ?></span>
                                         <?php if ($Yparticipe==2): ?>
                                             <span class="tag" style="background:#ebfde8;color:#2fae2c">Inscrit</span>
                                         <?php endif; ?>
+                                    <?php endif; ?>
+                                    <?php if ($nbInscrits == 0): ?>
+                                        <br><span class="tag" style="background:#fdf8e8;color:#ae982c">Nombre d'inscrits : Aucun</span>
+                                    <?php else : ?>
+                                        <br><span class="tag" style="background:#fdf8e8;color:#ae982c">Nombre d'inscrits : <?= $nbInscrits?></span>
                                     <?php endif; ?>
 
                                     <h6 class="mt-1 mb-1"><?= ($evenement->getTitre()) ?></h6>
@@ -300,6 +306,10 @@ $demain = date('Y-m-d', strtotime('tomorrow'));
                                         <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
                                                 data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
                                             Aperçu
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm mt-2"
+                                                data-bs-toggle="modal" data-bs-target="#edit<?= $id ?>">
+                                            Modifier
                                         </button>
                                     <?php else: ?>
                                         <?php if($vueRole === "etudiant" && $Yparticipe==null): ?>
@@ -479,7 +489,7 @@ $demain = date('Y-m-d', strtotime('tomorrow'));
 
                                         <div class="mb-3">
                                             <label class="form-label">Nombre de Place</label>
-                                            <input type="number" class="form-event" name="nbr_places" min="1" max="350" step="1" value="<?= $evenement->getNbrPlaces() ?>" required>
+                                            <input type="number" class="form-event" name="nbr_places" min="<?=$nbInscrits ?>" max="350" step="1" value="<?= $evenement->getNbrPlaces() ?>" required>
                                         </div>
 
                                         <div class="mb-3">
