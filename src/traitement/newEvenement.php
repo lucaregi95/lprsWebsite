@@ -25,13 +25,13 @@ if (isset($_POST['titre'], $_POST['description'], $_POST['lieu'], $_POST['nbr_pl
     $id_user     = (int) $_SESSION['id_utilisateur'];
 
     if ($titre !== '' && $nbr_places > 0) {
-        $evenement  = new Evenement(null, $titre, $description, $lieu, $nbr_places, $lat, $lng, $date_evenement);
+        $evenement  = new Evenement(null, $titre, $description, $lieu, $nbr_places, $date_evenement, $lat, $lng);
         $repository = new EvenementRepository();
         $idEvenement =$repository->ajouterEvenement($evenement);
 
         $repo= new ParticipeRepository();
         $part= new Participe(1,$id_user,$idEvenement);
-        $repo->ajoutParticipe($part);
+        $repo->ajouterParticipe($part);
 
 
     }

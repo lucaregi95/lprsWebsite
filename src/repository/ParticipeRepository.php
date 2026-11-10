@@ -56,6 +56,13 @@ Class ParticipeRepository{
         $req->execute();
     }
 
+    public function supprimerAllParticipesByEvenement($id_evenement) {
+        $sql = "DELETE FROM participe WHERE ref_evenement = :ref_evenement";
+        $req = $this->connexionBdd->prepare($sql);
+        $req->bindValue(':ref_evenement', $id_evenement, PDO::PARAM_INT);
+        return $req->execute();
+    }
+
     public function modifierParticipe(Participe $participe){
         $sql = "UPDATE participe SET est_orga=:est_orga,ref_utilisateur=:ref_utilisateur,ref_evenement=:ref_evenement WHERE ref_utilisateur = :ref_utilisateur and ref_evenement=:ref_evenement";
         $req = $this->connexionBdd->prepare($sql);

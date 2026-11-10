@@ -16,7 +16,7 @@ if (isset($_POST['titre'], $_POST['description'], $_POST['lieu'], $_POST['nbr_pl
     $date_evenement = $_POST['date_evenement'];
 
     if ($titre !== '' && $nbr_places > 0) {
-        $evenement  = new Evenement($idEvenement, $titre, $description, $lieu, $nbr_places, $lat, $lng, $date_evenement);
+        $evenement  = new Evenement($idEvenement, $titre, $description, $lieu, $nbr_places,$date_evenement, $lat, $lng);
         $repository = new EvenementRepository();
         $repository->modifierEvenement($evenement);
     }
