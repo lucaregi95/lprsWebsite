@@ -1,8 +1,17 @@
 <?php
+session_start();
 require_once "../bdd/bdd.php";
 require_once "../src/model/post.php";
 require_once "../src/repository/postRepository.php";
-session_start();
+
+
+$rolePermission = ["etudiant" => ['lire','cree','supprimer','modifier',],
+                  "alumni" => ['lire','cree','supprimer','modifier',],];
+
+if (!$rolePermission[$_SESSION['role']] || $rolePermission == 'etudiant' ){
+
+
+}
 
 $bdd = new Bdd();
 $connexionBdd = $bdd->getConnexionBdd();
@@ -15,13 +24,8 @@ if(!isset($_SESSION['nom']) || !isset($_SESSION['prenom'])) {
 
     switch ($role) {
         case 'etudiant':
-
-            break;
-        case 'partenaire':
-
             break;
         case 'alumni':
-
             break;
         default:
 
