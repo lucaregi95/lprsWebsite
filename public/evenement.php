@@ -29,8 +29,6 @@ $result = $req->fetch(pdo::FETCH_ASSOC);
 $vueRole=$result['role'];
 
 
-
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -235,9 +233,16 @@ $vueRole=$result['role'];
                     $restantes = max(0, (int)$evenement->getNbrPlaces() - ($inscrits[$evenement->getIdEvenement()] ?? 0));
                     $complet = ($restantes <= 0);
                     $eventUser= $eventRepository->getEvenementOrganiseParUtilisateur($idUser,$evenement->getIdEvenement());
+                    $partie= $participeRepository->getParticipe($idUser,$evenement->getIdEvenement());
+                    if ($partie ==null){
+                        $Yparticipe=null;
 
+                    }else{
+                        $Yparticipe=$partie->getEstOrga();
+                    }
 
                     ?>
+
                     <div class="col-md-6">
                         <div class="box ev h-100">
                             <div class="d-flex gap-3">
@@ -266,13 +271,17 @@ $vueRole=$result['role'];
                                     <div class="mb-3">
                                         <p class="muted small-t my-2"><?= ($evenement->getDateEvenement()) ?></p>
                                     </div>
-                                    <?php if ($complet): ?>
+                                    <?php if ($complet || $Yparticipe==2): ?>
                                         <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
                                                 data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
                                             Aperçu
                                         </button>
                                     <?php else: ?>
-                                        <?php if($vueRole === "etudiant"): ?>
+                                        <?php if($vueRole === "etudiant" && $Yparticipe==null): ?>
+                                            <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
+                                                    data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
+                                                Aperçu
+                                            </button>
                                             <form method="POST" action="../src/traitement/newParticipe.php">
                                                 <input type="hidden" name="ref_utilisateur" value="<?= $_SESSION['id_utilisateur'] ?>">
                                                 <input type="hidden" name="ref_evenement" value="<?=$evenement->getIdEvenement()?>() ?>">
@@ -280,18 +289,28 @@ $vueRole=$result['role'];
                                                     S'inscrire
                                                 </button>
                                             </form>
-                                            <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
-                                                    data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
-                                                Aperçu
-                                            </button>
+
 
                                         <?php elseif ($vueRole === "partenaire" && $eventUser!==null): ?>
                                             <button type="button" class="btn btn-outline-primary btn-sm mt-2"
                                                     data-bs-toggle="modal" data-bs-target="#edit<?= $id ?>">
                                                 Modifier
                                             </button>
+                                            <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
+                                                    data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
+                                                Aperçu
+                                            </button>
                                         <?php endif; ?>
                                     <?php endif; ?>
+                                    <?php if ($Yparticipe==2): ?>
+                                        <form method="POST" action="../src/traitement/suppParticipe.php">
+                                            <input type="hidden" name="id_evenement" value="<?=$evenement->getIdEvenement() ?>">
+                                            <input type="hidden" name="id_user" value="<?=$idUser ?>">
+                                            <button class="btn btn-danger btn-sm mt-2 ">
+                                                Désincrire
+                                            </button>
+                                        </form>
+                                    <?php endif;?>
                                 </div>
                             </div>
                         </div>
@@ -339,6 +358,7 @@ $vueRole=$result['role'];
                                     </div>
                                 </div>
                                 <div class="modal-footer">
+                                    <?php if ($vueRole === "partenaire" && $eventUser!==null): ?>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                                     <form method="POST" action="../src/traitement/suppEvenement.php">
                                         <input type="hidden" name="id_evenement" value="<?=$evenement->getIdEvenement() ?>">
@@ -348,7 +368,9 @@ $vueRole=$result['role'];
                                         Supprimer
                                         </button>
                                     </form>
-                                    <?php if (!$complet): ?>
+                                    <?php elseif (!$complet && $Yparticipe==null): ?>
+
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                                         <form method="POST" action="../src/traitement/newParticipe.php">
                                             <input type="hidden" name="ref_utilisateur" value="<?= $_SESSION['id_utilisateur'] ?>">
                                             <input type="hidden" name="ref_evenement" value="<?=$evenement->getIdEvenement()?>() ?>">
@@ -357,6 +379,17 @@ $vueRole=$result['role'];
                                             </button>
                                         </form>
                                     <?php endif; ?>
+                                    <?php if ($Yparticipe==2): ?>
+
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                        <form method="POST" action="../src/traitement/suppParticipe.php">
+                                            <input type="hidden" name="id_evenement" value="<?=$evenement->getIdEvenement() ?>">
+                                            <input type="hidden" name="id_user" value="<?=$idUser ?>">
+                                            <button class="btn btn-danger btn-sm mt-2 ">
+                                                Désincrire
+                                            </button>
+                                        </form>
+                                    <?php endif;?>
                                 </div>
                             </div>
                         </div>
