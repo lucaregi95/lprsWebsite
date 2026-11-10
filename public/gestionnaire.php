@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-if(!(isset($_SESSION['statut_validation']) || $_SESSION['statut_validation'] != 'admin')) {
-    header("location:accueil.php");
+if(!(isset($_SESSION['statut_validation'])) || ($_SESSION['statut_validation'] != 'admin' ) && $_SESSION['role'] != 'gestionnaire') {
+    header("Location: /accueil.php");
     exit;
 }else{
 
@@ -79,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php if(isset($_SESSION['statut_validation']) && $_SESSION['statut_validation'] == 'admin') { ?>
                     <li class="nav-item"><a class="nav-link " href="admin.php">Administration</a></li>
                     <li class="nav-item"><a class="nav-link active" href="gestionnaire.php">Gestionnaire</a></li>
+                    <li class="nav-item"><a class="nav-link" href="formation/tabFormation.php">Formations</a></li>
                 <?php } ?>
             </ul>
 

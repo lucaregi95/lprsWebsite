@@ -1,7 +1,10 @@
 <?php
 
 session_start();
-if((isset($_SESSION['statut_validation']) && $_SESSION['statut_validation'] == 'admin') || $_SESSION['role'] == 'gestionnaire') {
+if(!(isset($_SESSION['statut_validation'])) || ($_SESSION['statut_validation'] != 'admin' ) && $_SESSION['role'] != 'gestionnaire') {
+    header("Location: accueil.php");
+    exit;
+}else{
 
 
     require_once __DIR__."/../bdd/bdd.php";
@@ -38,6 +41,7 @@ if((isset($_SESSION['statut_validation']) && $_SESSION['statut_validation'] == '
                 <?php if(isset($_SESSION['statut_validation']) && $_SESSION['statut_validation'] == 'admin') { ?>
                     <li class="nav-item"><a class="nav-link active" href="admin.php">Administration</a></li>
                     <li class="nav-item"><a class="nav-link" href="gestionnaire.php">Gestionnaire</a></li>
+                    <li class="nav-item"><a class="nav-link" href="formation/tabFormation.php">Formations</a></li>
                 <?php } ?>
             </ul>
 
@@ -158,8 +162,6 @@ if((isset($_SESSION['statut_validation']) && $_SESSION['statut_validation'] == '
 </html>
 <?php
 
-}else{
-    header("location:accueil.php");
-    exit;}
+}
 
 ?>
