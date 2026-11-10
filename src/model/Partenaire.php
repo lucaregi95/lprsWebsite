@@ -14,8 +14,8 @@ class Partenaire extends Utilisateur{
      * @param $motif_inscription
      * @param $ref_entreprise
      */
-    public function __construct($id_utilisateur,$titre,$description,$mission,$salaire,$type_offre,$etat, $ref_utilisateur, $poste_occupe, $motif_inscription, $ref_entreprise){
-        parent::__construct($id_utilisateur,$titre,$description,$mission,$salaire,$type_offre,$etat);
+    public function __construct($id_utilisateur, $nom, $prenom, $mail, $mdp, $date_inscription, $statut_validation, $ref_utilisateur, $poste_occupe, $motif_inscription, $ref_entreprise){
+        parent::__construct($id_utilisateur,$nom, $prenom, $mail, $mdp, $date_inscription, $statut_validation);
         $this->ref_utilisateur = $ref_utilisateur;
         $this->poste_occupe = $poste_occupe;
         $this->motif_inscription = $motif_inscription;
