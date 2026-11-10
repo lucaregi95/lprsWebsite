@@ -1,34 +1,37 @@
 <?php
+session_start();
 require_once "../bdd/bdd.php";
 require_once "../src/model/post.php";
 require_once "../src/repository/postRepository.php";
-session_start();
+
+
+$rolePermission = ["etudiant" => ['lire','cree','supprimer','modifier',],
+                  "alumni" => ['lire','cree','supprimer','modifier',],];
+
+if (!$rolePermission[$_SESSION['role']] || $rolePermission == 'etudiant' ){
+
+
+}
 
 $bdd = new Bdd();
 $connexionBdd = $bdd->getConnexionBdd();
 
-
-
-//Redirige vers la connexion si l'utilisateur n'est pas connecté
 if(!isset($_SESSION['nom']) || !isset($_SESSION['prenom'])) {
     header("location:connexion.php?page=f");
     exit();
-}
-switch ($role) {
-    case 'etudiant':
 
-        break;
-    case 'partenaire':
+    $id_utilisateur = $_SESSION['id_utilisateur'];
 
-        break;
-    case 'alumni':
+    switch ($role) {
+        case 'etudiant':
+            break;
+        case 'alumni':
+            break;
+        default:
 
-        break;
-    default:
-
+    }
 }
 
-// Récupère les filtres depuis l'URL (GET)
 if (isset($_GET['categorie_post'])) {
     $categorie = $_GET['categorie_post'];
 } else {
