@@ -34,7 +34,7 @@ function couleurBackground($statut)
         case "banni":
             return "bg-danger text-light";
         default:
-            return "";
+            return "bg-dark text-light";
     }
 };
 
@@ -74,12 +74,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </button>
         <div class="collapse navbar-collapse" id="m">
             <ul class="navbar-nav ms-4 me-auto">
-                <li class="nav-item"><a class="nav-link active" href="accueil.php">Accueil</a></li>
-                <li class="nav-item"><a class="nav-link" href="evenement.php">Évènement</a></li>
-                <li class="nav-item"><a class="nav-link" href="offre.php">Offre</a></li>
-                <li class="nav-item"><a class="nav-link" href="forum.php">Forum</a></li>
+                <li class="nav-item"><a class="nav-link" href="accueil.php">Accueil</a></li>
+
                 <?php if(isset($_SESSION['statut_validation']) && $_SESSION['statut_validation'] == 'admin') { ?>
-                    <li class="nav-item"><a class="nav-link" href="admin.php">Administration</a></li>
+                    <li class="nav-item"><a class="nav-link " href="admin.php">Administration</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="gestionnaire.php">Gestionnaire</a></li>
                 <?php } ?>
             </ul>
 
@@ -125,6 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="card-header bg-white border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
                 <div>
                     <h5 class="mb-0">Liste des gestionnaires</h5>
+
 
                 </div>
 
@@ -182,7 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <td><span class="badge <?php echo couleurBackground(htmlspecialchars($u->getStatutValidation()))?> border"><?= htmlspecialchars($u->getStatutValidation()) ?></span></td>
                                     <td><span class="badge bg-light text-dark border"><?= htmlspecialchars($u->getRole()) ?></span></td>
                                     <td class="text-end">
-                                        <?php if($u->getStatutValidation() != "banni"){?>
+                                        <?php if($u->getStatutValidation() != "banni" && $u->getStatutValidation() != "admin"){?>
                                         <form method="post" class="d-inline">
                                             <input type="hidden" name="id" value="<?= $u->getIdUtilisateur() ?>">
 

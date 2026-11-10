@@ -36,7 +36,7 @@ class VueUtilisateurRoleRepository{
     }
 
     public function getAllUtilisateurWithRolesGestionnaire(){
-        $sql = "SELECT * FROM v_utilisateurwithrole WHERE role='gestionnaire' COLLATE utf8mb4_0900_ai_ci;";
+        $sql = "SELECT * FROM v_utilisateurwithrole WHERE (role='gestionnaire' COLLATE utf8mb4_0900_ai_ci or statut_validation='admin');";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
         $results = $req->fetchAll();
@@ -48,7 +48,7 @@ class VueUtilisateurRoleRepository{
     }
 
     public function getAllUtilisateurWithRolesGestionnaireNonBannis(){
-        $sql = "SELECT * FROM v_utilisateurwithrole WHERE role='gestionnaire' COLLATE utf8mb4_0900_ai_ci and statut_validation <> 'banni' ";
+        $sql = "SELECT * FROM v_utilisateurwithrole WHERE (role='gestionnaire' COLLATE utf8mb4_0900_ai_ci and statut_validation <> 'banni') or statut_validation='admin'";
         $req = $this->connexionBdd->prepare($sql);
         $req->execute();
         $results = $req->fetchAll();

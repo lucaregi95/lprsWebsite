@@ -38,7 +38,7 @@ class GestionnaireRepository{
 
     public function ajoutGestionnaire(Gestionnaire $gestionnaire){
         $utilisateurRepository = new UtilisateurRepository();
-        $lastId=$utilisateurRepository->ajoutUtilisateur($gestionnaire);
+        $lastId=$utilisateurRepository->ajouterUtilisateur($gestionnaire);
         if($lastId==0){
             return null;
         }
