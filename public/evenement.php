@@ -28,6 +28,19 @@ $req->execute([':id'=>$idUser]);
 $result = $req->fetch(pdo::FETCH_ASSOC);
 $vueRole=$result['role'];
 
+function nbInscrits($idevent) {
+    $connexionBdd = (new Bdd())->getConnexionBdd();
+    $sql = "SELECT COUNT(*) FROM participe WHERE ref_evenement = :idevent";
+    $req = $connexionBdd->prepare($sql);
+    $req->execute([':idevent' => $idevent]);
+    return (int) $req->fetchColumn();
+}
+
+$demain = date('Y-m-d', strtotime('tomorrow'));
+
+
+
+
 
 ?>
 <!DOCTYPE html>
@@ -136,8 +149,7 @@ $vueRole=$result['role'];
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Lieu</label>
-                            <input type="text" class="form-event" name="lieu" readonly>
+                            <input type="hidden" class="form-event" name="lieu" >
                         </div>
 
                         <!-- Recherche + carte -->
@@ -155,12 +167,12 @@ $vueRole=$result['role'];
 
                         <div class="mb-3">
                             <label class="form-label">Nombre de Place</label>
-                            <input type="number" class="form-event" name="nbr_places" required>
+                            <input type="number" min="1" max="350" step="1" class="form-event" name="nbr_places" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Date de l'Évènement</label>
-                            <input type="date" class="form-event" name="date_evenement" required>
+                            <input type="date" min="<?= $demain ?>" class="form-event" name="date_evenement" required>
                         </div>
                     </div>
 
@@ -230,8 +242,10 @@ $vueRole=$result['role'];
                 <?php endif; ?>
                 <?php foreach ($evenements as $id => $evenement): ?>
                     <?php
-                    $restantes = max(0, (int)$evenement->getNbrPlaces() - ($inscrits[$evenement->getIdEvenement()] ?? 0));
-                    $complet = ($restantes <= 0);
+                    $nbInscrits = nbInscrits($evenement->getIdEvenement());
+                    $placesRestantes = $evenement->getNbrPlaces() - $nbInscrits;
+
+                    $complet = ($placesRestantes <= 0);
                     $eventUser= $eventRepository->getEvenementOrganiseParUtilisateur($idUser,$evenement->getIdEvenement());
                     $partie= $participeRepository->getParticipe($idUser,$evenement->getIdEvenement());
                     if ($partie ==null){
@@ -258,18 +272,24 @@ $vueRole=$result['role'];
                                 <div class="flex-grow-1">
                                     <?php if ($complet): ?>
                                         <span class="tag" style="background:#fde8e8;color:#c0392b">Complet</span>
+                                        <?php if ($Yparticipe==2): ?>
+                                            <span class="tag" style="background:#ebfde8;color:#2fae2c">Inscrit</span>
+                                        <?php endif; ?>
                                     <?php else: ?>
-                                        <span class="tag"><?= $restantes ?> place<?= $restantes > 1 ? 's' : '' ?> restante<?= $restantes > 1 ? 's' : '' ?></span>
+                                        <span class="tag"> Places restantes : <?= $placesRestantes ?></span>
+                                        <?php if ($Yparticipe==2): ?>
+                                            <span class="tag" style="background:#ebfde8;color:#2fae2c">Inscrit</span>
+                                        <?php endif; ?>
                                     <?php endif; ?>
 
                                     <h6 class="mt-1 mb-1"><?= ($evenement->getTitre()) ?></h6>
                                     <div class="muted small-t">
                                         <i class="bi bi-geo-alt"></i>
-                                        <?= ($evenement->getLieu()) ?> <hr> <br>· <?= (int)$evenement->getNbrPlaces() ?> places au total
+                                        <?= ($evenement->getLieu()) ?> <hr> <br>- <?= ($evenement->getDescription()) ?>
                                     </div>
-                                    <p class="muted small-t my-2"><?= ($evenement->getDescription()) ?></p>
+                                    <span class="tag" style="background:#d6d6d6;color:#040404">- <?= (int)$evenement->getNbrPlaces() ?> places au total</span>
                                     <div class="mb-3">
-                                        <p class="muted small-t my-2"><?= ($evenement->getDateEvenement()) ?></p>
+                                        <span class="tag" style="background:#d8d7d7;color:#040404">- <?= ($evenement->getDateEvenement()) ?></span>
                                     </div>
                                     <?php if ($complet || $Yparticipe==2): ?>
                                         <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
@@ -346,7 +366,7 @@ $vueRole=$result['role'];
 
                                     <div class="mb-3">
                                         <div class="form-label">Places</div>
-                                        <div><?= $complet ? 'Complet' : $restantes . ' / ' . (int)$evenement->getNbrPlaces() . ' places restantes' ?></div>
+                                        <span class="tag"> Places restantes : <?= $placesRestantes ?></span>
                                     </div>
 
                                     <div class="mb-3">
@@ -460,7 +480,7 @@ $vueRole=$result['role'];
 
                                         <div class="mb-3">
                                             <label class="form-label">Date de l'Évènement</label>
-                                            <input type="date" class="form-event" name="date_evenement" value="<?= $evenement->getDateEvenement() ?>" required>
+                                            <input type="date" min="<?= $demain ?>" class="form-event" name="date_evenement" value="<?= $evenement->getDateEvenement() ?>" required>
                                         </div>
                                     </div>
 
