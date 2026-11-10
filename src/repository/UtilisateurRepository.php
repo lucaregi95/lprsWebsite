@@ -70,4 +70,38 @@ class UtilisateurRepository{
         $result = $req->fetch();
         return $result;
     }
+
+    public function existeEmail($email){
+        $sql = "SELECT id_utilisateur, statut_validation FROM utilisateur WHERE email = :email";
+        $req = $this->connexionbdd->prepare($sql);
+        $req->bindValue(':email', $email);
+        $req->execute();
+        return $req->fetch(PDO::FETCH_ASSOC); // false si l'email n'existe pas
+    }
+
+    public function setResetToken($id_utilisateur, $hash, $expiration){
+        $sql = "UPDATE utilisateur SET reset_token = :token, reset_expiration = :expiration WHERE id_utilisateur = :id";
+        $req = $this->connexionbdd->prepare($sql);
+        $req->bindValue(':token', $hash);
+        $req->bindValue(':expiration', $expiration);
+        $req->bindValue(':id', $id_utilisateur);
+        $req->execute();
+    }
+    public function getUtilisateurByToken($reset_token){
+        $sql = "SELECT id_utilisateur FROM utilisateur WHERE reset_token = :reset_token AND reset_expiration > :maintenant";
+        $req = $this->connexionbdd->prepare($sql);
+        $req->bindValue(':reset_token', $reset_token);
+        $req->bindValue(':maintenant', date('Y-m-d H:i:s'));
+        $req->execute();
+        return $req->fetch();
+    }
+
+    public function updateTokenEtMDP($id_utilisateur, $mdp){
+        $sql = "UPDATE utilisateur SET reset_token = NULL, reset_expiration = NULL, mdp = :mdp WHERE id_utilisateur = :id_utilisateur";
+        $req = $this->connexionbdd->prepare($sql);
+        $req->bindValue(':id_utilisateur', $id_utilisateur);
+        $req->bindValue(':mdp', $mdp);
+        $req->execute();
+    }
+
 }

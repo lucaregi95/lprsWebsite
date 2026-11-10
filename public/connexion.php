@@ -113,6 +113,7 @@ $inscription="Pas de compte ? Inscrivez-vous";
                         </div>
 
                         <button class="btn btn-primary w-100"  type="submit">Connectez-vous !</button>
+                        <p class="small-t text-center mt-2 mb-0"><a href="mdp_oublie.php">Mot de passe oublié ?</a></p>
                     </form>
 
                     <p class="small-t text-center mt-3 mb-0">
