@@ -7,28 +7,27 @@ session_start();
 $bdd = new Bdd();
 $connexionBdd = $bdd->getConnexionBdd();
 
-
-
-//Redirige vers la connexion si l'utilisateur n'est pas connecté
 if(!isset($_SESSION['nom']) || !isset($_SESSION['prenom'])) {
     header("location:connexion.php?page=f");
     exit();
+
+    $id_utilisateur = $_SESSION['id_utilisateur'];
+
+    switch ($role) {
+        case 'etudiant':
+
+            break;
+        case 'partenaire':
+
+            break;
+        case 'alumni':
+
+            break;
+        default:
+
+    }
 }
-switch ($role) {
-    case 'etudiant':
 
-        break;
-    case 'partenaire':
-
-        break;
-    case 'alumni':
-
-        break;
-    default:
-
-}
-
-// Récupère les filtres depuis l'URL (GET)
 if (isset($_GET['categorie_post'])) {
     $categorie = $_GET['categorie_post'];
 } else {
