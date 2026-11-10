@@ -1,4 +1,6 @@
 <?php
+require_once "UtilisateurRepository.php";
+require_once __DIR__ . "/../../bdd/bdd.php";
 class PartenaireRepository{
 
     private $connexionBdd;
@@ -8,12 +10,12 @@ class PartenaireRepository{
     }
 
     public function getPartenaire($id_partenaire){
-        $sql = "SELECT * FROM partenaire WHERE ref_utilisateur = :id_partenaire";
+        $sql = "SELECT u.* ,p.* FROM utilisateur u INNER JOIN partenaire p ON u.id_utilisateur = p.ref_utilisateur WHERE p.ref_utilisateur = :ref_utilisateur ";
         $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':id_partenaire', $id_partenaire);
+        $req->bindValue(':ref_utilisateur', $id_partenaire);
         $req->execute();
         $result = $req->fetch();
-        $partenaire = new Partenaire($result["ref_utilisateur"],$result["poste_occupe"], $result["motif_inscription"], $result["ref_entreprise"]);
+        $partenaire = new Partenaire($result["id_utilisateur"], $result["nom"], $result["prenom"], $result["email"], $result["mdp"], $result["date_inscription"], $result["statut_validation"], $result["ref_utilisateur"],$result["poste_occupe"], $result["motif_inscription"], $result["ref_entreprise"]);
         return $partenaire;
     }
 

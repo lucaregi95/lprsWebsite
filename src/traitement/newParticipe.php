@@ -7,7 +7,7 @@ require_once "../repository/ParticipeRepository.php";
 if( isset($_POST['ref_utilisateur']) && isset($_POST['ref_evenement'])){
 
     $repo = new ParticipeRepository();
-    $participe = new Participe(null,0,$_POST['ref_utilisateur'],$_POST['ref_evenement']);
+    $participe = new Participe(2,$_POST['ref_utilisateur'],$_POST['ref_evenement']);
     $repo->ajouterParticipe($participe);
 }
 header("Location: ../../public/evenement.php");

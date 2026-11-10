@@ -71,7 +71,7 @@ $inscription="Pas de compte ? Inscrivez-vous";
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="offre.php">
+                    <a class="nav-link" href="offre.php">
                         Offre
                     </a>
                 </li>
@@ -81,6 +81,8 @@ $inscription="Pas de compte ? Inscrivez-vous";
                     </a>
                 </li>
             </ul>
+            <a class="nav-link" href="inscription.php">Inscription/</a>
+            <a class="nav-link active" href="connexion.php">Connexion</a>
         </div>
     </div>
 </nav>
@@ -111,6 +113,7 @@ $inscription="Pas de compte ? Inscrivez-vous";
                         </div>
 
                         <button class="btn btn-primary w-100"  type="submit">Connectez-vous !</button>
+                        <p class="small-t text-center mt-2 mb-0"><a href="mdp_oublie.php">Mot de passe oublié ?</a></p>
                     </form>
 
                     <p class="small-t text-center mt-3 mb-0">
@@ -125,16 +128,27 @@ $inscription="Pas de compte ? Inscrivez-vous";
     </div>
 </main>
 <footer>
-    <div>
+    <div class="container d-flex flex-wrap justify-content-between">
+        <b class="text-dark">
+            LPRS
+        </b>
         <div>
-            <h4>Nous contacter</h4>
-
-            <a href="https://mail.google.com/mail/?view=cm&to=LPRS@gmail.com&su=Prise de contact"
-               target="_blank">LPRS@gmail.com</a>
+            <a href="#">
+                Aide
+            </a>
+            <a href="#">
+                Règles de la communauté
+            </a>
+            <a href="#">
+                Mentions légales
+            </a>
+            <a href="#">
+                Confidentialité
+            </a>
         </div>
     </div>
-    <div>
-        <p>© 2026 — Luca Regi, Nassim Kharfouche, Prosper Fajnzyn, William Lemaire — Tous droits réservés</p>
+    <div class="container mt-2">
+        © 2026 Campus. Tous droits réservés.
     </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">

@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+if(!(isset($_SESSION['id_utilisateur']))){
+    header('Location: connexion.php');
+}else{
+
 require_once "../bdd/bdd.php";
 require_once "../src/model/Evenement.php";
 require_once "../src/repository/EvenementRepository.php";
@@ -27,6 +32,17 @@ $req = $connexionBdd->prepare($sql);
 $req->execute([':id'=>$idUser]);
 $result = $req->fetch(pdo::FETCH_ASSOC);
 $vueRole=$result['role'];
+
+function nbInscrits($idevent) {
+    $connexionBdd = (new Bdd())->getConnexionBdd();
+    $sql = "SELECT COUNT(*) FROM participe WHERE ref_evenement = :idevent";
+    $req = $connexionBdd->prepare($sql);
+    $req->execute([':idevent' => $idevent]);
+    return (int) $req->fetchColumn();
+}
+
+$demain = date('Y-m-d', strtotime('tomorrow'));
+
 
 
 
@@ -138,8 +154,7 @@ $vueRole=$result['role'];
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Lieu</label>
-                            <input type="text" class="form-event" name="lieu" readonly>
+                            <input type="hidden" class="form-event" name="lieu" >
                         </div>
 
                         <!-- Recherche + carte -->
@@ -157,12 +172,12 @@ $vueRole=$result['role'];
 
                         <div class="mb-3">
                             <label class="form-label">Nombre de Place</label>
-                            <input type="number" class="form-event" name="nbr_places" required>
+                            <input type="number" min="1" max="350" step="1" class="form-event" name="nbr_places" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Date de l'Évènement</label>
-                            <input type="date" class="form-event" name="date_evenement" required>
+                            <input type="date" min="<?= $demain ?>" class="form-event" name="date_evenement" required>
                         </div>
                     </div>
 
@@ -232,12 +247,21 @@ $vueRole=$result['role'];
                 <?php endif; ?>
                 <?php foreach ($evenements as $id => $evenement): ?>
                     <?php
-                    $restantes = max(0, (int)$evenement->getNbrPlaces() - ($inscrits[$evenement->getIdEvenement()] ?? 0));
-                    $complet = ($restantes <= 0);
-                    $eventUser= $eventRepository->getEvenementOrganiseParUtilisateur($idUser,$evenement->getIdEvenement());
+                    $nbInscrits = nbInscrits($evenement->getIdEvenement());
+                    $placesRestantes = $evenement->getNbrPlaces() - $nbInscrits;
 
+                    $complet = ($placesRestantes <= 0);
+                    $eventUser= $eventRepository->getEvenementOrganiseParUtilisateur($idUser,$evenement->getIdEvenement());
+                    $partie= $participeRepository->getParticipe($idUser,$evenement->getIdEvenement());
+                    if ($partie ==null){
+                        $Yparticipe=null;
+
+                    }else{
+                        $Yparticipe=$partie->getEstOrga();
+                    }
 
                     ?>
+
                     <div class="col-md-6">
                         <div class="box ev h-100">
                             <div class="d-flex gap-3">
@@ -253,26 +277,46 @@ $vueRole=$result['role'];
                                 <div class="flex-grow-1">
                                     <?php if ($complet): ?>
                                         <span class="tag" style="background:#fde8e8;color:#c0392b">Complet</span>
+                                        <?php if ($Yparticipe==2): ?>
+                                            <span class="tag" style="background:#ebfde8;color:#2fae2c">Inscrit</span>
+                                        <?php endif; ?>
+
                                     <?php else: ?>
-                                        <span class="tag"><?= $restantes ?> place<?= $restantes > 1 ? 's' : '' ?> restante<?= $restantes > 1 ? 's' : '' ?></span>
+                                        <span class="tag"> Places restantes : <?= $placesRestantes ?></span>
+                                        <?php if ($Yparticipe==2): ?>
+                                            <span class="tag" style="background:#ebfde8;color:#2fae2c">Inscrit</span>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                    <?php if ($nbInscrits == 0): ?>
+                                        <br><span class="tag" style="background:#fdf8e8;color:#ae982c">Nombre d'inscrits : Aucun</span>
+                                    <?php else : ?>
+                                        <br><span class="tag" style="background:#fdf8e8;color:#ae982c">Nombre d'inscrits : <?= $nbInscrits?></span>
                                     <?php endif; ?>
 
                                     <h6 class="mt-1 mb-1"><?= ($evenement->getTitre()) ?></h6>
                                     <div class="muted small-t">
                                         <i class="bi bi-geo-alt"></i>
-                                        <?= ($evenement->getLieu()) ?> <hr> <br>· <?= (int)$evenement->getNbrPlaces() ?> places au total
+                                        <?= ($evenement->getLieu()) ?> <hr> <br>- <?= ($evenement->getDescription()) ?>
                                     </div>
-                                    <p class="muted small-t my-2"><?= ($evenement->getDescription()) ?></p>
+                                    <span class="tag" style="background:#d6d6d6;color:#040404">- <?= (int)$evenement->getNbrPlaces() ?> places au total</span>
                                     <div class="mb-3">
-                                        <p class="muted small-t my-2"><?= ($evenement->getDateEvenement()) ?></p>
+                                        <span class="tag" style="background:#d8d7d7;color:#040404">- <?= ($evenement->getDateEvenement()) ?></span>
                                     </div>
-                                    <?php if ($complet): ?>
+                                    <?php if ($complet || $Yparticipe==2): ?>
                                         <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
                                                 data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
                                             Aperçu
                                         </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm mt-2"
+                                                data-bs-toggle="modal" data-bs-target="#edit<?= $id ?>">
+                                            Modifier
+                                        </button>
                                     <?php else: ?>
-                                        <?php if($vueRole === "etudiant"): ?>
+                                        <?php if($vueRole === "etudiant" && $Yparticipe==null): ?>
+                                            <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
+                                                    data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
+                                                Aperçu
+                                            </button>
                                             <form method="POST" action="../src/traitement/newParticipe.php">
                                                 <input type="hidden" name="ref_utilisateur" value="<?= $_SESSION['id_utilisateur'] ?>">
                                                 <input type="hidden" name="ref_evenement" value="<?=$evenement->getIdEvenement()?>() ?>">
@@ -280,18 +324,28 @@ $vueRole=$result['role'];
                                                     S'inscrire
                                                 </button>
                                             </form>
-                                            <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
-                                                    data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
-                                                Aperçu
-                                            </button>
+
 
                                         <?php elseif ($vueRole === "partenaire" && $eventUser!==null): ?>
                                             <button type="button" class="btn btn-outline-primary btn-sm mt-2"
                                                     data-bs-toggle="modal" data-bs-target="#edit<?= $id ?>">
                                                 Modifier
                                             </button>
+                                            <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
+                                                    data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
+                                                Aperçu
+                                            </button>
                                         <?php endif; ?>
                                     <?php endif; ?>
+                                    <?php if ($Yparticipe==2): ?>
+                                        <form method="POST" action="../src/traitement/suppParticipe.php">
+                                            <input type="hidden" name="id_evenement" value="<?=$evenement->getIdEvenement() ?>">
+                                            <input type="hidden" name="id_user" value="<?=$idUser ?>">
+                                            <button class="btn btn-danger btn-sm mt-2 ">
+                                                Désincrire
+                                            </button>
+                                        </form>
+                                    <?php endif;?>
                                 </div>
                             </div>
                         </div>
@@ -327,7 +381,7 @@ $vueRole=$result['role'];
 
                                     <div class="mb-3">
                                         <div class="form-label">Places</div>
-                                        <div><?= $complet ? 'Complet' : $restantes . ' / ' . (int)$evenement->getNbrPlaces() . ' places restantes' ?></div>
+                                        <span class="tag"> Places restantes : <?= $placesRestantes ?></span>
                                     </div>
 
                                     <div class="mb-3">
@@ -339,6 +393,7 @@ $vueRole=$result['role'];
                                     </div>
                                 </div>
                                 <div class="modal-footer">
+                                    <?php if ($vueRole === "partenaire" && $eventUser!==null): ?>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                                     <form method="POST" action="../src/traitement/suppEvenement.php">
                                         <input type="hidden" name="id_evenement" value="<?=$evenement->getIdEvenement() ?>">
@@ -348,7 +403,9 @@ $vueRole=$result['role'];
                                         Supprimer
                                         </button>
                                     </form>
-                                    <?php if (!$complet): ?>
+                                    <?php elseif (!$complet && $Yparticipe==null): ?>
+
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                                         <form method="POST" action="../src/traitement/newParticipe.php">
                                             <input type="hidden" name="ref_utilisateur" value="<?= $_SESSION['id_utilisateur'] ?>">
                                             <input type="hidden" name="ref_evenement" value="<?=$evenement->getIdEvenement()?>() ?>">
@@ -357,6 +414,17 @@ $vueRole=$result['role'];
                                             </button>
                                         </form>
                                     <?php endif; ?>
+                                    <?php if ($Yparticipe==2): ?>
+
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                        <form method="POST" action="../src/traitement/suppParticipe.php">
+                                            <input type="hidden" name="id_evenement" value="<?=$evenement->getIdEvenement() ?>">
+                                            <input type="hidden" name="id_user" value="<?=$idUser ?>">
+                                            <button class="btn btn-danger btn-sm mt-2 ">
+                                                Désincrire
+                                            </button>
+                                        </form>
+                                    <?php endif;?>
                                 </div>
                             </div>
                         </div>
@@ -421,13 +489,12 @@ $vueRole=$result['role'];
 
                                         <div class="mb-3">
                                             <label class="form-label">Nombre de Place</label>
-                                            <input type="number" class="form-event" name="nbr_places" min="1"
-                                                   value="<?= $evenement->getNbrPlaces() ?>" required>
+                                            <input type="number" class="form-event" name="nbr_places" min="<?=$nbInscrits ?>" max="350" step="1" value="<?= $evenement->getNbrPlaces() ?>" required>
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label">Date de l'Évènement</label>
-                                            <input type="date" class="form-event" name="date_evenement" value="<?= $evenement->getDateEvenement() ?>" required>
+                                            <input type="date" min="<?= $demain ?>" class="form-event" name="date_evenement" value="<?= $evenement->getDateEvenement() ?>" required>
                                         </div>
                                     </div>
 
@@ -631,3 +698,4 @@ $vueRole=$result['role'];
 </script>
 </body>
 </html>
+<?php } ?>
