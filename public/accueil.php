@@ -26,7 +26,15 @@ session_start();
                 <li class="nav-item"><a class="nav-link" href="evenement.php">Évènement</a></li>
                 <li class="nav-item"><a class="nav-link" href="offre.php">Offre</a></li>
                 <li class="nav-item"><a class="nav-link" href="forum.php">Forum</a></li>
-                <?php if((isset($_SESSION['statut_validation']) && $_SESSION['statut_validation'] == 'admin')||(isset($_SESSION['role']) && $_SESSION['statut_validation'] == 'gestionnaire')) { ?>
+                <?php if(isset($_SESSION['role']) && $_SESSION['role'] == 'professeur'){ ?>
+                <li class="nav-item"><div class="dropdown">
+                        <a class="nav-link text-decoration-none text-dark d-flex align-items-center gap-2" href="#" data-bs-toggle="dropdown">Annuaires<i class="bi bi-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="annuaireAlumni.php">Alumnis</a></li>
+                            <li><a class="dropdown-item" href="annuaireEtudiant.php">Etudiants</a></li>
+                        </ul>
+                    </div></li>
+                <?php }if((isset($_SESSION['statut_validation']) && $_SESSION['statut_validation'] == 'admin')||(isset($_SESSION['role']) && $_SESSION['statut_validation'] == 'gestionnaire')) { ?>
                 <li class="nav-item"><a class="nav-link" href="admin.php">Administration</a></li>
                 <?php } ?>
             </ul>
