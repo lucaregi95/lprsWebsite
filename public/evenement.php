@@ -474,8 +474,7 @@ $demain = date('Y-m-d', strtotime('tomorrow'));
 
                                         <div class="mb-3">
                                             <label class="form-label">Nombre de Place</label>
-                                            <input type="number" class="form-event" name="nbr_places" min="1"
-                                                   value="<?= $evenement->getNbrPlaces() ?>" required>
+                                            <input type="number" class="form-event" name="nbr_places" min="1" max="350" step="1" value="<?= $evenement->getNbrPlaces() ?>" required>
                                         </div>
 
                                         <div class="mb-3">

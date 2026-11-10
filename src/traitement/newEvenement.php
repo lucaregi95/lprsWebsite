@@ -18,7 +18,7 @@ if (isset($_POST['titre'], $_POST['description'], $_POST['lieu'], $_POST['nbr_pl
     $titre       = $_POST['titre'];
     $description = $_POST['description'];
     $lieu        = $_POST['lieu'];
-    $nbr_places  = (int) $_POST['nbr_places'];
+    $nbr_places  = (int) $_POST['nbr_places']+1;
     $lat         = (float) $_POST['lat'];
     $lng         = (float) $_POST['lng'];
     $date_evenement = $_POST['date_evenement'];
