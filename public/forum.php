@@ -18,6 +18,16 @@ if ($estAdmin) {
     $categories = [];
 }
 
+if (!$estAdmin) {
+    if ($role == 'etudiant') {
+        $sql = $sql . " AND post.categorie_post = 'Étudiant'";
+    } elseif ($role == 'alumni' || $role == 'entreprise') {
+        $sql = $sql . " AND post.categorie_post = 'Alumni'";
+    } else {
+        $sql = $sql . " AND 1=0";
+    }
+}
+
 $bdd = new Bdd();
 $connexionBdd = $bdd->getConnexionBdd();
 
