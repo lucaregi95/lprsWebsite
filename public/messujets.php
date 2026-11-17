@@ -13,7 +13,7 @@ $bdd = new Bdd();
 $connexionBdd = $bdd->getConnexionBdd();
 
 
-$sql = "SELECT p.id_post , p.contenu , p.date_post , p.ref_utilisateur , p.categorie_post, p.titre  COUNT (*) reponse  FROM post as p INNER JOIN reponse as r ON ref_post = id_post";
+$sql = "SELECT p.id_post , p.contenu , p.date_post , p.ref_utilisateur , p.categorie_post, p.titre , COUNT(r.*) as nb_reponse FROM post as p INNER JOIN reponse as r WHERE ref_post = id_post GROUP BY id_post ASC";
 
 $req = $connexionBdd->prepare($sql);
 $req->execute(['id_utilisateur' => $_SESSION['id_utilisateur']]);
