@@ -32,9 +32,9 @@ class ProfesseurFormationRepository{
     }
 
     public function ajouterProfesseurFormations(ProfesseurFormation $professeurFormation){
-       $sql = "INSERT INTO professeurformation VALUES (:id_pF,:ref_professeur,:ref_formation)";
+       $sql = "INSERT INTO professeurformation VALUES (:ref_professeur,:ref_formation)";
         $req = $this->connexionbdd->prepare($sql);
-        $req->bindValue("id_pF", $professeurFormation-> getIdPf());
+
         $req->bindValue('ref_professeur',$professeurFormation->getRefProfesseur());
         $req->bindValue('ref_formation',$professeurFormation-> getRefFormation());
         $req->execute();
