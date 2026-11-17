@@ -254,8 +254,8 @@ $sujets = $req->fetchAll(PDO::FETCH_ASSOC);
                 <a class="on" href="#">
                     Récents
                 </a>
-                <a href="#">
-                    Sans réponse
+                <a href="messujets.php">
+                    Mes sujets
                 </a>
                 <a href="#">
                     Mes posts
