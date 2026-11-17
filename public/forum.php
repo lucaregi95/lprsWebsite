@@ -45,7 +45,6 @@ if(!isset($_SESSION['nom']) || !isset($_SESSION['prenom'])) {
             break;
         case 'alumni':
             break;
-        case 'entreprise':
         default:
 
     }
@@ -62,7 +61,8 @@ if (isset($_GET['recherche'])) {
     $recherche = '';
 }
 
-
+// "WHERE 1=1" est une astuce pour pouvoir ajouter des "AND" dynamiquement sans condition initiale
+$sql = " SELECT post.id_post, post.titre, post.date_post, post.categorie_post, utilisateur.nom,(SELECT COUNT(*) FROM reponse WHERE reponse.ref_post = post.id_post) as nb_reponses FROM post INNER JOIN utilisateur ON post.ref_utilisateur = utilisateur.id_utilisateur WHERE 1=1 ";
 
 
 $tableau = [];
@@ -84,7 +84,7 @@ $req->execute($tableau);
 $sujets = $req->fetchAll(PDO::FETCH_ASSOC);
 
 
-
+$categories = ['Général', 'Alumni', 'Étudiant','Entreprise'];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -253,8 +253,8 @@ $sujets = $req->fetchAll(PDO::FETCH_ASSOC);
                 <a class="on" href="#">
                     Récents
                 </a>
-                <a href="messujets.php">
-                    Mes sujets
+                <a href="#">
+                    Sans réponse
                 </a>
                 <a href="#">
                     Mes posts

@@ -44,6 +44,11 @@ function nbInscrits($idevent) {
 $demain = date('Y-m-d', strtotime('tomorrow'));
 
 
+$sql = "SELECT SUM(nbr_places) FROM evenement WHERE 1";
+$req = $connexionBdd->prepare($sql);
+$req->execute();
+$result=$req->fetchColumn();
+$totNb_places=$result;
 
 
 
@@ -127,7 +132,7 @@ $demain = date('Y-m-d', strtotime('tomorrow'));
         </div>
         <?php if($vueRole === "partenaire"): ?>
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
-                + Proposer un évènement <?= $vueRole ?>
+                + Proposer un évènement
             </button>
         <?php endif; ?>
     </div>
@@ -196,28 +201,11 @@ $demain = date('Y-m-d', strtotime('tomorrow'));
         <aside class="col-lg-3">
             <div class="box mb-3">
                 <h6>
-                    Affiner ma recherche
+                    Statistique sur les évènements
                 </h6>
-                <label class="form-label small-t">
-                    Lieu
-                </label>
-                <select class="form-select form-select-sm mb-3">
-                    <option>
-                        Tous les lieux
-                    </option>
-                    <option>
-                        Amphi A
-                    </option>
-                    <option>
-                        Salle B12
-                    </option>
-                </select>
-                <div class="form-check small-t">
-                    <input checked="" class="form-check-input" type="checkbox"/>
-                    <label class="form-check-label">
-                        Places disponibles uniquement
-                    </label>
-                </div>
+                <br><span class="tag" style="background:#fdf8e8;color:#ae982c">Nombre de place totale : <?= $totNb_places?></span>
+
+
                 <div class="form-check small-t">
                     <input class="form-check-input" type="checkbox"/>
                     <label class="form-check-label">
@@ -298,19 +286,16 @@ $demain = date('Y-m-d', strtotime('tomorrow'));
                                         <i class="bi bi-geo-alt"></i>
                                         <?= ($evenement->getLieu()) ?> <hr> <br>- <?= ($evenement->getDescription()) ?>
                                     </div>
-                                    <span class="tag" style="background:#d6d6d6;color:#040404">- <?= (int)$evenement->getNbrPlaces() ?> places au total</span>
+                                    <span class="tag" style="background:#f8f8f8;color:#040404">- <?= (int)$evenement->getNbrPlaces() ?> places au total</span>
                                     <div class="mb-3">
-                                        <span class="tag" style="background:#d8d7d7;color:#040404">- <?= ($evenement->getDateEvenement()) ?></span>
+                                        <span class="tag" style="background:#f8f8f8;color:#040404">- <?= ($evenement->getDateEvenement()) ?></span>
                                     </div>
                                     <?php if ($complet || $Yparticipe==2): ?>
                                         <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
                                                 data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
                                             Aperçu
                                         </button>
-                                        <button type="button" class="btn btn-outline-primary btn-sm mt-2"
-                                                data-bs-toggle="modal" data-bs-target="#edit<?= $id ?>">
-                                            Modifier
-                                        </button>
+
                                     <?php else: ?>
                                         <?php if($vueRole === "etudiant" && $Yparticipe==null): ?>
                                             <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
