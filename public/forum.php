@@ -4,13 +4,27 @@ require_once "../bdd/bdd.php";
 require_once "../src/model/post.php";
 require_once "../src/repository/postRepository.php";
 
+$role = $_SESSION['role'] ?? '';
+$estAdmin = isset($_SESSION['statut_validation']) && $_SESSION['statut_validation'] == 'admin';
 
-$rolePermission = ["etudiant" => ['lire','cree','supprimer','modifier',],
-                  "alumni" => ['lire','cree','supprimer','modifier',],];
+if ($estAdmin) {
+    $categories = ['Général', 'Alumni', 'Étudiant', 'Entreprise'];
+} elseif ($role == 'etudiant') {
+    $categories = ['Étudiant'];
+} elseif ($role == 'alumni' || $role == 'entreprise') {
+    $categories = ['Alumni'];
+} else {
+    $categories = [];
+}
 
-if (!$rolePermission[$_SESSION['role']] || $rolePermission == 'etudiant' ){
-
-
+if (!$estAdmin) {
+    if ($role == 'etudiant') {
+        $sql = $sql . " AND post.categorie_post = 'Étudiant'";
+    } elseif ($role == 'alumni' || $role == 'entreprise') {
+        $sql = $sql . " AND post.categorie_post = 'Alumni'";
+    } else {
+        $sql = $sql . " AND 1=0";
+    }
 }
 
 $bdd = new Bdd();
