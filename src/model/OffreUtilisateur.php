@@ -5,14 +5,17 @@ Class OffreUtilisateur{
     private $id_offre;
     private $id_utilisateur;
 
+    private $est_orga;
+
     /**
      * @param $id_offre
      * @param $id_utilisateur
      */
-    public function __construct( $id_offre, $id_utilisateur)
+    public function __construct( $id_offre, $id_utilisateur,$est_orga)
     {
         $this->id_offre = $id_offre;
         $this->id_utilisateur = $id_utilisateur;
+        $this->est_orga=$est_orga;
     }
 
     /**
@@ -51,6 +54,23 @@ Class OffreUtilisateur{
     {
         $this->id_utilisateur = $id_utilisateur;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getEstOrga()
+    {
+        return $this->est_orga;
+    }
+
+    /**
+     * @param mixed $est_orga
+     */
+    public function setEstOrga($est_orga)
+    {
+        $this->est_orga = $est_orga;
+    }
+
 
 
 

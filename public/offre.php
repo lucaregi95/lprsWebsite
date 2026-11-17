@@ -1,16 +1,29 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+
 
 session_start();
 require_once "../bdd/bdd.php";
 require_once "../src/model/Offre.php";
 require_once "../src/repository/OffreRepository.php";
 require_once __DIR__ . "/../src/repository/EntrepriseRepository.php";
+require_once "../src/repository/OffreUtilisateurRepository.php";
+require_once "../src/model/OffreUtilisateur.php";
 
 $offreRepository = new OffreRepository();
 $offres = $offreRepository->getAllOffres();
 $tabEntreprise = (new EntrepriseRepository())->getAllEntreprises();
+
+$idUser=$_SESSION['id_utilisateur'];
+
+$connexionBdd = (new Bdd())->getConnexionBdd();
+
+
+$sql="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=:id";
+$req = $connexionBdd->prepare($sql);
+$req->execute([':id'=>$idUser]);
+$result = $req->fetch(pdo::FETCH_ASSOC);
+$vueRole=$result['role'];
+
 
 
 function h($v)
@@ -145,8 +158,8 @@ function h($v)
                         <div class="mb-3">
                             <label class="form-label">État</label>
                             <select class="form-event" name="etat" required>
-                                <option value="0">Ouvert</option>
-                                <option value="1">Fermé</option>
+                                <option value="1">Ouvert</option>
+                                <option value="2">Fermé</option>
                             </select>
                         </div>
 
@@ -170,78 +183,9 @@ function h($v)
     </div>
 
     <div class="row g-4">
-        <aside class="col-lg-3">
-            <div class="box mb-3">
-                <h6>
-                    Affiner ma recherche
-                </h6>
-                <label class="form-label small-t">
-                    Type d'offre
-                </label>
-                <div class="form-check small-t">
-                    <input checked="" class="form-check-input" type="checkbox"/>
-                    <label class="form-check-label">
-                        Tous les types
-                    </label>
-                </div>
-                <div class="form-check small-t">
-                    <input class="form-check-input" type="checkbox"/>
-                    <label class="form-check-label">
-                        Stage
-                    </label>
-                </div>
-                <div class="form-check small-t">
-                    <input class="form-check-input" type="checkbox"/>
-                    <label class="form-check-label">
-                        Alternance
-                    </label>
-                </div>
-                <div class="form-check small-t">
-                    <input class="form-check-input" type="checkbox"/>
-                    <label class="form-check-label">
-                        Job étudiant
-                    </label>
-                </div>
-                <label class="form-label small-t mt-3">
-                    État
-                </label>
-                <select class="form-select form-select-sm mb-3">
-                    <option>
-                        Ouverte
-                    </option>
-                    <option>
-                        Fermée
-                    </option>
-                </select>
-                <label class="form-label small-t">
-                    Entreprise
-                </label>
-                <select class="form-select form-select-sm">
-                    <option>
-                        Toutes
-                    </option>
-                    <option>
-                        Agence Lumière
-                    </option>
-                    <option>
-                        Studio Nord
-                    </option>
-                    <option>
-                        DataCorp
-                    </option>
-                </select>
-            </div>
-        </aside>
+
 
         <div class="col-lg-9">
-            <div class="d-flex gap-2 mb-3">
-                <input class="form-control form-control-sm" placeholder="Rechercher une offre"/>
-                <select class="form-select form-select-sm w-auto">
-                    <option>
-                        Plus récentes
-                    </option>
-                </select>
-            </div>
             <h5>
                 Offres disponibles
             </h5>
@@ -253,7 +197,7 @@ function h($v)
             <?php foreach ($offres as $id => $offre): ?>
                 <?php
                 // 0 = Ouvert, 1 = Fermé (comme dans le formulaire d'ajout)
-                $ferme = ((int)$offre->getEtat() === 1);
+                $ferme = ($offre->getEtat() === 2);
                 ?>
 
                 <!-- Ligne large -->
@@ -281,8 +225,16 @@ function h($v)
                         <?php endif; ?>
                     </div>
                     <div class="d-flex flex-column gap-2">
-                        <?php if (!$ferme): ?>
-                            <a class="btn btn-sm btn-primary" href="#">Postuler</a>
+                        <?php if (!$ferme && $vueRole === "etudiant" ): ?>
+                            <form method="POST" action="../src/traitement/newOffreUtilisateur.php">
+                                <input type="hidden" name="ref_utilisateur" value="<?= $idUser ?>">
+                                <input type="hidden" name="ref_offre" value="<?=$offre->getIdOffre()?>">
+                                <button class="btn btn-primary btn-sm mt-2 ">
+                                    Postuler
+                                </button>
+                            </form>
+                        <?php elseif ($vueRole === "etudiant"): ?>
+
                         <?php endif; ?>
                         <button type="button" class="btn btn-outline-secondary btn-sm"
                                 data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">

@@ -13,7 +13,7 @@ Class OffreUtilisateurRepository{
         $req->bindValue(':ref_utilisateur', $id);
         $req->execute();
         $result = $req->fetch();
-        $oU = new OffreUtilisateur($result['ref_offre'],$result['ref_utilisateur']);
+        $oU = new OffreUtilisateur($result['ref_offre'],$result['ref_utilisateur'],$result['est_orga']);
         return $oU;
 
     }
@@ -25,17 +25,18 @@ Class OffreUtilisateurRepository{
         $result = $req->fetchAll();
         $tabOu=array();
         foreach($result as $results){
-            $oU = new OffreUtilisateur($results['ref_offre'],$results['ref_utilisateur']);
+            $oU = new OffreUtilisateur($results['ref_offre'],$results['ref_utilisateur'],$results['est_orga']);
         $tabOu[]= $oU;
         }
         return $tabOu;
     }
 
     public function ajouterOffreUtilisateur(OffreUtilisateur $oU){
-        $sql = "INSERT INTO offreutilisateur (ref_offre,ref_utilisateur) VALUES (:ref_offre,:ref_utilisateur)";
+        $sql = "INSERT INTO offreutilisateur (ref_offre,ref_utilisateur,est_orga) VALUES (:ref_offre,:ref_utilisateur,:est_orga)";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':ref_offre', $oU->getIdOffre());
         $req->bindValue(':ref_utilisateur', $oU->getIdOffre());
+        $req->bindValue(':est_orga', $oU->getEstOrga());
         $req -> execute();
     }
 

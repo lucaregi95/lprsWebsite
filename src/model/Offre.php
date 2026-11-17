@@ -11,6 +11,7 @@ class Offre{
     private $etat;
     private $ref_entreprise;
 
+
     /**
      * @param $id_offre
      * @param $titre

@@ -1,11 +1,11 @@
 <?php
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 
 require_once "../../bdd/bdd.php";
 require_once __DIR__ . "/../model/Offre.php";
 require_once __DIR__ . "/../repository/OffreRepository.php";
+require_once __DIR__ . "/../repository/OffreUtilisateurRepository.php";
+require_once __DIR__ . "/../model/OffreUtilisateur.php";
 
 if(isset($_POST['titre']) && isset($_POST['description']) && isset($_POST['mission'])&& isset($_POST['salaire']) && isset($_POST['type_offre']) && isset($_POST['etat']) && isset($_POST['ref_entreprise']) ){
     $id_offre = (isset($_POST['id_offre'])) ? $_POST['id_offre'] : null;
@@ -13,7 +13,11 @@ if(isset($_POST['titre']) && isset($_POST['description']) && isset($_POST['missi
 
     $repo= new OffreRepository();
     $offre = new Offre(null,$_POST['titre'],$_POST['description'],$_POST['mission'],$_POST['salaire'], $_POST['type_offre'], $_POST['etat'],$_POST['ref_entreprise'] );
-    $repo ->ajouterOffre($offre);
+    $idOffre = $repo->ajouterOffre($offre);
+
+    $rep= new OffreUtilisateurRepository();
+    $oUtilisateur = new OffreUtilisateur();
+    $rep->ajouterOffreUtilisateur($oUtilisateur);
 
 header('Location: ../../public/offre.php');
 exit();
