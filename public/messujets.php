@@ -1,16 +1,17 @@
 <?php
-$connexionBdd = $bdd->getConnexionBdd();
+require_once "../src/model/post.php";
+require_once "../src/repository/postRepository.php";
+require_once "../bdd/bdd.php";
+require_once "forum.php"
 
-// Seulement les posts de l'utilisateur connecté
-$sql = "SELECT post.id_post, post.titre, post.date_post, post.categorie_post,
-               (SELECT COUNT(*) FROM reponse WHERE reponse.ref_post = post.id_post) AS nb_reponses
-        FROM post
-        WHERE post.ref_utilisateur = :id_utilisateur
-        ORDER BY post.date_post DESC";
 
-$req = $connexionBdd->prepare($sql);
-$req->execute(['id_utilisateur' => $_SESSION['id_utilisateur']]);
-$sujets = $req->fetchAll(PDO::FETCH_ASSOC);
+if (!isset($_SESSION['id_utilisateur']) || !isset($_SESSION['nom']) || !isset($_SESSION['prenom'])) {
+    header("location:connexion.php?page=f");
+    exit();
+}
+
+$bdd = new Bdd();
+
 
 
 
