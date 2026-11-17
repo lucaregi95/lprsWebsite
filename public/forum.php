@@ -65,7 +65,6 @@ if (isset($_GET['recherche'])) {
 
 
 
-
 $tableau = [];
 
 if ($categorie != '') {
