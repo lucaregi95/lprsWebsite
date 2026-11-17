@@ -1,34 +1,52 @@
 <?php
+session_start();
 require_once "../bdd/bdd.php";
 require_once "../src/model/post.php";
 require_once "../src/repository/postRepository.php";
-session_start();
+
+
+$role = $_SESSION['role'] ?? '';
+$estAdmin = isset($_SESSION['statut_validation']) && $_SESSION['statut_validation'] == 'admin';
+
+if ($estAdmin) {
+    $categories = ['Général', 'Alumni', 'Étudiant', 'Entreprise'];
+} elseif ($role == 'etudiant') {
+    $categories = ['Étudiant'];
+} elseif ($role == 'alumni' || $role == 'entreprise') {
+    $categories = ['Alumni'];
+} else {
+    $categories = [];
+}
+
+if (!$estAdmin) {
+    if ($role == 'etudiant') {
+        $sql = $sql . " AND post.categorie_post = 'Étudiant'";
+    } elseif ($role == 'alumni' || $role == 'entreprise') {
+        $sql = $sql . " AND post.categorie_post = 'Alumni'";
+    } else {
+        $sql = $sql . " AND 1=0";
+    }
+}
 
 $bdd = new Bdd();
 $connexionBdd = $bdd->getConnexionBdd();
 
-
-
-//Redirige vers la connexion si l'utilisateur n'est pas connecté
 if(!isset($_SESSION['nom']) || !isset($_SESSION['prenom'])) {
     header("location:connexion.php?page=f");
     exit();
-}
-switch ($role) {
-    case 'etudiant':
 
-        break;
-    case 'partenaire':
+    $id_utilisateur = $_SESSION['id_utilisateur'];
 
-        break;
-    case 'alumni':
+    switch ($role) {
+        case 'etudiant':
+            break;
+        case 'alumni':
+            break;
+        default:
 
-        break;
-    default:
-
+    }
 }
 
-// Récupère les filtres depuis l'URL (GET)
 if (isset($_GET['categorie_post'])) {
     $categorie = $_GET['categorie_post'];
 } else {
