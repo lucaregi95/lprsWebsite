@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . "/../../bdd/bdd.php";
+require_once __DIR__ . "/../model/OffreUtilisateur.php";
 Class OffreUtilisateurRepository{
     private $connexionBdd;
     public function __construct()
@@ -7,10 +9,11 @@ Class OffreUtilisateurRepository{
         $this->connexionBdd = (new Bdd())->getConnexionBdd();
     }
 
-    public function getOffreUtilisateur($id){
+    public function getOffreUtilisateur($ref_utilisateur,$ref_offre){
         $sql = "SELECT * FROM offreutilisateur WHERE ref_utilisateur = :ref_utilisateur and ref_offre=:ref_offre ";
         $req = $this->connexionBdd->prepare($sql);
-        $req->bindValue(':ref_utilisateur', $id);
+        $req->bindValue(':ref_utilisateur', $ref_utilisateur);
+        $req->bindValue(':ref_offre', $ref_offre);
         $req->execute();
         $result = $req->fetch();
         $oU = new OffreUtilisateur($result['ref_offre'],$result['ref_utilisateur'],$result['est_orga']);

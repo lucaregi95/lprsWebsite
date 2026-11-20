@@ -13,6 +13,8 @@ $offreRepository = new OffreRepository();
 $offres = $offreRepository->getAllOffres();
 $tabEntreprise = (new EntrepriseRepository())->getAllEntreprises();
 
+$offreUtilisateurRepository = new OffreUtilisateurRepository();
+
 $idUser=$_SESSION['id_utilisateur'];
 
 $connexionBdd = (new Bdd())->getConnexionBdd();
@@ -196,6 +198,14 @@ function h($v)
 
             <?php foreach ($offres as $id => $offre): ?>
                 <?php
+                $partie= $offreUtilisateurRepository->getOffreUtilisateur($idUser,$offre->getIdOffre());
+                if ($partie ==null){
+                    $Yparticipe=null;
+
+                }else{
+                    $Yparticipe=$partie->getEstOrga();
+                }
+
                 // 0 = Ouvert, 1 = Fermé (comme dans le formulaire d'ajout)
                 $ferme = ($offre->getEtat() === 2);
                 ?>
@@ -224,8 +234,21 @@ function h($v)
                             <span class="tag">Ouvert</span>
                         <?php endif; ?>
                     </div>
+
                     <div class="d-flex flex-column gap-2">
-                        <?php if (!$ferme && $vueRole === "etudiant" ): ?>
+
+                        <?php if($ferme || $Yparticipe== 2): ?>
+                            <?php if($Yparticipe== 2): ?>
+                                <button type="button" class="btn btn-outline-primary btn-sm"
+                                        data-bs-toggle="modal" data-bs-target="#edit<?= $id ?>">
+                                    Modifier
+                                </button>
+                            <?php endif; ?>
+                                <button type="button" class="btn btn-outline-secondary btn-sm"
+                                        data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
+                                    Aperçu
+                                </button>
+                        <?php elseif ( $vueRole === "etudiant" && $Yparticipe==null ): ?>
                             <form method="POST" action="../src/traitement/newOffreUtilisateur.php">
                                 <input type="hidden" name="ref_utilisateur" value="<?= $idUser ?>">
                                 <input type="hidden" name="ref_offre" value="<?=$offre->getIdOffre()?>">
@@ -233,13 +256,24 @@ function h($v)
                                     Postuler
                                 </button>
                             </form>
-                        <?php elseif ($vueRole === "etudiant"): ?>
-
+                            <button type="button" class="btn btn-outline-secondary btn-sm"
+                                    data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
+                                Aperçu
+                            </button>
+                        <?php elseif ($vueRole === "etudiant" && $Yparticipe==1): ?>
+                            <form method="POST" action="../src/traitement/suppParticipe.php">
+                                <input type="hidden" name="ref_offre" value="<?=$offre->getIdEvenement() ?>">
+                                <input type="hidden" name="ref_utilisateur" value="<?=$idUser ?>">
+                                <button class="btn btn-danger btn-sm mt-2 ">
+                                    Désincrire
+                                </button>
+                            </form>
+                            <button type="button" class="btn btn-outline-secondary btn-sm"
+                                    data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
+                                Aperçu
+                            </button>
                         <?php endif; ?>
-                        <button type="button" class="btn btn-outline-secondary btn-sm"
-                                data-bs-toggle="modal" data-bs-target="#preview<?= $id ?>">
-                            Aperçu
-                        </button>
+
                         <?php if (!$ferme): ?>
                             <button type="button" class="btn btn-outline-primary btn-sm"
                                     data-bs-toggle="modal" data-bs-target="#edit<?= $id ?>">
