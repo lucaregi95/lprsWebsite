@@ -792,3 +792,44 @@ textarea.form-event {
         grid-template-columns: 1fr;
     }
 }
+
+/* ===== Aside : tri et filtres ===== */
+.filter-box .form-label {
+    margin-bottom: .25rem;
+}
+.filter-box .form-control,
+.filter-box .form-select {
+    border-color: #cfd6f3;
+}
+.filter-box .form-control:focus,
+.filter-box .form-select:focus {
+    border-color: var(--b);
+    box-shadow: 0 0 0 .2rem rgba(25, 62, 253, .15);
+}
+.filter-box .form-check-input:checked {
+    background-color: var(--b);
+    border-color: var(--b);
+}
+.link-btn {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--b);
+    font-size: .78rem;
+}
+.link-btn:hover {
+    color: var(--b2);
+    text-decoration: underline;
+}
+.event-dist {
+    font-style: normal;
+    color: var(--b);
+    font-weight: 600;
+    white-space: nowrap;
+}
+@media (min-width: 992px) {
+    .filter-box {
+        position: sticky;
+        top: 1rem;
+    }
+}

@@ -41,6 +41,15 @@ if(!(isset($_SESSION['id_utilisateur']))){
         return (int) $req->fetchColumn();
     }
 
+    function timestampEvenement($date) {
+        $date = trim((string) $date);
+        if (preg_match('#^(\d{2})/(\d{2})/(\d{4})#', $date, $m)) {
+            return mktime(0, 0, 0, (int) $m[2], (int) $m[1], (int) $m[3]);
+        }
+        $t = strtotime($date);
+        return $t ? $t : 0;
+    }
+
     function h($valeur) {
         return htmlspecialchars((string) $valeur, ENT_QUOTES, 'UTF-8');
     }
@@ -53,6 +62,16 @@ if(!(isset($_SESSION['id_utilisateur']))){
     $req->execute();
     $result=$req->fetchColumn();
     $totNb_places=$result;
+
+// Évènements passés : on ne les affiche pas (l'évènement du jour reste visible)
+    $aujourdhui = strtotime('today');
+    $evenements = array_filter($evenements, function ($e) use ($aujourdhui) {
+        return timestampEvenement($e->getDateEvenement()) >= $aujourdhui;
+    });
+    $totNb_places = 0;
+    foreach ($evenements as $e) {
+        $totNb_places += (int) $e->getNbrPlaces();
+    }
 
 
 
@@ -208,36 +227,81 @@ if(!(isset($_SESSION['id_utilisateur']))){
         <div class="row g-4">
             <aside class="col-lg-3">
                 <div class="box mb-3">
-                    <h6>
-                        Statistique sur les évènements
-                    </h6>
-                    <br><span class="tag" style="background:#fdf8e8;color:#ae982c">Nombre de place totale : <?= $totNb_places?></span>
+                    <h6>Statistique sur les évènements</h6>
+                    <span class="tag tag-warn">Nombre de places totales : <?= (int) $totNb_places ?></span>
+                </div>
 
-
-                    <div class="form-check small-t">
-                        <input class="form-check-input" type="checkbox"/>
-                        <label class="form-check-label">
-                            Évènements que j'organise
-                        </label>
+                <div class="box mb-3 filter-box">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="mb-0">Trier et filtrer</h6>
+                        <button type="button" id="reset-filtres" class="link-btn">Réinitialiser</button>
                     </div>
+
+                    <label class="form-label" for="tri">Trier par</label>
+                    <select id="tri" class="form-select form-select-sm mb-3">
+                        <option value="defaut">Ordre par défaut</option>
+                        <option value="date-asc">Date : la plus proche en premier</option>
+                        <option value="date-desc">Date : la plus lointaine en premier</option>
+                        <option value="places-desc">Places restantes : le plus</option>
+                        <option value="places-asc">Places restantes : le moins</option>
+                        <option value="inscrits-desc">Plus d'inscrits</option>
+                        <option value="titre">Nom (A → Z)</option>
+                        <option value="distance">Proximité : le plus près</option>
+                    </select>
+
+                    <label class="form-label" for="f-lieu">Lieu</label>
+                    <input type="text" id="f-lieu" class="form-control form-control-sm mb-3" placeholder="Ville, adresse…">
+
+                    <label class="form-label" for="f-rayon">Autour de moi</label>
+                    <select id="f-rayon" class="form-select form-select-sm">
+                        <option value="">Peu importe</option>
+                        <option value="5">Moins de 5 km</option>
+                        <option value="10">Moins de 10 km</option>
+                        <option value="25">Moins de 25 km</option>
+                        <option value="50">Moins de 50 km</option>
+                        <option value="100">Moins de 100 km</option>
+                    </select>
+                    <small id="geo-statut" class="form-hint mb-3"></small>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label" for="f-du">Du</label>
+                            <input type="date" id="f-du" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" for="f-au">Au</label>
+                            <input type="date" id="f-au" class="form-control form-control-sm">
+                        </div>
+                    </div>
+
+                    <div class="form-check small-t mb-1">
+                        <input class="form-check-input" type="checkbox" id="f-dispo">
+                        <label class="form-check-label" for="f-dispo">Places disponibles uniquement</label>
+                    </div>
+                    <div class="form-check small-t mb-1">
+                        <input class="form-check-input" type="checkbox" id="f-inscrit">
+                        <label class="form-check-label" for="f-inscrit">Évènements où je suis inscrit</label>
+                    </div>
+                    <?php if ($vueRole === "partenaire"): ?>
+                        <div class="form-check small-t">
+                            <input class="form-check-input" type="checkbox" id="f-orga">
+                            <label class="form-check-label" for="f-orga">Évènements que j'organise</label>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </aside>
 
             <div class="col-lg-9">
-                <div class="d-flex gap-2 mb-3">
-                    <input class="form-control form-control-sm" placeholder="Rechercher un évènement"/>
-                    <select class="form-select form-select-sm w-auto">
-                        <option>
-                            Plus récents
-                        </option>
-                    </select>
+                <div class="mb-3">
+                    <input class="form-control form-control-sm" id="f-recherche" placeholder="Rechercher un évènement (nom, lieu, description)"/>
                 </div>
-                <h5>
-                    Évènements à venir
-                </h5>
+                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                    <h5 class="mb-0">Évènements à venir</h5>
+                    <span class="small-t" id="compteur"></span>
+                </div>
 
 
-                <div class="row g-3">
+                <div class="row g-3" id="liste-events">
                     <?php if (empty($evenements)): ?>
                         <p class="muted">Aucun évènement pour le moment.</p>
                     <?php endif; ?>
@@ -267,7 +331,7 @@ if(!(isset($_SESSION['id_utilisateur']))){
                                 : 0;
 
                         $moisCourts = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
-                        $ts         = strtotime($evenement->getDateEvenement());
+                        $ts         = timestampEvenement($evenement->getDateEvenement());
                         $jour       = $ts ? date('j', $ts) : '–';
                         $mois       = $ts ? $moisCourts[(int) date('n', $ts) - 1] : '';
                         $dateLongue = $ts ? date('d/m/Y', $ts) : h($evenement->getDateEvenement());
@@ -278,7 +342,19 @@ if(!(isset($_SESSION['id_utilisateur']))){
                         ?>
 
                         <!-- Card évènement -->
-                        <div class="col-md-6">
+                        <div class="col-md-6 event-item"
+                             data-index="<?= (int) $id ?>"
+                             data-date="<?= $ts ? date('Y-m-d', $ts) : '' ?>"
+                             data-ts="<?= (int) $ts ?>"
+                             data-places="<?= (int) $placesRestantes ?>"
+                             data-inscrits="<?= (int) $nbInscrits ?>"
+                             data-titre="<?= h(mb_strtolower($evenement->getTitre())) ?>"
+                             data-texte="<?= h(mb_strtolower($evenement->getTitre() . ' ' . $evenement->getLieu() . ' ' . $evenement->getDescription())) ?>"
+                             data-lieu="<?= h(mb_strtolower($evenement->getLieu())) ?>"
+                             data-lat="<?= $aPosition ? h($lat) : '' ?>"
+                             data-lng="<?= $aPosition ? h($lng) : '' ?>"
+                             data-inscrit="<?= $inscrit ? 1 : 0 ?>"
+                             data-orga="<?= $estOrga ? 1 : 0 ?>">
                             <article class="event-card <?= $complet ? 'is-full' : '' ?>">
                                 <div class="event-head">
                                     <div class="date">
@@ -302,7 +378,7 @@ if(!(isset($_SESSION['id_utilisateur']))){
 
                                 <div class="event-lieu">
                                     <i class="bi bi-geo-alt"></i>
-                                    <span><?= h($evenement->getLieu()) ?></span>
+                                    <span><?= h($evenement->getLieu()) ?> <em class="event-dist" hidden></em></span>
                                 </div>
 
                                 <p class="event-desc"><?= h($evenement->getDescription()) ?></p>
@@ -528,6 +604,7 @@ if(!(isset($_SESSION['id_utilisateur']))){
                             </div>
                         </div>
                     <?php endforeach; ?>
+                    <p class="muted col-12" id="aucun-resultat" hidden>Aucun évènement ne correspond à ces critères.</p>
                 </div>
             </div>
         </div>
@@ -716,6 +793,131 @@ if(!(isset($_SESSION['id_utilisateur']))){
                 setTimeout(function () { carte.invalidateSize(); }, 100);
             });
         });
+    </script>
+    <script>
+        (function () {
+            var liste = document.getElementById('liste-events');
+            if (!liste) return;
+            var cards = Array.prototype.slice.call(liste.querySelectorAll('.event-item'));
+            var $ = function (id) { return document.getElementById(id); };
+            var position = null; // {lat, lng} de l'utilisateur
+
+            function distanceKm(lat1, lng1, lat2, lng2) {
+                var r = 6371, rad = Math.PI / 180;
+                var dLat = (lat2 - lat1) * rad, dLng = (lng2 - lng1) * rad;
+                var x = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+                return 2 * r * Math.asin(Math.sqrt(x));
+            }
+
+            function calculerDistances() {
+                cards.forEach(function (c) {
+                    var lat = parseFloat(c.dataset.lat), lng = parseFloat(c.dataset.lng);
+                    var badge = c.querySelector('.event-dist');
+                    if (position && !isNaN(lat) && !isNaN(lng)) {
+                        c._km = distanceKm(position.lat, position.lng, lat, lng);
+                        badge.textContent = '· à ' + (c._km < 10 ? c._km.toFixed(1) : Math.round(c._km)).toString().replace('.', ',') + ' km';
+                        badge.hidden = false;
+                    } else {
+                        c._km = null;
+                        badge.hidden = true;
+                    }
+                });
+            }
+
+            function appliquer() {
+                var q = $('f-recherche').value.trim().toLowerCase();
+                var lieu = $('f-lieu').value.trim().toLowerCase();
+                var rayon = parseFloat($('f-rayon').value);
+                var du = $('f-du').value, au = $('f-au').value;
+                var dispo = $('f-dispo').checked, inscrit = $('f-inscrit').checked;
+                var orga = $('f-orga') ? $('f-orga').checked : false;
+
+                var visibles = cards.filter(function (c) {
+                    var ok = true;
+                    if (q && c.dataset.texte.indexOf(q) === -1) ok = false;
+                    if (lieu && c.dataset.lieu.indexOf(lieu) === -1) ok = false;
+                    if (du && (!c.dataset.date || c.dataset.date < du)) ok = false;
+                    if (au && (!c.dataset.date || c.dataset.date > au)) ok = false;
+                    if (dispo && parseInt(c.dataset.places, 10) <= 0) ok = false;
+                    if (inscrit && c.dataset.inscrit !== '1') ok = false;
+                    if (orga && c.dataset.orga !== '1') ok = false;
+                    if (!isNaN(rayon) && position && (c._km == null || c._km > rayon)) ok = false;
+                    c.hidden = !ok;
+                    return ok;
+                });
+
+                var tri = $('tri').value;
+                var cmp = {
+                    'defaut':        function (a, b) { return a.dataset.index - b.dataset.index; },
+                    'date-asc':      function (a, b) { return a.dataset.ts - b.dataset.ts; },
+                    'date-desc':     function (a, b) { return b.dataset.ts - a.dataset.ts; },
+                    'places-desc':   function (a, b) { return b.dataset.places - a.dataset.places; },
+                    'places-asc':    function (a, b) { return a.dataset.places - b.dataset.places; },
+                    'inscrits-desc': function (a, b) { return b.dataset.inscrits - a.dataset.inscrits; },
+                    'titre':         function (a, b) { return a.dataset.titre.localeCompare(b.dataset.titre, 'fr'); },
+                    'distance':      function (a, b) {
+                        if (a._km == null && b._km == null) return 0;
+                        if (a._km == null) return 1;
+                        if (b._km == null) return -1;
+                        return a._km - b._km;
+                    }
+                }[tri];
+
+                cards.slice().sort(cmp).forEach(function (c) { liste.appendChild(c); });
+
+                $('compteur').textContent = visibles.length + ' évènement' + (visibles.length > 1 ? 's' : '');
+                $('aucun-resultat').hidden = visibles.length > 0 || cards.length === 0;
+                liste.appendChild($('aucun-resultat'));
+            }
+
+            // Demande la position une seule fois, quand elle devient utile
+            function avecPosition(suite) {
+                if (position) { suite(); return; }
+                var statut = $('geo-statut');
+                if (!navigator.geolocation) {
+                    statut.textContent = "La géolocalisation n'est pas disponible sur ce navigateur.";
+                    $('f-rayon').value = '';
+                    if ($('tri').value === 'distance') $('tri').value = 'defaut';
+                    suite();
+                    return;
+                }
+                statut.textContent = 'Recherche de votre position…';
+                navigator.geolocation.getCurrentPosition(function (p) {
+                    position = { lat: p.coords.latitude, lng: p.coords.longitude };
+                    statut.textContent = 'Position détectée.';
+                    calculerDistances();
+                    suite();
+                }, function () {
+                    statut.textContent = "Position refusée ou indisponible. Autorisez-la dans votre navigateur pour utiliser ce filtre.";
+                    $('f-rayon').value = '';
+                    if ($('tri').value === 'distance') $('tri').value = 'defaut';
+                    suite();
+                }, { timeout: 10000 });
+            }
+
+            ['f-recherche', 'f-lieu', 'f-du', 'f-au'].forEach(function (id) {
+                $(id).addEventListener('input', appliquer);
+            });
+            ['f-dispo', 'f-inscrit', 'f-orga'].forEach(function (id) {
+                if ($(id)) $(id).addEventListener('change', appliquer);
+            });
+            $('tri').addEventListener('change', function () {
+                if (this.value === 'distance') avecPosition(appliquer); else appliquer();
+            });
+            $('f-rayon').addEventListener('change', function () {
+                if (this.value) avecPosition(appliquer); else appliquer();
+            });
+            $('reset-filtres').addEventListener('click', function () {
+                ['f-recherche', 'f-lieu', 'f-du', 'f-au'].forEach(function (id) { $(id).value = ''; });
+                ['f-dispo', 'f-inscrit', 'f-orga'].forEach(function (id) { if ($(id)) $(id).checked = false; });
+                $('tri').value = 'defaut';
+                $('f-rayon').value = '';
+                appliquer();
+            });
+
+            appliquer();
+        })();
     </script>
     </body>
     </html>
