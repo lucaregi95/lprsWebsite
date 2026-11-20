@@ -544,68 +544,251 @@ table.f td,table.f th{
     display: inline-block;
 }
 
+/* ===== Formulaires ===== */
 .form-event {
     display: block;
     width: 100%;
     box-sizing: border-box;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    padding: 0.75rem 1rem;
-    font-size: 0.95rem;
-    transition: border-color 0.3s ease;
-}
-.form-label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
+    border: 1px solid #cfd6f3;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--t);
+    padding: .6rem .9rem;
+    font-size: .9rem;
+    transition: border-color .2s ease, box-shadow .2s ease;
 }
 .form-event:focus {
-    border-color: #0051ba;
-    box-shadow: 0 0 0 0.2rem rgba(0, 81, 186, 0.15);
+    border-color: var(--b);
+    box-shadow: 0 0 0 .2rem rgba(25, 62, 253, .15);
     outline: none;
+}
+.form-event[readonly] {
+    background: var(--soft);
+    color: var(--m);
+}
+.form-event::placeholder {
+    color: #a0a7c2;
 }
 textarea.form-event {
     resize: vertical;
     min-height: 100px;
 }
-.form-event::placeholder {
-    color: #a0a0a0;
+.form-label {
+    display: block;
+    margin-bottom: .35rem;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--t);
+}
+.form-hint {
+    display: block;
+    margin-top: .4rem;
+    font-size: .75rem;
+    color: var(--m);
 }
 
+/* ===== Modals ===== */
+.modal-content {
+    border: 1px solid var(--l);
+    border-radius: 12px;
+    overflow: hidden;
+    color: var(--t);
+    box-shadow: 0 16px 48px rgba(25, 62, 253, .16);
+    pointer-events: auto;
+}
 .modal-header {
     display: flex;
     flex-shrink: 0;
     align-items: center;
-    padding: 1rem 1rem;
-    border-bottom: 1px solid black;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    font-family: Inter,system-ui,sans-serif;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--c);
+    border-bottom: 1px solid var(--l);
+    font-family: Inter, system-ui, sans-serif;
 }
-
-.modal-content {
-    color: #000000;
-    pointer-events: auto;
+.modal-title {
+    margin: .1rem 0 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
 }
-
 .modal-body {
     position: relative;
     flex: 1 1 auto;
-    padding: 1rem;
+    padding: 1.25rem;
+}
+.modal-footer {
+    gap: .5rem;
+    padding: .8rem 1.25rem;
+    background: var(--soft);
+    border-top: 1px solid var(--l);
+}
+.modal-footer > * {
+    margin: 0;
+}
+.modal-footer form {
+    display: inline-flex;
+}
+.modal-backdrop.show {
+    opacity: .35;
+}
+.min-w-0 {
+    min-width: 0;
 }
 
-.mb-3 {
-    margin-bottom: 1rem !important;
+/* Cartes Leaflet (ajout, modification, aperçu) */
+.map-box {
+    height: 280px;
+    width: 100%;
+    border: 1px solid var(--l);
+    border-radius: 10px;
+    overflow: hidden;
+    isolation: isolate;
+}
+.map-preview.map-box {
+    height: 240px;
 }
 
-.logo-sq-complet {
-    width: 42px;
-    height: 42px;
-    border-radius: 8px;
-    background: rgba(255, 0, 0, 0.37);
-    color: red ;
+/* Infos de l'aperçu */
+.info-label {
+    display: block;
+    margin-bottom: .15rem;
+    font-size: .72rem;
+    font-weight: 600;
+    color: var(--m);
+}
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .75rem;
+    margin-bottom: 1.25rem;
+}
+.info-item {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    gap: .7rem;
+    align-items: flex-start;
+    padding: .7rem .9rem;
+    background: var(--soft);
+    border: 1px solid var(--l);
+    border-radius: 10px;
+}
+.info-item > i {
+    color: var(--b);
+    font-size: 1.05rem;
+    line-height: 1.3;
+}
+.info-wide {
+    grid-column: 1 / -1;
+}
+.event-full-desc {
+    line-height: 1.55;
+    max-width: 70ch;
+}
+
+/* ===== Statuts (tags) ===== */
+.tag-ok   { background: #e8f8ec; color: #1e8a3c; }
+.tag-full { background: #fde8e8; color: #c0392b; }
+.tag-warn { background: #fdf8e8; color: #ae982c; }
+
+/* ===== Card évènement ===== */
+.event-card {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    height: 100%;
+    padding: 1rem 1.1rem;
+    background: #fff;
+    border: 1px solid var(--l);
+    border-radius: 12px;
+    transition: box-shadow .15s ease, border-color .15s ease;
+}
+.event-card:hover {
+    border-color: #b8c6ff;
+    box-shadow: 0 4px 14px rgba(79, 107, 255, .14);
+}
+.event-card.is-full .date {
+    background: #fde8e8;
+    color: #c0392b;
+}
+.event-head {
+    display: flex;
+    gap: .8rem;
+    align-items: flex-start;
+}
+.event-head .date {
     flex: none;
+}
+.event-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .3rem;
+    margin-bottom: .3rem;
+}
+.event-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+.event-lieu {
+    display: flex;
+    gap: .4rem;
+    align-items: flex-start;
+    font-size: .78rem;
+    color: var(--m);
+}
+.event-lieu i {
+    color: var(--b);
+    margin-top: .1rem;
+}
+.event-desc {
+    margin: 0;
+    font-size: .85rem;
+    color: var(--t);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+}
+.event-fill-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: .3rem;
+    font-size: .75rem;
+    color: var(--m);
+}
+.event-progress {
+    height: 6px;
+    background: var(--c);
+    border-radius: 3px;
+    overflow: hidden;
+}
+.event-progress > span {
+    display: block;
+    height: 100%;
+    background: var(--b);
+    border-radius: 3px;
+}
+.event-card.is-full .event-progress > span {
+    background: #c0392b;
+}
+.event-foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    align-items: center;
+    margin-top: auto;
+    padding-top: .85rem;
+    border-top: 1px solid var(--l);
+}
+.event-foot form {
+    margin: 0;
+}
+
+@media (max-width: 575px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
 }
