@@ -9,16 +9,19 @@ Class OffreUtilisateurRepository{
         $this->connexionBdd = (new Bdd())->getConnexionBdd();
     }
 
-    public function getOffreUtilisateur($ref_utilisateur,$ref_offre){
-        $sql = "SELECT * FROM offreutilisateur WHERE ref_utilisateur = :ref_utilisateur and ref_offre=:ref_offre ";
+    public function getOffreUtilisateur($ref_utilisateur, $ref_offre){
+        $sql = "SELECT * FROM offreutilisateur WHERE ref_utilisateur = :ref_utilisateur AND ref_offre = :ref_offre";
         $req = $this->connexionBdd->prepare($sql);
         $req->bindValue(':ref_utilisateur', $ref_utilisateur);
         $req->bindValue(':ref_offre', $ref_offre);
         $req->execute();
-        $result = $req->fetch();
-        $oU = new OffreUtilisateur($result['ref_offre'],$result['ref_utilisateur'],$result['est_orga']);
-        return $oU;
+        $result = $req->fetch(PDO::FETCH_ASSOC);
 
+        if ($result === false) {
+            return null; // aucune candidature / aucun lien pour cette offre
+        }
+
+        return new OffreUtilisateur($result['ref_offre'], $result['ref_utilisateur'], $result['est_orga']);
     }
 
     public function getAllOffreUtilisateur(){
