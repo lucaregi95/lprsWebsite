@@ -5,24 +5,27 @@ require_once "../src/model/post.php";
 require_once "../src/repository/postRepository.php";
 
 
+// "WHERE 1=1" est une astuce pour pouvoir ajouter des "AND" dynamiquement sans condition initiale
+$sql = " SELECT post.id_post, post.titre, post.date_post, post.categorie_post, utilisateur.nom,(SELECT COUNT(*) FROM reponse WHERE reponse.ref_post = post.id_post) as nb_reponses FROM post INNER JOIN utilisateur ON post.ref_utilisateur = utilisateur.id_utilisateur WHERE 1=1 ";
+
 $role = $_SESSION['role'] ?? '';
 $estAdmin = isset($_SESSION['statut_validation']) && $_SESSION['statut_validation'] == 'admin';
 
 if ($estAdmin) {
     $categories = ['Général', 'Alumni', 'Étudiant', 'Entreprise'];
 } elseif ($role == 'etudiant') {
-    $categories = ['Étudiant'];
+    $categories = ['Général', 'Étudiant'];
 } elseif ($role == 'alumni' || $role == 'entreprise') {
-    $categories = ['Alumni'];
+    $categories = ['Général', 'Alumni'];
 } else {
     $categories = [];
 }
 
 if (!$estAdmin) {
     if ($role == 'etudiant') {
-        $sql = $sql . " AND post.categorie_post = 'Étudiant'";
+        $sql = $sql . " AND post.categorie_post IN ('Général', 'Étudiant')";
     } elseif ($role == 'alumni' || $role == 'entreprise') {
-        $sql = $sql . " AND post.categorie_post = 'Alumni'";
+        $sql = $sql . " AND post.categorie_post IN ('Général', 'Alumni')";
     } else {
         $sql = $sql . " AND 1=0";
     }

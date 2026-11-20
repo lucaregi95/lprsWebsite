@@ -66,4 +66,42 @@ class AlumniRepository{
         $req->execute();
 
     }
+
+
+    public function getAlumnisFiltres(array $filtres): array
+    {
+        $sql = "SELECT u.*, a.* 
+            FROM utilisateur u 
+            INNER JOIN alumni a ON u.id_utilisateur = a.ref_utilisateur 
+            WHERE 1=1";
+        $params = [];
+
+        if (!empty($filtres['nom'])) {
+            $sql .= " AND (u.nom LIKE :nom OR u.prenom LIKE :prenom)";
+            $params[':nom'] = '%' . $filtres['nom'] . '%';
+            $params[':prenom'] = '%' . $filtres['nom'] . '%';
+        }
+        if (!empty($filtres['promotion'])) {
+            $sql .= " AND a.ref_promotion = :promotion";
+            $params[':promotion'] = $filtres['promotion'];
+        }
+        if (!empty($filtres['entreprise'])) {
+            $sql .= " AND a.ref_entreprise = :entreprise";
+            $params[':entreprise'] = $filtres['entreprise'];
+        }
+        if (!empty($filtres['poste'])) {
+            $sql .= " AND a.poste_occupe LIKE :poste";
+            $params[':poste'] = '%' . $filtres['poste'] . '%';
+        }
+
+        $stmt = $this->connexionBdd->prepare($sql);
+        $stmt->execute($params);
+        $result = $stmt->fetchAll();
+
+        $tabAlumnis = array();
+        foreach ($result as $results) {
+            $tabAlumnis[] = new Alumni($results["id_utilisateur"], $results["nom"], $results["prenom"], $results["email"], $results["mdp"], $results["date_inscription"], $results["statut_validation"], $results["ref_utilisateur"], $results["cv"], $results["poste_occupe"], $results["ref_promotion"], $results["ref_entreprise"]);
+        }
+        return $tabAlumnis;
+    }
 }
