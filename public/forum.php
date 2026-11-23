@@ -45,6 +45,8 @@ if(!isset($_SESSION['nom']) || !isset($_SESSION['prenom'])) {
             break;
         case 'alumni':
             break;
+        case 'entreprise';
+        break;
         default:
 
     }
@@ -83,8 +85,6 @@ $req = $connexionBdd->prepare($sql);
 $req->execute($tableau);
 $sujets = $req->fetchAll(PDO::FETCH_ASSOC);
 
-
-$categories = ['Général', 'Alumni', 'Étudiant','Entreprise'];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
