@@ -170,19 +170,7 @@ switch ($_SESSION['role']) {
                     <input type="hidden" name="role" value="<?= $_SESSION['role'] ?>'"/>
             </form>
         </div>
-        <div class="profil-events">
-            <?php if (empty($mesEvenements)): ?>
-                <div class="ev-card">Tu n'es inscrit à aucun évènement.</div>
-            <?php endif; ?>
-            <?php foreach ($mesEvenements as $evenement): ?>
-                <div class="ev-card">
-                    <b><?= htmlspecialchars($evenement->getTitre()) ?></b><br>
-                    <small class="muted">
-                        <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($evenement->getLieu()) ?>
-                    </small>
-                </div>
-            <?php endforeach; ?>
-        </div>
+
     </div>
 </div>
 </main>
