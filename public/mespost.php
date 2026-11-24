@@ -15,13 +15,18 @@ $connexionBdd = $bdd->getConnexionBdd();
 //$req->execute(['id_utilisateur' => $_SESSION['id_utilisateur']]);
 //$sujets = $req->fetchAll(PDO::FETCH_ASSOC);
 
-$sql = "SELECT COUNT(id_reponse) AS nb_reponses FROM reponse WHERE id_utilisateur = :id_utilisateur ORDER BY p.date_post DESC";
+
+$sql1 = "SELECT COUNT(id_post) AS nb_posts FROM post WHERE ref_utilisateur = :id_utilisateur";
+$req = $connexionBdd->prepare($sql1);
+$req->execute(['id_utilisateur' => $_SESSION['id_utilisateur']]);
+$totalSujets = $req->fetch(PDO::FETCH_ASSOC)['nb_posts'];
+
+
+$sql = "SELECT COUNT(id_reponse) AS nb_reponses FROM reponse  INNER JOIN post p ON ref_post = p.id_post WHERE p.ref_utilisateur = :id_utilisateur";
 $req = $connexionBdd->prepare($sql);
 $req->execute(['id_utilisateur' => $_SESSION['id_utilisateur']]);
-$sujets = $req->fetchAll(PDO::FETCH_ASSOC);
+$totalReponses = $req->fetch(PDO::FETCH_ASSOC)['nb_reponses'];
 
-
-$sql = "SELECT COUNT(id_post) AS nb_posts FROM post WHERE id_utilisateur = :id_utilisateur";
 
 
 //$totalSujets = count($sujets);
@@ -156,19 +161,13 @@ $sql = "SELECT COUNT(id_post) AS nb_posts FROM post WHERE id_utilisateur = :id_u
         <div class="col-12 col-md-4">
             <div class="stat">
                 <div class="icon"><i class="bi bi-chat-square-text"></i></div>
-                <div><div class="num"><?= $totalSujets ?></div><div class="lbl">Sujets publiés</div></div>
+                <div><div class="num"><?= $totalSujets?></div><div class="lbl">Sujets publiés</div></div>
             </div>
         </div>
         <div class="col-6 col-md-4">
             <div class="stat">
                 <div class="icon"><i class="bi bi-reply"></i></div>
                 <div><div class="num"><?= $totalReponses ?></div><div class="lbl">Réponses reçues</div></div>
-            </div>
-        </div>
-        <div class="col-6 col-md-4">
-            <div class="stat">
-                <div class="icon"><i class="bi bi-hourglass-split"></i></div>
-                <div><div class="num"><?= $sansReponse ?></div><div class="lbl">Sans réponse</div></div>
             </div>
         </div>
     </div>
