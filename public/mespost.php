@@ -10,18 +10,24 @@ if (!isset($_SESSION['id_utilisateur']) || !isset($_SESSION['nom']) || !isset($_
 $bdd = new Bdd();
 $connexionBdd = $bdd->getConnexionBdd();
 
-$sql = "SELECT p.id_post, p.titre, p.date_post, p.categorie_post, (SELECT COUNT(*) FROM reponse WHERE reponse.ref_post = p.id_post) AS nb_reponses FROM post p WHERE p.ref_utilisateur = :id_utilisateur ORDER BY p.date_post DESC";
+//$sql = "SELECT p.id_post, p.titre, p.date_post, p.categorie_post, (SELECT COUNT(*) FROM reponse WHERE reponse.ref_post = p.id_post) AS nb_reponses FROM post p WHERE p.ref_utilisateur = :id_utilisateur ORDER BY p.date_post DESC";
+//$req = $connexionBdd->prepare($sql);
+//$req->execute(['id_utilisateur' => $_SESSION['id_utilisateur']]);
+//$sujets = $req->fetchAll(PDO::FETCH_ASSOC);
 
+$sql = "SELECT COUNT(id_reponse) AS nb_reponses FROM reponse WHERE id_utilisateur = :id_utilisateur ORDER BY p.date_post DESC";
 $req = $connexionBdd->prepare($sql);
 $req->execute(['id_utilisateur' => $_SESSION['id_utilisateur']]);
 $sujets = $req->fetchAll(PDO::FETCH_ASSOC);
 
 
+$sql = "SELECT COUNT(id_post) AS nb_posts FROM post WHERE id_utilisateur = :id_utilisateur";
 
-$totalSujets = count($sujets);
-$totalReponses = array_sum(array_column($sujets, 'nb_reponses'));
-$sansReponse = count(array_filter($sujets, fn($s) => $s['nb_reponses'] == 0));
-$categoriesPresentes = array_unique(array_column($sujets, 'categorie_post'));
+
+//$totalSujets = count($sujets);
+//$totalReponses = array_sum(array_column($sujets, 'nb_reponses'));
+//$sansReponse = count(array_filter($sujets, fn($s) => $s['nb_reponses'] == 0));
+//$categoriesPresentes = array_unique(array_column($sujets, 'categorie_post'));
 ?>
 <!DOCTYPE html>
 <html lang="fr">
