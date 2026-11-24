@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal" created-in="PS-251.25410.148">
+<<<<<<< HEAD
     <data-source name="lprs@localhost" uuid="39ace4f4-af9d-4421-b8a7-d693e702f028">
+=======
+    <data-source name="@localhost" uuid="1270bc58-6b64-4f54-82ea-838e6f5880e1">
+>>>>>>> cff394b7f33a0d98efff212c7fe363e1bec877c1
       <database-info product="MySQL" version="9.1.0" jdbc-version="4.2" driver-name="MySQL Connector/J" driver-version="mysql-connector-j-9.7.0 (Revision: 0aade1f13bcc98faf7dda5c02e782481eb291f62)" dbms="MYSQL" exact-version="9.1.0" exact-driver-version="9.7">
         <extra-name-characters>$</extra-name-characters>
         <identifier-quote-string>`</identifier-quote-string>
@@ -12,7 +16,14 @@
       <user-name>root</user-name>
       <schema-mapping>
         <introspection-scope>
+<<<<<<< HEAD
           <node kind="schema" qname="@" />
+=======
+          <node kind="schema">
+            <name qname="@" />
+            <name qname="lprs" />
+          </node>
+>>>>>>> cff394b7f33a0d98efff212c7fe363e1bec877c1
         </introspection-scope>
       </schema-mapping>
       <load-sources>user_and_system_sources</load-sources>
