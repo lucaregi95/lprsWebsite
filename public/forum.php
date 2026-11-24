@@ -1,86 +1,66 @@
-    <?php
-    session_start();
-    require_once "../bdd/bdd.php";
-    require_once "../src/model/post.php";
-    require_once "../src/repository/postRepository.php";
+<?php
+session_start();
+require_once "../bdd/bdd.php";
+require_once "../src/model/post.php";
+require_once "../src/repository/postRepository.php";
 
 
-    // "WHERE 1=1" est une astuce pour pouvoir ajouter des "AND" dynamiquement sans condition initiale
-    $sql = " SELECT post.id_post, post.titre, post.date_post, post.categorie_post, utilisateur.nom,(SELECT COUNT(*) FROM reponse WHERE reponse.ref_post = post.id_post) as nb_reponses FROM post INNER JOIN utilisateur ON post.ref_utilisateur = utilisateur.id_utilisateur WHERE 1=1 ";
-    
-    $role = $_SESSION['role'] ?? '';
-    $estAdmin = isset($_SESSION['statut_validation']) && $_SESSION['statut_validation'] == 'admin';
-    
-    if ($estAdmin) {
-        $categories = ['Général', 'Alumni', 'Étudiant', 'Entreprise'];
-    } elseif ($role == 'etudiant') {
-        $categories = ['Général', 'Étudiant'];
+if (!isset($_SESSION['nom']) || !isset($_SESSION['prenom'])) {
+    header("location:connexion.php?page=f");
+    exit();
+}
+
+$role = $_SESSION['role'] ?? '';
+$estAdmin = isset($_SESSION['statut_validation']) && $_SESSION['statut_validation'] == 'admin';
+
+
+if ($estAdmin) {
+    $categories = ['Général', 'Alumni', 'Étudiant', 'Entreprise'];
+} elseif ($role == 'etudiant') {
+    $categories = ['Général', 'Étudiant'];
+} elseif ($role == 'alumni' || $role == 'entreprise') {
+    $categories = ['Général', 'Alumni'];
+} else {
+    $categories = [];
+}
+
+$bdd = new Bdd();
+$connexionBdd = $bdd->getConnexionBdd();
+
+$sql = "SELECT post.id_post, post.titre, post.date_post, post.categorie_post, utilisateur.nom,(SELECT COUNT(*) FROM reponse WHERE reponse.ref_post = post.id_post) AS nb_reponses FROM post INNER JOIN utilisateur ON post.ref_utilisateur = utilisateur.id_utilisateur WHERE 1=1";
+
+
+if (!$estAdmin) {
+    if ($role == 'etudiant') {
+        $sql .= " AND post.categorie_post IN ('Général', 'Étudiant')";
     } elseif ($role == 'alumni' || $role == 'entreprise') {
-        $categories = ['Général', 'Alumni'];
+        $sql .= " AND post.categorie_post IN ('Général', 'Alumni')";
     } else {
-        $categories = [];
+        $sql .= " AND 1=0";
     }
-    
-    if (!$estAdmin) {
-        if ($role == 'etudiant') {
-            $sql = $sql . " AND post.categorie_post IN ('Général', 'Étudiant')";
-        } elseif ($role == 'alumni' || $role == 'entreprise') {
-            $sql = $sql . " AND post.categorie_post IN ('Général', 'Alumni')";
-        } else {
-            $sql = $sql . " AND 1=0";
-        }
-    }
-    
-    $bdd = new Bdd();
-    $connexionBdd = $bdd->getConnexionBdd();
-    
-    if(!isset($_SESSION['nom']) || !isset($_SESSION['prenom'])) {
-        header("location:connexion.php?page=f");
-        exit();
-    
-        $id_utilisateur = $_SESSION['id_utilisateur'];
-    
-        switch ($role) {
-            case 'etudiant':
-                break;
-            case 'alumni':
-                break;
-            case 'entreprise';
-            break;
-            default:
-        }
-    }
-    
-    if (isset($_GET['categorie_post'])) {
-        $categorie = $_GET['categorie_post'];
-    } else {
-        $categorie = '';
-    }
-    if (isset($_GET['recherche'])) {
-        $recherche = $_GET['recherche'];
-    } else {
-        $recherche = '';
-    }
+}
 
-    $tableau = [];
-    
-    if ($categorie != '') {
-        $sql = $sql . " AND post.categorie_post LIKE :categorie_post";
-        $tableau['categorie_post'] = '%' . $categorie . '%';
-    }
-    
-    if ($recherche != '') {
-        $sql = $sql . " AND (post.titre LIKE :recherche OR post.contenu LIKE :recherche)";
-        $tableau['recherche'] = '%' . $recherche . '%';
-    }
-    
-    $sql = $sql . " ORDER BY post.date_post DESC";
-    
-    $req = $connexionBdd->prepare($sql);
-    $req->execute($tableau);
-    $sujets = $req->fetchAll(PDO::FETCH_ASSOC);
-    
-    ?>
+$categorie = $_GET['categorie_post'] ?? '';
+$recherche = $_GET['recherche'] ?? '';
+
+$tableau = [];
+
+if ($categorie != '') {
+    $sql .= " AND post.categorie_post LIKE :categorie_post";
+    $tableau['categorie_post'] = '%' . $categorie . '%';
+}
+
+if ($recherche != '') {
+    $sql .= " AND (post.titre LIKE :recherche OR post.contenu LIKE :recherche)";
+    $tableau['recherche'] = '%' . $recherche . '%';
+}
+
+$sql .= " ORDER BY post.date_post DESC";
+
+$req = $connexionBdd->prepare($sql);
+$req->execute($tableau);
+$sujets = $req->fetchAll(PDO::FETCH_ASSOC);
+?>
     <!DOCTYPE html>
     <html lang="fr">
     <head>
@@ -93,7 +73,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
         <link href="style/style.css" rel="stylesheet"/>
         <style>
-            :root { --accent:#e11d48; --accent-dark:#be123c; --accent-soft:#fff1f2; --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb; }
+            :root { --accent: #1a13dc; --accent-dark: #121bbe; --accent-soft:#fff1f2; --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb; }
             body { background:#f8fafc; color:var(--ink); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; }
     
             /* Navbar */
@@ -105,7 +85,7 @@
                 display:inline-flex; align-items:center; justify-content:center; font-weight:600; font-size:.8rem; text-transform:uppercase; }
     
             /* Hero */
-            .hero { background:linear-gradient(135deg,#e11d48,#9f1239); color:#fff; padding:3rem 0; }
+            .hero { background:linear-gradient(135deg, #868ce1, #93a8d1); color:#fff; padding:3rem 0; }
             .hero h1 { font-weight:800; margin:0; }
             .hero p { opacity:.9; margin:.4rem 0 0; }
             .hero .eyebrow { text-transform:uppercase; letter-spacing:.12em; font-size:.75rem; opacity:.8; }
@@ -251,7 +231,7 @@
                     <a href="#">
                         Sans réponse
                     </a>
-                    <a href="#">
+                    <a href="mespost.php">
                         Mes posts
                     </a>
                 </div>
@@ -278,12 +258,12 @@
                                 </tr>
                             <?php } else { ?>
                                 <?php foreach($sujets as $sujet){ ?>
-                                    <!-- onclick sur la ligne entière : redirige vers la page du sujet -->
+
                                     <tr class="cursor-pointer" onclick="window.location='sujet.php?id=<?= $sujet['id_post'] ?>'" style="cursor:pointer;">
                                         <td class="py-3">
                                             <span class="fw-semibold"><?= htmlspecialchars($sujet['titre']) ?></span>
                                         </td>
-                                        <!-- strtotime convertit la date SQL en timestamp, date() la formate en français -->
+
                                         <td class="py-3 text-muted"><?= date('d/m/Y', strtotime($sujet['date_post'])) ?></td>
                                         <td class="py-3">
                                     <span class="badge bg-light text-dark border">

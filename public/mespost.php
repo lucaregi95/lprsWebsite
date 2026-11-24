@@ -1,8 +1,6 @@
 <?php
-require_once "../src/model/post.php";
-require_once "../src/repository/postRepository.php";
+session_start();
 require_once "../bdd/bdd.php";
-require_once "forum.php";
 
 if (!isset($_SESSION['id_utilisateur']) || !isset($_SESSION['nom']) || !isset($_SESSION['prenom'])) {
     header("location:connexion.php?page=f");
@@ -12,13 +10,18 @@ if (!isset($_SESSION['id_utilisateur']) || !isset($_SESSION['nom']) || !isset($_
 $bdd = new Bdd();
 $connexionBdd = $bdd->getConnexionBdd();
 
-
-$sql = "SELECT p.id_post , p.contenu , p.date_post , p.ref_utilisateur , p.categorie_post, p.titre , COUNT(r.*) as nb_reponse FROM post as p INNER JOIN reponse as r WHERE ref_post = id_post GROUP BY id_post ASC";
+$sql = "SELECT p.id_post, p.titre, p.date_post, p.categorie_post, (SELECT COUNT(*) FROM reponse WHERE reponse.ref_post = p.id_post) AS nb_reponses FROM post p WHERE p.ref_utilisateur = :id_utilisateur ORDER BY p.date_post DESC";
 
 $req = $connexionBdd->prepare($sql);
 $req->execute(['id_utilisateur' => $_SESSION['id_utilisateur']]);
 $sujets = $req->fetchAll(PDO::FETCH_ASSOC);
 
+
+
+$totalSujets = count($sujets);
+$totalReponses = array_sum(array_column($sujets, 'nb_reponses'));
+$sansReponse = count(array_filter($sujets, fn($s) => $s['nb_reponses'] == 0));
+$categoriesPresentes = array_unique(array_column($sujets, 'categorie_post'));
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -30,7 +33,7 @@ $sujets = $req->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
     <link href="style/style.css" rel="stylesheet"/>
     <style>
-        :root { --accent:#e11d48; --accent-dark:#be123c; --accent-soft:#fff1f2; --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb; }
+        :root { --accent: #1c66ce; --accent-dark: #0e36d8; --accent-soft:#fff1f2; --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb; }
         body { background:#f8fafc; color:var(--ink); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; }
 
         .navbar { background:#fff; border-bottom:1px solid var(--line); box-shadow:0 1px 8px rgba(0,0,0,.04); }
@@ -40,7 +43,7 @@ $sujets = $req->fetchAll(PDO::FETCH_ASSOC);
         .avatar { background:var(--accent); color:#fff; width:36px; height:36px; border-radius:50%;
             display:inline-flex; align-items:center; justify-content:center; font-weight:600; font-size:.8rem; text-transform:uppercase; }
 
-        .hero { background:linear-gradient(135deg,#e11d48,#9f1239); color:#fff; padding:3rem 0; }
+        .hero { background:linear-gradient(135deg, #1d55e1, #12299f); color:#fff; padding:3rem 0; }
         .hero h1 { font-weight:800; margin:0; }
         .hero p { opacity:.9; margin:.4rem 0 0; }
         .hero .eyebrow { text-transform:uppercase; letter-spacing:.12em; font-size:.75rem; opacity:.8; }
