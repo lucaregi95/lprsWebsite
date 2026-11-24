@@ -44,6 +44,8 @@ class OffreRepository{
         $req->bindValue(":etat",$offre-> getEtat());
         $req->bindValue(":ref_entreprise",$offre-> getRefEntreprise());
         $req->execute();
+
+        return $this->connexionBdd->lastInsertId();
     }
 
     public function modifierOffre(Offre $offre){
