@@ -218,7 +218,7 @@ $formations = $formationRepository->getAllFormations();
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
             </div>
 
-            <form method="post" action="tabformation.php" autocomplete="off">
+            <form method="post" action="tabFormation.php" autocomplete="off">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label" for="editId">ID</label>
