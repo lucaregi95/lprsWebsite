@@ -10,10 +10,11 @@ if (!isset($_SESSION['id_utilisateur']) || !isset($_SESSION['nom']) || !isset($_
 $bdd = new Bdd();
 $connexionBdd = $bdd->getConnexionBdd();
 
-//$sql = "SELECT p.id_post, p.titre, p.date_post, p.categorie_post, (SELECT COUNT(*) FROM reponse WHERE reponse.ref_post = p.id_post) AS nb_reponses FROM post p WHERE p.ref_utilisateur = :id_utilisateur ORDER BY p.date_post DESC";
-//$req = $connexionBdd->prepare($sql);
-//$req->execute(['id_utilisateur' => $_SESSION['id_utilisateur']]);
-//$sujets = $req->fetchAll(PDO::FETCH_ASSOC);
+// requete pour faire la liste des sujets par utilisateur avec 2 requetes
+$sql = "SELECT p.id_post, p.titre, p.date_post, p.categorie_post,(SELECT COUNT(*) FROM reponse WHERE reponse.ref_post = p.id_post) AS nb_reponses FROM post p WHERE p.ref_utilisateur = :id_utilisateur ORDER BY p.date_post DESC";
+$req = $connexionBdd->prepare($sql);
+$req->execute(['id_utilisateur' => $_SESSION['id_utilisateur']]);
+$sujets = $req->fetchAll(PDO::FETCH_ASSOC);
 
 
 $sql1 = "SELECT COUNT(id_post) AS nb_posts FROM post WHERE ref_utilisateur = :id_utilisateur";
@@ -22,17 +23,13 @@ $req->execute(['id_utilisateur' => $_SESSION['id_utilisateur']]);
 $totalSujets = $req->fetch(PDO::FETCH_ASSOC)['nb_posts'];
 
 
-$sql = "SELECT COUNT(id_reponse) AS nb_reponses FROM reponse  INNER JOIN post p ON ref_post = p.id_post WHERE p.ref_utilisateur = :id_utilisateur";
-$req = $connexionBdd->prepare($sql);
+$sql2 = "SELECT COUNT(r.id_reponse) AS nb_reponses FROM reponse r INNER JOIN post p ON r.ref_post = p.id_post  WHERE p.ref_utilisateur = :id_utilisateur";
+$req = $connexionBdd->prepare($sql2);
 $req->execute(['id_utilisateur' => $_SESSION['id_utilisateur']]);
 $totalReponses = $req->fetch(PDO::FETCH_ASSOC)['nb_reponses'];
 
 
-
-//$totalSujets = count($sujets);
-//$totalReponses = array_sum(array_column($sujets, 'nb_reponses'));
-//$sansReponse = count(array_filter($sujets, fn($s) => $s['nb_reponses'] == 0));
-//$categoriesPresentes = array_unique(array_column($sujets, 'categorie_post'));
+$categoriesPresentes = array_values(array_unique(array_column($sujets, 'categorie_post')));
 ?>
 <!DOCTYPE html>
 <html lang="fr">
