@@ -2,14 +2,14 @@
 session_start();
 
 require_once __DIR__."/../bdd/bdd.php";
-require_once __DIR__."/../src/model/alumni.php";
-require_once __DIR__."/../src/repository/alumniRepository.php";
-require_once __DIR__."/../src/repository/promotionRepository.php";
-require_once __DIR__."/../src/repository/entrepriseRepository.php";
-$rep = new alumniRepository();
+require_once __DIR__."/../src/model/Alumni.php";
+require_once __DIR__."/../src/repository/AlumniRepository.php";
+require_once __DIR__."/../src/repository/PromotionRepository.php";
+require_once __DIR__."/../src/repository/EntrepriseRepository.php";
+$rep = new AlumniRepository();
 $alumnis=$rep->getAllAlumnis();
-$promRep=new promotionRepository();
-$entRep=new entrepriseRepository();
+$promRep=new PromotionRepository();
+$entRep=new EntrepriseRepository();
 
 $promotions  = $promRep->getAllPromotions();
 $entreprises = $entRep->getAllEntreprises();
