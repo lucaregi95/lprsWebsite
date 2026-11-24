@@ -5,7 +5,9 @@ require_once "../bdd/bdd.php";
 require_once "../src/model/Utilisateur.php";
 require_once "../src/model/Etudiant.php";
 require_once "../src/model/Alumni.php";
+require_once "../src/model/Professeur.php";
 require_once "../src/repository/UtilisateurRepository.php";
+require_once "../src/repository/ProfesseurRepository.php";
 require_once "../src/repository/EtudiantRepository.php";
 require_once "../src/repository/AlumniRepository.php";
 require_once "../src/repository/PromotionRepository.php";
@@ -170,19 +172,7 @@ switch ($_SESSION['role']) {
                     <input type="hidden" name="role" value="<?= $_SESSION['role'] ?>'"/>
             </form>
         </div>
-        <div class="profil-events">
-            <?php if (empty($mesEvenements)): ?>
-                <div class="ev-card">Tu n'es inscrit à aucun évènement.</div>
-            <?php endif; ?>
-            <?php foreach ($mesEvenements as $evenement): ?>
-                <div class="ev-card">
-                    <b><?= htmlspecialchars($evenement->getTitre()) ?></b><br>
-                    <small class="muted">
-                        <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($evenement->getLieu()) ?>
-                    </small>
-                </div>
-            <?php endforeach; ?>
-        </div>
+
     </div>
 </div>
 </main>

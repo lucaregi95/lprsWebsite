@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+if(!(isset($_SESSION['id_utilisateur']))){
+    header('Location: connexion.php');
+}else{
+
+
+
 require_once __DIR__."/../bdd/bdd.php";
 require_once __DIR__."/../src/model/Alumni.php";
 require_once __DIR__."/../src/repository/AlumniRepository.php";
@@ -224,3 +230,4 @@ $alumnisFiltre = $rep->getAlumnisFiltres($filtres);
 </body>
 </html>
 
+<?php } ?>

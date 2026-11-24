@@ -10,18 +10,33 @@ if (!isset($_SESSION['id_utilisateur']) || !isset($_SESSION['nom']) || !isset($_
 $bdd = new Bdd();
 $connexionBdd = $bdd->getConnexionBdd();
 
-$sql = "SELECT p.id_post, p.titre, p.date_post, p.categorie_post, (SELECT COUNT(*) FROM reponse WHERE reponse.ref_post = p.id_post) AS nb_reponses FROM post p WHERE p.ref_utilisateur = :id_utilisateur ORDER BY p.date_post DESC";
-
+// les postes par id et les réponses que l'utilisateur à répondu
+$sql = "SELECT DISTINCT p.id_post, p.titre, p.date_post, p.categorie_post, p.ref_utilisateur,
+        (SELECT COUNT(*) FROM reponse WHERE ref_post = p.id_post) AS nb_reponses
+        FROM post p
+        LEFT JOIN reponse r ON r.ref_post = p.id_post
+        WHERE :id IN (p.ref_utilisateur, r.ref_utilisateur)
+        ORDER BY p.date_post DESC";
 $req = $connexionBdd->prepare($sql);
-$req->execute(['id_utilisateur' => $_SESSION['id_utilisateur']]);
+$req->execute(['id' => $_SESSION['id_utilisateur']]);
 $sujets = $req->fetchAll(PDO::FETCH_ASSOC);
 
 
+$sql1 = "SELECT COUNT(id_post) AS nb_posts FROM post WHERE ref_utilisateur = :id_utilisateur";
+$req = $connexionBdd->prepare($sql1);
+$req->execute(['id_utilisateur' => $_SESSION['id_utilisateur']]);
+$sujet = $req->fetch(PDO::FETCH_ASSOC)['nb_posts'];
 
-$totalSujets = count($sujets);
-$totalReponses = array_sum(array_column($sujets, 'nb_reponses'));
-$sansReponse = count(array_filter($sujets, fn($s) => $s['nb_reponses'] == 0));
-$categoriesPresentes = array_unique(array_column($sujets, 'categorie_post'));
+$sql2 = "SELECT COUNT(r.id_reponse) AS nb_reponses
+         FROM reponse r
+         INNER JOIN post p ON r.ref_post = p.id_post
+         WHERE p.ref_utilisateur = :id_utilisateur";
+$req = $connexionBdd->prepare($sql2);
+$req->execute(['id_utilisateur' => $_SESSION['id_utilisateur']]);
+$reponses = $req->fetch(PDO::FETCH_ASSOC)['nb_reponses'];
+
+// Catégories pour les filtres
+$categoriesPresentes = array_values(array_unique(array_column($sujets, 'categorie_post')));
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -137,8 +152,8 @@ $categoriesPresentes = array_unique(array_column($sujets, 'categorie_post'));
     <div class="container d-flex justify-content-between align-items-end flex-wrap gap-3">
         <div>
             <div class="eyebrow">Campus · Forum</div>
-            <h1>Mes sujets</h1>
-            <p>Retrouve et suis tous les sujets que tu as publiés.</p>
+            <h1>Mes posts et participations</h1>
+            <p>Retrouve les sujets que tu as publiés ou auxquels tu as répondu.</p>
         </div>
         <a class="btn btn-light-hero" href="forum.php"><i class="bi bi-arrow-left"></i> Retour au forum</a>
     </div>
@@ -147,22 +162,16 @@ $categoriesPresentes = array_unique(array_column($sujets, 'categorie_post'));
 <main class="container">
     <!-- Statistiques -->
     <div class="row g-3 stats">
-        <div class="col-12 col-md-4">
+        <div class="col-6 col-md-6">
             <div class="stat">
                 <div class="icon"><i class="bi bi-chat-square-text"></i></div>
-                <div><div class="num"><?= $totalSujets ?></div><div class="lbl">Sujets publiés</div></div>
+                <div><div class="num"><?= (int)$sujet ?></div><div class="lbl">Sujets publiés</div></div>
             </div>
         </div>
-        <div class="col-6 col-md-4">
+        <div class="col-6 col-md-6">
             <div class="stat">
                 <div class="icon"><i class="bi bi-reply"></i></div>
-                <div><div class="num"><?= $totalReponses ?></div><div class="lbl">Réponses reçues</div></div>
-            </div>
-        </div>
-        <div class="col-6 col-md-4">
-            <div class="stat">
-                <div class="icon"><i class="bi bi-hourglass-split"></i></div>
-                <div><div class="num"><?= $sansReponse ?></div><div class="lbl">Sans réponse</div></div>
+                <div><div class="num"><?= (int)$reponses ?></div><div class="lbl">Réponses reçues</div></div>
             </div>
         </div>
     </div>
@@ -170,9 +179,9 @@ $categoriesPresentes = array_unique(array_column($sujets, 'categorie_post'));
     <?php if (empty($sujets)) { ?>
         <div class="empty mt-4">
             <i class="bi bi-chat-square-dots"></i>
-            <h5 class="fw-bold mt-3">Tu n'as encore publié aucun sujet</h5>
+            <h5 class="fw-bold mt-3">Tu n'as encore publié ni répondu à aucun sujet</h5>
             <p class="text-muted">Pose une question ou partage une idée avec la communauté.</p>
-            <a class="btn btn-primary" href="forum.php"><i class="bi bi-plus-lg"></i> Créer un sujet</a>
+            <a class="btn btn-primary" href="forum.php"><i class="bi bi-plus-lg"></i> Aller au forum</a>
         </div>
     <?php } else { ?>
 
@@ -204,6 +213,11 @@ $categoriesPresentes = array_unique(array_column($sujets, 'categorie_post'));
                             <i class="bi bi-calendar3"></i> <?= date('d/m/Y', strtotime($sujet['date_post'])) ?>
                             <span class="mx-1">·</span>
                             <span class="badge-cat"><?= htmlspecialchars($sujet['categorie_post']) ?></span>
+                            <?php if ($sujet['ref_utilisateur'] == $_SESSION['id_utilisateur']) { ?>
+                                <span class="badge-cat" style="background:#dcfce7;color:#166534;">Auteur</span>
+                            <?php } else { ?>
+                                <span class="badge-cat" style="background:#fef9c3;color:#854d0e;">Participé</span>
+                            <?php } ?>
                         </div>
                     </div>
                     <div class="rep <?= $nb == 0 ? 'vide' : '' ?>">

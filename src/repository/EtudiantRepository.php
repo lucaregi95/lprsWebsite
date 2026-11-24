@@ -60,4 +60,37 @@ class EtudiantRepository
         $req->execute();
 
     }
+    public function getEtudiantsFiltres(array $filtres): array
+    {
+        $sql = "SELECT u.*, e.* 
+            FROM utilisateur u 
+            INNER JOIN etudiant e ON u.id_utilisateur = e.ref_utilisateur 
+            ";
+        $params = [];
+
+        if (!empty($filtres['nom'])) {
+            $sql .= " AND (u.nom LIKE :nom OR u.prenom LIKE :prenom)";
+            $params[':nom'] = '%' . $filtres['nom'] . '%';
+            $params[':prenom'] = '%' . $filtres['nom'] . '%';
+        }
+        if (!empty($filtres['promotion'])) {
+            $sql .= " AND e.ref_promotion = :promotion";
+            $params[':promotion'] = $filtres['promotion'];
+        }
+        if (!empty($filtres['formation'])) {
+            $sql .= " AND e.ref_formation = :formation";
+            $params[':formation'] = $filtres['formation'];
+        }
+
+
+        $stmt = $this->connexionbdd->prepare($sql);
+        $stmt->execute($params);
+        $result = $stmt->fetchAll();
+
+        $tabEtudiants = array();
+        foreach ($result as $results) {
+            $tabEtudiants[] = new Etudiant($results["id_utilisateur"], $results["nom"], $results["prenom"], $results["email"], $results["mdp"], $results["date_inscription"], $results["statut_validation"], $results["ref_utilisateur"], $results["cv"], $results["ref_formation"], $results["ref_promotion"]);
+        }
+        return $tabEtudiants;
+    }
 }
