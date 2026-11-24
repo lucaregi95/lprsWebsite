@@ -54,6 +54,8 @@ if(isset($_POST['ref_signale']) && isset($_POST['contenu'])) {
         'contenu' => $_POST['contenu'],
         'titre' => $_POST['titre']
     ]);
+
+
 }
 ?>
 
@@ -63,68 +65,75 @@ if(isset($_POST['ref_signale']) && isset($_POST['contenu'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= htmlspecialchars($sujet['titre'] ?? 'Sujet') ?></title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 20px; }
-        .container { max-width: 800px; margin: auto; }
-        .card { background: #fff; border-radius: 8px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.1); }
-        .meta { color: #666; font-size: 0.85em; margin-bottom: 8px; }
-        .role { background: #3b82f6; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 0.8em; }
-        textarea, input[type=text] { width: 100%; padding: 8px; box-sizing: border-box; margin-bottom: 8px; }
-        button { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; }
-        .btn-send { background: #22c55e; color: #fff; }
-        .btn-report { background: #ef4444; color: #fff; font-size: 0.8em; }
-        details { margin-top: 8px; }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<div class="container">
+<body class="bg-light">
+<div class="container py-4" style="max-width: 800px;">
+
+    <!-- Bouton retour -->
+    <a href="forum.php" class="btn btn-outline-primary mb-3">&larr; Retour au forum</a>
 
     <!-- Sujet -->
-    <div class="card">
-        <h1><?= htmlspecialchars($sujet['titre']) ?></h1>
-        <div class="meta">
-            Par <strong><?= htmlspecialchars($sujet['nom']) ?></strong>
-            <span class="role"><?= htmlspecialchars($sujet['role']) ?></span>
+    <div class="card border-primary shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            <h1 class="h4 mb-0"><?= htmlspecialchars($sujet['titre']) ?></h1>
         </div>
-        <p><?= nl2br(htmlspecialchars($sujet['contenu'])) ?></p>
+        <div class="card-body">
+            <div class="text-muted small mb-3">
+                Par <strong><?= htmlspecialchars($sujet['nom']) ?></strong>
+                <span class="badge bg-primary"><?= htmlspecialchars($sujet['role']) ?></span>
+            </div>
+            <p class="mb-0"><?= nl2br(htmlspecialchars($sujet['contenu'])) ?></p>
+        </div>
     </div>
 
     <!-- Réponses -->
-    <h2>Réponses (<?= count($reponses) ?>)</h2>
+    <h2 class="h5 mb-3">Réponses <span class="badge bg-secondary"><?= count($reponses) ?></span></h2>
     <?php if (empty($reponses)): ?>
-        <div class="card">Aucune réponse pour le moment.</div>
+        <div class="alert alert-info">Aucune réponse pour le moment.</div>
     <?php endif; ?>
 
-    <?php foreach ($reponses as $reponse): ?>
-        <div class="card">
-            <div class="meta">
-                <strong><?= htmlspecialchars($reponse['nom']) ?></strong>
-                · <?= htmlspecialchars($reponse['datetime_reponse']) ?>
-            </div>
-            <p><?= nl2br(htmlspecialchars($reponse['contenu'])) ?></p>
+    <?php foreach ($reponses as $i => $reponse): ?>
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div class="text-muted small">
+                        <strong class="text-primary"><?= htmlspecialchars($reponse['nom']) ?></strong>
+                        · <?= htmlspecialchars($reponse['datetime_reponse']) ?>
+                    </div>
+                    <!-- Bouton signaler -->
+                    <button class="btn btn-outline-danger btn-sm" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#signal<?= $i ?>">
+                        Signaler
+                    </button>
+                </div>
+                <p class="mb-0"><?= nl2br(htmlspecialchars($reponse['contenu'])) ?></p>
 
-            <!-- Signalement -->
-            <details>
-                <summary>Signaler</summary>
-                <form method="post">
-                    <input type="hidden" name="ref_signale" value="<?= (int)$reponse['ref_utilisateur'] ?>">
-                    <input type="text" name="titre" placeholder="Motif" required>
-                    <textarea name="contenu" rows="2" placeholder="Détails" required></textarea>
-                    <button type="submit" class="btn-report">Envoyer le signalement</button>
-                </form>
-            </details>
+                <!-- Formulaire de signalement -->
+                <div class="collapse mt-3" id="signal<?= $i ?>">
+                    <form method="post" class="border border-danger rounded p-3 bg-danger-subtle">
+                        <input type="hidden" name="ref_signale" value="<?= (int)$reponse['ref_utilisateur'] ?>">
+                        <input type="text" name="titre" class="form-control form-control-sm mb-2" placeholder="Motif" required>
+                        <textarea name="contenu" rows="2" class="form-control form-control-sm mb-2" placeholder="Détails" required></textarea>
+                        <button type="submit" class="btn btn-danger btn-sm">Envoyer le signalement</button>
+                    </form>
+                </div>
+            </div>
         </div>
     <?php endforeach; ?>
 
     <!-- Formulaire de réponse -->
-    <div class="card">
-        <h3>Répondre</h3>
-        <form method="post">
-            <textarea name="contenu" rows="4" placeholder="Votre réponse..." required></textarea>
-            <button type="submit" name="submit_btn" class="btn-send">Envoyer</button>
-        </form>
+    <div class="card border-success shadow-sm">
+        <div class="card-header bg-success text-white">Répondre</div>
+        <div class="card-body">
+            <form method="post">
+                <textarea name="contenu" rows="4" class="form-control mb-2" placeholder="Votre réponse..." required></textarea>
+                <button type="submit" name="submit_btn" class="btn btn-success">Envoyer</button>
+            </form>
+        </div>
     </div>
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

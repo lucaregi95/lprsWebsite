@@ -36,6 +36,7 @@ session_start();
                     </div></li>
                 <?php }if((isset($_SESSION['statut_validation']) && $_SESSION['statut_validation'] == 'admin')||(isset($_SESSION['role']) && $_SESSION['statut_validation'] == 'gestionnaire')) { ?>
                 <li class="nav-item"><a class="nav-link" href="admin.php">Administration</a></li>
+                    <li class="nav-item"><a class="nav-link" href="admin_signalement.php">Signalement</a></li>
                 <?php } ?>
             </ul>
 
