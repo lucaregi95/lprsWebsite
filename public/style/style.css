@@ -70,16 +70,56 @@ body{
     font-weight:600;
 }
 
-.btn-primary{
-    background:var(--b);
-    border-color:var(--b);
-    font-size:.85rem;
-}
 .btn-primary:hover{
-    background:var(--b2);
-    border-color:var(--b2);
+    background: #fff;
+    border-color: var(--b2);
+    border-radius: 150px;
+    color: #193efd;
+}
+.btn-primary {
+    background: var(--b2);
+    border-color: var(--b2);
+    border-radius: 150px;
+    color: #fff;
 }
 
+.btn-outline-danger:hover{
+    background: #fff;
+    border-color:#e04e5c ;
+    border-radius: 150px;
+    color: #e04e5c;
+}
+.btn-outline-danger {
+    background:#e04e5c ;
+    border-color: #e04e5c;
+    border-radius: 150px;
+    color: #fff;
+}
+
+.btn-outline-secondary:hover{
+    background: #fff;
+    border-color: #cdccca;
+    border-radius: 150px;
+    color: #cdccca;
+}
+.btn-outline-secondary {
+    background:#cdccca ;
+    border-color: #cdccca;
+    border-radius: 150px;
+    color: #fff;
+}
+.btn-success{
+    background:#168e3f ;
+    border-color: #168e3f;
+    border-radius: 150px;
+    color: #fff;
+}
+.btn-success:hover{
+    background: #feffff;
+    border-color: #168e3f;
+    border-radius: 150px;
+    color: #168e3f;
+}
 .btn-outline-primary{
     color:var(--b);
     border-color:var(--b);
