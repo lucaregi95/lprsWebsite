@@ -58,5 +58,5 @@ switch ($_SESSION['role']) {
 
 $utilisateurRepo->modifierEtudiant($etudiant);
 
-//header("Location: ../../public/profil.php?succes=modifier");
-//exit;
+header("Location: ../../public/profil.php?succes=modifier");
+exit;

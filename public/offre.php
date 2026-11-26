@@ -2,6 +2,11 @@
 
 
 session_start();
+if(!(isset($_SESSION["id_utilisateur"]))){
+    header("location: connexion.php");
+
+}else{
+
 require_once "../bdd/bdd.php";
 require_once "../src/model/Offre.php";
 require_once "../src/repository/OffreRepository.php";
@@ -613,3 +618,4 @@ if (isset($comparateurs[$tri])) {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<?php } ?>

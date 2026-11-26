@@ -67,13 +67,19 @@ class AlumniRepository{
 
     }
 
+    /**
+     * Cette methode sert à trier les alumnis en fonction des filtres.
+     *
+     *
+     * @param array $filtres liste des filtres disponibles
+     * @return array renvoie la liste des alumnis concernés par les filtres
+     */
 
     public function getAlumnisFiltres(array $filtres): array
     {
         $sql = "SELECT u.*, a.* 
             FROM utilisateur u 
-            INNER JOIN alumni a ON u.id_utilisateur = a.ref_utilisateur 
-            WHERE 1=1";
+            INNER JOIN alumni a ON u.id_utilisateur = a.ref_utilisateur";
         $params = [];
 
         if (!empty($filtres['nom'])) {

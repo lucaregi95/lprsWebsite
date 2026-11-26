@@ -17,7 +17,12 @@ class UtilisateurRepository{
         return $result;
     }
 
-
+    /**
+     * Renvoie les utilisateurs avec un certain email.
+     *
+     *
+     * @param string $email email de l'utilisateur a verifier.
+     */
     public function getUtilisateurParEmail($email){
         $sql = "SELECT * FROM v_utilisateurwithrole WHERE email = :email";
         $req = $this->connexionbdd->prepare($sql);
@@ -61,6 +66,15 @@ class UtilisateurRepository{
         $req->execute();
     }
 
+
+    /**
+     * Connecte l'utilisateur.
+     *
+     *
+     * @param string $email email de l'utilisateur a connecter
+     * @param string $mdp mdp de l'utilisateur a connecter.
+     */
+
     public function connecterUtilisateur($email, $mdp){
         $sql = "SELECT * FROM utilisateur WHERE email = :email AND mdp = :mdp";
         $req = $this->connexionbdd->prepare($sql);
@@ -71,6 +85,13 @@ class UtilisateurRepository{
         return $result;
     }
 
+    /**
+     * Verifie si un mail existe dans la bdd.
+     *
+     *
+     * @param string $email email a verifier
+     * @return boolean Renvoie true si le mail existe dans la bdd
+     */
     public function existeEmail($email){
         $sql = "SELECT id_utilisateur, statut_validation FROM utilisateur WHERE email = :email";
         $req = $this->connexionbdd->prepare($sql);

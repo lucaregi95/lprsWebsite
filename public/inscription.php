@@ -168,7 +168,7 @@ if ($_GET['erreur']=='email'){
                                 <label class="form-label small-t">
                                     Poste occupé
                                 </label>
-                                <input class="form-control form-control-sm" type="text" value="" name="poste_occupe" id="poste_occupe"/>
+                                <input class="form-control form-control-sm" type="text" value="" name="poste_occupe" id="poste_occupe" placeholder="Laisser vide si vous n'êtes pas liés à une entreprise"/>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small-t">
@@ -183,18 +183,7 @@ if ($_GET['erreur']=='email'){
 
                                 </select>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label small-t">
-                                    Entreprise
-                                </label>
-                                <select class="form-select form-select-sm" name="ref_entreprise" id="ref_entreprise" >
-                                    <?php foreach ($entreprises as $entreprise) {?>
-                                        <option value="<?=$entreprise->getidEntreprise()?>">
-                                            <?=$entreprise->getNomEntreprise()?>
-                                        </option>
-                                    <?php }?>
-                                </select>
-                            </div>
+
                             <div class="col-12">
                                 <label class="form-label small-t">
                                     CV
@@ -208,18 +197,6 @@ if ($_GET['erreur']=='email'){
                                     Poste occupé
                                 </label>
                                 <input class="form-control form-control-sm" type="text" value="" name="poste_occupe" id="poste_occupe" />
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small-t">
-                                    Entreprise
-                                </label>
-                                <select class="form-select form-select-sm" id="ref_entreprise" name="ref_entreprise" >
-                                    <?php foreach ($entreprises as $entreprise) {?>
-                                        <option value="<?=$entreprise->getidEntreprise()?>">
-                                            <?=$entreprise->getNomEntreprise()?>
-                                        </option>
-                                    <?php }?>
-                                </select>
                             </div>
                             <div class="col-12">
                                 <label class="form-label small-t">
@@ -254,7 +231,7 @@ if ($_GET['erreur']=='email'){
                             Ton compte sera vérifié (statut : en attente) avant validation.
                         </p>
                         <div class="form-check small-t mb-3">
-                            <input class="form-check-input" type="checkbox"/>
+                            <input class="form-check-input" type="checkbox" required/>
                             J'accepte les <a href="condition_utilisation.html">conditions d’utilisation</a>
 
                         </div>
