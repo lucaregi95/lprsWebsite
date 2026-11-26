@@ -18,7 +18,6 @@ if(!(isset($_SESSION['id_utilisateur']))){
     $inscrits = $eventRepository->getNbInscritsParEvenement();
 
 
-
     $participeRepository = new ParticipeRepository();
     $participes = $participeRepository->getAllParticipes();
 
@@ -32,6 +31,18 @@ if(!(isset($_SESSION['id_utilisateur']))){
     $req->execute([':id'=>$idUser]);
     $result = $req->fetch(pdo::FETCH_ASSOC);
     $vueRole=$result['role'];
+
+//    $sql="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=:id";
+//    $req = $connexionBdd->prepare($sql);
+//    $req->execute([':id'=>$idUser]);
+//    $results = $req->fetchAll(C);
+//    foreach ($results as $result) {
+////        if( ){
+//            $profUtilisateurs=[$results['']];
+//
+////        }
+//    }
+
 
     function nbInscrits($idevent) {
         $connexionBdd = (new Bdd())->getConnexionBdd();
@@ -211,11 +222,10 @@ if(!(isset($_SESSION['id_utilisateur']))){
                     Retrouve tous les évènements de LPRS.
                 </p>
             </div>
-            <?php if($vueRole === "partenaire"): ?>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
                     + Proposer un évènement
                 </button>
-            <?php endif; ?>
+
         </div>
     </header>
     <main class="container mt-4">
@@ -268,11 +278,24 @@ if(!(isset($_SESSION['id_utilisateur']))){
                                     <input type="date" min="<?= $demain ?>" class="form-event" id="add-date" name="date_evenement" required>
                                 </div>
                             </div>
+
+                            <?php if ($vueRole === "etudiant"):  ?>
+                                <div class="mb-3">
+                                    <label class="form-label">Renseigner un professeur </label>
+                                    <label class="form-label">Type d'offre</label>
+                                    <select class="form-event" name="type_offre" required>
+                                        <?php foreach ($profUtilisateurs as $profUtilisateur): ?>
+<!--                                            <option value="--><?php //= ?><!--"></option>-->
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            <?php endif;  ?>
                         </div>
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
                             <button type="submit" class="btn btn-primary">Ajouter l'évènement</button>
+
                         </div>
                     </form>
                 </div>
@@ -355,8 +378,9 @@ if(!(isset($_SESSION['id_utilisateur']))){
                         $eventUser       = $infos[$id]['eventUser'];
                         $Yparticipe      = $infos[$id]['yp'];
 
-                        $estOrga       = ($vueRole === "partenaire" && $eventUser !== null);
-                        $inscrit       = ($Yparticipe == 2);
+                        $estOrga       = $vueRole === "partenaire" && $eventUser !== null;
+                        $inscrit       = $Yparticipe == 2;
+
                         $peutSinscrire = (!$complet && !$inscrit && $Yparticipe == null && $vueRole === "etudiant");
                         $peutModifier  = (!$complet && !$inscrit && $estOrga);
                         $peutApercu    = ($complet || $inscrit || $peutSinscrire || $peutModifier);
@@ -395,16 +419,16 @@ if(!(isset($_SESSION['id_utilisateur']))){
                                                 <span class="tag tag-ok"><i class="bi bi-check2"></i> Inscrit</span>
                                             <?php endif; ?>
                                         </div>
-                                        <h6 class="event-title"><?= h($evenement->getTitre()) ?></h6>
+                                        <h6 class="event-title"><?= $evenement->getTitre() ?></h6>
                                     </div>
                                 </div>
 
                                 <div class="event-lieu">
                                     <i class="bi bi-geo-alt"></i>
-                                    <span><?= h($evenement->getLieu()) ?></span>
+                                    <span><?= $evenement->getLieu() ?></span>
                                 </div>
 
-                                <p class="event-desc"><?= h($evenement->getDescription()) ?></p>
+                                <p class="event-desc"><?= $evenement->getDescription() ?></p>
 
                                 <div class="event-fill">
                                     <div class="event-fill-label">
@@ -489,21 +513,21 @@ if(!(isset($_SESSION['id_utilisateur']))){
                                                 <i class="bi bi-people"></i>
                                                 <div>
                                                     <span class="info-label">Participants</span>
-                                                    <?= $nbInscrits ?> / <?= (int) $evenement->getNbrPlaces() ?> places
+                                                    <?= $nbInscrits ?> / <?=  $evenement->getNbrPlaces() ?> places
                                                 </div>
                                             </div>
                                             <div class="info-item info-wide">
                                                 <i class="bi bi-geo-alt"></i>
                                                 <div>
                                                     <span class="info-label">Lieu</span>
-                                                    <?= h($evenement->getLieu()) ?>
+                                                    <?= $evenement->getLieu()?>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="mb-3">
                                             <span class="info-label">Description</span>
-                                            <p class="mb-0 event-full-desc"><?= nl2br(h($evenement->getDescription())) ?></p>
+                                            <p class="mb-0 event-full-desc"><?= ($evenement->getDescription()) ?></p>
                                         </div>
 
                                         <?php if ($evenement->getLat() !== null && $evenement->getLng() !== null): ?>
@@ -511,7 +535,7 @@ if(!(isset($_SESSION['id_utilisateur']))){
                                                 <span class="info-label">Localisation</span>
                                                 <div class="map-preview map-box"></div>
                                                 <a class="link-more d-inline-block mt-2" target="_blank" rel="noopener"
-                                                   href="https://www.openstreetmap.org/?mlat=<?= (float) $evenement->getLat() ?>&mlon=<?= (float) $evenement->getLng() ?>#map=17/<?= (float) $evenement->getLat() ?>/<?= (float) $evenement->getLng() ?>">
+                                                   href="https://www.openstreetmap.org/?mlat=<?=  $evenement->getLat() ?>&mlon=<?=  $evenement->getLng() ?>#map=17/<?= (float) $evenement->getLat() ?>/<?= (float) $evenement->getLng() ?>">
                                                     Ouvrir dans OpenStreetMap
                                                 </a>
                                             </div>
@@ -523,23 +547,23 @@ if(!(isset($_SESSION['id_utilisateur']))){
 
                                         <?php if ($estOrga): ?>
                                             <form method="POST" action="../src/traitement/suppEvenement.php">
-                                                <input type="hidden" name="id_evenement" value="<?= (int) $evenement->getIdEvenement() ?>">
-                                                <input type="hidden" name="titre" value="<?= h($evenement->getTitre()) ?>">
-                                                <input type="hidden" name="nbr_places" value="<?= (int) $evenement->getNbrPlaces() ?>">
+                                                <input type="hidden" name="id_evenement" value="<?=  $evenement->getIdEvenement() ?>">
+                                                <input type="hidden" name="titre" value="<?= $evenement->getTitre() ?>">
+                                                <input type="hidden" name="nbr_places" value="<?= $evenement->getNbrPlaces() ?>">
                                                 <button class="btn btn-outline-danger">Supprimer</button>
                                             </form>
                                         <?php elseif (!$complet && $Yparticipe == null): ?>
                                             <form method="POST" action="../src/traitement/newParticipe.php">
-                                                <input type="hidden" name="ref_utilisateur" value="<?= (int) $_SESSION['id_utilisateur'] ?>">
-                                                <input type="hidden" name="ref_evenement" value="<?= (int) $evenement->getIdEvenement() ?>">
+                                                <input type="hidden" name="ref_utilisateur" value="<?=  $_SESSION['id_utilisateur'] ?>">
+                                                <input type="hidden" name="ref_evenement" value="<?=  $evenement->getIdEvenement() ?>">
                                                 <button class="btn btn-primary">S'inscrire</button>
                                             </form>
                                         <?php endif; ?>
 
                                         <?php if ($inscrit): ?>
                                             <form method="POST" action="../src/traitement/suppParticipe.php">
-                                                <input type="hidden" name="id_evenement" value="<?= (int) $evenement->getIdEvenement() ?>">
-                                                <input type="hidden" name="id_user" value="<?= (int) $idUser ?>">
+                                                <input type="hidden" name="id_evenement" value="<?=  $evenement->getIdEvenement() ?>">
+                                                <input type="hidden" name="id_user" value="<?= $idUser ?>">
                                                 <button class="btn btn-outline-danger">Se désinscrire</button>
                                             </form>
                                         <?php endif; ?>
@@ -550,7 +574,7 @@ if(!(isset($_SESSION['id_utilisateur']))){
 
                         <!-- Modal : modification -->
                         <div class="modal fade edit-modal" id="edit<?= $id ?>" tabindex="-1" aria-hidden="true"
-                             data-lat="<?= $aPosition ? h($lat) : '' ?>" data-lng="<?= $aPosition ? h($lng) : '' ?>">
+                             data-lat="<?= $aPosition ? ($lat) : '' ?>" data-lng="<?= $aPosition ? ($lng) : '' ?>">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">

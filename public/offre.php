@@ -189,9 +189,11 @@ if (isset($comparateurs[$tri])) {
                 Stages, alternances et jobs étudiants proposés par nos entreprises.
             </p>
         </div>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
-            + Publier une offre
-        </button>
+        <?php if($vueRole === "partenaire"): ?>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+                + Publier une offre
+            </button>
+        <?php endif; ?>
     </div>
 </header>
 
@@ -307,7 +309,7 @@ if (isset($comparateurs[$tri])) {
                     <select id="f-entreprise" name="entreprise" class="form-select form-select-sm mb-3">
                         <option value="">Toutes</option>
                         <?php foreach ($nomsEntreprises as $idEnt => $nomEnt): ?>
-                            <option value="<?= (int) $idEnt ?>" <?= (string) $idEnt === $entrepriseChoisie ? 'selected' : '' ?>><?= h($nomEnt) ?></option>
+                            <option value="<?=  $idEnt ?>" <?=  $idEnt === $entrepriseChoisie ? 'selected' : '' ?>><?= h($nomEnt) ?></option>
                         <?php endforeach; ?>
                     </select>
                 <?php endif; ?>
@@ -352,7 +354,7 @@ if (isset($comparateurs[$tri])) {
                     $ferme = offreFermee($offre);
                     $refEnt = refEntrepriseOffre($offre);
                     $nomEnt = ($refEnt !== null && isset($nomsEntreprises[$refEnt])) ? $nomsEntreprises[$refEnt] : '';
-                    $salaire = number_format((float) $offre->getSalaire(), 0, ',', ' ');
+                    $salaire = number_format( $offre->getSalaire(), 0, ',', ' ');
 
                     $estGere       = ($Yparticipe == 2);
                     $peutPostuler  = (!$ferme && !$estGere && $Yparticipe == null && $vueRole === "etudiant");
