@@ -32,16 +32,11 @@ if(!(isset($_SESSION['id_utilisateur']))){
     $result = $req->fetch(pdo::FETCH_ASSOC);
     $vueRole=$result['role'];
 
-//    $sql="SELECT role FROM v_utilisateurwithrole WHERE id_utilisateur=:id";
-//    $req = $connexionBdd->prepare($sql);
-//    $req->execute([':id'=>$idUser]);
-//    $results = $req->fetchAll(C);
-//    foreach ($results as $result) {
-////        if( ){
-//            $profUtilisateurs=[$results['']];
-//
-////        }
-//    }
+    // Liste de tous les utilisateurs dont le rôle est "professeur"
+    $sql = "SELECT id_utilisateur, nom, prenom FROM v_utilisateurwithrole WHERE role = :role";
+    $req = $connexionBdd->prepare($sql);
+    $req->execute([':role' => 'professeur']);
+    $profUtilisateurs = $req->fetchAll(PDO::FETCH_ASSOC);   // tableau de lignes : un professeur par ligne
 
 
     function nbInscrits($idevent) {
@@ -142,9 +137,11 @@ if(!(isset($_SESSION['id_utilisateur']))){
                     Retrouve tous les évènements de LPRS.
                 </p>
             </div>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
-                + Proposer un évènement
-            </button>
+            <?php if ($vueRole !== "gestionnaire"): ?>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+                    + Proposer un évènement
+                </button>
+            <?php endif; ?>
 
         </div>
     </header>
@@ -199,17 +196,18 @@ if(!(isset($_SESSION['id_utilisateur']))){
                                 </div>
                             </div>
 
-                            <?php if ($vueRole === "etudiant"):  ?>
+                            <?php if ($vueRole === "etudiant"): ?>
                                 <div class="mb-3">
-                                    <label class="form-label">Renseigner un professeur </label>
-                                    <label class="form-label">Type d'offre</label>
-                                    <select class="form-event" name="type_offre" required>
+                                    <label class="form-label" for="add-prof">Professeur organisateur</label>
+                                    <select class="form-event" id="add-prof" name="ref_professeur" required>
+                                        <option value="" disabled selected>Choisir un professeur</option>
                                         <?php foreach ($profUtilisateurs as $profUtilisateur): ?>
-                                            <!--                                            <option value="--><?php //= ?><!--"></option>-->
+                                            <option value="<?= $profUtilisateur['id_utilisateur'] ?>"><?= $profUtilisateur['prenom'] . ' ' . $profUtilisateur['nom'] ?></option>
                                         <?php endforeach; ?>
                                     </select>
+                                    <small class="form-hint">Un professeur doit faire partie des organisateurs pour que l'évènement soit publié.</small>
                                 </div>
-                            <?php endif;  ?>
+                            <?php endif; ?>
                         </div>
 
                         <div class="modal-footer">
@@ -281,10 +279,10 @@ if(!(isset($_SESSION['id_utilisateur']))){
                             $Yparticipe=$partie->getEstOrga();
                         }
 
-                        $estOrga       = $vueRole === "partenaire" && $eventUser !== null;
+                        $estOrga       = $eventUser !== null;
                         $inscrit       = $Yparticipe == 2;
 
-                        $peutSinscrire = (!$complet && !$inscrit && $Yparticipe == null && $vueRole === "etudiant");
+                        $peutSinscrire = (!$complet && !$inscrit && $Yparticipe == null && $vueRole !== "gestionnaire");
                         $peutModifier  = (!$complet && !$inscrit && $estOrga);
                         $peutApercu    = ($complet || $inscrit || $peutSinscrire || $peutModifier);
 
@@ -455,7 +453,7 @@ if(!(isset($_SESSION['id_utilisateur']))){
                                                 <input type="hidden" name="nbr_places" value="<?= $evenement->getNbrPlaces() ?>">
                                                 <button class="btn btn-outline-danger">Supprimer</button>
                                             </form>
-                                        <?php elseif (!$complet && $Yparticipe == null): ?>
+                                        <?php elseif ($peutSinscrire): ?>
                                             <form method="POST" action="../src/traitement/newParticipe.php">
                                                 <input type="hidden" name="ref_utilisateur" value="<?=  $_SESSION['id_utilisateur'] ?>">
                                                 <input type="hidden" name="ref_evenement" value="<?=  $evenement->getIdEvenement() ?>">
