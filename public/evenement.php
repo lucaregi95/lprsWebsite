@@ -49,20 +49,7 @@ if(!(isset($_SESSION['id_utilisateur']))){
         $sql = "SELECT COUNT(*) FROM participe WHERE ref_evenement = :idevent";
         $req = $connexionBdd->prepare($sql);
         $req->execute([':idevent' => $idevent]);
-        return (int) $req->fetchColumn();
-    }
-
-    function timestampEvenement($date) {
-        $date = trim((string) $date);
-        if (preg_match('#^(\d{2})/(\d{2})/(\d{4})#', $date, $m)) {
-            return mktime(0, 0, 0, (int) $m[2], (int) $m[1], (int) $m[3]);
-        }
-        $t = strtotime($date);
-        return $t ? $t : 0;
-    }
-
-    function h($valeur) {
-        return htmlspecialchars((string) $valeur, ENT_QUOTES, 'UTF-8');
+        return $req->fetchColumn();
     }
 
     $demain = date('Y-m-d', strtotime('tomorrow'));
@@ -74,73 +61,6 @@ if(!(isset($_SESSION['id_utilisateur']))){
     $result=$req->fetchColumn();
     $totNb_places=$result;
 
-// Évènements passés : on ne les affiche pas (l'évènement du jour reste visible)
-    $aujourdhui = strtotime('today');
-    $evenements = array_filter($evenements, function ($e) use ($aujourdhui) {
-        return timestampEvenement($e->getDateEvenement()) >= $aujourdhui;
-    });
-    $totNb_places = 0;
-    foreach ($evenements as $e) {
-        $totNb_places += (int) $e->getNbrPlaces();
-    }
-    $nbEvenementsTotal = count($evenements);
-
-// Infos par évènement (calculées une seule fois, utilisées par les filtres et par les cards)
-    $infos = [];
-    foreach ($evenements as $id => $e) {
-        $nb       = nbInscrits($e->getIdEvenement());
-        $partie   = $participeRepository->getParticipe($idUser, $e->getIdEvenement());
-        $infos[$id] = [
-                'nb'         => $nb,
-                'restantes'  => $e->getNbrPlaces() - $nb,
-                'yp'         => ($partie == null) ? null : $partie->getEstOrga(),
-                'eventUser'  => $eventRepository->getEvenementOrganiseParUtilisateur($idUser, $e->getIdEvenement()),
-                'ts'         => timestampEvenement($e->getDateEvenement()),
-        ];
-    }
-
-// ---- Tri et filtres (envoyés en GET par le formulaire de l'aside) ----
-    $q            = mb_strtolower(trim((string) ($_GET['q'] ?? '')));
-    $tri          = (string) ($_GET['tri'] ?? 'defaut');
-    $lieuFiltre   = mb_strtolower(trim((string) ($_GET['lieu'] ?? '')));
-    $du           = preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) ($_GET['du'] ?? '')) ? $_GET['du'] : '';
-    $au           = preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) ($_GET['au'] ?? '')) ? $_GET['au'] : '';
-    $filtreDispo  = isset($_GET['dispo']);
-    $filtreInscrit = isset($_GET['inscrit']);
-    $filtreOrga   = isset($_GET['orga']);
-
-    $evenements = array_filter($evenements, function ($e, $id) use ($infos, $q, $lieuFiltre, $du, $au, $filtreDispo, $filtreInscrit, $filtreOrga, $vueRole) {
-        $i = $infos[$id];
-        if ($q !== '' && mb_strpos(mb_strtolower($e->getTitre() . ' ' . $e->getLieu() . ' ' . $e->getDescription()), $q) === false) return false;
-        if ($lieuFiltre !== '' && mb_strpos(mb_strtolower((string) $e->getLieu()), $lieuFiltre) === false) return false;
-        if ($du !== '' && $i['ts'] < strtotime($du)) return false;
-        if ($au !== '' && $i['ts'] > strtotime($au)) return false;
-        if ($filtreDispo && $i['restantes'] <= 0) return false;
-        if ($filtreInscrit && $i['yp'] != 2) return false;
-        if ($filtreOrga && !($vueRole === "partenaire" && $i['eventUser'] !== null)) return false;
-        return true;
-    }, ARRAY_FILTER_USE_BOTH);
-
-    $comparateurs = [
-            'date-asc'      => function ($a, $b, $ia, $ib) { return $ia['ts'] <=> $ib['ts']; },
-            'date-desc'     => function ($a, $b, $ia, $ib) { return $ib['ts'] <=> $ia['ts']; },
-            'places-desc'   => function ($a, $b, $ia, $ib) { return $ib['restantes'] <=> $ia['restantes']; },
-            'places-asc'    => function ($a, $b, $ia, $ib) { return $ia['restantes'] <=> $ib['restantes']; },
-            'inscrits-desc' => function ($a, $b, $ia, $ib) { return $ib['nb'] <=> $ia['nb']; },
-            'titre'         => function ($a, $b, $ia, $ib) { return strcasecmp($a->getTitre(), $b->getTitre()); },
-    ];
-    if (isset($comparateurs[$tri])) {
-        $cmp = $comparateurs[$tri];
-        $cles = array_keys($evenements);
-        usort($cles, function ($ka, $kb) use ($cmp, $evenements, $infos) {
-            return $cmp($evenements[$ka], $evenements[$kb], $infos[$ka], $infos[$kb]) ?: ($ka <=> $kb);
-        });
-        $tries = [];
-        foreach ($cles as $k) {
-            $tries[$k] = $evenements[$k];
-        }
-        $evenements = $tries;
-    }
 
 
 
@@ -222,9 +142,9 @@ if(!(isset($_SESSION['id_utilisateur']))){
                     Retrouve tous les évènements de LPRS.
                 </p>
             </div>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
-                    + Proposer un évènement
-                </button>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+                + Proposer un évènement
+            </button>
 
         </div>
     </header>
@@ -285,7 +205,7 @@ if(!(isset($_SESSION['id_utilisateur']))){
                                     <label class="form-label">Type d'offre</label>
                                     <select class="form-event" name="type_offre" required>
                                         <?php foreach ($profUtilisateurs as $profUtilisateur): ?>
-<!--                                            <option value="--><?php //= ?><!--"></option>-->
+                                            <!--                                            <option value="--><?php //= ?><!--"></option>-->
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -308,75 +228,58 @@ if(!(isset($_SESSION['id_utilisateur']))){
         <div class="row g-4">
             <aside class="col-lg-3">
                 <div class="box mb-3">
-                    <h6>Statistique sur les évènements</h6>
-                    <span class="tag tag-warn">Nombre de places totales : <?= (int) $totNb_places ?></span>
+                    <h6>
+                        Statistique sur les évènements
+                    </h6>
+                    <br><span class="tag" style="background:#fdf8e8;color:#ae982c">Nombre de place totale : <?= $totNb_places?></span>
+
+
+                    <div class="form-check small-t">
+                        <input class="form-check-input" type="checkbox"/>
+                        <label class="form-check-label">
+                            Évènements que j'organise
+                        </label>
+                    </div>
                 </div>
-
-                <form method="GET" action="evenement.php" id="filtres" class="box mb-3 filter-box">
-                    <h6 class="mb-3">Trier et filtrer</h6>
-
-                    <label class="form-label" for="tri">Trier par</label>
-                    <select id="tri" name="tri" class="form-select form-select-sm mb-3">
-                        <?php foreach (['defaut' => 'Ordre par défaut', 'date-asc' => 'Date : la plus proche en premier', 'date-desc' => 'Date : la plus lointaine en premier', 'places-desc' => 'Places restantes : le plus', 'places-asc' => 'Places restantes : le moins', 'inscrits-desc' => "Plus d'inscrits", 'titre' => 'Nom (A → Z)'] as $val => $lib): ?>
-                            <option value="<?= $val ?>" <?= $tri === $val ? 'selected' : '' ?>><?= h($lib) ?></option>
-                        <?php endforeach; ?>
-                    </select>
-
-                    <label class="form-label" for="f-lieu">Lieu</label>
-                    <input type="text" id="f-lieu" name="lieu" class="form-control form-control-sm mb-3" placeholder="Ville, adresse…" value="<?= h($_GET['lieu'] ?? '') ?>">
-
-                    <div class="row g-2 mb-3">
-                        <div class="col-6">
-                            <label class="form-label" for="f-du">Du</label>
-                            <input type="date" id="f-du" name="du" class="form-control form-control-sm" value="<?= h($du) ?>">
-                        </div>
-                        <div class="col-6">
-                            <label class="form-label" for="f-au">Au</label>
-                            <input type="date" id="f-au" name="au" class="form-control form-control-sm" value="<?= h($au) ?>">
-                        </div>
-                    </div>
-
-                    <div class="form-check small-t mb-1">
-                        <input class="form-check-input" type="checkbox" name="dispo" id="f-dispo" <?= $filtreDispo ? 'checked' : '' ?>>
-                        <label class="form-check-label" for="f-dispo">Places disponibles uniquement</label>
-                    </div>
-                    <div class="form-check small-t mb-1">
-                        <input class="form-check-input" type="checkbox" name="inscrit" id="f-inscrit" <?= $filtreInscrit ? 'checked' : '' ?>>
-                        <label class="form-check-label" for="f-inscrit">Évènements où je suis inscrit</label>
-                    </div>
-                    <?php if ($vueRole === "partenaire"): ?>
-                        <div class="form-check small-t mb-1">
-                            <input class="form-check-input" type="checkbox" name="orga" id="f-orga" <?= $filtreOrga ? 'checked' : '' ?>>
-                            <label class="form-check-label" for="f-orga">Évènements que j'organise</label>
-                        </div>
-                    <?php endif; ?>
-
-                    <button type="submit" class="btn btn-primary btn-sm w-100 mt-3">Appliquer</button>
-                    <a href="evenement.php" class="btn btn-outline-secondary btn-sm w-100 mt-2">Réinitialiser</a>
-                </form>
             </aside>
 
             <div class="col-lg-9">
-                <div class="input-group input-group-sm mb-3">
-                    <input class="form-control" form="filtres" type="search" name="q" value="<?= h($_GET['q'] ?? '') ?>" placeholder="Rechercher un évènement (nom, lieu, description)"/>
-                    <button class="btn btn-outline-primary" form="filtres" type="submit">Rechercher</button>
+                <div class="d-flex gap-2 mb-3">
+                    <input class="form-control form-control-sm" placeholder="Rechercher un évènement"/>
+                    <select class="form-select form-select-sm w-auto">
+                        <option>
+                            Plus récents
+                        </option>
+                    </select>
                 </div>
-                <div class="d-flex justify-content-between align-items-baseline mb-2">
-                    <h5 class="mb-0">Évènements à venir</h5>
-                    <span class="small-t"><?= count($evenements) ?> évènement<?= count($evenements) > 1 ? 's' : '' ?></span>
-                </div>
+                <h5>
+                    Évènements à venir
+                </h5>
 
-                <div class="row g-3" id="liste-events">
+
+                <div class="row g-3">
                     <?php if (empty($evenements)): ?>
-                        <p class="muted"><?= $nbEvenementsTotal === 0 ? 'Aucun évènement pour le moment.' : 'Aucun évènement ne correspond à ces critères.' ?></p>
+                        <p class="muted">Aucun évènement pour le moment.</p>
                     <?php endif; ?>
                     <?php foreach ($evenements as $id => $evenement): ?>
                         <?php
-                        $nbInscrits      = $infos[$id]['nb'];
-                        $placesRestantes = $infos[$id]['restantes'];
-                        $complet         = ($placesRestantes <= 0);
-                        $eventUser       = $infos[$id]['eventUser'];
-                        $Yparticipe      = $infos[$id]['yp'];
+                        // Évènement déjà passé : on saute au suivant, il n'est pas affiché
+                        if (strtotime($evenement->getDateEvenement()) < strtotime('today')) {
+                            continue;
+                        }
+
+                        $nbInscrits = nbInscrits($evenement->getIdEvenement());
+                        $placesRestantes = $evenement->getNbrPlaces() - $nbInscrits;
+
+                        $complet = ($placesRestantes <= 0);
+                        $eventUser= $eventRepository->getEvenementOrganiseParUtilisateur($idUser,$evenement->getIdEvenement());
+                        $partie= $participeRepository->getParticipe($idUser,$evenement->getIdEvenement());
+                        if ($partie ==null){
+                            $Yparticipe=null;
+
+                        }else{
+                            $Yparticipe=$partie->getEstOrga();
+                        }
 
                         $estOrga       = $vueRole === "partenaire" && $eventUser !== null;
                         $inscrit       = $Yparticipe == 2;
@@ -390,10 +293,10 @@ if(!(isset($_SESSION['id_utilisateur']))){
                                 : 0;
 
                         $moisCourts = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
-                        $ts         = timestampEvenement($evenement->getDateEvenement());
+                        $ts         = strtotime($evenement->getDateEvenement());
                         $jour       = $ts ? date('j', $ts) : '–';
-                        $mois       = $ts ? $moisCourts[(int) date('n', $ts) - 1] : '';
-                        $dateLongue = $ts ? date('d/m/Y', $ts) : h($evenement->getDateEvenement());
+                        $mois       = $ts ? $moisCourts[date('n', $ts) - 1] : '';
+                        $dateLongue = $ts ? date('d/m/Y', $ts) : $evenement->getDateEvenement();
 
                         $lat = $evenement->getLat();
                         $lng = $evenement->getLng();
@@ -435,7 +338,7 @@ if(!(isset($_SESSION['id_utilisateur']))){
                                     <span><i class="bi bi-people"></i>
                                         <?= $nbInscrits == 0 ? 'Aucun inscrit' : $nbInscrits . ' inscrit' . ($nbInscrits > 1 ? 's' : '') ?>
                                     </span>
-                                        <span><?= (int) $evenement->getNbrPlaces() ?> places</span>
+                                        <span><?= $evenement->getNbrPlaces() ?> places</span>
                                     </div>
                                     <div class="event-progress" role="progressbar" aria-valuenow="<?= $pourcentage ?>" aria-valuemin="0" aria-valuemax="100">
                                         <span style="width:<?= $pourcentage ?>%"></span>
@@ -459,16 +362,16 @@ if(!(isset($_SESSION['id_utilisateur']))){
 
                                     <?php if ($peutSinscrire): ?>
                                         <form method="POST" action="../src/traitement/newParticipe.php">
-                                            <input type="hidden" name="ref_utilisateur" value="<?= (int) $_SESSION['id_utilisateur'] ?>">
-                                            <input type="hidden" name="ref_evenement" value="<?= (int) $evenement->getIdEvenement() ?>">
+                                            <input type="hidden" name="ref_utilisateur" value="<?= $_SESSION['id_utilisateur'] ?>">
+                                            <input type="hidden" name="ref_evenement" value="<?= $evenement->getIdEvenement() ?>">
                                             <button class="btn btn-primary btn-sm">S'inscrire</button>
                                         </form>
                                     <?php endif; ?>
 
                                     <?php if ($inscrit): ?>
                                         <form method="POST" action="../src/traitement/suppParticipe.php">
-                                            <input type="hidden" name="id_evenement" value="<?= (int) $evenement->getIdEvenement() ?>">
-                                            <input type="hidden" name="id_user" value="<?= (int) $idUser ?>">
+                                            <input type="hidden" name="id_evenement" value="<?= $evenement->getIdEvenement() ?>">
+                                            <input type="hidden" name="id_user" value="<?= $idUser ?>">
                                             <button class="btn btn-outline-danger btn-sm">Se désinscrire</button>
                                         </form>
                                     <?php endif; ?>
@@ -478,13 +381,13 @@ if(!(isset($_SESSION['id_utilisateur']))){
 
                         <!-- Modal : aperçu -->
                         <div class="modal fade preview-modal" id="preview<?= $id ?>" tabindex="-1" aria-hidden="true"
-                             data-lat="<?= h($lat) ?>" data-lng="<?= h($lng) ?>">
+                             data-lat="<?= $lat ?>" data-lng="<?= $lng ?>">
                             <div class="modal-dialog modal-dialog-centered modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <div class="min-w-0">
                                             <div class="eyebrow">Aperçu de l'évènement</div>
-                                            <h5 class="modal-title"><?= h($evenement->getTitre()) ?></h5>
+                                            <h5 class="modal-title"><?= $evenement->getTitre() ?></h5>
                                         </div>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
                                     </div>
@@ -535,7 +438,7 @@ if(!(isset($_SESSION['id_utilisateur']))){
                                                 <span class="info-label">Localisation</span>
                                                 <div class="map-preview map-box"></div>
                                                 <a class="link-more d-inline-block mt-2" target="_blank" rel="noopener"
-                                                   href="https://www.openstreetmap.org/?mlat=<?=  $evenement->getLat() ?>&mlon=<?=  $evenement->getLng() ?>#map=17/<?= (float) $evenement->getLat() ?>/<?= (float) $evenement->getLng() ?>">
+                                                   href="https://www.openstreetmap.org/?mlat=<?=  $evenement->getLat() ?>&mlon=<?=  $evenement->getLng() ?>#map=17/<?= $evenement->getLat() ?>/<?= $evenement->getLng() ?>">
                                                     Ouvrir dans OpenStreetMap
                                                 </a>
                                             </div>
@@ -580,30 +483,30 @@ if(!(isset($_SESSION['id_utilisateur']))){
                                     <div class="modal-header">
                                         <div class="min-w-0">
                                             <div class="eyebrow">Modifier l'évènement</div>
-                                            <h5 class="modal-title"><?= h($evenement->getTitre()) ?></h5>
+                                            <h5 class="modal-title"><?= $evenement->getTitre() ?></h5>
                                         </div>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
                                     </div>
 
                                     <form method="POST" action="../src/traitement/modifierEvenement.php">
-                                        <input type="hidden" name="id_evenement" value="<?= (int) $evenement->getIdEvenement() ?>">
+                                        <input type="hidden" name="id_evenement" value="<?= $evenement->getIdEvenement() ?>">
 
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <label class="form-label">Nom de l'évènement</label>
                                                 <input type="text" class="form-event" name="titre"
-                                                       value="<?= h($evenement->getTitre()) ?>" required>
+                                                       value="<?= $evenement->getTitre() ?>" required>
                                             </div>
 
                                             <div class="mb-3">
                                                 <label class="form-label">Description</label>
-                                                <textarea class="form-event" name="description" required><?= h($evenement->getDescription()) ?></textarea>
+                                                <textarea class="form-event" name="description" required><?= $evenement->getDescription() ?></textarea>
                                             </div>
 
                                             <div class="mb-3">
                                                 <label class="form-label">Lieu</label>
                                                 <input type="text" class="form-event" name="lieu"
-                                                       value="<?= h($evenement->getLieu()) ?>" readonly>
+                                                       value="<?= $evenement->getLieu() ?>" readonly>
                                             </div>
 
                                             <div class="mb-3">
@@ -616,12 +519,12 @@ if(!(isset($_SESSION['id_utilisateur']))){
                                                 <div class="col-sm-6">
                                                     <label class="form-label">Latitude</label>
                                                     <input type="number" step="any" min="-360" max="360" class="form-event edit-lat" name="lat"
-                                                           value="<?= $aPosition ? h($lat) : '' ?>">
+                                                           value="<?= $aPosition ? $lat : '' ?>">
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="form-label">Longitude</label>
                                                     <input type="number" step="any" min="-360" max="360" class="form-event edit-lng" name="lng"
-                                                           value="<?= $aPosition ? h($lng) : '' ?>">
+                                                           value="<?= $aPosition ? $lng : '' ?>">
                                                 </div>
                                                 <div class="col-12">
                                                     <small class="form-hint">
@@ -633,11 +536,11 @@ if(!(isset($_SESSION['id_utilisateur']))){
                                             <div class="row g-3">
                                                 <div class="col-sm-6">
                                                     <label class="form-label">Nombre de places</label>
-                                                    <input type="number" class="form-event" name="nbr_places" min="<?= $nbInscrits ?>" max="350" step="1" value="<?= (int) $evenement->getNbrPlaces() ?>" required>
+                                                    <input type="number" class="form-event" name="nbr_places" min="<?= $nbInscrits ?>" max="350" step="1" value="<?= $evenement->getNbrPlaces() ?>" required>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="form-label">Date de l'évènement</label>
-                                                    <input type="date" min="<?= $demain ?>" class="form-event" name="date_evenement" value="<?= h($evenement->getDateEvenement()) ?>" required>
+                                                    <input type="date" min="<?= $demain ?>" class="form-event" name="date_evenement" value="<?= $evenement->getDateEvenement() ?>" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -680,42 +583,72 @@ if(!(isset($_SESSION['id_utilisateur']))){
         </div>
     </footer>
 
+    <!--
+        ====================================================================
+        EXPLICATION DU JAVASCRIPT DE LA PAGE
+        Ces scripts servent uniquement à gérer les CARTES (Leaflet + OpenStreetMap)
+        dans les 3 types de fenêtres (modals) de la page :
+          1) la modal "Proposer un évènement"  -> choisir un lieu sur une carte
+          2) les modals "Aperçu"               -> afficher la carte de l'évènement
+          3) les modals "Modifier"             -> déplacer le point de l'évènement
+        Aucun script ne trie ou ne filtre la liste : c'est le PHP qui s'en occupe.
+        ====================================================================
+    -->
+
+    <!-- Leaflet : bibliothèque qui dessine les cartes (objet global "L").
+         Bootstrap JS : fait fonctionner les modals (et lance l'évènement "shown.bs.modal"). -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- ================= 1) MODAL "PROPOSER UN ÉVÈNEMENT" ================= -->
     <script>
+        // "map" = la carte, "marker" = le point rouge posé dessus.
+        // Ils valent null tant que la carte n'a pas été créée.
         var map = null;
         var marker = null;
 
+        // Pose (ou déplace) le marqueur aux coordonnées données
+        // et copie ces coordonnées dans les champs cachés envoyés au formulaire.
         function placerMarqueur(lat, lng) {
             if (marker) {
+                // Le marqueur existe déjà : on le déplace simplement
                 marker.setLatLng([lat, lng]);
             } else {
+                // Premier clic : on crée le marqueur et on l'ajoute à la carte
                 marker = L.marker([lat, lng]).addTo(map);
             }
-            document.getElementById('lat').value = lat;
-            document.getElementById('lng').value = lng;
+            document.getElementById('lat').value = lat;   // champ caché "lat"
+            document.getElementById('lng').value = lng;   // champ caché "lng"
         }
+
+        // À partir de coordonnées, retrouve l'adresse écrite (géocodage inverse)
+        // grâce au service gratuit Nominatim, puis la met dans le champ "lieu".
         function remplirLieu(lat, lng) {
             var champLieu = document.querySelector('input[name="lieu"]');
             champLieu.placeholder = "Recherche de l'adresse...";
 
+            // fetch = requête vers Nominatim, qui répond en JSON
             fetch('https://nominatim.openstreetmap.org/reverse?format=json&accept-language=fr&lat=' + lat + '&lon=' + lng)
-                .then(function (r) { return r.json(); })
+                .then(function (r) { return r.json(); })          // on lit la réponse comme du JSON
                 .then(function (data) {
+                    // display_name = l'adresse complète trouvée
                     if (data && data.display_name) {
                         champLieu.value = data.display_name;
                     }
                 })
                 .catch(function () {
+                    // En cas d'erreur réseau, on retire simplement le message d'attente
                     champLieu.placeholder = "";
                 });
         }
 
+        // L'inverse : à partir d'une adresse tapée, trouve les coordonnées (géocodage)
+        // et place le marqueur dessus.
         function rechercher() {
             var q = document.getElementById('recherche').value.trim();
-            if (!q) return;
+            if (!q) return;   // champ vide : on ne fait rien
 
+            // encodeURIComponent protège les espaces et caractères spéciaux dans l'URL
             fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(q))
                 .then(function (r) { return r.json(); })
                 .then(function (data) {
@@ -723,31 +656,43 @@ if(!(isset($_SESSION['id_utilisateur']))){
                         alert("Adresse introuvable.");
                         return;
                     }
-                    var lat = parseFloat(data[0].lat);
+                    var lat = parseFloat(data[0].lat);   // texte -> nombre
                     var lng = parseFloat(data[0].lon);
-                    map.setView([lat, lng], 17);
+                    map.setView([lat, lng], 17);          // centre la carte (17 = zoom proche)
                     placerMarqueur(lat, lng);
+                    // On remplit aussi le champ "lieu" avec l'adresse trouvée
                     document.querySelector('input[name="lieu"]').value = data[0].display_name;
                 });
         }
 
-        // Remplacez maModale par l'id de votre modale
-        document.getElementById('addModal').addEventListener('shown.bs.modal', function () {                        if (!map) {
-            map = L.map('map').setView([48.8566, 2.3522], 12);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap'
-            }).addTo(map);
+        // La carte est créée seulement quand la modal est AFFICHÉE ("shown.bs.modal").
+        // Pourquoi ? Une carte créée dans un élément caché n'a pas de taille et s'afficherait mal.
+        document.getElementById('addModal').addEventListener('shown.bs.modal', function () {
+            if (!map) {   // on ne crée la carte qu'une seule fois
+                // Centre de départ : Paris (latitude 48.8566, longitude 2.3522), zoom 12
+                map = L.map('map').setView([48.8566, 2.3522], 12);
 
-            map.on('click', function (e) {
-                placerMarqueur(e.latlng.lat, e.latlng.lng);
-                remplirLieu(e.latlng.lat, e.latlng.lng);
-            });
-        }
+                // Fond de carte OpenStreetMap
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap'
+                }).addTo(map);
+
+                // Un clic sur la carte : on place le point et on retrouve l'adresse
+                map.on('click', function (e) {
+                    placerMarqueur(e.latlng.lat, e.latlng.lng);
+                    remplirLieu(e.latlng.lat, e.latlng.lng);
+                });
+            }
+            // invalidateSize() dit à Leaflet de recalculer la taille de la carte
+            // (la petite pause laisse finir l'animation d'ouverture de la modal).
             setTimeout(function () { map.invalidateSize(); }, 100);
         });
 
+        // Bouton "Rechercher" : lance la recherche d'adresse
         document.getElementById('btnRecherche').addEventListener('click', rechercher);
 
+        // Touche Entrée dans le champ de recherche : lance aussi la recherche.
+        // preventDefault() empêche Entrée d'envoyer tout le formulaire par erreur.
         document.getElementById('recherche').addEventListener('keydown', function (e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -756,37 +701,49 @@ if(!(isset($_SESSION['id_utilisateur']))){
         });
     </script>
 
+    <!-- ================= 2) MODALS "APERÇU" (une par évènement) ================= -->
     <script>
+        // Il y a une modal d'aperçu par évènement : on traite chacune avec forEach.
         document.querySelectorAll('.preview-modal').forEach(function (modal) {
-            var carte = null;
+            var carte = null;   // la carte de CETTE modal (propre à chaque évènement)
 
             modal.addEventListener('shown.bs.modal', function () {
+                // Les coordonnées sont écrites par PHP dans data-lat / data-lng de la modal
                 var lat = parseFloat(modal.dataset.lat);
                 var lng = parseFloat(modal.dataset.lng);
-                var div = modal.querySelector('.map-preview');
+                var div = modal.querySelector('.map-preview');   // l'élément qui contiendra la carte
 
+                // Pas de carte, ou pas de coordonnées valides (isNaN = "n'est pas un nombre") : on arrête
                 if (!div || isNaN(lat) || isNaN(lng)) return;
 
-                if (!carte) {
+                if (!carte) {   // création unique, à la première ouverture
                     carte = L.map(div).setView([lat, lng], 16);
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '© OpenStreetMap'
                     }).addTo(carte);
-                    L.marker([lat, lng]).addTo(carte);
+                    L.marker([lat, lng]).addTo(carte);   // point fixe : lecture seule
                 }
                 setTimeout(function () { carte.invalidateSize(); }, 100);
             });
         });
     </script>
+
+    <!-- Leaflet est chargé une 2e fois ci-dessous : c'est inutile (déjà chargé plus haut)
+         et la feuille de style devrait être dans le <head>. Ça fonctionne quand même. -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>  <!-- idéalement dans le <head> -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- ================= 3) MODALS "MODIFIER" (une par évènement) ================= -->
     <script>
         document.querySelectorAll('.edit-modal').forEach(function (modal) {
+            // Variables propres à cette modal : sa carte et son marqueur
             var carte = null, marqueur = null;
+            // Champs du formulaire de CETTE modal (on cherche à l'intérieur de "modal")
             var champLat = modal.querySelector('.edit-lat');
             var champLng = modal.querySelector('.edit-lng');
             var champLieu = modal.querySelector('input[name="lieu"]');
 
+            // Place ou déplace le marqueur ET met à jour les champs latitude/longitude
             function placer(lat, lng) {
                 if (marqueur) {
                     marqueur.setLatLng([lat, lng]);
@@ -798,11 +755,14 @@ if(!(isset($_SESSION['id_utilisateur']))){
             }
 
             modal.addEventListener('shown.bs.modal', function () {
+                // Position actuelle de l'évènement (écrite par PHP dans data-lat / data-lng)
                 var lat = parseFloat(modal.dataset.lat);
                 var lng = parseFloat(modal.dataset.lng);
-                var aPosition = !isNaN(lat) && !isNaN(lng);
+                var aPosition = !isNaN(lat) && !isNaN(lng);   // vrai si l'évènement a déjà un point
 
-                if (!carte) {
+                if (!carte) {   // création unique de la carte
+                    // Si l'évènement a un point : on centre dessus (zoom 16).
+                    // Sinon : on centre sur Paris (zoom 12).
                     carte = L.map(modal.querySelector('.edit-map'))
                         .setView(aPosition ? [lat, lng] : [48.8566, 2.3522], aPosition ? 16 : 12);
 
@@ -810,12 +770,14 @@ if(!(isset($_SESSION['id_utilisateur']))){
                         attribution: '© OpenStreetMap'
                     }).addTo(carte);
 
+                    // S'il y a déjà une position, on affiche le marqueur dessus
                     if (aPosition) placer(lat, lng);
 
                     // Clic sur la carte : met à jour les champs et le lieu
                     carte.on('click', function (e) {
                         placer(e.latlng.lat, e.latlng.lng);
 
+                        // Retrouve l'adresse du nouveau point (même principe que remplirLieu)
                         fetch('https://nominatim.openstreetmap.org/reverse?format=json&accept-language=fr&lat='
                             + e.latlng.lat + '&lon=' + e.latlng.lng)
                             .then(function (r) { return r.json(); })
@@ -832,6 +794,7 @@ if(!(isset($_SESSION['id_utilisateur']))){
                             carte.setView([a, b], 16);
                         }
                     }
+                    // "change" se déclenche quand on quitte le champ après l'avoir modifié
                     champLat.addEventListener('change', depuisChamps);
                     champLng.addEventListener('change', depuisChamps);
                 }
